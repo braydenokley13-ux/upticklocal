@@ -5,7 +5,14 @@ import { prefersReducedMotion } from "@/lib/scroll";
 
 const useIsoLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
-type RevealProps<T extends ElementType> = {
+/**
+ * `as` is deliberately limited to intrinsic tags. Passing a component (say
+ * `next/link`) from a Server Component would mean handing a function across the
+ * server/client boundary, which React rejects — see RevealLink for that case.
+ */
+type IntrinsicTag = keyof React.JSX.IntrinsicElements;
+
+type RevealProps<T extends IntrinsicTag> = {
   as?: T;
   children?: React.ReactNode;
 } & Omit<ComponentPropsWithoutRef<T>, "as" | "children">;
@@ -15,12 +22,7 @@ type RevealProps<T extends ElementType> = {
  * inside (or near) the first viewport renders as-is — only content the visitor
  * scrolls to earns the 26px rise.
  */
-export default function Reveal<T extends ElementType = "div">({
-  as,
-  children,
-  ...rest
-}: RevealProps<T>) {
-  const Tag = (as || "div") as ElementType;
+export function useReveal() {
   const ref = useRef<HTMLElement | null>(null);
 
   useIsoLayoutEffect(() => {
@@ -42,6 +44,17 @@ export default function Reveal<T extends ElementType = "div">({
     io.observe(el);
     return () => io.disconnect();
   }, []);
+
+  return ref;
+}
+
+export default function Reveal<T extends IntrinsicTag = "div">({
+  as,
+  children,
+  ...rest
+}: RevealProps<T>) {
+  const Tag = (as || "div") as ElementType;
+  const ref = useReveal();
 
   return (
     <Tag ref={ref} {...rest}>

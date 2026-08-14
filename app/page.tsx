@@ -3,6 +3,7 @@ import Link from "next/link";
 import NetworkScene from "@/components/NetworkScene";
 import Parallax from "@/components/Parallax";
 import Reveal from "@/components/Reveal";
+import RevealLink from "@/components/RevealLink";
 import { NETWORK_LIST } from "@/lib/networks";
 import install from "@/public/uptick-install.jpg";
 
@@ -140,9 +141,8 @@ export default function HomePage() {
         </Reveal>
         <div className="doorcards">
           {NETWORK_LIST.map((net) => (
-            <Reveal
+            <RevealLink
               key={net.slug}
-              as={Link}
               href={`/networks/${net.slug}`}
               className="doorcard"
               style={{ ["--net" as string]: net.color }}
@@ -161,7 +161,7 @@ export default function HomePage() {
                   Explore Network<span aria-hidden="true">&#8594;</span>
                 </span>
               </div>
-            </Reveal>
+            </RevealLink>
           ))}
         </div>
       </section>
