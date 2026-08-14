@@ -44,7 +44,7 @@ export default function SiteFooter() {
         <div className="footcol">
           <span className="footcol__head">COMPANY</span>
           <Link href="/partners">Screen Network Partners</Link>
-          <a href="mailto:hello@upticklocal.com">hello@upticklocal.com</a>
+          <a href="mailto:iwhite@upticklocal.com">iwhite@upticklocal.com</a>
         </div>
       </div>
 

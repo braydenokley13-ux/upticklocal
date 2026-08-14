@@ -36,7 +36,7 @@ export default function PartnersPage() {
             If you run digital screens in retail, fitness, or hospitality, Uptick plugs your
             inventory into our local demand and audience networks.
           </p>
-          <a href="mailto:partners@upticklocal.com" className="btn btn--amber">
+          <a href="mailto:iwhite@upticklocal.com" className="btn btn--amber">
             Talk to Partnerships<span aria-hidden="true">&#8594;</span>
           </a>
         </div>
