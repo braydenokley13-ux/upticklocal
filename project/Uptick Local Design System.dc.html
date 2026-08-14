@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=Archivo:wght@400;500;600;700&family=Martian+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#FAFBFB;color:#12161A;font-family:Archivo,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;text-wrap:pretty}
+a{color:inherit;text-decoration:none}
+a:hover{color:#8F5E11}
+::selection{background:#F0A028;color:#0B0D0E}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes bandRun{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){*{animation-duration:1ms!important;animation-iteration-count:1!important;transition-duration:1ms!important}}
+</style>
+</helmet>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));align-items:start;background:#FAFBFB">
+
+<aside style="position:sticky;top:0;max-height:100vh;overflow:auto;background:#0B0D0E;color:#FAFBFB;padding:26px 22px 40px;max-width:280px">
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><span style="display:flex;align-items:flex-end;gap:2px;height:14px"><span style="width:4px;height:5px;background:#495259"></span><span style="width:4px;height:9px;background:#8A939A"></span><span style="width:4px;height:14px;background:#F0A028"></span></span><span style="font:600 14px/1 'Familjen Grotesk',sans-serif;color:#FAFBFB">Uptick Local</span></div>
+<div style="font:400 9.5px/1.6 'Martian Mono',ui-monospace;letter-spacing:.14em;color:#6C767C;margin-bottom:26px">DESIGN SYSTEM &#183; V2</div>
+<nav style="display:flex;flex-direction:column;gap:1px;font:400 10.5px/1.4 'Martian Mono',ui-monospace;letter-spacing:.03em">
+<a href="#s01" style="padding:8px 0;color:#DDE0E1" style-hover="color:#F0A028">01 Principles</a>
+<a href="#s02" style="padding:8px 0;color:#DDE0E1" style-hover="color:#F0A028">02 Color</a>
+<a href="#s03" style="padding:8px 0;color:#DDE0E1" style-hover="color:#F0A028">03 Typography</a>
+<a href="#s04" style="padding:8px 0;color:#DDE0E1" style-hover="color:#F0A028">04 Grid &amp; spacing</a>
+<a href="#s05" style="padding:8px 0;color:#DDE0E1" style-hover="color:#F0A028">05 Shape</a>
+<a href="#s06" style="padding:8px 0;color:#DDE0E1" style-hover="color:#F0A028">06 Surfaces &amp; depth</a>
+<a href="#s07" style="padding:8px 0;color:#DDE0E1" style-hover="color:#F0A028">07 Buttons</a>
+<a href="#s08" style="padding:8px 0;color:#DDE0E1" style-hover="color:#F0A028">08 Links</a>
+<a href="#s09" style="padding:8px 0;color:#DDE0E1" style-hover="color:#F0A028">09 Cards &amp; modules</a>
+<a href="#s10" style="padding:8px 0;color:#DDE0E1" style-hover="color:#F0A028">10 Location categories</a>
+<a href="#s11" style="padding:8px 0;color:#DDE0E1" style-hover="color:#F0A028">11 Network identities</a>
+<a href="#s12" style="padding:8px 0;color:#DDE0E1" style-hover="color:#F0A028">12 Iconography</a>
+<a href="#s13" style="padding:8px 0;color:#DDE0E1" style-hover="color:#F0A028">13 Imagery</a>
+<a href="#s14" style="padding:8px 0;color:#DDE0E1" style-hover="color:#F0A028">14 Screen / device</a>
+<a href="#s15" style="padding:8px 0;color:#DDE0E1" style-hover="color:#F0A028">15 Motion</a>
+<a href="#s16" style="padding:8px 0;color:#DDE0E1" style-hover="color:#F0A028">16 Network graphics</a>
+<a href="#s17" style="padding:8px 0;color:#DDE0E1" style-hover="color:#F0A028">17 Forms</a>
+<a href="#s18" style="padding:8px 0;color:#DDE0E1" style-hover="color:#F0A028">18 Navigation</a>
+<a href="#s19" style="padding:8px 0;color:#DDE0E1" style-hover="color:#F0A028">19 Responsive</a>
+<a href="#s20" style="padding:8px 0;color:#DDE0E1" style-hover="color:#F0A028">20 Accessibility</a>
+<a href="#s21" style="padding:8px 0;color:#DDE0E1" style-hover="color:#F0A028">21 Tokens</a>
+<a href="#s22" style="padding:8px 0;color:#DDE0E1" style-hover="color:#F0A028">22 Component inventory</a>
+<a href="#s23" style="padding:8px 0;color:#DDE0E1" style-hover="color:#F0A028">23 Component states</a>
+<a href="#s24" style="padding:8px 0;color:#DDE0E1" style-hover="color:#F0A028">24 Do / Don't</a>
+<a href="#s25" style="padding:8px 0;color:#DDE0E1" style-hover="color:#F0A028">25 Handoff notes</a>
+<a href="#s26" style="padding:8px 0;color:#F0A028" style-hover="color:#FAFBFB">26 Composition &#183; NEW</a>
+</nav>
+</aside>
+
+<main style="min-width:0;padding:0 0 120px">
+
+<header style="padding:clamp(40px,5vw,88px) clamp(20px,4vw,64px) clamp(32px,4vw,60px);border-bottom:1px solid #DDE0E1">
+<div style="font:400 11px/1 'Martian Mono',ui-monospace;letter-spacing:.2em;color:#8A939A;margin-bottom:22px">SINGLE SOURCE OF TRUTH</div>
+<h1 style="margin:0;max-width:20ch;font:700 clamp(34px,4.6vw,80px)/.9 'Familjen Grotesk',sans-serif;letter-spacing:-.045em">The Uptick Local design system.</h1>
+<p style="margin:26px 0 0;max-width:620px;font:400 clamp(17px,1.4vw,20px)/1.6 Archivo,sans-serif;color:#495259">Derived from one idea: a local business becomes a media channel, and channels are made of frames in a run. The band, the tick and the counter-height screen are the whole visual language. Everything below is downstream of that.</p>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:30px;font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.1em;color:#495259"><span style="border:1px solid #DDE0E1;padding:10px 12px">GRAPHITE + PAPER + SIGNAL AMBER</span><span style="border:1px solid #DDE0E1;padding:10px 12px">FAMILJEN GROTESK / ARCHIVO / MARTIAN MONO</span><span style="border:1px solid #DDE0E1;padding:10px 12px">SQUARE CORNERS</span><span style="border:1px solid #DDE0E1;padding:10px 12px">BANDS &amp; TICKS</span></div>
+</header>
+
+<section id="s01" style="scroll-margin-top:0;padding:clamp(40px,5vw,80px) clamp(20px,4vw,64px);border-bottom:1px solid #DDE0E1">
+<div style="font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.18em;color:#8A939A;margin-bottom:18px">01 &#183; PRINCIPLES</div>
+<h2 style="margin:0 0 clamp(26px,3vw,44px);max-width:22ch;font:700 clamp(26px,3.2vw,50px)/.96 'Familjen Grotesk',sans-serif;letter-spacing:-.035em">Five rules that decide everything else</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:1px;background:#DDE0E1;border:1px solid #DDE0E1">
+<div style="background:#FAFBFB;padding:26px 24px 34px"><div style="font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.14em;color:#8F5E11">P1</div><h3 style="margin:16px 0 0;font:600 21px/1.1 'Familjen Grotesk',sans-serif;letter-spacing:-.02em">The business model is the graphic</h3><p style="margin:12px 0 0;font:400 15px/1.6 Archivo,sans-serif;color:#495259">Locations, screens, audiences, networks and campaigns are drawn as squares on a band. If a graphic cannot be traced back to that chain, it does not belong.</p></div>
+<div style="background:#FAFBFB;padding:26px 24px 34px"><div style="font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.14em;color:#8F5E11">P2</div><h3 style="margin:16px 0 0;font:600 21px/1.1 'Familjen Grotesk',sans-serif;letter-spacing:-.02em">Premium comes from restraint, energy from scale</h3><p style="margin:12px 0 0;font:400 15px/1.6 Archivo,sans-serif;color:#495259">Two surfaces, one accent, square corners, hairline rules. The excitement is carried by type size and full-bleed imagery, never by decoration.</p></div>
+<div style="background:#FAFBFB;padding:26px 24px 34px"><div style="font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.14em;color:#8F5E11">P3</div><h3 style="margin:16px 0 0;font:600 21px/1.1 'Familjen Grotesk',sans-serif;letter-spacing:-.02em">Motion explains, never entertains</h3><p style="margin:12px 0 0;font:400 15px/1.6 Archivo,sans-serif;color:#495259">Every scroll-linked moment has a sentence it is making. If you cannot write the sentence, delete the animation.</p></div>
+<div style="background:#FAFBFB;padding:26px 24px 34px"><div style="font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.14em;color:#8F5E11">P4</div><h3 style="margin:16px 0 0;font:600 21px/1.1 'Familjen Grotesk',sans-serif;letter-spacing:-.02em">Three audiences, never blurred</h3><p style="margin:12px 0 0;font:400 15px/1.6 Archivo,sans-serif;color:#495259">Host, advertiser and screen-network partner always have separate doors. No page tries to convert two of them at once except the homepage split.</p></div>
+<div style="background:#0B0D0E;color:#FAFBFB;padding:26px 24px 34px"><div style="font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.14em;color:#F0A028">P5</div><h3 style="margin:16px 0 0;font:600 21px/1.1 'Familjen Grotesk',sans-serif;letter-spacing:-.02em">Only claim what is verified</h3><p style="margin:12px 0 0;font:400 15px/1.6 Archivo,sans-serif;color:#8A939A">No screen counts, no coverage maps, no revenue figures, no testimonials until they exist. Unknown numbers are simply absent — the layout must look complete without them.</p></div>
+</div>
+<div style="margin-top:24px;border-left:2px solid #C0392B;padding:8px 0 8px 14px;max-width:620px;font:400 12px/1.7 'Martian Mono',ui-monospace;color:#8A2B20">AVOID BECAUSE IT MAKES UPTICK GENERIC: rounded card grids, gradient blobs, glass panels, three-up feature rows on every section, stock photography of people shaking hands, neon glows, icon-per-benefit layouts.</div>
+</section>
+
+<section id="s02" style="padding:clamp(40px,5vw,80px) clamp(20px,4vw,64px);border-bottom:1px solid #DDE0E1">
+<div style="font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.18em;color:#8A939A;margin-bottom:18px">02 &#183; COLOR</div>
+<h2 style="margin:0 0 12px;font:700 clamp(26px,3.2vw,50px)/.96 'Familjen Grotesk',sans-serif;letter-spacing:-.035em">Two surfaces, one signal</h2>
+<p style="margin:0 0 clamp(26px,3vw,40px);max-width:620px;font:400 17px/1.6 Archivo,sans-serif;color:#495259">Graphite is the media side of the brand, paper is the local side. Amber is the only colour that means "act". Network hues are for graphics and identity, never for interface state.</p>
+
+<div style="font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.14em;color:#8A939A;margin-bottom:14px">BRAND</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:1px;background:#DDE0E1;border:1px solid #DDE0E1;margin-bottom:34px">
+<div style="background:#FAFBFB"><div style="height:88px;background:#F0A028"></div><div style="padding:16px"><div style="font:500 14px/1.2 Archivo,sans-serif">Signal Amber</div><div style="margin-top:7px;font:400 10px/1.6 'Martian Mono',ui-monospace;color:#8A939A">#F0A028<br>PRIMARY CTA, ACTIVE STATE, ONE ACCENT PER VIEW. ALWAYS PAIRS WITH INK TEXT.</div></div></div>
+<div style="background:#FAFBFB"><div style="height:88px;background:#8F5E11"></div><div style="padding:16px"><div style="font:500 14px/1.2 Archivo,sans-serif">Amber Ink</div><div style="margin-top:7px;font:400 10px/1.6 'Martian Mono',ui-monospace;color:#8A939A">#8F5E11<br>THE ONLY AMBER ALLOWED AS TEXT ON PAPER. 5.4:1.</div></div></div>
+<div style="background:#FAFBFB"><div style="height:88px;background:#0B0D0E"></div><div style="padding:16px"><div style="font:500 14px/1.2 Archivo,sans-serif">Graphite 950</div><div style="margin-top:7px;font:400 10px/1.6 'Martian Mono',ui-monospace;color:#8A939A">#0B0D0E<br>DARK PAGE SURFACE, PRIMARY BUTTON ON PAPER.</div></div></div>
+<div style="background:#FAFBFB"><div style="height:88px;background:#FAFBFB;border-bottom:1px solid #DDE0E1"></div><div style="padding:16px"><div style="font:500 14px/1.2 Archivo,sans-serif">Paper</div><div style="margin-top:7px;font:400 10px/1.6 'Martian Mono',ui-monospace;color:#8A939A">#FAFBFB<br>LIGHT PAGE SURFACE. COOL, NOT WHITE.</div></div></div>
+</div>
+
+<div style="font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.14em;color:#8A939A;margin-bottom:14px">NEUTRAL SCALE</div>
+<div style="display:flex;flex-wrap:wrap;gap:1px;background:#DDE0E1;border:1px solid #DDE0E1;margin-bottom:14px">
+<div style="flex:1;min-width:104px;background:#FAFBFB"><div style="height:56px;background:#0B0D0E"></div><div style="padding:11px;font:400 9px/1.5 'Martian Mono',ui-monospace;color:#495259">950<br>#0B0D0E</div></div>
+<div style="flex:1;min-width:104px;background:#FAFBFB"><div style="height:56px;background:#12161A"></div><div style="padding:11px;font:400 9px/1.5 'Martian Mono',ui-monospace;color:#495259">900<br>#12161A</div></div>
+<div style="flex:1;min-width:104px;background:#FAFBFB"><div style="height:56px;background:#1C2226"></div><div style="padding:11px;font:400 9px/1.5 'Martian Mono',ui-monospace;color:#495259">800<br>#1C2226</div></div>
+<div style="flex:1;min-width:104px;background:#FAFBFB"><div style="height:56px;background:#22282C"></div><div style="padding:11px;font:400 9px/1.5 'Martian Mono',ui-monospace;color:#495259">700 RULE<br>#22282C</div></div>
+<div style="flex:1;min-width:104px;background:#FAFBFB"><div style="height:56px;background:#495259"></div><div style="padding:11px;font:400 9px/1.5 'Martian Mono',ui-monospace;color:#495259">600 TEXT<br>#495259</div></div>
+<div style="flex:1;min-width:104px;background:#FAFBFB"><div style="height:56px;background:#6C767C"></div><div style="padding:11px;font:400 9px/1.5 'Martian Mono',ui-monospace;color:#495259">500<br>#6C767C</div></div>
+<div style="flex:1;min-width:104px;background:#FAFBFB"><div style="height:56px;background:#8A939A"></div><div style="padding:11px;font:400 9px/1.5 'Martian Mono',ui-monospace;color:#495259">400<br>#8A939A</div></div>
+<div style="flex:1;min-width:104px;background:#FAFBFB"><div style="height:56px;background:#DDE0E1"></div><div style="padding:11px;font:400 9px/1.5 'Martian Mono',ui-monospace;color:#495259">200 RULE<br>#DDE0E1</div></div>
+<div style="flex:1;min-width:104px;background:#FAFBFB"><div style="height:56px;background:#F2EFE9"></div><div style="padding:11px;font:400 9px/1.5 'Martian Mono',ui-monospace;color:#495259">WARM PAPER<br>#F2EFE9</div></div>
+</div>
+<p style="margin:0 0 34px;max-width:620px;font:400 14px/1.7 Archivo,sans-serif;color:#495259">Warm Paper is the only second light surface. It carries host-side content (the location's own world). Cool Paper carries advertiser and network content. Never use both inside one section.</p>
+
+<div style="font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.14em;color:#8A939A;margin-bottom:14px">NETWORK ACCENTS &#183; GRAPHIC USE ONLY</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:1px;background:#DDE0E1;border:1px solid #DDE0E1;margin-bottom:34px">
+<div style="background:#FAFBFB"><div style="height:72px;background:#D9705E"></div><div style="padding:16px"><div style="font:500 14px/1.2 Archivo,sans-serif">Family &amp; Parent</div><div style="margin-top:7px;font:400 10px/1.6 'Martian Mono',ui-monospace;color:#8A939A">#D9705E &#183; TEXT-SAFE #A64A3A</div></div></div>
+<div style="background:#FAFBFB"><div style="height:72px;background:#3FA98A"></div><div style="padding:16px"><div style="font:500 14px/1.2 Archivo,sans-serif">Health &amp; Wellness</div><div style="margin-top:7px;font:400 10px/1.6 'Martian Mono',ui-monospace;color:#8A939A">#3FA98A &#183; TEXT-SAFE #1F6E57</div></div></div>
+<div style="background:#FAFBFB"><div style="height:72px;background:#6E9BE8"></div><div style="padding:16px"><div style="font:500 14px/1.2 Archivo,sans-serif">Commuter &amp; Driver</div><div style="margin-top:7px;font:400 10px/1.6 'Martian Mono',ui-monospace;color:#8A939A">#6E9BE8 &#183; TEXT-SAFE #2F5AA0</div></div></div>
+</div>
+<p style="margin:0 0 34px;max-width:620px;font:400 14px/1.7 Archivo,sans-serif;color:#495259">All three sit at the same lightness and chroma, spaced only by hue, so they read as siblings under one master brand. They appear as a 10&#215;10 square, a 3px top rule, a hairline, or a single band cell. They never become a button, a background wash, or a body-text colour.</p>
+
+<div style="font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.14em;color:#8A939A;margin-bottom:14px">STATUS</div>
+<div style="display:flex;flex-wrap:wrap;gap:1px;background:#DDE0E1;border:1px solid #DDE0E1">
+<div style="flex:1;min-width:150px;background:#FAFBFB"><div style="height:56px;background:#1F6E57"></div><div style="padding:13px;font:400 9.5px/1.6 'Martian Mono',ui-monospace;color:#495259">SUCCESS<br>#1F6E57</div></div>
+<div style="flex:1;min-width:150px;background:#FAFBFB"><div style="height:56px;background:#B87715"></div><div style="padding:13px;font:400 9.5px/1.6 'Martian Mono',ui-monospace;color:#495259">WARNING<br>#B87715</div></div>
+<div style="flex:1;min-width:150px;background:#FAFBFB"><div style="height:56px;background:#C0392B"></div><div style="padding:13px;font:400 9.5px/1.6 'Martian Mono',ui-monospace;color:#495259">ERROR<br>#C0392B</div></div>
+<div style="flex:1;min-width:150px;background:#FAFBFB"><div style="height:56px;background:#495259"></div><div style="padding:13px;font:400 9.5px/1.6 'Martian Mono',ui-monospace;color:#495259">INFO / MUTED<br>#495259</div></div>
+</div>
+</section>
+
+<section id="s03" style="padding:clamp(40px,5vw,80px) clamp(20px,4vw,64px);border-bottom:1px solid #DDE0E1">
+<div style="font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.18em;color:#8A939A;margin-bottom:18px">03 &#183; TYPOGRAPHY</div>
+<h2 style="margin:0 0 12px;font:700 clamp(26px,3.2vw,50px)/.96 'Familjen Grotesk',sans-serif;letter-spacing:-.035em">Three faces, one job each</h2>
+<p style="margin:0 0 clamp(26px,3vw,44px);max-width:620px;font:400 17px/1.6 Archivo,sans-serif;color:#495259">Familjen Grotesk carries every editorial moment. Archivo carries every practical sentence. Martian Mono carries labels, numbers and anything that behaves like signage. Nothing else, and never more than two weights of each on a page.</p>
+<div style="border-top:1px solid #12161A">
+<div style="padding:26px 0;border-bottom:1px solid #DDE0E1"><div style="font:400 9.5px/1.6 'Martian Mono',ui-monospace;letter-spacing:.1em;color:#8A939A;margin-bottom:14px">DISPLAY &#183; FAMILJEN GROTESK 700 &#183; clamp(38px, 5.6vw, 100px) / 0.90 / -0.045em</div><div style="font:700 clamp(38px,5.6vw,100px)/.9 'Familjen Grotesk',sans-serif;letter-spacing:-.045em">A free screen</div></div>
+<div style="padding:26px 0;border-bottom:1px solid #DDE0E1"><div style="font:400 9.5px/1.6 'Martian Mono',ui-monospace;letter-spacing:.1em;color:#8A939A;margin-bottom:14px">H1 &#183; 700 &#183; clamp(32px, 4.4vw, 74px) / 0.94 / -0.04em</div><div style="font:700 clamp(32px,4.4vw,74px)/.94 'Familjen Grotesk',sans-serif;letter-spacing:-.04em">One location joins something larger</div></div>
+<div style="padding:26px 0;border-bottom:1px solid #DDE0E1"><div style="font:400 9.5px/1.6 'Martian Mono',ui-monospace;letter-spacing:.1em;color:#8A939A;margin-bottom:14px">H2 &#183; 700 &#183; clamp(26px, 3.2vw, 50px) / 0.96 / -0.035em</div><div style="font:700 clamp(26px,3.2vw,50px)/.96 'Familjen Grotesk',sans-serif;letter-spacing:-.035em">Who do you want, and where?</div></div>
+<div style="padding:26px 0;border-bottom:1px solid #DDE0E1"><div style="font:400 9.5px/1.6 'Martian Mono',ui-monospace;letter-spacing:.1em;color:#8A939A;margin-bottom:14px">H3 &#183; 600 &#183; clamp(19px, 1.8vw, 26px) / 1.10 / -0.02em</div><div style="font:600 clamp(19px,1.8vw,26px)/1.1 'Familjen Grotesk',sans-serif;letter-spacing:-.02em">A revenue opportunity</div></div>
+<div style="padding:26px 0;border-bottom:1px solid #DDE0E1"><div style="font:400 9.5px/1.6 'Martian Mono',ui-monospace;letter-spacing:.1em;color:#8A939A;margin-bottom:14px">H4 &#183; 600 &#183; 17px / 1.20 / -0.01em &#183; ARCHIVO</div><div style="font:600 17px/1.2 Archivo,sans-serif;letter-spacing:-.01em">Cross-promotion at nearby locations</div></div>
+<div style="padding:26px 0;border-bottom:1px solid #DDE0E1"><div style="font:400 9.5px/1.6 'Martian Mono',ui-monospace;letter-spacing:.1em;color:#8A939A;margin-bottom:14px">BODY LARGE &#183; ARCHIVO 400 &#183; clamp(17px, 1.4vw, 21px) / 1.55</div><div style="max-width:640px;font:400 clamp(17px,1.4vw,21px)/1.55 Archivo,sans-serif;color:#495259">Uptick Local places 21-inch screens inside high-traffic neighborhood businesses. Each screen promotes its host, carries advertising, and joins one connected local network.</div></div>
+<div style="padding:26px 0;border-bottom:1px solid #DDE0E1"><div style="font:400 9.5px/1.6 'Martian Mono',ui-monospace;letter-spacing:.1em;color:#8A939A;margin-bottom:14px">BODY &#183; 400 &#183; 17px / 1.60 &#183; MAX 68CH</div><div style="max-width:640px;font:400 17px/1.6 Archivo,sans-serif;color:#495259">You control your own slots. Uptick fills the rest and manages scheduling, so you never have to sell advertising or chase creative.</div></div>
+<div style="padding:26px 0;border-bottom:1px solid #DDE0E1"><div style="font:400 9.5px/1.6 'Martian Mono',ui-monospace;letter-spacing:.1em;color:#8A939A;margin-bottom:14px">BODY SMALL &#183; 400 &#183; 14.5px / 1.60</div><div style="max-width:560px;font:400 14.5px/1.6 Archivo,sans-serif;color:#495259">Plug into power, join your internet. Content arrives remotely from then on.</div></div>
+<div style="padding:26px 0;border-bottom:1px solid #DDE0E1"><div style="font:400 9.5px/1.6 'Martian Mono',ui-monospace;letter-spacing:.1em;color:#8A939A;margin-bottom:14px">EYEBROW &#183; MARTIAN MONO 400 &#183; 11px / 1 / 0.20em / UPPER</div><div style="font:400 11px/1 'Martian Mono',ui-monospace;letter-spacing:.2em;color:#8F5E11">LOCAL MEDIA NETWORK</div></div>
+<div style="padding:26px 0;border-bottom:1px solid #DDE0E1"><div style="font:400 9.5px/1.6 'Martian Mono',ui-monospace;letter-spacing:.1em;color:#8A939A;margin-bottom:14px">LABEL &#183; MONO 400 &#183; 10px / 1.5 / 0.14em</div><div style="font:400 10px/1.5 'Martian Mono',ui-monospace;letter-spacing:.14em;color:#495259">HARDWARE &amp; SOFTWARE</div></div>
+<div style="padding:26px 0;border-bottom:1px solid #DDE0E1"><div style="font:400 9.5px/1.6 'Martian Mono',ui-monospace;letter-spacing:.1em;color:#8A939A;margin-bottom:14px">BUTTON &#183; MONO 500 &#183; 12px / 1 / 0.06em</div><div style="display:inline-flex;align-items:center;gap:12px;background:#0B0D0E;color:#FAFBFB;font:500 12px/1 'Martian Mono',ui-monospace;letter-spacing:.06em;padding:19px 26px">GET A FREE SCREEN <span>&#8594;</span></div></div>
+<div style="padding:26px 0;border-bottom:1px solid #DDE0E1"><div style="font:400 9.5px/1.6 'Martian Mono',ui-monospace;letter-spacing:.1em;color:#8A939A;margin-bottom:14px">STATISTIC &#183; FAMILJEN GROTESK 700 &#183; clamp(30px, 3.4vw, 52px) / 1 / -0.04em</div><div style="display:flex;gap:34px;align-items:baseline"><span style="font:700 clamp(30px,3.4vw,52px)/1 'Familjen Grotesk',sans-serif;letter-spacing:-.04em;color:#8F5E11">$0</span><span style="font:700 clamp(30px,3.4vw,52px)/1 'Familjen Grotesk',sans-serif;letter-spacing:-.04em">21&#8243;</span><span style="font:700 clamp(30px,3.4vw,52px)/1 'Familjen Grotesk',sans-serif;letter-spacing:-.04em">2</span></div></div>
+<div style="padding:26px 0"><div style="font:400 9.5px/1.6 'Martian Mono',ui-monospace;letter-spacing:.1em;color:#8A939A;margin-bottom:14px">CAPTION / FINE PRINT &#183; MONO 400 &#183; 12px / 1.7</div><div style="max-width:560px;font:400 12px/1.7 'Martian Mono',ui-monospace;color:#8A939A">Uptick does not make financial guarantees. Revenue opportunity depends on advertising demand in your area.</div></div>
+</div>
+<div style="margin-top:28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:24px;max-width:900px">
+<div><div style="font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.14em;color:#8A939A;margin-bottom:10px">DESKTOP</div><p style="margin:0;font:400 14px/1.7 Archivo,sans-serif;color:#495259">Display fills the measure — 12 to 17 characters per line. Tracking tightens as size grows; never positive tracking on Familjen Grotesk.</p></div>
+<div><div style="font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.14em;color:#8A939A;margin-bottom:10px">MOBILE</div><p style="margin:0;font:400 14px/1.7 Archivo,sans-serif;color:#495259">Display floors at 30px and stays left-aligned. Body never drops below 16px. Mono labels floor at 9px and keep full tracking.</p></div>
+</div>
+</section>
+
+<section id="s04" style="padding:clamp(40px,5vw,80px) clamp(20px,4vw,64px);border-bottom:1px solid #DDE0E1">
+<div style="font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.18em;color:#8A939A;margin-bottom:18px">04 &#183; GRID &amp; SPACING</div>
+<h2 style="margin:0 0 12px;font:700 clamp(26px,3.2vw,50px)/.96 'Familjen Grotesk',sans-serif;letter-spacing:-.035em">Disciplined content, deliberate breakouts</h2>
+<p style="margin:0 0 clamp(26px,3vw,40px);max-width:620px;font:400 17px/1.6 Archivo,sans-serif;color:#495259">A 12-column grid with a 1440px content ceiling holds all normal content. Cinematic bands are allowed to ignore it entirely and run edge to edge, but only one breakout per screenful.</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:1px;background:#DDE0E1;border:1px solid #DDE0E1;margin-bottom:32px">
+<div style="background:#FAFBFB;padding:22px"><div style="font:400 10px/1.7 'Martian Mono',ui-monospace;letter-spacing:.1em;color:#8A939A">COLUMNS</div><div style="margin-top:12px;font:400 13px/1.9 'Martian Mono',ui-monospace;color:#12161A">≥1280 &nbsp;12 col / 24 gutter<br>1024–1279 &nbsp;8 col / 20<br>768–1023 &nbsp;8 col / 16<br>&lt;768 &nbsp;4 col / 12</div></div>
+<div style="background:#FAFBFB;padding:22px"><div style="font:400 10px/1.7 'Martian Mono',ui-monospace;letter-spacing:.1em;color:#8A939A">PAGE MARGIN</div><div style="margin-top:12px;font:400 13px/1.9 'Martian Mono',ui-monospace;color:#12161A">Desktop &nbsp;80px<br>Laptop &nbsp;64px<br>Tablet &nbsp;40px<br>Mobile &nbsp;20px</div></div>
+<div style="background:#FAFBFB;padding:22px"><div style="font:400 10px/1.7 'Martian Mono',ui-monospace;letter-spacing:.1em;color:#8A939A">WIDTHS</div><div style="margin-top:12px;font:400 13px/1.9 'Martian Mono',ui-monospace;color:#12161A">Content max &nbsp;1440<br>Prose max &nbsp;68ch<br>Display measure &nbsp;12–17ch<br>Full-bleed &nbsp;100vw</div></div>
+</div>
+<div style="font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.14em;color:#8A939A;margin-bottom:14px">SPACING SCALE &#183; 4PX BASE</div>
+<div style="display:flex;flex-wrap:wrap;gap:1px;background:#DDE0E1;border:1px solid #DDE0E1;margin-bottom:20px">
+<div style="flex:1;min-width:88px;background:#FAFBFB;padding:16px"><div style="height:4px;width:4px;background:#F0A028"></div><div style="margin-top:12px;font:400 9.5px/1.5 'Martian Mono',ui-monospace;color:#495259">4<br>xs</div></div>
+<div style="flex:1;min-width:88px;background:#FAFBFB;padding:16px"><div style="height:4px;width:8px;background:#F0A028"></div><div style="margin-top:12px;font:400 9.5px/1.5 'Martian Mono',ui-monospace;color:#495259">8<br>sm</div></div>
+<div style="flex:1;min-width:88px;background:#FAFBFB;padding:16px"><div style="height:4px;width:16px;background:#F0A028"></div><div style="margin-top:12px;font:400 9.5px/1.5 'Martian Mono',ui-monospace;color:#495259">16<br>md</div></div>
+<div style="flex:1;min-width:88px;background:#FAFBFB;padding:16px"><div style="height:4px;width:24px;background:#F0A028"></div><div style="margin-top:12px;font:400 9.5px/1.5 'Martian Mono',ui-monospace;color:#495259">24<br>lg</div></div>
+<div style="flex:1;min-width:88px;background:#FAFBFB;padding:16px"><div style="height:4px;width:40px;background:#F0A028"></div><div style="margin-top:12px;font:400 9.5px/1.5 'Martian Mono',ui-monospace;color:#495259">40<br>xl</div></div>
+<div style="flex:1;min-width:88px;background:#FAFBFB;padding:16px"><div style="height:4px;width:64px;background:#F0A028"></div><div style="margin-top:12px;font:400 9.5px/1.5 'Martian Mono',ui-monospace;color:#495259">64<br>2xl</div></div>
+<div style="flex:1;min-width:88px;background:#FAFBFB;padding:16px"><div style="height:4px;width:96px;background:#F0A028"></div><div style="margin-top:12px;font:400 9.5px/1.5 'Martian Mono',ui-monospace;color:#495259">96<br>3xl</div></div>
+<div style="flex:1;min-width:88px;background:#FAFBFB;padding:16px"><div style="height:4px;width:140px;background:#F0A028"></div><div style="margin-top:12px;font:400 9.5px/1.5 'Martian Mono',ui-monospace;color:#495259">140<br>4xl</div></div>
+</div>
+<p style="margin:0;max-width:660px;font:400 14px/1.7 Archivo,sans-serif;color:#495259">Card padding 24–40. Component gap 16–24. Section padding clamp(64px, 8vw, 150px) vertical. Adjacent modules are separated by a 1px rule and a 1px grid gap, not by margin — the seam is part of the language.</p>
+</section>
+
+<section id="s05" style="padding:clamp(40px,5vw,80px) clamp(20px,4vw,64px);border-bottom:1px solid #DDE0E1">
+<div style="font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.18em;color:#8A939A;margin-bottom:18px">05 &#183; SHAPE</div>
+<h2 style="margin:0 0 12px;font:700 clamp(26px,3.2vw,50px)/.96 'Familjen Grotesk',sans-serif;letter-spacing:-.035em">Square by default. Radius is hardware only.</h2>
+<p style="margin:0 0 clamp(26px,3vw,40px);max-width:620px;font:400 17px/1.6 Archivo,sans-serif;color:#495259">Corners are the fastest way to look like every other site. In Uptick, a rounded corner means a physical object: a screen bezel, a phone. Everything drawn by software is square.</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:1px;background:#DDE0E1;border:1px solid #DDE0E1">
+<div style="background:#FAFBFB;padding:24px"><div style="height:70px;background:#12161A"></div><div style="margin-top:14px;font:400 9.5px/1.6 'Martian Mono',ui-monospace;color:#495259">RADIUS 0<br>CARDS, PANELS, BUTTONS, FIELDS, TAGS, IMAGE FRAMES</div></div>
+<div style="background:#FAFBFB;padding:24px"><div style="height:70px;background:#12161A;border-radius:2px"></div><div style="margin-top:14px;font:400 9.5px/1.6 'Martian Mono',ui-monospace;color:#495259">RADIUS 2<br>SCREEN CONTENT AREA INSIDE A DEVICE</div></div>
+<div style="background:#FAFBFB;padding:24px"><div style="height:70px;background:#12161A;border-radius:9px"></div><div style="margin-top:14px;font:400 9.5px/1.6 'Martian Mono',ui-monospace;color:#495259">RADIUS 9<br>21&#8243; DEVICE BEZEL</div></div>
+<div style="background:#FAFBFB;padding:24px"><div style="height:70px;background:#12161A;border-radius:26px"></div><div style="margin-top:14px;font:400 9.5px/1.6 'Martian Mono',ui-monospace;color:#495259">RADIUS 26–34<br>PHONE FRAME ONLY</div></div>
+<div style="background:#FAFBFB;padding:24px"><div style="height:70px;background:#12161A;clip-path:polygon(16% 0,84% 0,100% 100%,0 100%)"></div><div style="margin-top:14px;font:400 9.5px/1.6 'Martian Mono',ui-monospace;color:#495259">TAPERED STAND<br>THE DEVICE FOOT. THE ONE NON-RECTANGLE.</div></div>
+</div>
+<div style="margin-top:24px;border-left:2px solid #C0392B;padding:8px 0 8px 14px;max-width:620px;font:400 12px/1.7 'Martian Mono',ui-monospace;color:#8A2B20">NEVER: pill buttons, rounded tags, circular avatars, blob masks, 8px-radius cards, rounded inputs.</div>
+</section>
+
+<section id="s06" style="padding:clamp(40px,5vw,80px) clamp(20px,4vw,64px);border-bottom:1px solid #DDE0E1">
+<div style="font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.18em;color:#8A939A;margin-bottom:18px">06 &#183; SURFACES &amp; DEPTH</div>
+<h2 style="margin:0 0 12px;font:700 clamp(26px,3.2vw,50px)/.96 'Familjen Grotesk',sans-serif;letter-spacing:-.035em">Flat interface, physical objects</h2>
+<p style="margin:0 0 clamp(26px,3vw,40px);max-width:620px;font:400 17px/1.6 Archivo,sans-serif;color:#495259">Hierarchy is built from surface colour and 1px rules. Shadow is reserved for things that exist in the real world — the screen and the phone. Nothing else casts light.</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:1px;background:#DDE0E1;border:1px solid #DDE0E1">
+<div style="background:#FAFBFB;padding:24px"><div style="height:74px;background:#FAFBFB;border:1px solid #DDE0E1"></div><div style="margin-top:14px;font:400 9.5px/1.6 'Martian Mono',ui-monospace;color:#495259">SURFACE / PAPER<br>DEFAULT LIGHT PAGE. 1PX RULE, NO SHADOW.</div></div>
+<div style="background:#FAFBFB;padding:24px"><div style="height:74px;background:#F2EFE9;border:1px solid #DCD8D0"></div><div style="margin-top:14px;font:400 9.5px/1.6 'Martian Mono',ui-monospace;color:#495259">SURFACE / WARM<br>HOST-SIDE SECTIONS ONLY.</div></div>
+<div style="background:#FAFBFB;padding:24px"><div style="height:74px;background:#0B0D0E"></div><div style="margin-top:14px;font:400 9.5px/1.6 'Martian Mono',ui-monospace;color:#495259">SURFACE / INK<br>MEDIA, NETWORK AND SYSTEM SECTIONS.</div></div>
+<div style="background:#FAFBFB;padding:24px"><div style="height:74px;background:#12161A"></div><div style="margin-top:14px;font:400 9.5px/1.6 'Martian Mono',ui-monospace;color:#495259">SURFACE / INK RAISED<br>PANEL ON INK, HOVER STATE, MENU.</div></div>
+<div style="background:#FAFBFB;padding:24px"><div style="height:74px;background:repeating-linear-gradient(115deg,#EEF0F0 0 9px,#E4E7E8 9px 18px)"></div><div style="margin-top:14px;font:400 9.5px/1.6 'Martian Mono',ui-monospace;color:#495259">SURFACE / IMAGE SLOT<br>DIAGONAL HAIRLINE FILL = PHOTOGRAPHY GOES HERE.</div></div>
+<div style="background:#FAFBFB;padding:24px"><div style="height:74px;background:#2A3136;border-radius:6px;box-shadow:0 22px 34px -18px rgba(11,13,14,.6)"></div><div style="margin-top:14px;font:400 9.5px/1.6 'Martian Mono',ui-monospace;color:#495259">ELEVATION / HARDWARE<br>0 50PX 90PX -34PX rgba(0,0,0,.85). DEVICES ONLY.</div></div>
+</div>
+<p style="margin:22px 0 0;max-width:660px;font:400 14px/1.7 Archivo,sans-serif;color:#495259">Overlays: ink at 55% for type over photography, plus a hairline at the crop edge. Gradients: permitted only as a single radial glow behind the hero device and as the subtle vertical sheen on a bezel. No gradient ever carries brand meaning.</p>
+</section>
+
+<section id="s07" style="padding:clamp(40px,5vw,80px) clamp(20px,4vw,64px);border-bottom:1px solid #DDE0E1">
+<div style="font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.18em;color:#8A939A;margin-bottom:18px">07 &#183; BUTTONS</div>
+<h2 style="margin:0 0 12px;font:700 clamp(26px,3.2vw,50px)/.96 'Familjen Grotesk',sans-serif;letter-spacing:-.035em">Rectangular, mono-labelled, arrow-carrying</h2>
+<p style="margin:0 0 clamp(26px,3vw,40px);max-width:620px;font:400 17px/1.6 Archivo,sans-serif;color:#495259">Every button is a square-cornered block with an uppercase mono label and a trailing arrow that steps 4px right on hover. Height 56px desktop, 56px mobile — the target never shrinks.</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr));gap:1px;background:#DDE0E1;border:1px solid #DDE0E1">
+<div style="background:#FAFBFB;padding:26px"><div style="font:400 9.5px/1 'Martian Mono',ui-monospace;letter-spacing:.12em;color:#8A939A;margin-bottom:20px">PRIMARY ON PAPER</div><div style="display:flex;flex-direction:column;gap:10px;align-items:flex-start"><div style="display:inline-flex;align-items:center;gap:12px;background:#0B0D0E;color:#FAFBFB;font:500 12px/1 'Martian Mono',ui-monospace;letter-spacing:.06em;padding:19px 26px">GET A FREE SCREEN<span>&#8594;</span></div><div style="display:inline-flex;align-items:center;gap:14px;background:#F0A028;color:#0B0D0E;font:500 12px/1 'Martian Mono',ui-monospace;letter-spacing:.06em;padding:19px 26px">GET A FREE SCREEN<span>&#8594;</span></div><div style="display:inline-flex;align-items:center;gap:12px;background:#000;color:#FAFBFB;font:500 12px/1 'Martian Mono',ui-monospace;letter-spacing:.06em;padding:19px 26px;transform:translateY(1px)">GET A FREE SCREEN<span>&#8594;</span></div><div style="display:inline-flex;align-items:center;gap:12px;background:#0B0D0E;color:#FAFBFB;font:500 12px/1 'Martian Mono',ui-monospace;letter-spacing:.06em;padding:19px 26px;outline:2px solid #F0A028;outline-offset:3px">GET A FREE SCREEN<span>&#8594;</span></div><div style="display:inline-flex;align-items:center;gap:12px;background:#DDE0E1;color:#8A939A;font:500 12px/1 'Martian Mono',ui-monospace;letter-spacing:.06em;padding:19px 26px">GET A FREE SCREEN<span>&#8594;</span></div><div style="display:inline-flex;align-items:center;gap:12px;background:#0B0D0E;color:#8A939A;font:500 12px/1 'Martian Mono',ui-monospace;letter-spacing:.06em;padding:19px 26px">SENDING<span style="display:flex;gap:3px"><span style="width:4px;height:4px;background:#F0A028"></span><span style="width:4px;height:4px;background:#495259"></span><span style="width:4px;height:4px;background:#495259"></span></span></div></div><div style="margin-top:18px;font:400 9.5px/2 'Martian Mono',ui-monospace;color:#8A939A">DEFAULT / HOVER (AMBER + ARROW STEP) / PRESSED (1PX DOWN) / FOCUS (2PX AMBER RING, 3PX OFFSET) / DISABLED / LOADING</div></div>
+<div style="background:#FAFBFB;padding:26px"><div style="font:400 9.5px/1 'Martian Mono',ui-monospace;letter-spacing:.12em;color:#8A939A;margin-bottom:20px">SECONDARY ON PAPER</div><div style="display:flex;flex-direction:column;gap:10px;align-items:flex-start"><div style="display:inline-flex;align-items:center;gap:12px;border:1px solid #DDE0E1;color:#12161A;font:500 12px/1 'Martian Mono',ui-monospace;letter-spacing:.06em;padding:19px 26px">BUILD A CAMPAIGN<span>&#8594;</span></div><div style="display:inline-flex;align-items:center;gap:14px;border:1px solid #12161A;color:#12161A;font:500 12px/1 'Martian Mono',ui-monospace;letter-spacing:.06em;padding:19px 26px">BUILD A CAMPAIGN<span>&#8594;</span></div><div style="display:inline-flex;align-items:center;gap:12px;border:1px solid #12161A;background:#F2EFE9;color:#12161A;font:500 12px/1 'Martian Mono',ui-monospace;letter-spacing:.06em;padding:19px 26px">BUILD A CAMPAIGN<span>&#8594;</span></div><div style="display:inline-flex;align-items:center;gap:12px;border:1px solid #DDE0E1;color:#C9CDCE;font:500 12px/1 'Martian Mono',ui-monospace;letter-spacing:.06em;padding:19px 26px">BUILD A CAMPAIGN<span>&#8594;</span></div></div><div style="margin-top:18px;font:400 9.5px/2 'Martian Mono',ui-monospace;color:#8A939A">BORDER DARKENS ON HOVER — NO FILL CHANGE UNTIL PRESSED. USE FOR THE SECOND-BEST ACTION ONLY.</div></div>
+<div style="background:#0B0D0E;padding:26px"><div style="font:400 9.5px/1 'Martian Mono',ui-monospace;letter-spacing:.12em;color:#6C767C;margin-bottom:20px">ON INK</div><div style="display:flex;flex-direction:column;gap:10px;align-items:flex-start"><div style="display:inline-flex;align-items:center;gap:12px;background:#F0A028;color:#0B0D0E;font:500 12px/1 'Martian Mono',ui-monospace;letter-spacing:.06em;padding:19px 26px">GET A FREE SCREEN<span>&#8594;</span></div><div style="display:inline-flex;align-items:center;gap:14px;background:#FAFBFB;color:#0B0D0E;font:500 12px/1 'Martian Mono',ui-monospace;letter-spacing:.06em;padding:19px 26px">GET A FREE SCREEN<span>&#8594;</span></div><div style="display:inline-flex;align-items:center;gap:12px;border:1px solid #495259;color:#FAFBFB;font:500 12px/1 'Martian Mono',ui-monospace;letter-spacing:.06em;padding:19px 26px">ADVERTISE ON THE NETWORK<span>&#8594;</span></div><div style="display:inline-flex;align-items:center;gap:12px;border:1px solid #22282C;color:#495259;font:500 12px/1 'Martian Mono',ui-monospace;letter-spacing:.06em;padding:19px 26px">DISABLED<span>&#8594;</span></div></div><div style="margin-top:18px;font:400 9.5px/2 'Martian Mono',ui-monospace;color:#6C767C">AMBER IS PRIMARY ON INK AND GOES TO PAPER ON HOVER. GHOST BUTTONS BORDER 600, NEVER 700.</div></div>
+<div style="background:#FAFBFB;padding:26px"><div style="font:400 9.5px/1 'Martian Mono',ui-monospace;letter-spacing:.12em;color:#8A939A;margin-bottom:20px">TERTIARY &amp; ICON</div><div style="display:flex;flex-direction:column;gap:18px;align-items:flex-start"><a href="#s07" style="display:inline-flex;align-items:center;gap:12px;border-bottom:1px solid #12161A;padding-bottom:7px;font:500 12px/1 'Martian Mono',ui-monospace;letter-spacing:.06em;color:#12161A" style-hover="color:#8F5E11;border-color:#8F5E11">SEE IF YOU QUALIFY<span>&#8594;</span></a><div style="display:flex;gap:8px"><div style="width:48px;height:48px;border:1px solid #DDE0E1;display:flex;align-items:center;justify-content:center;font:400 15px/1 Archivo,sans-serif;color:#12161A" style-hover="border-color:#12161A">&#8594;</div><div style="width:48px;height:48px;border:1px solid #DDE0E1;display:flex;align-items:center;justify-content:center;font:400 15px/1 Archivo,sans-serif;color:#12161A" style-hover="border-color:#12161A">&#8592;</div><div style="width:48px;height:48px;background:#0B0D0E;display:flex;align-items:center;justify-content:center;font:400 15px/1 Archivo,sans-serif;color:#FAFBFB">&#215;</div></div></div><div style="margin-top:18px;font:400 9.5px/2 'Martian Mono',ui-monospace;color:#8A939A">TEXT CTA IS A RULE-UNDERLINED MONO LABEL. ICON BUTTONS ARE 48PX SQUARES — NEVER CIRCLES.</div></div>
+</div>
+</section>
+
+<section id="s08" style="padding:clamp(40px,5vw,80px) clamp(20px,4vw,64px);border-bottom:1px solid #DDE0E1">
+<div style="font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.18em;color:#8A939A;margin-bottom:18px">08 &#183; LINKS</div>
+<h2 style="margin:0 0 clamp(24px,3vw,40px);font:700 clamp(26px,3.2vw,50px)/.96 'Familjen Grotesk',sans-serif;letter-spacing:-.035em">Every link moves in one direction</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:1px;background:#DDE0E1;border:1px solid #DDE0E1">
+<div style="background:#0B0D0E;padding:24px"><div style="font:400 9.5px/1 'Martian Mono',ui-monospace;letter-spacing:.12em;color:#6C767C;margin-bottom:18px">NAVIGATION</div><div style="display:flex;gap:20px;flex-wrap:wrap"><a href="#s08" style="font:400 11px/1 'Martian Mono',ui-monospace;color:#DDE0E1;padding:6px 0;border-bottom:2px solid transparent" style-hover="border-bottom:2px solid #F0A028;color:#FAFBFB">For Locations</a><a href="#s08" style="font:400 11px/1 'Martian Mono',ui-monospace;color:#FAFBFB;padding:6px 0;border-bottom:2px solid #F0A028">Active</a></div><div style="margin-top:18px;font:400 9.5px/1.9 'Martian Mono',ui-monospace;color:#6C767C">2PX AMBER RULE GROWS FROM THE LEFT IN 180MS. NEVER A COLOUR-ONLY CHANGE.</div></div>
+<div style="background:#FAFBFB;padding:24px"><div style="font:400 9.5px/1 'Martian Mono',ui-monospace;letter-spacing:.12em;color:#8A939A;margin-bottom:18px">INLINE</div><p style="margin:0;font:400 16px/1.7 Archivo,sans-serif;color:#495259">If you run a single business, start at <a href="#s08" style="color:#12161A;border-bottom:1px solid #DDE0E1" style-hover="color:#8F5E11;border-color:#8F5E11">For Locations</a> instead.</p><div style="margin-top:18px;font:400 9.5px/1.9 'Martian Mono',ui-monospace;color:#8A939A">RULE UNDER TEXT AT 200, DARKENS TO AMBER INK ON HOVER.</div></div>
+<div style="background:#FAFBFB;padding:24px"><div style="font:400 9.5px/1 'Martian Mono',ui-monospace;letter-spacing:.12em;color:#8A939A;margin-bottom:18px">DIRECTIONAL / ANIMATED</div><a href="#s08" style="display:inline-flex;align-items:center;gap:10px;font:400 11px/1 'Martian Mono',ui-monospace;letter-spacing:.08em;color:#8F5E11">OPEN NETWORK<span>&#8594;</span></a><div style="margin-top:18px;font:400 9.5px/1.9 'Martian Mono',ui-monospace;color:#8A939A">ARROW TRANSLATES 4PX RIGHT, 160MS, EASE-OUT. LABEL COLOUR DOES NOT CHANGE.</div></div>
+<div style="background:#FAFBFB;padding:24px"><div style="font:400 9.5px/1 'Martian Mono',ui-monospace;letter-spacing:.12em;color:#8A939A;margin-bottom:18px">CARD LINK</div><div style="border:1px solid #DDE0E1;padding:18px" style-hover="background:#F2EFE9"><div style="font:600 17px/1.1 'Familjen Grotesk',sans-serif">Family &amp; Parent</div><div style="margin-top:12px;font:400 9.5px/1 'Martian Mono',ui-monospace;color:#8F5E11">EXPLORE &#8594;</div></div><div style="margin-top:18px;font:400 9.5px/1.9 'Martian Mono',ui-monospace;color:#8A939A">WHOLE SURFACE IS THE TARGET. BACKGROUND SHIFTS ONE STEP. NO LIFT, NO SCALE.</div></div>
+<div style="background:#FAFBFB;padding:24px"><div style="font:400 9.5px/1 'Martian Mono',ui-monospace;letter-spacing:.12em;color:#8A939A;margin-bottom:18px">FOOTER</div><div style="display:flex;flex-direction:column;gap:10px"><a href="#s08" style="font:400 14px/1.3 Archivo,sans-serif;color:#12161A" style-hover="color:#8F5E11">Get a Free Screen</a><a href="#s08" style="font:400 14px/1.3 Archivo,sans-serif;color:#12161A" style-hover="color:#8F5E11">How It Works</a></div><div style="margin-top:18px;font:400 9.5px/1.9 'Martian Mono',ui-monospace;color:#8A939A">NO UNDERLINE AT REST. AMBER ON HOVER. 11PX MONO FOR LEGAL ROW.</div></div>
+</div>
+</section>
+
+<section id="s09" style="padding:clamp(40px,5vw,80px) clamp(20px,4vw,64px);border-bottom:1px solid #DDE0E1">
+<div style="font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.18em;color:#8A939A;margin-bottom:18px">09 &#183; CARDS &amp; MODULES</div>
+<h2 style="margin:0 0 12px;font:700 clamp(26px,3.2vw,50px)/.96 'Familjen Grotesk',sans-serif;letter-spacing:-.035em">Seven module families. No universal card.</h2>
+<p style="margin:0 0 clamp(26px,3vw,40px);max-width:620px;font:400 17px/1.6 Archivo,sans-serif;color:#495259">Modules sit in a 1px grid with no outer margin, so a section reads as one plate divided by seams. That is why equal-card grids do not look generic here — the divisions are structural, not decorative.</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:24px">
+<div><div style="border:1px solid #DDE0E1;padding:22px;min-height:150px;position:relative;background:repeating-linear-gradient(115deg,#EEF0F0 0 9px,#E4E7E8 9px 18px)"><div style="font:400 9.5px/1 'Martian Mono',ui-monospace;letter-spacing:.12em;color:#8A939A">01 / PHOTO</div><div style="position:absolute;left:22px;bottom:20px;font:600 20px/1.05 'Familjen Grotesk',sans-serif;letter-spacing:-.02em">Restaurants<br>&amp; Cafés</div></div><div style="margin-top:12px;font:400 9.5px/1.8 'Martian Mono',ui-monospace;color:#495259">LOCATION CARD — USE for category mosaics. NOT for benefits or steps.</div></div>
+<div><div style="border:1px solid #DDE0E1;border-top:3px solid #3FA98A;padding:22px;min-height:150px;display:flex;flex-direction:column;justify-content:space-between"><div><div style="font:400 9.5px/1 'Martian Mono',ui-monospace;color:#8A939A">02</div><div style="margin-top:14px;font:600 20px/1.05 'Familjen Grotesk',sans-serif;letter-spacing:-.02em">Health &amp; Wellness</div></div><div style="font:400 9.5px/1 'Martian Mono',ui-monospace;color:#1F6E57">EXPLORE &#8594;</div></div><div style="margin-top:12px;font:400 9.5px/1.8 'Martian Mono',ui-monospace;color:#495259">NETWORK CARD — the only module allowed a coloured top rule.</div></div>
+<div><div style="border:1px solid #DDE0E1;padding:22px;min-height:150px"><div style="font:400 9.5px/1 'Martian Mono',ui-monospace;color:#8F5E11">03</div><h4 style="margin:16px 0 0;font:600 18px/1.15 'Familjen Grotesk',sans-serif">Promote</h4><p style="margin:10px 0 0;font:400 14px/1.6 Archivo,sans-serif;color:#495259">Your products, specials and events run in your own slots.</p></div><div style="margin-top:12px;font:400 9.5px/1.8 'Martian Mono',ui-monospace;color:#495259">PROCESS STEP — numbered, always in a run of 4–6. Never alone.</div></div>
+<div><div style="border:1px solid #DDE0E1;padding:22px;min-height:150px;display:flex;flex-direction:column;justify-content:center"><div style="font:700 44px/1 'Familjen Grotesk',sans-serif;letter-spacing:-.04em;color:#8F5E11">$0</div><div style="margin-top:12px;font:400 9.5px/1.6 'Martian Mono',ui-monospace;letter-spacing:.1em;color:#8A939A">HARDWARE<br>&amp; SOFTWARE</div></div><div style="margin-top:12px;font:400 9.5px/1.8 'Martian Mono',ui-monospace;color:#495259">FACT MODULE — only for verified facts about the product. Never invented metrics.</div></div>
+<div><div style="background:#0B0D0E;padding:22px;min-height:150px;display:flex;flex-direction:column;justify-content:space-between"><div style="font:600 20px/1.1 'Familjen Grotesk',sans-serif;color:#FAFBFB">Already have screens?</div><div style="display:inline-flex;align-self:flex-start;align-items:center;gap:10px;background:#F0A028;color:#0B0D0E;font:500 11px/1 'Martian Mono',ui-monospace;padding:15px 18px">TALK TO UPTICK<span>&#8594;</span></div></div><div style="margin-top:12px;font:400 9.5px/1.8 'Martian Mono',ui-monospace;color:#495259">CTA PANEL — one per page maximum, plus the split closer.</div></div>
+<div><div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:#DDE0E1;border:1px solid #DDE0E1;min-height:150px"><div style="background:#FAFBFB;padding:18px"><div style="font:400 9px/1 'Martian Mono',ui-monospace;color:#8A939A;margin-bottom:14px">YOU HAVE</div><div style="font:500 14px/1.7 Archivo,sans-serif">Screens<br>Locations</div></div><div style="background:#0B0D0E;padding:18px"><div style="font:400 9px/1 'Martian Mono',ui-monospace;color:#F0A028;margin-bottom:14px">UPTICK ADDS</div><div style="font:500 14px/1.7 Archivo,sans-serif;color:#FAFBFB">Advertisers<br>Packaging</div></div></div><div style="margin-top:12px;font:400 9.5px/1.8 'Martian Mono',ui-monospace;color:#495259">COMPARISON MODULE — always ink versus paper, never two tinted cards.</div></div>
+</div>
+</section>
+
+<section id="s10" style="padding:clamp(40px,5vw,80px) clamp(20px,4vw,64px);border-bottom:1px solid #DDE0E1">
+<div style="font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.18em;color:#8A939A;margin-bottom:18px">10 &#183; LOCATION CATEGORIES</div>
+<h2 style="margin:0 0 12px;font:700 clamp(26px,3.2vw,50px)/.96 'Familjen Grotesk',sans-serif;letter-spacing:-.035em">A mosaic, not a card grid</h2>
+<p style="margin:0 0 clamp(26px,3vw,40px);max-width:620px;font:400 17px/1.6 Archivo,sans-serif;color:#495259">Eight categories share one system: a numbered mono index, a name set in Familjen Grotesk at the bottom-left, and a surface that alternates between photo slot, paper and ink. Cell sizes vary deliberately — the most wanted categories get two columns. No icons, ever.</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,170px),1fr));gap:1px;background:#DDE0E1;border:1px solid #DDE0E1">
+<div style="grid-column:span 2;background:repeating-linear-gradient(115deg,#EEF0F0 0 9px,#E4E7E8 9px 18px);padding:20px;min-height:180px;position:relative"><div style="font:400 9.5px/1 'Martian Mono',ui-monospace;color:#8A939A">01 / PHOTO</div><div style="position:absolute;left:20px;bottom:18px"><div style="font:700 24px/1 'Familjen Grotesk',sans-serif;letter-spacing:-.03em">Restaurants<br>&amp; Cafés</div><div style="margin-top:10px;font:400 9px/1 'Martian Mono',ui-monospace;letter-spacing:.1em;color:#8A939A">DWELL TIME</div></div></div>
+<div style="background:#FAFBFB;padding:20px;min-height:180px;position:relative"><div style="font:400 9.5px/1 'Martian Mono',ui-monospace;color:#8A939A">02</div><div style="position:absolute;left:20px;bottom:18px;font:600 18px/1.05 'Familjen Grotesk',sans-serif;letter-spacing:-.02em">Convenience<br>&amp; Gas</div></div>
+<div style="background:#0B0D0E;padding:20px;min-height:180px;position:relative"><div style="font:400 9.5px/1 'Martian Mono',ui-monospace;color:#6C767C">03</div><div style="position:absolute;left:20px;bottom:18px"><div style="font:600 18px/1.05 'Familjen Grotesk',sans-serif;letter-spacing:-.02em;color:#FAFBFB">Gyms &amp;<br>Fitness</div><div style="margin-top:9px;font:400 9px/1 'Martian Mono',ui-monospace;color:#3FA98A">WELLNESS</div></div></div>
+<div style="background:repeating-linear-gradient(115deg,#EEF0F0 0 9px,#E4E7E8 9px 18px);padding:20px;min-height:180px;position:relative"><div style="font:400 9.5px/1 'Martian Mono',ui-monospace;color:#8A939A">04 / PHOTO</div><div style="position:absolute;left:20px;bottom:18px;font:600 18px/1.05 'Familjen Grotesk',sans-serif;letter-spacing:-.02em">Salons &amp;<br>Barbershops</div></div>
+<div style="background:#F0A028;padding:20px;min-height:180px;position:relative"><div style="font:400 9.5px/1 'Martian Mono',ui-monospace;color:#7A5210">05</div><div style="position:absolute;left:20px;bottom:18px"><div style="font:700 19px/1.05 'Familjen Grotesk',sans-serif;letter-spacing:-.025em;color:#0B0D0E">Family<br>&amp; Kids</div><div style="margin-top:9px;font:400 9px/1 'Martian Mono',ui-monospace;color:#7A5210">FAMILY NETWORK</div></div></div>
+<div style="background:#FAFBFB;padding:20px;min-height:180px;position:relative"><div style="font:400 9.5px/1 'Martian Mono',ui-monospace;color:#8A939A">06</div><div style="position:absolute;left:20px;bottom:18px;font:600 18px/1.05 'Familjen Grotesk',sans-serif;letter-spacing:-.02em">Health &amp;<br>Wellness</div></div>
+<div style="background:repeating-linear-gradient(115deg,#EEF0F0 0 9px,#E4E7E8 9px 18px);padding:20px;min-height:180px;position:relative"><div style="font:400 9.5px/1 'Martian Mono',ui-monospace;color:#8A939A">07 / PHOTO</div><div style="position:absolute;left:20px;bottom:18px;font:600 18px/1.05 'Familjen Grotesk',sans-serif;letter-spacing:-.02em">Automotive</div></div>
+<div style="background:#12161A;padding:20px;min-height:180px;position:relative"><div style="font:400 9.5px/1 'Martian Mono',ui-monospace;color:#6C767C">08</div><div style="position:absolute;left:20px;bottom:18px"><div style="font:600 18px/1.05 'Familjen Grotesk',sans-serif;letter-spacing:-.02em;color:#FAFBFB">Other<br>High-Traffic</div><div style="margin-top:9px;font:400 9px/1 'Martian Mono',ui-monospace;color:#F0A028">TELL US &#8594;</div></div></div>
+</div>
+<div style="margin-top:24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:24px;max-width:1000px">
+<div><div style="font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.14em;color:#8A939A;margin-bottom:10px">RULES</div><p style="margin:0;font:400 14px/1.7 Archivo,sans-serif;color:#495259">Index number top-left, name bottom-left, optional network tag under the name. Photo cells crop tight on the room, never on a face. Hover shifts the surface one step and reveals the network tag if present.</p></div>
+<div><div style="font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.14em;color:#8A939A;margin-bottom:10px">NON-COLOUR DISTINCTION</div><p style="margin:0;font:400 14px/1.7 Archivo,sans-serif;color:#495259">Category identity comes from the index number and name, never from colour alone — the network tag is always spelled out in words next to its square.</p></div>
+</div>
+</section>
+
+<section id="s11" style="padding:clamp(40px,5vw,80px) clamp(20px,4vw,64px);border-bottom:1px solid #DDE0E1">
+<div style="font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.18em;color:#8A939A;margin-bottom:18px">11 &#183; NETWORK IDENTITIES</div>
+<h2 style="margin:0 0 12px;font:700 clamp(26px,3.2vw,50px)/.96 'Familjen Grotesk',sans-serif;letter-spacing:-.035em">Distinct by composition, not by colour</h2>
+<p style="margin:0 0 clamp(26px,3vw,40px);max-width:620px;font:400 17px/1.6 Archivo,sans-serif;color:#495259">Each network gets a different way of arranging the page. Swapping the accent alone is not branding — the layout, crop ratio and motion have to change too.</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:1px;background:#DDE0E1;border:1px solid #DDE0E1">
+<div style="background:#F7F2EA;padding:26px">
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:16px"><span style="width:11px;height:11px;background:#D9705E"></span><span style="font:400 9.5px/1 'Martian Mono',ui-monospace;letter-spacing:.14em;color:#8A7F72">FAMILY &amp; PARENT</span></div>
+<div style="display:flex;gap:1px;height:74px;margin-bottom:18px"><div style="flex:3;background:repeating-linear-gradient(115deg,#EFEAE2 0 9px,#E6E0D6 9px 18px)"></div><div style="flex:1.2;background:repeating-linear-gradient(115deg,#E6E0D6 0 9px,#DDD5C9 9px 18px)"></div><div style="flex:1;background:#D9705E"></div></div>
+<div style="font:400 9.5px/1.9 'Martian Mono',ui-monospace;color:#5C554A">MOOD — warm, in-motion, unposed<br>SURFACE — Warm Paper #F7F2EA<br>LAYOUT — wide horizontal bands, left-weighted<br>CROP — 3:1 and 16:9, people mid-activity<br>MOTION — soft horizontal drift, 0.2x<br>TYPE — display at full scale, left aligned</div>
+<div style="margin-top:14px;font:400 9.5px/1.8 'Martian Mono',ui-monospace;color:#A64A3A">DON'T — cartoon colour, children's type, primary-colour toys, cutouts.</div>
+</div>
+<div style="background:#FAFBFB;padding:26px">
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:16px"><span style="width:11px;height:11px;background:#3FA98A"></span><span style="font:400 9.5px/1 'Martian Mono',ui-monospace;letter-spacing:.14em;color:#8A939A">HEALTH &amp; WELLNESS</span></div>
+<div style="display:flex;gap:8px;height:74px;align-items:flex-end;margin-bottom:18px;justify-content:center"><div style="width:34px;height:100%;background:repeating-linear-gradient(115deg,#E7EFEC 0 9px,#DEE8E4 9px 18px)"></div><div style="width:24px;height:78%;background:#3FA98A"></div><div style="width:34px;height:92%;background:repeating-linear-gradient(115deg,#EFF3F2 0 9px,#E7EFEC 9px 18px)"></div></div>
+<div style="font:400 9.5px/1.9 'Martian Mono',ui-monospace;color:#495259">MOOD — composed, clean, deliberate<br>SURFACE — Paper #FAFBFB, generous air<br>LAYOUT — centred, symmetrical, tall columns<br>CROP — 3:4 and 3:5 portrait, single subject<br>MOTION — slow fade and 1px rule draw, 0.1x<br>TYPE — centred display, wide leading</div>
+<div style="margin-top:14px;font:400 9.5px/1.8 'Martian Mono',ui-monospace;color:#1F6E57">DON'T — sweat, strain, gym-equipment close-ups, neon energy cues.</div>
+</div>
+<div style="background:#0B0D0E;padding:26px">
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:16px"><span style="width:11px;height:11px;background:#6E9BE8"></span><span style="font:400 9.5px/1 'Martian Mono',ui-monospace;letter-spacing:.14em;color:#8A939A">COMMUTER &amp; DRIVER</span></div>
+<div style="overflow:hidden;height:74px;margin-bottom:18px;border-top:1px solid #22282C;border-bottom:1px solid #22282C"><div style="display:flex;width:200%;height:100%;animation:bandRun 16s linear infinite"><div style="flex:1;display:flex;gap:1px;background:#22282C"><div style="flex:1;background:repeating-linear-gradient(115deg,#171C20 0 9px,#1E242A 9px 18px)"></div><div style="flex:1;background:#6E9BE8"></div><div style="flex:1;background:repeating-linear-gradient(115deg,#1E242A 0 9px,#171C20 9px 18px)"></div><div style="flex:1;background:repeating-linear-gradient(115deg,#171C20 0 9px,#1E242A 9px 18px)"></div></div><div style="flex:1;display:flex;gap:1px;background:#22282C"><div style="flex:1;background:repeating-linear-gradient(115deg,#171C20 0 9px,#1E242A 9px 18px)"></div><div style="flex:1;background:#6E9BE8"></div><div style="flex:1;background:repeating-linear-gradient(115deg,#1E242A 0 9px,#171C20 9px 18px)"></div><div style="flex:1;background:repeating-linear-gradient(115deg,#171C20 0 9px,#1E242A 9px 18px)"></div></div></div></div>
+<div style="font:400 9.5px/1.9 'Martian Mono',ui-monospace;color:#8A939A">MOOD — repetition, routine, transit<br>SURFACE — Ink #0B0D0E only<br>LAYOUT — full-bleed filmstrip bands<br>CROP — narrow vertical slices, 1:2<br>MOTION — continuous linear run, 16–28s loop<br>TYPE — tight display, short lines, high contrast</div>
+<div style="margin-top:14px;font:400 9.5px/1.8 'Martian Mono',ui-monospace;color:#6E9BE8">DON'T — speed blur, racing imagery, headlight flares, motion-line graphics.</div>
+</div>
+</div>
+</section>
+
+<section id="s12" style="padding:clamp(40px,5vw,80px) clamp(20px,4vw,64px);border-bottom:1px solid #DDE0E1">
+<div style="font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.18em;color:#8A939A;margin-bottom:18px">12 &#183; ICONOGRAPHY</div>
+<h2 style="margin:0 0 12px;font:700 clamp(26px,3.2vw,50px)/.96 'Familjen Grotesk',sans-serif;letter-spacing:-.035em">Almost no icons. Motifs instead.</h2>
+<p style="margin:0 0 clamp(26px,3vw,40px);max-width:620px;font:400 17px/1.6 Archivo,sans-serif;color:#495259">Uptick does not use a line-icon set. The system has seven primitives, all built from squares, 1px rules and the arrow. Anything that would normally need an icon gets a number, a label or a motif.</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:1px;background:#DDE0E1;border:1px solid #DDE0E1">
+<div style="background:#FAFBFB;padding:22px"><div style="height:56px;display:flex;align-items:center"><span style="width:12px;height:12px;background:#12161A"></span></div><div style="margin-top:10px;font:400 9.5px/1.7 'Martian Mono',ui-monospace;color:#495259">LOCATION<br>SOLID 10–12PX SQUARE</div></div>
+<div style="background:#FAFBFB;padding:22px"><div style="height:56px;display:flex;align-items:center"><span style="width:34px;height:22px;border:2px solid #12161A"></span></div><div style="margin-top:10px;font:400 9.5px/1.7 'Martian Mono',ui-monospace;color:#495259">SCREEN<br>2PX FRAME, 16:10</div></div>
+<div style="background:#FAFBFB;padding:22px"><div style="height:56px;display:flex;align-items:center;gap:4px"><span style="width:7px;height:7px;background:#12161A"></span><span style="width:7px;height:7px;background:#8A939A"></span><span style="width:7px;height:7px;background:#12161A"></span><span style="width:7px;height:7px;background:#8A939A"></span></div><div style="margin-top:10px;font:400 9.5px/1.7 'Martian Mono',ui-monospace;color:#495259">AUDIENCE<br>SQUARE CLUSTER</div></div>
+<div style="background:#FAFBFB;padding:22px"><div style="height:56px;display:flex;align-items:center"><span style="width:44px;height:30px;background-image:repeating-linear-gradient(90deg,#12161A 0 1px,transparent 1px 10px),repeating-linear-gradient(0deg,#12161A 0 1px,transparent 1px 10px)"></span></div><div style="margin-top:10px;font:400 9.5px/1.7 'Martian Mono',ui-monospace;color:#495259">GEOGRAPHY<br>10PX GRID FIELD</div></div>
+<div style="background:#FAFBFB;padding:22px"><div style="height:56px;display:flex;align-items:center;position:relative"><span style="width:48px;height:1px;background:#12161A"></span><span style="position:absolute;left:0;top:22px;width:6px;height:6px;background:#12161A"></span><span style="position:absolute;left:21px;top:22px;width:6px;height:6px;background:#12161A"></span><span style="position:absolute;left:42px;top:22px;width:6px;height:6px;background:#12161A"></span></div><div style="margin-top:10px;font:400 9.5px/1.7 'Martian Mono',ui-monospace;color:#495259">NETWORK<br>BAND WITH NODES</div></div>
+<div style="background:#FAFBFB;padding:22px"><div style="height:56px;display:flex;align-items:flex-end;gap:3px"><span style="width:7px;height:14px;background:#8A939A"></span><span style="width:7px;height:22px;background:#8A939A"></span><span style="width:7px;height:34px;background:#F0A028"></span></div><div style="margin-top:10px;font:400 9.5px/1.7 'Martian Mono',ui-monospace;color:#495259">UPTICK / REVENUE<br>THREE RISING BARS &#183; THE LOGO MARK</div></div>
+<div style="background:#FAFBFB;padding:22px"><div style="height:56px;display:flex;align-items:center;gap:8px"><span style="width:14px;height:14px;border:2px solid #12161A"></span><span style="font:400 14px/1 Archivo,sans-serif">&#8594;</span><span style="width:14px;height:14px;border:2px solid #12161A"></span></div><div style="margin-top:10px;font:400 9.5px/1.7 'Martian Mono',ui-monospace;color:#495259">CROSS-PROMOTION<br>TWO FRAMES, ONE ARROW</div></div>
+<div style="background:#FAFBFB;padding:22px"><div style="height:56px;display:flex;align-items:center"><span style="width:38px;height:38px;background:repeating-conic-gradient(#12161A 0 25%,transparent 0 50%) 0 0/33.4% 33.4%;outline:2px solid #12161A"></span></div><div style="margin-top:10px;font:400 9.5px/1.7 'Martian Mono',ui-monospace;color:#495259">DIGITAL ACTION<br>QR BLOCK</div></div>
+</div>
+<p style="margin:22px 0 0;max-width:660px;font:400 14px/1.7 Archivo,sans-serif;color:#495259">Stroke weight is 1px for rules and 2px for motif frames. Sizes are 12, 20, 34 and 48. Arrows are the text glyph in Archivo, never a drawn chevron. If a concept needs explaining and has no motif, write the words.</p>
+</section>
+
+<section id="s13" style="padding:clamp(40px,5vw,80px) clamp(20px,4vw,64px);border-bottom:1px solid #DDE0E1">
+<div style="font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.18em;color:#8A939A;margin-bottom:18px">13 &#183; IMAGERY</div>
+<h2 style="margin:0 0 12px;font:700 clamp(26px,3.2vw,50px)/.96 'Familjen Grotesk',sans-serif;letter-spacing:-.035em">Real places, real attention, real movement</h2>
+<p style="margin:0 0 clamp(26px,3vw,40px);max-width:620px;font:400 17px/1.6 Archivo,sans-serif;color:#495259">Photography is the only source of warmth in the system, which makes it the easiest thing to get wrong. Every image is an environment first and a person second. Diagonal hairline fills mark every slot until approved photography exists.</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:1px;background:#DDE0E1;border:1px solid #DDE0E1;margin-bottom:24px">
+<div style="background:#FAFBFB;padding:24px"><div style="font:400 9.5px/1 'Martian Mono',ui-monospace;letter-spacing:.12em;color:#1F6E57;margin-bottom:16px">SHOOT THIS</div><div style="font:400 14.5px/1.9 Archivo,sans-serif;color:#12161A">Counters, queues and doorways<br>Hands paying, ordering, waiting<br>Rooms with the screen in them, off-centre<br>Available light, early or late<br>Backs of heads and shoulders<br>Signage, tile, laminate, chrome, worn wood</div></div>
+<div style="background:#FAFBFB;padding:24px"><div style="font:400 9.5px/1 'Martian Mono',ui-monospace;letter-spacing:.12em;color:#C0392B;margin-bottom:16px">REJECT THIS</div><div style="font:400 14.5px/1.9 Archivo,sans-serif;color:#8A939A">Owner smiling with folded arms<br>Team high-fives, handshakes<br>Empty over-styled interiors<br>Ring-light gloss and heavy retouching<br>Anyone looking into the lens<br>Stock families laughing at nothing</div></div>
+<div style="background:#FAFBFB;padding:24px"><div style="font:400 9.5px/1 'Martian Mono',ui-monospace;letter-spacing:.12em;color:#8A939A;margin-bottom:16px">TREATMENT</div><div style="font:400 14.5px/1.9 Archivo,sans-serif;color:#12161A">No filters, no duotone<br>Contrast held slightly below print<br>Ink overlay at 55% behind type<br>Hairline at every crop edge<br>Crops are square-cornered, full-bleed or gridded<br>Never a rounded or feathered mask</div></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:1px;background:#DDE0E1;border:1px solid #DDE0E1">
+<div style="flex:2;min-width:220px;height:190px;background:repeating-linear-gradient(115deg,#EEF0F0 0 10px,#E4E7E8 10px 20px);position:relative"><span style="position:absolute;left:14px;bottom:12px;font:400 9px/1 'Martian Mono',ui-monospace;letter-spacing:.12em;color:#8A939A">3:1 WIDE ENVIRONMENT &#183; FAMILY NETWORK</span></div>
+<div style="flex:1;min-width:130px;height:190px;background:repeating-linear-gradient(115deg,#E7EFEC 0 10px,#DEE8E4 10px 20px);position:relative"><span style="position:absolute;left:14px;bottom:12px;font:400 9px/1 'Martian Mono',ui-monospace;letter-spacing:.12em;color:#6E8A80">3:4 PORTRAIT &#183; WELLNESS</span></div>
+<div style="flex:1;min-width:110px;height:190px;background:repeating-linear-gradient(115deg,#171C20 0 10px,#1E242A 10px 20px);position:relative"><span style="position:absolute;left:14px;bottom:12px;font:400 9px/1 'Martian Mono',ui-monospace;letter-spacing:.12em;color:#8A939A">1:2 SLICE &#183; COMMUTER</span></div>
+</div>
+</section>
+
+<section id="s14" style="padding:clamp(40px,5vw,80px) clamp(20px,4vw,64px);border-bottom:1px solid #DDE0E1">
+<div style="font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.18em;color:#8A939A;margin-bottom:18px">14 &#183; SCREEN / DEVICE</div>
+<h2 style="margin:0 0 12px;font:700 clamp(26px,3.2vw,50px)/.96 'Familjen Grotesk',sans-serif;letter-spacing:-.035em">The 21-inch screen is the logo that moves</h2>
+<p style="margin:0 0 clamp(26px,3vw,40px);max-width:620px;font:400 17px/1.6 Archivo,sans-serif;color:#495259">Until approved product photography exists, the device is a deliberately neutral mockup: a graphite bezel, a 16:10 content area and a tapered foot. It never pretends to be the exact hardware, and every instance is a single component so it can be swapped in one place.</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:clamp(20px,3vw,40px);align-items:start">
+<div>
+<div style="width:100%;max-width:360px">
+<div style="background:linear-gradient(#262C31,#14181B);padding:10px 10px 26px;border-radius:9px;box-shadow:0 40px 70px -30px rgba(11,13,14,.55);position:relative">
+<div style="aspect-ratio:16/10;background:#0B0D0E;border-radius:2px;position:relative;overflow:hidden">
+<div style="position:absolute;inset:8%;border:1px dashed #495259"></div>
+<div style="position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);text-align:center;font:400 9px/1.8 'Martian Mono',ui-monospace;letter-spacing:.14em;color:#8A939A">CONTENT AREA 16:10<br>SAFE AREA INSET 8%</div>
+</div>
+<div style="position:absolute;bottom:9px;left:0;right:0;text-align:center;font:400 7px/1 'Martian Mono',ui-monospace;letter-spacing:.34em;color:#5A6469">UPTICK</div>
+</div>
+<div style="width:32%;height:16px;margin:0 auto;background:#1C2226;clip-path:polygon(16% 0,84% 0,100% 100%,0 100%)"></div>
+<div style="width:42%;height:7px;margin:0 auto;background:#262C31"></div>
+</div>
+</div>
+<div>
+<div style="font:400 9.5px/1 'Martian Mono',ui-monospace;letter-spacing:.12em;color:#8A939A;margin-bottom:14px">SPECIFICATION</div>
+<div style="font:400 12.5px/2 'Martian Mono',ui-monospace;color:#12161A;border-top:1px solid #DDE0E1;padding-top:14px">BEZEL &nbsp;10px, radius 9, graphite gradient 262C31 → 14181B<br>CHIN &nbsp;26px, wordmark 7px mono, tracking 0.34em<br>CONTENT &nbsp;16:10, radius 2, safe inset 8%<br>FOOT &nbsp;tapered 32% wide, 16px tall, plus a 42% base<br>SHADOW &nbsp;0 50px 90px -34px rgba(0,0,0,.85)<br>PERSPECTIVE &nbsp;straight-on only; no 3D rotation, no tilt</div>
+<div style="margin-top:22px;font:400 9.5px/1 'Martian Mono',ui-monospace;letter-spacing:.12em;color:#8A939A;margin-bottom:14px">USAGE</div>
+<div style="font:400 14px/1.8 Archivo,sans-serif;color:#495259">HEROIC — one device, 520px+ wide, with the radial amber glow behind it and scroll-linked content changes.<br>DIAGRAMMATIC — 26% scale inside a network graphic, single flat content frame, no shadow gradient.<br>IN ENVIRONMENT — sitting inside a photo slot, never larger than a third of the frame.</div>
+</div>
+</div>
+<div style="margin-top:26px">
+<div style="font:400 9.5px/1 'Martian Mono',ui-monospace;letter-spacing:.12em;color:#8A939A;margin-bottom:14px">THE FOUR CONTENT STATES &#183; ALWAYS IN THIS ORDER</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,170px),1fr));gap:1px;background:#DDE0E1;border:1px solid #DDE0E1">
+<div style="background:#14181B;padding:18px;min-height:120px;display:flex;flex-direction:column;justify-content:space-between"><span style="font:400 8.5px/1 'Martian Mono',ui-monospace;letter-spacing:.16em;color:#F0A028">01 HOST PROMOTION</span><span style="font:700 15px/1 'Familjen Grotesk',sans-serif;letter-spacing:-.02em;color:#FAFBFB">House special</span></div>
+<div style="background:#FAFBFB;padding:18px;min-height:120px;display:flex;flex-direction:column;justify-content:space-between"><span style="font:400 8.5px/1 'Martian Mono',ui-monospace;letter-spacing:.16em;color:#8A939A">02 LOCAL AD</span><span style="font:600 15px/1 'Familjen Grotesk',sans-serif;letter-spacing:-.02em;color:#12161A">Sold through Uptick</span></div>
+<div style="background:#0B0D0E;padding:18px;min-height:120px;display:flex;flex-direction:column;justify-content:space-between"><span style="font:400 8.5px/1 'Martian Mono',ui-monospace;letter-spacing:.16em;color:#D9705E">03 AUDIENCE NETWORK</span><span style="display:flex;gap:3px;align-items:flex-end;height:26px"><span style="width:6px;height:40%;background:#2A3237"></span><span style="width:6px;height:70%;background:#D9705E"></span><span style="width:6px;height:55%;background:#2A3237"></span><span style="width:6px;height:90%;background:#2A3237"></span><span style="width:6px;height:60%;background:#D9705E"></span></span></div>
+<div style="background:#F0A028;padding:18px;min-height:120px;display:flex;flex-direction:column;justify-content:space-between"><span style="font:400 8.5px/1 'Martian Mono',ui-monospace;letter-spacing:.16em;color:#7A5210">04 DIGITAL ACTION</span><span style="font:700 15px/1 'Familjen Grotesk',sans-serif;letter-spacing:-.02em;color:#0B0D0E">Scan &#8594; offer page</span></div>
+</div>
+<p style="margin:18px 0 0;max-width:660px;font:400 14px/1.7 Archivo,sans-serif;color:#495259">States crossfade over 550ms with no movement inside the frame. The sequence is fixed because it is the argument: the host is first, the advertiser is second, the network is what makes it work, and the action is the point.</p>
+</div>
+</section>
+
+<section id="s15" style="padding:clamp(40px,5vw,80px) clamp(20px,4vw,64px);border-bottom:1px solid #DDE0E1">
+<div style="font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.18em;color:#8A939A;margin-bottom:18px">15 &#183; MOTION</div>
+<h2 style="margin:0 0 12px;font:700 clamp(26px,3.2vw,50px)/.96 'Familjen Grotesk',sans-serif;letter-spacing:-.035em">One clock, three registers</h2>
+<p style="margin:0 0 clamp(26px,3vw,40px);max-width:620px;font:400 17px/1.6 Archivo,sans-serif;color:#495259">Micro motion confirms input. Section motion sequences reading. Storytelling motion carries the argument. All three share the same easing family so the site feels like one machine.</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr));gap:1px;background:#DDE0E1;border:1px solid #DDE0E1;margin-bottom:26px">
+<div style="background:#FAFBFB;padding:24px"><div style="font:400 9.5px/1 'Martian Mono',ui-monospace;letter-spacing:.12em;color:#8A939A;margin-bottom:16px">MICRO &#183; 120–220MS</div><div style="font:400 12.5px/2 'Martian Mono',ui-monospace;color:#12161A">Arrow step &nbsp;4px / 160ms<br>Button fill &nbsp;220ms<br>Nav rule grow &nbsp;180ms from left<br>Card surface &nbsp;250ms<br>Field underline &nbsp;150ms<br>Ease &nbsp;cubic-bezier(.4,0,.2,1)</div><div style="margin-top:14px;font:400 9.5px/1.8 'Martian Mono',ui-monospace;color:#8A939A">NO SCALE, NO LIFT, NO SHADOW GROWTH ON HOVER.</div></div>
+<div style="background:#FAFBFB;padding:24px"><div style="font:400 9.5px/1 'Martian Mono',ui-monospace;letter-spacing:.12em;color:#8A939A;margin-bottom:16px">SECTION &#183; 320–700MS</div><div style="font:400 12.5px/2 'Martian Mono',ui-monospace;color:#12161A">Reveal rise &nbsp;26px / 550ms<br>Stagger &nbsp;70ms per cell<br>Rule sweep &nbsp;clip-path inset, 700ms<br>Image de-zoom &nbsp;1.16 → 1.00, 900ms<br>Type mask &nbsp;wipe from left, 600ms<br>Ease &nbsp;cubic-bezier(.16,1,.3,1)</div><div style="margin-top:14px;font:400 9.5px/1.8 'Martian Mono',ui-monospace;color:#8A939A">ENTRY ONLY. NOTHING ANIMATES OUT ON EXIT.</div></div>
+<div style="background:#0B0D0E;padding:24px"><div style="font:400 9.5px/1 'Martian Mono',ui-monospace;letter-spacing:.12em;color:#F0A028;margin-bottom:16px">STORYTELLING &#183; SCROLL-LINKED</div><div style="font:400 12.5px/2 'Martian Mono',ui-monospace;color:#FAFBFB">Hero pin &nbsp;340vh, 4 screen states<br>Story pin &nbsp;540vh, 6 additive beats<br>Journey pin &nbsp;420vh, horizontal track<br>Parallax range &nbsp;0.15x–0.6x<br>Selector re-route &nbsp;600ms, 90ms stagger<br>Filmstrip loop &nbsp;16–28s linear</div><div style="margin-top:14px;font:400 9.5px/1.8 'Martian Mono',ui-monospace;color:#8A939A">EVERY PINNED SCENE IS ADDITIVE — LAYERS ACCUMULATE, NOTHING IS TAKEN AWAY.</div></div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:26px;max-width:1000px">
+<div><div style="font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.14em;color:#8A939A;margin-bottom:12px">WHEN TO GO CINEMATIC</div><p style="margin:0;font:400 14px/1.7 Archivo,sans-serif;color:#495259">Three moments per site, no more: the hero, the six-beat system story, and the audience selector. Everything else reveals and stops.</p></div>
+<div><div style="font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.14em;color:#8A939A;margin-bottom:12px">REDUCED MOTION</div><p style="margin:0;font:400 14px/1.7 Archivo,sans-serif;color:#495259">Pins release, all sequences become static stacked layouts with every layer already visible, filmstrips freeze, crossfades become instant swaps driven by the step indicator. No information is only available through movement.</p></div>
+</div>
+</section>
+
+<section id="s16" style="padding:clamp(40px,5vw,80px) clamp(20px,4vw,64px);border-bottom:1px solid #DDE0E1">
+<div style="font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.18em;color:#8A939A;margin-bottom:18px">16 &#183; NETWORK GRAPHIC LANGUAGE</div>
+<h2 style="margin:0 0 12px;font:700 clamp(26px,3.2vw,50px)/.96 'Familjen Grotesk',sans-serif;letter-spacing:-.035em">Squares on a band, drops to a bus</h2>
+<p style="margin:0 0 clamp(26px,3vw,40px);max-width:620px;font:400 17px/1.6 Archivo,sans-serif;color:#495259">The ecosystem is always drawn the same way. Locations are squares. The network is a 1px band. Connections drop vertically onto that band at right angles — never curves, never arcs, never a constellation.</p>
+<div style="background:#0B0D0E;border:1px solid #22282C;padding:clamp(24px,3vw,44px)">
+<div style="position:relative;height:250px;background:#0E1215;background-image:repeating-linear-gradient(90deg,#161C20 0 1px,transparent 1px 40px),repeating-linear-gradient(0deg,#161C20 0 1px,transparent 1px 40px);border:1px solid #22282C">
+<div style="position:absolute;left:6%;top:8%;width:56%;height:64%;border:1px solid #F0A028;background:rgba(240,160,40,.05)"><span style="position:absolute;left:0;top:-22px;font:400 9px/1 'Martian Mono',ui-monospace;letter-spacing:.14em;color:#F0A028">GEOGRAPHIC FIELD</span><span style="position:absolute;left:-3px;top:-3px;width:5px;height:5px;background:#F0A028"></span><span style="position:absolute;right:-3px;top:-3px;width:5px;height:5px;background:#F0A028"></span><span style="position:absolute;left:-3px;bottom:-3px;width:5px;height:5px;background:#F0A028"></span><span style="position:absolute;right:-3px;bottom:-3px;width:5px;height:5px;background:#F0A028"></span></div>
+<span style="position:absolute;left:16%;top:26%;width:11px;height:11px;background:#D9705E"></span><span style="position:absolute;left:16.7%;top:26%;width:1px;height:48%;background:#D9705E;opacity:.4"></span>
+<span style="position:absolute;left:34%;top:16%;width:11px;height:11px;background:#D9705E"></span><span style="position:absolute;left:34.7%;top:16%;width:1px;height:58%;background:#D9705E;opacity:.4"></span>
+<span style="position:absolute;left:52%;top:34%;width:11px;height:11px;background:#D9705E"></span><span style="position:absolute;left:52.7%;top:34%;width:1px;height:40%;background:#D9705E;opacity:.4"></span>
+<span style="position:absolute;left:72%;top:22%;width:11px;height:11px;background:#D9705E"></span><span style="position:absolute;left:72.7%;top:22%;width:1px;height:52%;background:#D9705E;opacity:.4"></span>
+<span style="position:absolute;left:0;right:0;top:74%;height:1px;background:#D9705E"></span>
+<span style="position:absolute;left:12px;bottom:14px;font:400 9px/1.6 'Martian Mono',ui-monospace;letter-spacing:.12em;color:#8A939A">NETWORK BUS &#183; ALL LOCATIONS DROP ONTO ONE LINE</span>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:1px;background:#22282C;border:1px solid #22282C;margin-top:24px">
+<div style="background:#0B0D0E;padding:18px;font:400 9.5px/1.8 'Martian Mono',ui-monospace;color:#8A939A">NODE<br><span style="color:#FAFBFB">10–12px square, network hue</span></div>
+<div style="background:#0B0D0E;padding:18px;font:400 9.5px/1.8 'Martian Mono',ui-monospace;color:#8A939A">DROP<br><span style="color:#FAFBFB">1px vertical, 40% opacity</span></div>
+<div style="background:#0B0D0E;padding:18px;font:400 9.5px/1.8 'Martian Mono',ui-monospace;color:#8A939A">BUS<br><span style="color:#FAFBFB">1px horizontal, full bleed</span></div>
+<div style="background:#0B0D0E;padding:18px;font:400 9.5px/1.8 'Martian Mono',ui-monospace;color:#8A939A">FIELD<br><span style="color:#FAFBFB">1px amber rect + 4 corner ticks</span></div>
+<div style="background:#0B0D0E;padding:18px;font:400 9.5px/1.8 'Martian Mono',ui-monospace;color:#8A939A">GRID<br><span style="color:#FAFBFB">40px cells, #161C20</span></div>
+<div style="background:#0B0D0E;padding:18px;font:400 9.5px/1.8 'Martian Mono',ui-monospace;color:#8A939A">PULSE<br><span style="color:#FAFBFB">opacity .25→1, 2.6s, staggered</span></div>
+</div>
+</div>
+</section>
+
+<section id="s17" style="padding:clamp(40px,5vw,80px) clamp(20px,4vw,64px);border-bottom:1px solid #DDE0E1">
+<div style="font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.18em;color:#8A939A;margin-bottom:18px">17 &#183; FORMS</div>
+<h2 style="margin:0 0 12px;font:700 clamp(26px,3.2vw,50px)/.96 'Familjen Grotesk',sans-serif;letter-spacing:-.035em">Underlines, select cards, one column</h2>
+<p style="margin:0 0 clamp(26px,3vw,40px);max-width:620px;font:400 17px/1.6 Archivo,sans-serif;color:#495259">Fields are rules, not boxes. Labels are mono and always visible — no placeholder-only fields. Choices become square select cards rather than radios. Long forms break into three steps with a rail, never a scroll.</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:1px;background:#DDE0E1;border:1px solid #DDE0E1">
+<div style="background:#FAFBFB;padding:26px">
+<div style="font:400 9.5px/1 'Martian Mono',ui-monospace;letter-spacing:.12em;color:#8A939A;margin-bottom:22px">FIELD STATES</div>
+<div style="margin-bottom:22px"><span style="display:block;font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.14em;color:#8A939A;margin-bottom:10px">DEFAULT</span><span style="display:block;border-bottom:1px solid #DDE0E1;padding:12px 0;font:400 17px/1.3 Archivo,sans-serif;color:#C9CDCE">e.g. Corner Café</span></div>
+<div style="margin-bottom:22px"><span style="display:block;font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.14em;color:#8A939A;margin-bottom:10px">FOCUS</span><span style="display:block;border-bottom:1px solid #F0A028;padding:12px 0;font:400 17px/1.3 Archivo,sans-serif;color:#12161A">Corner Caf<span style="border-left:1px solid #12161A">&nbsp;</span></span></div>
+<div style="margin-bottom:22px"><span style="display:block;font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.14em;color:#8A939A;margin-bottom:10px">FILLED</span><span style="display:block;border-bottom:1px solid #12161A;padding:12px 0;font:400 17px/1.3 Archivo,sans-serif;color:#12161A">Corner Café</span></div>
+<div style="margin-bottom:22px"><span style="display:block;font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.14em;color:#C0392B;margin-bottom:10px">ERROR</span><span style="display:block;border-bottom:1px solid #C0392B;padding:12px 0;font:400 17px/1.3 Archivo,sans-serif;color:#12161A">10601</span><span style="display:block;margin-top:9px;font:400 11px/1.5 'Martian Mono',ui-monospace;color:#C0392B">ZIP is required so we can check coverage.</span></div>
+<div><span style="display:block;font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.14em;color:#8A939A;margin-bottom:10px">DISABLED</span><span style="display:block;border-bottom:1px dashed #DDE0E1;padding:12px 0;font:400 17px/1.3 Archivo,sans-serif;color:#DDE0E1">Not applicable</span></div>
+</div>
+<div style="background:#FAFBFB;padding:26px">
+<div style="font:400 9.5px/1 'Martian Mono',ui-monospace;letter-spacing:.12em;color:#8A939A;margin-bottom:22px">SELECT CARDS &amp; CONTROLS</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:24px"><div style="border:1px solid #12161A;background:#12161A;color:#FAFBFB;padding:14px;font:400 10.5px/1.3 'Martian Mono',ui-monospace">RESTAURANT / CAFÉ</div><div style="border:1px solid #DDE0E1;color:#495259;padding:14px;font:400 10.5px/1.3 'Martian Mono',ui-monospace" style-hover="border-color:#12161A">CONVENIENCE / GAS</div><div style="border:1px solid #DDE0E1;color:#495259;padding:14px;font:400 10.5px/1.3 'Martian Mono',ui-monospace" style-hover="border-color:#12161A">GYM / FITNESS</div><div style="border:1px dashed #DDE0E1;color:#C9CDCE;padding:14px;font:400 10.5px/1.3 'Martian Mono',ui-monospace">UNAVAILABLE</div></div>
+<div style="display:flex;flex-direction:column;gap:14px;margin-bottom:24px">
+<span style="display:flex;gap:12px;align-items:flex-start;font:400 14px/1.5 Archivo,sans-serif;color:#495259"><span style="width:15px;height:15px;border:1px solid #12161A;background:#12161A;flex:none;margin-top:2px"></span>Checked — square, ink filled, 15px</span>
+<span style="display:flex;gap:12px;align-items:flex-start;font:400 14px/1.5 Archivo,sans-serif;color:#495259"><span style="width:15px;height:15px;border:1px solid #8A939A;flex:none;margin-top:2px"></span>Unchecked — 1px 400 border</span>
+</div>
+<div style="font:400 9.5px/1 'Martian Mono',ui-monospace;letter-spacing:.12em;color:#8A939A;margin-bottom:12px">PROGRESS RAIL</div>
+<div style="display:flex;gap:7px;margin-bottom:10px"><span style="flex:1;height:3px;background:#F0A028"></span><span style="flex:1;height:3px;background:#F0A028"></span><span style="flex:1;height:3px;background:#DDE0E1"></span></div>
+<div style="font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.14em;color:#8A939A">STEP 02 OF 03</div>
+</div>
+<div style="background:#0B0D0E;padding:26px;color:#FAFBFB">
+<div style="font:400 9.5px/1 'Martian Mono',ui-monospace;letter-spacing:.12em;color:#6C767C;margin-bottom:22px">ON INK &amp; SUCCESS</div>
+<div style="margin-bottom:26px"><span style="display:block;font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.14em;color:#6C767C;margin-bottom:10px">EMAIL</span><span style="display:block;border-bottom:1px solid #22282C;padding:12px 0;font:400 17px/1.3 Archivo,sans-serif;color:#FAFBFB">name@company.com</span></div>
+<div style="border:1px solid #1F6E57;padding:20px"><div style="display:flex;align-items:center;gap:10px;margin-bottom:12px"><span style="width:10px;height:10px;background:#3FA98A"></span><span style="font:400 9.5px/1 'Martian Mono',ui-monospace;letter-spacing:.14em;color:#3FA98A">RECEIVED</span></div><div style="font:600 20px/1.15 'Familjen Grotesk',sans-serif;letter-spacing:-.02em">We have your application.</div><p style="margin:10px 0 0;font:400 14px/1.6 Archivo,sans-serif;color:#8A939A">A person reviews every location. You will hear from us directly.</p></div>
+<div style="margin-top:20px;font:400 9.5px/1.8 'Martian Mono',ui-monospace;color:#6C767C">SUCCESS IS A PANEL, NOT A TOAST. THE FORM IS REPLACED, NOT OVERLAID.</div>
+</div>
+</div>
+</section>
+
+<section id="s18" style="padding:clamp(40px,5vw,80px) clamp(20px,4vw,64px);border-bottom:1px solid #DDE0E1">
+<div style="font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.18em;color:#8A939A;margin-bottom:18px">18 &#183; NAVIGATION</div>
+<h2 style="margin:0 0 12px;font:700 clamp(26px,3.2vw,50px)/.96 'Familjen Grotesk',sans-serif;letter-spacing:-.035em">Three audiences, one bar</h2>
+<p style="margin:0 0 clamp(26px,3vw,40px);max-width:620px;font:400 17px/1.6 Archivo,sans-serif;color:#495259">The header is always ink, always sticky, never transparent — a media network should look the same at the top of the page and the bottom. Host conversion is the only filled button; advertiser conversion sits one item to the left as a nav link so both audiences are one click from their form.</p>
+<div style="background:#0B0D0E;border:1px solid #22282C">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:20px;padding:0 20px;min-height:66px;border-bottom:1px solid #22282C;flex-wrap:wrap">
+<span style="display:flex;align-items:center;gap:10px"><span style="display:flex;align-items:flex-end;gap:2px;height:15px"><span style="width:4px;height:6px;background:#495259"></span><span style="width:4px;height:10px;background:#8A939A"></span><span style="width:4px;height:15px;background:#F0A028"></span></span><span style="font:600 15px/1 'Familjen Grotesk',sans-serif;color:#FAFBFB">Uptick Local</span></span>
+<span style="display:flex;gap:18px;flex-wrap:wrap;font:400 11px/1 'Martian Mono',ui-monospace;color:#DDE0E1"><span style="padding:6px 0;border-bottom:2px solid #F0A028;color:#FAFBFB">For Locations</span><span style="padding:6px 0">For Advertisers</span><span style="padding:6px 0">Our Networks &#9662;</span><span style="padding:6px 0">How It Works</span><span style="padding:6px 0">Partner With Us</span><span style="padding:6px 0">About</span></span>
+<span style="display:flex;align-items:center;gap:10px;background:#F0A028;color:#0B0D0E;font:500 12px/1 'Martian Mono',ui-monospace;letter-spacing:.06em;padding:15px 20px">Get a Free Screen <span>&#8594;</span></span>
+</div>
+<div style="padding:8px;max-width:330px;margin:0 0 20px 130px;background:#12161A;border:1px solid #22282C;border-top:2px solid #F0A028">
+<div style="padding:12px 14px;border-left:2px solid #D9705E"><div style="font:600 15px/1.1 'Familjen Grotesk',sans-serif;color:#FAFBFB">Family &amp; Parent</div><div style="margin-top:5px;font:400 11px/1.4 'Martian Mono',ui-monospace;color:#8A939A">Everyday local life</div></div>
+<div style="padding:12px 14px;border-left:2px solid #3FA98A;background:#1C2226"><div style="font:600 15px/1.1 'Familjen Grotesk',sans-serif;color:#FAFBFB">Health &amp; Wellness</div><div style="margin-top:5px;font:400 11px/1.4 'Martian Mono',ui-monospace;color:#8A939A">Fitness, beauty, care</div></div>
+<div style="padding:12px 14px;border-left:2px solid #6E9BE8"><div style="font:600 15px/1.1 'Familjen Grotesk',sans-serif;color:#FAFBFB">Commuter &amp; Driver</div><div style="margin-top:5px;font:400 11px/1.4 'Martian Mono',ui-monospace;color:#8A939A">Fuel, convenience, auto</div></div>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:26px;margin-top:26px;max-width:1100px">
+<div><div style="font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.14em;color:#8A939A;margin-bottom:12px">BEHAVIOUR</div><p style="margin:0;font:400 14px/1.7 Archivo,sans-serif;color:#495259">Sticky from 0. Solid ink at every scroll position. 1px bottom rule at 700. Dropdown opens on hover with a 180ms fade and on tap for touch, with a 2px amber top rule so it reads as attached.</p></div>
+<div><div style="font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.14em;color:#8A939A;margin-bottom:12px">ACTIVE STATE</div><p style="margin:0;font:400 14px/1.7 Archivo,sans-serif;color:#495259">2px amber rule under the current section, plus paper-white label. Network children mark the parent active too.</p></div>
+<div><div style="font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.14em;color:#8A939A;margin-bottom:12px">MOBILE</div><p style="margin:0;font:400 14px/1.7 Archivo,sans-serif;color:#495259">Two-line burger. Panel wipes down in 320ms. Top-level items at 26px display; the three networks are always expanded so no audience hides behind a tap. CTA pinned to the panel floor.</p></div>
+</div>
+</section>
+
+<section id="s19" style="padding:clamp(40px,5vw,80px) clamp(20px,4vw,64px);border-bottom:1px solid #DDE0E1">
+<div style="font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.18em;color:#8A939A;margin-bottom:18px">19 &#183; RESPONSIVE</div>
+<h2 style="margin:0 0 clamp(24px,3vw,40px);font:700 clamp(26px,3.2vw,50px)/.96 'Familjen Grotesk',sans-serif;letter-spacing:-.035em">The system changes, it does not shrink</h2>
+<div style="overflow:auto;border:1px solid #DDE0E1">
+<div style="min-width:840px">
+<div style="display:grid;grid-template-columns:150px repeat(5,1fr);background:#0B0D0E;color:#FAFBFB;font:400 9.5px/1.5 'Martian Mono',ui-monospace;letter-spacing:.1em"><div style="padding:14px 16px"></div><div style="padding:14px 16px">XL ≥1600</div><div style="padding:14px 16px">DESKTOP 1280</div><div style="padding:14px 16px">LAPTOP 1024</div><div style="padding:14px 16px">TABLET 768</div><div style="padding:14px 16px">MOBILE &lt;600</div></div>
+<div style="display:grid;grid-template-columns:150px repeat(5,1fr);border-bottom:1px solid #DDE0E1;font:400 11.5px/1.6 'Martian Mono',ui-monospace;color:#495259"><div style="padding:13px 16px;color:#12161A">Margin</div><div style="padding:13px 16px">80</div><div style="padding:13px 16px">80</div><div style="padding:13px 16px">64</div><div style="padding:13px 16px">40</div><div style="padding:13px 16px">20</div></div>
+<div style="display:grid;grid-template-columns:150px repeat(5,1fr);border-bottom:1px solid #DDE0E1;font:400 11.5px/1.6 'Martian Mono',ui-monospace;color:#495259"><div style="padding:13px 16px;color:#12161A">Columns</div><div style="padding:13px 16px">12</div><div style="padding:13px 16px">12</div><div style="padding:13px 16px">8</div><div style="padding:13px 16px">8</div><div style="padding:13px 16px">4</div></div>
+<div style="display:grid;grid-template-columns:150px repeat(5,1fr);border-bottom:1px solid #DDE0E1;font:400 11.5px/1.6 'Martian Mono',ui-monospace;color:#495259"><div style="padding:13px 16px;color:#12161A">Display</div><div style="padding:13px 16px">100px</div><div style="padding:13px 16px">76px</div><div style="padding:13px 16px">58px</div><div style="padding:13px 16px">44px</div><div style="padding:13px 16px">30px min</div></div>
+<div style="display:grid;grid-template-columns:150px repeat(5,1fr);border-bottom:1px solid #DDE0E1;font:400 11.5px/1.6 'Martian Mono',ui-monospace;color:#495259"><div style="padding:13px 16px;color:#12161A">Section pad</div><div style="padding:13px 16px">150</div><div style="padding:13px 16px">120</div><div style="padding:13px 16px">96</div><div style="padding:13px 16px">72</div><div style="padding:13px 16px">56</div></div>
+<div style="display:grid;grid-template-columns:150px repeat(5,1fr);border-bottom:1px solid #DDE0E1;font:400 11.5px/1.6 'Martian Mono',ui-monospace;color:#495259"><div style="padding:13px 16px;color:#12161A">Parallax</div><div style="padding:13px 16px">full</div><div style="padding:13px 16px">full</div><div style="padding:13px 16px">0.6×</div><div style="padding:13px 16px">0.33×</div><div style="padding:13px 16px">hero glow only</div></div>
+<div style="display:grid;grid-template-columns:150px repeat(5,1fr);border-bottom:1px solid #DDE0E1;font:400 11.5px/1.6 'Martian Mono',ui-monospace;color:#495259"><div style="padding:13px 16px;color:#12161A">Pinned scenes</div><div style="padding:13px 16px">pinned</div><div style="padding:13px 16px">pinned</div><div style="padding:13px 16px">pinned</div><div style="padding:13px 16px">short pin</div><div style="padding:13px 16px">stacked / snap</div></div>
+<div style="display:grid;grid-template-columns:150px repeat(5,1fr);border-bottom:1px solid #DDE0E1;font:400 11.5px/1.6 'Martian Mono',ui-monospace;color:#495259"><div style="padding:13px 16px;color:#12161A">Category mosaic</div><div style="padding:13px 16px">4 col, 2 wide</div><div style="padding:13px 16px">4 col</div><div style="padding:13px 16px">3 col</div><div style="padding:13px 16px">2 col</div><div style="padding:13px 16px">1 col, 3:2</div></div>
+<div style="display:grid;grid-template-columns:150px repeat(5,1fr);border-bottom:1px solid #DDE0E1;font:400 11.5px/1.6 'Martian Mono',ui-monospace;color:#495259"><div style="padding:13px 16px;color:#12161A">Network field</div><div style="padding:13px 16px">4:3 + labels</div><div style="padding:13px 16px">4:3 + labels</div><div style="padding:13px 16px">4:3</div><div style="padding:13px 16px">3:2, no labels</div><div style="padding:13px 16px">square, no labels</div></div>
+<div style="display:grid;grid-template-columns:150px repeat(5,1fr);font:400 11.5px/1.6 'Martian Mono',ui-monospace;color:#495259"><div style="padding:13px 16px;color:#12161A">Forms</div><div style="padding:13px 16px">2 col rows</div><div style="padding:13px 16px">2 col rows</div><div style="padding:13px 16px">2 col rows</div><div style="padding:13px 16px">1 col</div><div style="padding:13px 16px">1 col, sticky CTA</div></div>
+</div>
+</div>
+</section>
+
+<section id="s20" style="padding:clamp(40px,5vw,80px) clamp(20px,4vw,64px);border-bottom:1px solid #DDE0E1">
+<div style="font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.18em;color:#8A939A;margin-bottom:18px">20 &#183; ACCESSIBILITY</div>
+<h2 style="margin:0 0 clamp(24px,3vw,40px);font:700 clamp(26px,3.2vw,50px)/.96 'Familjen Grotesk',sans-serif;letter-spacing:-.035em">Non-negotiable floors</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:1px;background:#DDE0E1;border:1px solid #DDE0E1">
+<div style="background:#FAFBFB;padding:24px"><div style="font:400 9.5px/1 'Martian Mono',ui-monospace;letter-spacing:.12em;color:#8A939A;margin-bottom:14px">CONTRAST</div><p style="margin:0;font:400 14px/1.8 Archivo,sans-serif;color:#495259">Body text 4.5:1 minimum, display 3:1. Amber is never text on paper — Amber Ink #8F5E11 is. Network hues never carry text on either surface; their text-safe variants do.</p></div>
+<div style="background:#FAFBFB;padding:24px"><div style="font:400 9.5px/1 'Martian Mono',ui-monospace;letter-spacing:.12em;color:#8A939A;margin-bottom:14px">FOCUS</div><p style="margin:0;font:400 14px/1.8 Archivo,sans-serif;color:#495259">2px amber outline at 3px offset on every interactive element, on both surfaces. Focus is never removed, and never relies on the hover treatment.</p></div>
+<div style="background:#FAFBFB;padding:24px"><div style="font:400 9.5px/1 'Martian Mono',ui-monospace;letter-spacing:.12em;color:#8A939A;margin-bottom:14px">TARGETS</div><p style="margin:0;font:400 14px/1.8 Archivo,sans-serif;color:#495259">44px minimum, 56px for primary buttons and mobile rows. Select cards are full-width blocks on mobile. Nav items get 12px of vertical padding beyond the label.</p></div>
+<div style="background:#FAFBFB;padding:24px"><div style="font:400 9.5px/1 'Martian Mono',ui-monospace;letter-spacing:.12em;color:#8A939A;margin-bottom:14px">TYPE FLOORS</div><p style="margin:0;font:400 14px/1.8 Archivo,sans-serif;color:#495259">Body 16px minimum. Mono labels 9px minimum and only for short uppercase strings — never a sentence. Fine print is 12px mono at 1.7 leading.</p></div>
+<div style="background:#FAFBFB;padding:24px"><div style="font:400 9.5px/1 'Martian Mono',ui-monospace;letter-spacing:.12em;color:#8A939A;margin-bottom:14px">NOT COLOUR ALONE</div><p style="margin:0;font:400 14px/1.8 Archivo,sans-serif;color:#495259">Networks and categories are always named in words beside their square. Selected states carry a fill change and a label change, not only a hue. Errors carry text, not just a red rule.</p></div>
+<div style="background:#0B0D0E;padding:24px"><div style="font:400 9.5px/1 'Martian Mono',ui-monospace;letter-spacing:.12em;color:#F0A028;margin-bottom:14px">MOTION &amp; FORMS</div><p style="margin:0;font:400 14px/1.8 Archivo,sans-serif;color:#8A939A">prefers-reduced-motion releases every pin and reveals all layers. Labels are real labels, always visible, programmatically associated. Errors are announced and focus moves to the first invalid field.</p></div>
+</div>
+</section>
+
+<section id="s21" style="padding:clamp(40px,5vw,80px) clamp(20px,4vw,64px);border-bottom:1px solid #DDE0E1">
+<div style="font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.18em;color:#8A939A;margin-bottom:18px">21 &#183; DESIGN TOKENS</div>
+<h2 style="margin:0 0 12px;font:700 clamp(26px,3.2vw,50px)/.96 'Familjen Grotesk',sans-serif;letter-spacing:-.035em">Semantic names, one source</h2>
+<p style="margin:0 0 24px;max-width:620px;font:400 17px/1.6 Archivo,sans-serif;color:#495259">Tokens are named by role, not by appearance, so a future advertiser portal or host dashboard can adopt them without inheriting homepage decisions.</p>
+<div style="display:flex;gap:8px;margin-bottom:20px">
+<div onClick="{{ showCss }}" style="border:1px solid #DDE0E1;background:{{ cssBg }};color:{{ cssC }};padding:12px 16px;font:400 10.5px/1 'Martian Mono',ui-monospace;letter-spacing:.08em;cursor:pointer">CSS VARIABLES</div>
+<div onClick="{{ showJson }}" style="border:1px solid #DDE0E1;background:{{ jsonBg }};color:{{ jsonC }};padding:12px 16px;font:400 10.5px/1 'Martian Mono',ui-monospace;letter-spacing:.08em;cursor:pointer">JSON</div>
+</div>
+<sc-if value="{{ isCss }}" hint-placeholder-val="{{ true }}">
+<pre style="margin:0;background:#0B0D0E;color:#DDE0E1;padding:clamp(20px,3vw,32px);overflow:auto;font:400 12px/2 'Martian Mono',ui-monospace">--brand-signal:#F0A028;   --brand-signal-ink:#8F5E11;   --brand-ink:#0B0D0E;
+
+--surface-paper:#FAFBFB;  --surface-warm:#F2EFE9;       --surface-ink:#0B0D0E;
+--surface-ink-raised:#12161A;  --surface-ink-hover:#1C2226;
+
+--text-primary:#12161A;   --text-secondary:#495259;     --text-tertiary:#8A939A;
+--text-on-ink:#FAFBFB;    --text-on-ink-2:#8A939A;      --text-on-signal:#0B0D0E;
+
+--border-subtle:#DDE0E1;  --border-strong:#12161A;      --border-on-ink:#22282C;
+--border-on-ink-strong:#495259;
+
+--network-family:#D9705E; --network-family-text:#A64A3A;
+--network-wellness:#3FA98A; --network-wellness-text:#1F6E57;
+--network-commuter:#6E9BE8; --network-commuter-text:#2F5AA0;
+
+--status-success:#1F6E57; --status-warning:#B87715;     --status-error:#C0392B;
+
+--font-display:'Familjen Grotesk';  --font-body:Archivo;  --font-label:'Martian Mono';
+--type-display:clamp(38px,5.6vw,100px)/0.90;  --type-h1:clamp(32px,4.4vw,74px)/0.94;
+--type-h2:clamp(26px,3.2vw,50px)/0.96;        --type-h3:clamp(19px,1.8vw,26px)/1.10;
+--type-body-lg:clamp(17px,1.4vw,21px)/1.55;   --type-body:17px/1.60;
+--type-body-sm:14.5px/1.60;  --type-label:10px/1.5;  --type-eyebrow:11px/1;
+--type-button:12px/1;        --type-caption:12px/1.7;
+--track-display:-0.045em;    --track-label:0.14em;   --track-eyebrow:0.20em;
+
+--space-xs:4px; --space-sm:8px; --space-md:16px; --space-lg:24px;
+--space-xl:40px; --space-2xl:64px; --space-3xl:96px; --space-4xl:140px;
+--margin-page:80px; --margin-page-tablet:40px; --margin-page-mobile:20px;
+--content-max:1440px; --prose-max:68ch;
+
+--radius-none:0; --radius-screen:2px; --radius-device:9px; --radius-phone:34px;
+
+--shadow-none:none;
+--shadow-device:0 50px 90px -34px rgba(0,0,0,.85);
+--shadow-device-sm:0 22px 40px -14px rgba(11,13,14,.6);
+
+--duration-micro:160ms; --duration-fast:220ms; --duration-base:320ms;
+--duration-slow:550ms;  --duration-scene:700ms;
+--ease-standard:cubic-bezier(.4,0,.2,1);
+--ease-out-expo:cubic-bezier(.16,1,.3,1);
+--distance-reveal:26px; --distance-arrow:4px;
+--stagger-cell:70ms;    --stagger-node:90ms;
+--parallax-min:0.15;    --parallax-max:0.6;
+
+--bp-xl:1600px; --bp-desktop:1280px; --bp-laptop:1024px;
+--bp-tablet:768px; --bp-mobile:600px;</pre>
+</sc-if>
+<sc-if value="{{ isJson }}" hint-placeholder-val="{{ false }}">
+<pre style="margin:0;background:#0B0D0E;color:#DDE0E1;padding:clamp(20px,3vw,32px);overflow:auto;font:400 12px/2 'Martian Mono',ui-monospace">{
+  "color": {
+    "brand": { "signal": "#F0A028", "signalInk": "#8F5E11", "ink": "#0B0D0E" },
+    "surface": { "paper": "#FAFBFB", "warm": "#F2EFE9", "ink": "#0B0D0E",
+                 "inkRaised": "#12161A", "inkHover": "#1C2226" },
+    "text": { "primary": "#12161A", "secondary": "#495259", "tertiary": "#8A939A",
+              "onInk": "#FAFBFB", "onInkMuted": "#8A939A", "onSignal": "#0B0D0E" },
+    "border": { "subtle": "#DDE0E1", "strong": "#12161A",
+                "onInk": "#22282C", "onInkStrong": "#495259" },
+    "network": { "family": "#D9705E", "familyText": "#A64A3A",
+                 "wellness": "#3FA98A", "wellnessText": "#1F6E57",
+                 "commuter": "#6E9BE8", "commuterText": "#2F5AA0" },
+    "status": { "success": "#1F6E57", "warning": "#B87715", "error": "#C0392B" }
+  },
+  "typography": {
+    "families": { "display": "Familjen Grotesk", "body": "Archivo", "label": "Martian Mono" },
+    "display": { "size": "clamp(38px,5.6vw,100px)", "line": 0.90, "weight": 700, "track": "-0.045em" },
+    "heading": { "h1": "clamp(32px,4.4vw,74px)/0.94", "h2": "clamp(26px,3.2vw,50px)/0.96",
+                 "h3": "clamp(19px,1.8vw,26px)/1.10", "h4": "17px/1.20" },
+    "body": { "lg": "clamp(17px,1.4vw,21px)/1.55", "base": "17px/1.60", "sm": "14.5px/1.60" },
+    "label": { "size": "10px", "track": "0.14em", "case": "upper" },
+    "caption": { "size": "12px", "line": 1.7 }
+  },
+  "space": { "xs": 4, "sm": 8, "md": 16, "lg": 24, "xl": 40, "2xl": 64, "3xl": 96, "4xl": 140 },
+  "radius": { "none": 0, "screen": 2, "device": 9, "phone": 34 },
+  "shadow": { "none": "none",
+              "device": "0 50px 90px -34px rgba(0,0,0,.85)",
+              "deviceSm": "0 22px 40px -14px rgba(11,13,14,.6)" },
+  "motion": {
+    "duration": { "micro": 160, "fast": 220, "base": 320, "slow": 550, "scene": 700 },
+    "ease": { "standard": "cubic-bezier(.4,0,.2,1)", "outExpo": "cubic-bezier(.16,1,.3,1)" },
+    "distance": { "reveal": 26, "arrow": 4 },
+    "stagger": { "cell": 70, "node": 90 },
+    "parallax": { "min": 0.15, "max": 0.6 }
+  },
+  "breakpoint": { "xl": 1600, "desktop": 1280, "laptop": 1024, "tablet": 768, "mobile": 600 }
+}</pre>
+</sc-if>
+</section>
+
+<section id="s22" style="padding:clamp(40px,5vw,80px) clamp(20px,4vw,64px);border-bottom:1px solid #DDE0E1">
+<div style="font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.18em;color:#8A939A;margin-bottom:18px">22 &#183; COMPONENT INVENTORY</div>
+<h2 style="margin:0 0 clamp(24px,3vw,40px);font:700 clamp(26px,3.2vw,50px)/.96 'Familjen Grotesk',sans-serif;letter-spacing:-.035em">What has to be built</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:1px;background:#DDE0E1;border:1px solid #DDE0E1">
+<div style="background:#FAFBFB;padding:24px"><div style="font:400 9.5px/1 'Martian Mono',ui-monospace;letter-spacing:.12em;color:#8F5E11;margin-bottom:16px">FOUNDATIONS</div><div style="font:400 13px/2 'Martian Mono',ui-monospace;color:#12161A">Logo &amp; mark<br>Type scale<br>Colour tokens<br>Motif set<br>Grid &amp; container<br>Motion primitives<br>Image slot</div></div>
+<div style="background:#FAFBFB;padding:24px"><div style="font:400 9.5px/1 'Martian Mono',ui-monospace;letter-spacing:.12em;color:#8F5E11;margin-bottom:16px">NAVIGATION</div><div style="font:400 13px/2 'Martian Mono',ui-monospace;color:#12161A">Header (sticky ink)<br>Desktop nav item<br>Network dropdown<br>Mobile panel<br>Footer<br>Section anchor rail</div></div>
+<div style="background:#FAFBFB;padding:24px"><div style="font:400 9.5px/1 'Martian Mono',ui-monospace;letter-spacing:.12em;color:#8F5E11;margin-bottom:16px">CONTROLS</div><div style="font:400 13px/2 'Martian Mono',ui-monospace;color:#12161A">Button (3 variants &#215; 2 surfaces)<br>Icon button<br>Text CTA<br>Text field<br>Select<br>Textarea<br>Select card<br>Checkbox<br>Chip / tag<br>Progress rail</div></div>
+<div style="background:#FAFBFB;padding:24px"><div style="font:400 9.5px/1 'Martian Mono',ui-monospace;letter-spacing:.12em;color:#8F5E11;margin-bottom:16px">MEDIA</div><div style="font:400 13px/2 'Martian Mono',ui-monospace;color:#12161A">Screen device (hero)<br>Screen device (diagram)<br>Screen content frame<br>Image frame + hairline<br>Filmstrip band<br>Phone frame</div></div>
+<div style="background:#FAFBFB;padding:24px"><div style="font:400 9.5px/1 'Martian Mono',ui-monospace;letter-spacing:.12em;color:#8F5E11;margin-bottom:16px">CONTENT</div><div style="font:400 13px/2 'Martian Mono',ui-monospace;color:#12161A">Location card<br>Network card<br>Process step<br>Fact module<br>CTA panel<br>Split closer<br>Comparison module<br>Editorial block<br>Playlist loop row<br>Fine-print block</div></div>
+<div style="background:#0B0D0E;padding:24px"><div style="font:400 9.5px/1 'Martian Mono',ui-monospace;letter-spacing:.12em;color:#F0A028;margin-bottom:16px">INTERACTIVE</div><div style="font:400 13px/2 'Martian Mono',ui-monospace;color:#FAFBFB">Audience + geography selector<br>Network field graphic<br>Six-beat scroll story<br>Screen-content rotator<br>Horizontal journey track<br>Two-path hover split<br>Multi-step form shell</div></div>
+</div>
+</section>
+
+<section id="s23" style="padding:clamp(40px,5vw,80px) clamp(20px,4vw,64px);border-bottom:1px solid #DDE0E1">
+<div style="font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.18em;color:#8A939A;margin-bottom:18px">23 &#183; COMPONENT STATES</div>
+<h2 style="margin:0 0 clamp(24px,3vw,40px);font:700 clamp(26px,3.2vw,50px)/.96 'Familjen Grotesk',sans-serif;letter-spacing:-.035em">Every interactive component, fully specified</h2>
+<div style="overflow:auto;border:1px solid #DDE0E1">
+<div style="min-width:900px">
+<div style="display:grid;grid-template-columns:180px repeat(6,1fr);background:#0B0D0E;color:#FAFBFB;font:400 9.5px/1.5 'Martian Mono',ui-monospace;letter-spacing:.1em"><div style="padding:14px 16px"></div><div style="padding:14px 16px">DEFAULT</div><div style="padding:14px 16px">HOVER</div><div style="padding:14px 16px">FOCUS</div><div style="padding:14px 16px">SELECTED / ACTIVE</div><div style="padding:14px 16px">DISABLED</div><div style="padding:14px 16px">ERROR / LOADING</div></div>
+<div style="display:grid;grid-template-columns:180px repeat(6,1fr);border-bottom:1px solid #DDE0E1;font:400 11px/1.7 'Martian Mono',ui-monospace;color:#495259"><div style="padding:13px 16px;color:#12161A">Primary button</div><div style="padding:13px 16px">Ink fill</div><div style="padding:13px 16px">Amber fill, arrow +4</div><div style="padding:13px 16px">2px amber ring</div><div style="padding:13px 16px">1px down</div><div style="padding:13px 16px">200 fill, 400 label</div><div style="padding:13px 16px">Label → 3 dots</div></div>
+<div style="display:grid;grid-template-columns:180px repeat(6,1fr);border-bottom:1px solid #DDE0E1;font:400 11px/1.7 'Martian Mono',ui-monospace;color:#495259"><div style="padding:13px 16px;color:#12161A">Nav item</div><div style="padding:13px 16px">200 label</div><div style="padding:13px 16px">Amber rule grows</div><div style="padding:13px 16px">2px amber ring</div><div style="padding:13px 16px">Amber rule + white</div><div style="padding:13px 16px">n/a</div><div style="padding:13px 16px">n/a</div></div>
+<div style="display:grid;grid-template-columns:180px repeat(6,1fr);border-bottom:1px solid #DDE0E1;font:400 11px/1.7 'Martian Mono',ui-monospace;color:#495259"><div style="padding:13px 16px;color:#12161A">Text field</div><div style="padding:13px 16px">200 underline</div><div style="padding:13px 16px">500 underline</div><div style="padding:13px 16px">Amber underline</div><div style="padding:13px 16px">Ink underline (filled)</div><div style="padding:13px 16px">Dashed 200</div><div style="padding:13px 16px">Red underline + message</div></div>
+<div style="display:grid;grid-template-columns:180px repeat(6,1fr);border-bottom:1px solid #DDE0E1;font:400 11px/1.7 'Martian Mono',ui-monospace;color:#495259"><div style="padding:13px 16px;color:#12161A">Select card</div><div style="padding:13px 16px">200 border</div><div style="padding:13px 16px">Ink border</div><div style="padding:13px 16px">2px amber ring</div><div style="padding:13px 16px">Ink fill, paper label</div><div style="padding:13px 16px">Dashed, 300 label</div><div style="padding:13px 16px">Red border + message</div></div>
+<div style="display:grid;grid-template-columns:180px repeat(6,1fr);border-bottom:1px solid #DDE0E1;font:400 11px/1.7 'Martian Mono',ui-monospace;color:#495259"><div style="padding:13px 16px;color:#12161A">Location card</div><div style="padding:13px 16px">Surface base</div><div style="padding:13px 16px">Surface +1 step</div><div style="padding:13px 16px">2px amber ring</div><div style="padding:13px 16px">Network tag visible</div><div style="padding:13px 16px">n/a</div><div style="padding:13px 16px">n/a</div></div>
+<div style="display:grid;grid-template-columns:180px repeat(6,1fr);border-bottom:1px solid #DDE0E1;font:400 11px/1.7 'Martian Mono',ui-monospace;color:#495259"><div style="padding:13px 16px;color:#12161A">Audience option</div><div style="padding:13px 16px">Ink, 700 border</div><div style="padding:13px 16px">600 border</div><div style="padding:13px 16px">2px amber ring</div><div style="padding:13px 16px">Network fill, ink label</div><div style="padding:13px 16px">n/a</div><div style="padding:13px 16px">n/a</div></div>
+<div style="display:grid;grid-template-columns:180px repeat(6,1fr);border-bottom:1px solid #DDE0E1;font:400 11px/1.7 'Martian Mono',ui-monospace;color:#495259"><div style="padding:13px 16px;color:#12161A">Geography chip</div><div style="padding:13px 16px">600 border, 400 label</div><div style="padding:13px 16px">Paper label</div><div style="padding:13px 16px">2px amber ring</div><div style="padding:13px 16px">Amber border + label</div><div style="padding:13px 16px">Dashed 700</div><div style="padding:13px 16px">n/a</div></div>
+<div style="display:grid;grid-template-columns:180px repeat(6,1fr);font:400 11px/1.7 'Martian Mono',ui-monospace;color:#495259"><div style="padding:13px 16px;color:#12161A">Multi-step form</div><div style="padding:13px 16px">Step 1 of 3</div><div style="padding:13px 16px">n/a</div><div style="padding:13px 16px">First field focused</div><div style="padding:13px 16px">Rail segments amber</div><div style="padding:13px 16px">Back hidden on step 1</div><div style="padding:13px 16px">Invalid step blocks advance</div></div>
+</div>
+</div>
+</section>
+
+<section id="s24" style="padding:clamp(40px,5vw,80px) clamp(20px,4vw,64px);border-bottom:1px solid #DDE0E1">
+<div style="font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.18em;color:#8A939A;margin-bottom:18px">24 &#183; DO / DON'T</div>
+<h2 style="margin:0 0 clamp(24px,3vw,40px);font:700 clamp(26px,3.2vw,50px)/.96 'Familjen Grotesk',sans-serif;letter-spacing:-.035em">Guardrails</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:1px;background:#DDE0E1;border:1px solid #DDE0E1">
+<div style="background:#FAFBFB;padding:clamp(24px,3vw,36px)">
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:22px"><span style="width:11px;height:11px;background:#1F6E57"></span><span style="font:400 9.5px/1 'Martian Mono',ui-monospace;letter-spacing:.14em;color:#1F6E57">DO</span></div>
+<div style="border:1px solid #DDE0E1;margin-bottom:20px"><div style="display:flex;gap:1px;background:#DDE0E1"><div style="flex:2;height:74px;background:repeating-linear-gradient(115deg,#EEF0F0 0 9px,#E4E7E8 9px 18px)"></div><div style="flex:1;background:#FAFBFB;padding:12px"><div style="height:8px;width:80%;background:#12161A"></div><div style="height:5px;width:56%;background:#DDE0E1;margin-top:8px"></div></div></div></div>
+<div style="font:400 14px/1.9 Archivo,sans-serif;color:#12161A">Asymmetric editorial splits with one dominant image<br>Full-bleed bands that break the grid on purpose<br>Motion that adds a layer you can name<br>Environmental photography, people incidental<br>One accent, one idea per screenful<br>Audiences separated into clear doors</div>
+</div>
+<div style="background:#FAFBFB;padding:clamp(24px,3vw,36px)">
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:22px"><span style="width:11px;height:11px;background:#C0392B"></span><span style="font:400 9.5px/1 'Martian Mono',ui-monospace;letter-spacing:.14em;color:#C0392B">DON'T</span></div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:20px;opacity:.55"><div style="height:74px;border:1px solid #DDE0E1;border-radius:10px;padding:10px"><div style="width:20px;height:20px;border-radius:50%;background:#DDE0E1"></div><div style="height:5px;width:70%;background:#DDE0E1;margin-top:10px"></div></div><div style="height:74px;border:1px solid #DDE0E1;border-radius:10px;padding:10px"><div style="width:20px;height:20px;border-radius:50%;background:#DDE0E1"></div><div style="height:5px;width:70%;background:#DDE0E1;margin-top:10px"></div></div><div style="height:74px;border:1px solid #DDE0E1;border-radius:10px;padding:10px"><div style="width:20px;height:20px;border-radius:50%;background:#DDE0E1"></div><div style="height:5px;width:70%;background:#DDE0E1;margin-top:10px"></div></div></div>
+<div style="font:400 14px/1.9 Archivo,sans-serif;color:#8A939A">Three equal rounded cards with an icon each<br>Gradient washes, glass panels, neon glow<br>Parallax with nothing to explain<br>Smiling owner with folded arms<br>A different bright colour per network and nothing else<br>Invented counts, coverage or testimonials</div>
+</div>
+</div>
+</section>
+
+<section id="s25" style="padding:clamp(40px,5vw,80px) clamp(20px,4vw,64px)">
+<div style="font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.18em;color:#8A939A;margin-bottom:18px">25 &#183; HANDOFF NOTES</div>
+<h2 style="margin:0 0 clamp(24px,3vw,40px);font:700 clamp(26px,3.2vw,50px)/.96 'Familjen Grotesk',sans-serif;letter-spacing:-.035em">For whoever builds this</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr));gap:1px;background:#DDE0E1;border:1px solid #DDE0E1">
+<div style="background:#FAFBFB;padding:24px"><div style="font:400 9.5px/1 'Martian Mono',ui-monospace;letter-spacing:.12em;color:#8A939A;margin-bottom:14px">PAGE SYSTEM</div><div style="font:400 12.5px/2 'Martian Mono',ui-monospace;color:#12161A">/<br>/locations<br>/advertisers<br>/networks<br>/networks/family-parent<br>/networks/health-wellness<br>/networks/commuter-driver<br>/screen-network-partners<br>/how-it-works<br>/about<br>/contact</div></div>
+<div style="background:#FAFBFB;padding:24px"><div style="font:400 9.5px/1 'Martian Mono',ui-monospace;letter-spacing:.12em;color:#8A939A;margin-bottom:14px">BUILD ORDER</div><p style="margin:0;font:400 14px/1.8 Archivo,sans-serif;color:#495259">Tokens, then the device component, then the network field graphic. Those three carry the brand; everything else is layout. Ship the homepage with real reveals and only then add the three pinned scenes.</p></div>
+<div style="background:#FAFBFB;padding:24px"><div style="font:400 9.5px/1 'Martian Mono',ui-monospace;letter-spacing:.12em;color:#8A939A;margin-bottom:14px">PHOTOGRAPHY</div><p style="margin:0;font:400 14px/1.8 Archivo,sans-serif;color:#495259">Every diagonal hairline fill is a slot with a written brief in it. Ship with the fills rather than placeholder stock — an honest empty frame is better than a wrong photograph, and the layout is designed to survive it.</p></div>
+<div style="background:#0B0D0E;padding:24px"><div style="font:400 9.5px/1 'Martian Mono',ui-monospace;letter-spacing:.12em;color:#F0A028;margin-bottom:14px">OPEN ITEMS</div><p style="margin:0;font:400 14px/1.8 Archivo,sans-serif;color:#8A939A">Approved product photography for the 21-inch unit. Confirmed geography for the selector. Host revenue language reviewed by counsel. Any number that appears anywhere needs a source before it ships.</p></div>
+</div>
+</section>
+
+<section id="s26" style="scroll-margin-top:0;padding:clamp(40px,5vw,80px) clamp(20px,4vw,64px);border-bottom:1px solid #DDE0E1">
+<div style="font:400 10px/1 'Martian Mono',ui-monospace;letter-spacing:.18em;color:#8A939A;margin-bottom:18px">26 &#183; COMPOSITION &mdash; V2 REVISION</div>
+<h2 style="margin:0 0 18px;max-width:22ch;font:700 clamp(26px,3.2vw,50px)/.96 'Familjen Grotesk',sans-serif;letter-spacing:-.035em">Fewer components on screen at once</h2>
+<p style="margin:0 0 clamp(26px,3vw,44px);max-width:600px;font:400 15px/1.65 Archivo,sans-serif;color:#495259">Stakeholder direction after round one: the system must enable editorial composition, not card grids. These rules govern every page assembled from the components above.</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:1px;background:#DDE0E1;border:1px solid #DDE0E1">
+<div style="background:#FAFBFB;padding:24px"><div style="font:400 9.5px/1 'Martian Mono',ui-monospace;letter-spacing:.12em;color:#F0A028;margin-bottom:14px">C1 &middot; ONE IDEA PER VIEWPORT</div><p style="margin:0;font:400 14px/1.7 Archivo,sans-serif;color:#495259">At any scroll position, one dominant message. If three headlines, six cards, and four CTAs are visible together, the section is redesigned &mdash; not shrunk.</p></div>
+<div style="background:#FAFBFB;padding:24px"><div style="font:400 9.5px/1 'Martian Mono',ui-monospace;letter-spacing:.12em;color:#F0A028;margin-bottom:14px">C2 &middot; PROGRESSIVE DISCLOSURE</div><p style="margin:0;font:400 14px/1.7 Archivo,sans-serif;color:#495259">The homepage sells the choice; interior pages sell the detail. Feature lists, FAQs, category grids, and process steps live on /locations, /advertisers, and /networks.</p></div>
+<div style="background:#FAFBFB;padding:24px"><div style="font:400 9.5px/1 'Martian Mono',ui-monospace;letter-spacing:.12em;color:#F0A028;margin-bottom:14px">C3 &middot; TWO DOORS</div><p style="margin:0;font:400 14px/1.7 Archivo,sans-serif;color:#495259">Every entry surface resolves to one decision: I have a location, or I want to advertise. Both doors visible above the fold, styled as major panels, never buried in a button row.</p></div>
+<div style="background:#FAFBFB;padding:24px"><div style="font:400 9.5px/1 'Martian Mono',ui-monospace;letter-spacing:.12em;color:#F0A028;margin-bottom:14px">C4 &middot; REAL WORLD FIRST</div><p style="margin:0;font:400 14px/1.7 Archivo,sans-serif;color:#495259">Field photography of installed units leads; device renders supplement. Keep the shelves, freezers, and counters &mdash; frame them intentionally with crops, scrims, and mono captions.</p></div>
+<div style="background:#FAFBFB;padding:24px"><div style="font:400 9.5px/1 'Martian Mono',ui-monospace;letter-spacing:.12em;color:#F0A028;margin-bottom:14px">C5 &middot; MOTION BUDGET</div><p style="margin:0;font:400 14px/1.7 Archivo,sans-serif;color:#495259">One motion idea per section: a sticky scene, a parallax layer, or a reveal &mdash; never all three. Reduce content before reducing motion ambition.</p></div>
+</div>
+</section>
+
+<div id="ds-end"></div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;tokenFormat&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;css&quot;,&quot;json&quot;],&quot;default&quot;:&quot;css&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Handoff&quot;}}">
+class Component extends DCLogic {
+  state = {tab:'css'};
+  renderVals(){
+    const fmt = this.props.tokenFormat || this.state.tab;
+    return {
+      isCss: fmt==='css', isJson: fmt==='json',
+      showCss:()=>this.setState({tab:'css'}), showJson:()=>this.setState({tab:'json'}),
+      cssBg: fmt==='css'?'#0B0D0E':'transparent', cssC: fmt==='css'?'#FAFBFB':'#495259',
+      jsonBg: fmt==='json'?'#0B0D0E':'transparent', jsonC: fmt==='json'?'#FAFBFB':'#495259'
+    };
+  }
+}
+</script>
+</body>
+</html>
