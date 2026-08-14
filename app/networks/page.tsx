@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import Reveal from "@/components/Reveal";
+import RevealLink from "@/components/RevealLink";
 import { NETWORK_LIST } from "@/lib/networks";
 
 export const metadata: Metadata = {
@@ -21,9 +20,8 @@ export default function NetworksPage() {
 
       <section className="netindex__list">
         {NETWORK_LIST.map((net) => (
-          <Reveal
+          <RevealLink
             key={net.slug}
-            as={Link}
             href={`/networks/${net.slug}`}
             className="netrow"
             style={{ ["--net" as string]: net.color }}
@@ -34,7 +32,7 @@ export default function NetworksPage() {
             <span className="netrow__arrow" aria-hidden="true">
               &#8594;
             </span>
-          </Reveal>
+          </RevealLink>
         ))}
       </section>
     </>
