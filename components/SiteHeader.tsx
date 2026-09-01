@@ -2,144 +2,50 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
-import { NETWORK_LIST } from "@/lib/networks";
+import { useEffect, useRef } from "react";
+import { onScrollFrame } from "@/lib/scroll";
 
-const NAV = [
-  { href: "/locations", label: "For Locations" },
-  { href: "/advertisers", label: "For Advertisers" },
-  { href: "/networks", label: "Our Networks", networks: true },
-  { href: "/#how-it-works", label: "How It Works" },
-  { href: "/partners", label: "Partner With Us" },
-];
-
+/**
+ * Deliberately small. The site has two products and one explainer, so the
+ * navigation has three destinations and the Growth door keeps primary weight.
+ *
+ * The bar is transparent over the opening shot and picks up a ground once the
+ * page has moved, which keeps contrast honest as the visitor passes from the
+ * blue-hour chapters onto the warm paper ones.
+ */
 export default function SiteHeader() {
   const pathname = usePathname();
-  const [netOpen, setNetOpen] = useState(false);
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  const groupRef = useRef<HTMLDivElement>(null);
-
-  // Any navigation closes both surfaces.
-  useEffect(() => {
-    setNetOpen(false);
-    setDrawerOpen(false);
-  }, [pathname]);
+  const ref = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    if (!netOpen && !drawerOpen) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        setNetOpen(false);
-        setDrawerOpen(false);
-      }
-    };
-    addEventListener("keydown", onKey);
-    return () => removeEventListener("keydown", onKey);
-  }, [netOpen, drawerOpen]);
+    const el = ref.current;
+    if (!el) return;
+    return onScrollFrame(() => {
+      const scrolled = window.scrollY > 24;
+      const value = String(scrolled);
+      if (el.dataset.scrolled !== value) el.dataset.scrolled = value;
+    });
+  }, []);
 
-  const isActive = (href: string) =>
-    href === "/networks" ? pathname.startsWith("/networks") : pathname === href;
+  const current = (href: string) => (pathname === href ? "page" : undefined);
 
   return (
-    <header className="site-header">
-      <div className="site-header__bar">
-        <Link href="/" className="wordmark" aria-label="Uptick Local — home">
-          <span className="wordmark__bars" aria-hidden="true">
-            <i />
-            <i />
-            <i />
-          </span>
-          <span className="wordmark__name">Uptick Local</span>
+    <header ref={ref} className="site-header" data-scrolled="false">
+      <Link href="/" className="wordmark" aria-label="Uptick Local — home">
+        <span>uptick local</span>
+      </Link>
+
+      <nav className="site-nav" aria-label="Primary">
+        <Link href="/how-it-works" className="navlink navlink--quiet" aria-current={current("/how-it-works")}>
+          How it works
         </Link>
-
-        <nav className="nav" aria-label="Primary">
-          {NAV.map((item) =>
-            item.networks ? (
-              <div
-                key={item.href}
-                className="nav__group"
-                ref={groupRef}
-                onMouseEnter={() => setNetOpen(true)}
-                onMouseLeave={() => setNetOpen(false)}
-                onFocus={() => setNetOpen(true)}
-                onBlur={(e) => {
-                  if (!e.currentTarget.contains(e.relatedTarget as Node)) setNetOpen(false);
-                }}
-              >
-                <Link
-                  href={item.href}
-                  className="nav__link nav__link--caret"
-                  data-active={isActive(item.href)}
-                  aria-expanded={netOpen}
-                >
-                  {item.label}
-                  <span className="nav__caret" aria-hidden="true" />
-                </Link>
-                {netOpen && (
-                  <ul className="netmenu">
-                    {NETWORK_LIST.map((net) => (
-                      <li key={net.slug}>
-                        <Link
-                          href={`/networks/${net.slug}`}
-                          className="netmenu__link"
-                          style={{ ["--net" as string]: net.color }}
-                        >
-                          {net.name}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            ) : (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="nav__link"
-                data-active={isActive(item.href)}
-              >
-                {item.label}
-              </Link>
-            )
-          )}
-        </nav>
-
-        <div className="site-header__end">
-          <Link href="/locations" className="header-cta">
-            Get a Free Screen<span aria-hidden="true">&#8594;</span>
-          </Link>
-          <button
-            type="button"
-            className="navtoggle"
-            aria-label="Menu"
-            aria-expanded={drawerOpen}
-            onClick={() => setDrawerOpen((v) => !v)}
-          >
-            <i />
-            <i />
-            <i />
-          </button>
-        </div>
-      </div>
-
-      <div className="navdrawer" data-open={drawerOpen}>
-        {NAV.map((item) => (
-          <div key={item.href}>
-            <Link href={item.href}>{item.label}</Link>
-            {item.networks &&
-              NETWORK_LIST.map((net) => (
-                <Link
-                  key={net.slug}
-                  href={`/networks/${net.slug}`}
-                  data-sub="true"
-                  style={{ ["--net" as string]: net.color }}
-                >
-                  {net.name}
-                </Link>
-              ))}
-          </div>
-        ))}
-      </div>
+        <Link href="/host" className="navlink" aria-current={current("/host")}>
+          Host a free screen
+        </Link>
+        <Link href="/growth" className="navlink navlink--primary" aria-current={current("/growth")}>
+          Promote your business
+        </Link>
+      </nav>
     </header>
   );
 }
