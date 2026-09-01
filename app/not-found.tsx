@@ -1,24 +1,27 @@
 import Link from "next/link";
+import { CTA } from "@/lib/content";
 
 export default function NotFound() {
   return (
-    <section className="page-dark" style={{ padding: "clamp(80px, 18vh, 200px) var(--gutter)" }}>
-      <div className="field-lines" aria-hidden="true" />
-      <div className="partners__copy u-rise">
-        <div className="kicker">404 &mdash; OFF THE NETWORK</div>
-        <h1 className="partners__title">This screen isn&#8217;t running anything.</h1>
-        <p className="partners__lead">
-          The page you were after doesn&#8217;t exist. Pick a door instead.
+    <div className="page">
+      <header className="page__head">
+        <p className="mono-tag">404 &middot; Off the network</p>
+        <h1 className="page__title">
+          This screen isn&rsquo;t <em>running anything.</em>
+        </h1>
+        <p className="page__lead">
+          The page you were after doesn&rsquo;t exist. There are two doors into Uptick — take
+          either one.
         </p>
-        <div className="netdetail__acts">
-          <Link href="/locations" className="btn btn--amber">
-            Get a Free Screen<span aria-hidden="true">&#8594;</span>
+        <div className="page__acts">
+          <Link href={CTA.growth.href} className="btn btn--mint">
+            {CTA.growth.label}
           </Link>
-          <Link href="/advertisers" className="btn btn--ghost">
-            Reach Local Customers
+          <Link href={CTA.host.href} className="btn btn--outline">
+            {CTA.host.label}
           </Link>
         </div>
-      </div>
-    </section>
+      </header>
+    </div>
   );
 }

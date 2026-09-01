@@ -1,58 +1,71 @@
 import type { Metadata } from "next";
-import Reveal from "@/components/Reveal";
+import ContactPanel from "@/components/ContactPanel";
 
 export const metadata: Metadata = {
-  title: "Screen Network Partners",
+  title: "Screen network partners",
   description:
-    "Already operate digital screens? Uptick plugs your inventory into our local demand and audience networks, and sells the advertising.",
+    "Already operate digital screens in retail, fitness or hospitality? Uptick can connect your inventory to local offer demand.",
 };
 
 const POINTS = [
   {
     title: "Your screens stay yours",
-    body: "Keep your hardware, your locations, and your operations. Nothing gets rebranded.",
+    body: "Keep your hardware, your locations and your operations. Nothing gets rebranded.",
   },
   {
-    title: "We bring the demand",
-    body: "Your inventory joins our audience networks and gets sold by our local sales engine.",
+    title: "We bring local demand",
+    body: "Offers from businesses near your locations, screened so nothing competes with the store the screen sits in.",
   },
   {
-    title: "Revenue, shared",
-    body: "Transparent per-screen reporting and a straightforward split on every campaign.",
+    title: "Activity, reported per screen",
+    body: "Signups, claims and redemptions attributable to each placement — the same measurement discipline we hold ourselves to everywhere else.",
   },
 ];
 
 export default function PartnersPage() {
   return (
-    <>
-      <section className="partners__head">
-        <div className="field-lines" aria-hidden="true" />
-        <div className="partners__copy u-rise">
-          <div className="kicker">SCREEN NETWORK PARTNERS</div>
-          <h1 className="partners__title">
-            Already operate screens? We&#8217;ll sell the advertising.
-          </h1>
-          <p className="partners__lead">
-            If you run digital screens in retail, fitness, or hospitality, Uptick plugs your
-            inventory into our local demand and audience networks.
-          </p>
-          <a href="mailto:iwhite@upticklocal.com" className="btn btn--amber">
-            Talk to Partnerships<span aria-hidden="true">&#8594;</span>
-          </a>
+    <div className="page">
+      <header className="page__head">
+        <p className="mono-tag">Screen network partners</p>
+        <h1 className="page__title">
+          Already operate screens? <em>Let&rsquo;s talk.</em>
+        </h1>
+        <p className="page__lead">
+          If you run digital screens in retail, fitness or hospitality, Uptick can connect that
+          inventory to local offer demand in the same neighbourhoods.
+        </p>
+      </header>
+
+      <section className="band band--paper" aria-labelledby="partner-points">
+        <div className="band__inner">
+          <h2 id="partner-points" className="band__title">
+            How a partnership works.
+          </h2>
+          <div className="steps">
+            {POINTS.map((point, i) => (
+              <div key={point.title}>
+                <p className="step__n">0{i + 1}</p>
+                <h3 className="step__title">{point.title}</h3>
+                <p className="step__body">{point.body}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      <section className="page-paper band">
-        <div className="steps steps--wide">
-          {POINTS.map((point, i) => (
-            <Reveal key={point.title} className="step">
-              <div className="step__n">0{i + 1}</div>
-              <h3 className="step__title">{point.title}</h3>
-              <p className="step__body">{point.body}</p>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-    </>
+      <ContactPanel
+        id="partnerships"
+        tag="Partnerships"
+        title="Tell us about your inventory."
+        lead="Where the screens are, what they run today, and what you are trying to fill."
+        include={[
+          "How many screens, and where",
+          "The kinds of venues they sit in",
+          "What runs on them today",
+          "The best number or email to reach you",
+        ]}
+        subject="Screen network partnership"
+      />
+    </div>
   );
 }
