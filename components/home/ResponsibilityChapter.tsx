@@ -1,22 +1,15 @@
-/** Chapter 8 — the objection killer, on warm paper. */
+/** Chapter 8 — the objection killer. */
 export default function ResponsibilityChapter() {
   return (
-    <section className="chapter chapter--paper" aria-labelledby="system-heading">
+    <section className="chapter chapter--handles" data-theme="light" aria-labelledby="system-heading">
       <div className="chapter__inner">
-        <h2 id="system-heading" className="paper__title">
-          You don&rsquo;t need <em>another system.</em>
+        <h2 id="system-heading" className="chapter__title chapter__title--display">
+          You don&rsquo;t need another system.
         </h2>
-
-        <ul className="badges badges--ink">
-          <li>No POS integration</li>
-          <li>No code entry</li>
-          <li>No new cashier software</li>
-        </ul>
-
-        <div className="split-responsibility">
+        <div className="handles">
           <div>
             <p className="mono-tag mono-tag--ink">Uptick handles</p>
-            <ul className="plainlist plainlist--ink">
+            <ul className="handles__list">
               <li>Screens</li>
               <li>QR + claim flow</li>
               <li>Customer texts</li>
@@ -26,7 +19,7 @@ export default function ResponsibilityChapter() {
           </div>
           <div>
             <p className="mono-tag mono-tag--ink">Your business handles</p>
-            <p className="responsibility__yours">
+            <p className="handles__yours">
               Choose the offer.
               <br />
               Provide the reward.

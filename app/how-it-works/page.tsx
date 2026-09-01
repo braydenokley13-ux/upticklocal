@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import BlockElevation from "@/components/home/BlockElevation";
+import StillFrame from "@/components/home/StillFrame";
 import { CTA } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -59,7 +59,7 @@ export default function HowItWorksPage() {
 
       <section className="band band--deep" aria-label="The block">
         <div className="band__inner">
-          <BlockElevation frame={2} />
+          <StillFrame name="model" alt="The block as a model: two rows of local storefronts, five of them carrying Uptick screens." />
         </div>
       </section>
 
@@ -85,7 +85,7 @@ export default function HowItWorksPage() {
       <section className="band" aria-labelledby="two-doors">
         <div className="band__inner">
           <p className="mono-tag">Two doors, one network</p>
-          <h2 id="two-doors" className="band__title" style={{ color: "var(--on-ink-bright)" }}>
+          <h2 id="two-doors" className="band__title">
             Hosting and Growth are independent.
           </h2>
           <p className="page__lead">

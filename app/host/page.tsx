@@ -93,7 +93,7 @@ export default function HostPage() {
       <section className="band band--deep" aria-labelledby="host-fit">
         <div className="band__inner">
           <p className="mono-tag">Who this suits</p>
-          <h2 id="host-fit" className="band__title" style={{ color: "var(--on-ink-bright)" }}>
+          <h2 id="host-fit" className="band__title">
             Counters people already stand at.
           </h2>
           <div className="ledger">

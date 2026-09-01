@@ -2,10 +2,8 @@ import Link from "next/link";
 import { CTA } from "@/lib/content";
 
 /**
- * Chapter 9 — two doors into one network.
- *
- * Deliberately a hard split down the middle: a host reading the left panel
- * should never come away thinking they have to buy the right one.
+ * Chapter 9 — two ways in. Growth carries the weight; hosting is the quieter
+ * door beside it. They are different ways to take part, not tiers of one plan.
  */
 export default function DoorsChapter() {
   return (
@@ -14,49 +12,39 @@ export default function DoorsChapter() {
         Two ways into the Uptick network
       </h2>
 
-      <div className="door door--host">
+      <div className="door door--growth" data-theme="dark">
         <div>
-          <p className="mono-tag mono-tag--ink">Door one &middot; Host stores</p>
-          <h3 className="door__title">
-            Host a <em>free screen.</em>
-          </h3>
-          <ul className="plainlist plainlist--ink">
-            <li>A free 21&#8243; countertop screen, plug and play.</li>
-            <li>Show your own specials and promotions.</li>
-            <li>Share in advertising revenue when paid ads run.</li>
-            <li className="door__emph">No paid plan required.</li>
+          <p className="mono-tag">Uptick Growth</p>
+          <h3 className="door__title">Promote your business.</h3>
+          <ul className="door__list">
+            <li>Your offer on screens at up to five participating non-competing local stores.</li>
+            <li>Customers claim by text, visit, and redeem on their phone.</li>
+            <li>Follow-up offers for customers who opt in.</li>
           </ul>
         </div>
-        <div>
-          <Link href={CTA.host.href} className="btn btn--ink">
-            {CTA.host.label}
+        <div className="door__act">
+          <Link href={CTA.growth.href} className="btn btn--primary">
+            {CTA.growth.label}
           </Link>
-          <p className="door__note">
-            Especially suited to gas stations and convenience stores. Hosting never requires Growth.
-          </p>
+          <p className="door__note">Nothing to install. Growth never requires hosting a screen.</p>
         </div>
       </div>
 
-      <div className="door door--growth">
+      <div className="door door--host" data-theme="light">
         <div>
-          <p className="mono-tag">Door two &middot; Uptick Growth</p>
-          <h3 className="door__title door__title--light">
-            Promote <em>your business.</em>
-          </h3>
-          <ul className="plainlist">
-            <li>Your offer on screens at up to five participating non-competing local stores.</li>
-            <li>Customers claim, visit, and redeem on their phone.</li>
-            <li>Follow-up offers by text for customers who opt in.</li>
-            <li className="door__emph door__emph--mint">30-day Growth pilot.</li>
+          <p className="mono-tag mono-tag--ink">Host a screen</p>
+          <h3 className="door__title">Host a free screen.</h3>
+          <ul className="door__list">
+            <li>A free 21″ countertop screen, plug and play.</li>
+            <li>Show your own specials on it.</li>
+            <li>Share in advertising revenue when paid offers run.</li>
           </ul>
         </div>
-        <div>
-          <Link href={CTA.growth.href} className="btn btn--mint">
-            {CTA.growth.label}
+        <div className="door__act">
+          <Link href={CTA.host.href} className="btn btn--ink">
+            {CTA.host.label}
           </Link>
-          <p className="door__note door__note--light">
-            Two doors into one network. They are not one package.
-          </p>
+          <p className="door__note">No paid plan. Hosting never requires Growth.</p>
         </div>
       </div>
     </section>

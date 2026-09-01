@@ -2,15 +2,13 @@
 
 import Link from "next/link";
 import { useRef } from "react";
-import BlockElevation from "@/components/home/BlockElevation";
+import StillFrame from "@/components/home/StillFrame";
 import { CTA } from "@/lib/content";
 import { useStageProgress } from "@/lib/useStageProgress";
 
 /**
- * Chapter 10 — back to the neighbourhood.
- *
- * The camera drifts laterally across the finished block, every screen live.
- * By now the visitor has watched the system work, so "the local map" is a
+ * Chapter 10 — back to the block at blue hour, every counter screen lit.
+ * By now the visitor knows what each object is, so "the local map" is a
  * description rather than a metaphor. Nothing follows it.
  */
 export default function FinaleChapter() {
@@ -18,25 +16,22 @@ export default function FinaleChapter() {
   useStageProgress("finale", sectionRef);
 
   return (
-    <section ref={sectionRef} className="finale" aria-labelledby="finale-heading">
+    <section ref={sectionRef} className="finale" data-theme="dark" aria-labelledby="finale-heading">
       <div className="finale__pin">
         <div className="finale__scrim" aria-hidden="true" />
         <div className="finale__frames">
-          <BlockElevation frame={1} />
+          <StillFrame name="finale" alt="The finished block at blue hour, every counter screen lit." />
         </div>
         <div className="finale__copy">
-          <p className="mono-tag mono-tag--muted">
-            Your business <span aria-hidden="true">·</span> Five nearby screens{" "}
-            <span aria-hidden="true">·</span> One local network
-          </p>
+          <p className="mono-tag">Your business · Five nearby screens · One local network</p>
           <h2 id="finale-heading" className="finale__title">
-            Put your business <em>on the local map.</em>
+            Put your business on the local map.
           </h2>
           <div className="finale__acts">
-            <Link href={CTA.growth.href} className="btn btn--mint">
+            <Link href={CTA.growth.href} className="btn btn--primary">
               {CTA.growth.label}
             </Link>
-            <Link href={CTA.host.href} className="btn btn--outline">
+            <Link href={CTA.host.href} className="btn btn--ghost">
               {CTA.host.label}
             </Link>
           </div>

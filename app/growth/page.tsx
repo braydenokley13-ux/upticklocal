@@ -87,7 +87,7 @@ export default function GrowthPage() {
       <section className="band" aria-labelledby="growth-measure">
         <div className="band__inner">
           <p className="mono-tag">What Uptick can tell you</p>
-          <h2 id="growth-measure" className="band__title" style={{ color: "var(--on-ink-bright)" }}>
+          <h2 id="growth-measure" className="band__title">
             Real activity, not estimated audiences.
           </h2>
           <div className="ledger">

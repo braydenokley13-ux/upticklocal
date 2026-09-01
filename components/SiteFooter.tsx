@@ -3,17 +3,15 @@ import { CONTACT_EMAIL } from "@/lib/content";
 
 export default function SiteFooter() {
   return (
-    <footer className="site-footer">
+    <footer className="site-footer" data-theme="dark">
       <div className="site-footer__grid">
         <div>
           <Link href="/" className="wordmark" aria-label="Uptick Local — home">
+            <span className="wordmark__dot" aria-hidden="true" />
             <span>uptick local</span>
           </Link>
-          <p className="site-footer__claim">
-            Uptick tracks signups, redemptions, and repeat offer activity.
-          </p>
+          <p className="site-footer__claim">Uptick reports signups, claims, redemptions and repeat offer activity.</p>
         </div>
-
         <div className="site-footer__links">
           <Link href="/growth">Promote your business</Link>
           <Link href="/host">Host a free screen</Link>

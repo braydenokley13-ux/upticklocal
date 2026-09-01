@@ -8,15 +8,14 @@ import ResponsibilityChapter from "@/components/home/ResponsibilityChapter";
 import WorldLayer from "@/components/home/WorldLayer";
 
 /**
- * The homepage is one continuous argument told in ten chapters:
+ * One continuous argument, in three worlds:
  *
- *   the block → your business → the network → the offer → the screen →
- *   the claim → visit + redeem → the follow-up → the split of work →
- *   two doors → back to the block.
+ *   blue hour   — your business → the block → the offer → the screen
+ *   canvas      — the claim → the visit → the follow-up → who does what → two doors
+ *   blue hour   — back to the block
  *
- * Chapters 1–4 and 10 are camera work over the architectural model; 5–9 are
- * held DOM. The model lives in one fixed layer behind everything, so the two
- * halves read as one page rather than a landing page pasted over an animation.
+ * The model lives in one fixed layer behind the page; the canvas chapters
+ * paint over it, and the finale lets it back through.
  */
 export default function HomePage() {
   return (
