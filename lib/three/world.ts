@@ -91,8 +91,12 @@ export type HostScreen = {
 
 export type WorldState = { p: number; finale: boolean };
 
+export type Label = { id: string; text: string; position: THREE.Vector3 };
+
 export type World = {
   scene: THREE.Scene;
+  /** Every named storefront, Your Business first, plus the screen itself. */
+  labels: Label[];
   anchors: { you: THREE.Vector3; host: THREE.Vector3; unit: THREE.Vector3 };
   unitFrame: () => { position: THREE.Vector3; right: THREE.Vector3; up: THREE.Vector3; normal: THREE.Vector3 };
   update: (state: WorldState) => void;
@@ -105,7 +109,7 @@ export type World = {
    Assembly
    ---------------------------------------------------------------------- */
 
-export function buildWorld(env: THREE.Texture, sky: THREE.Texture, offerText: string): World {
+export function buildWorld(env: THREE.Texture, sky: THREE.Texture, special: { line1: string; line2: string; tag: string }): World {
   const scene = new THREE.Scene();
   scene.background = sky;
   scene.environment = env;
@@ -153,6 +157,7 @@ export function buildWorld(env: THREE.Texture, sky: THREE.Texture, offerText: st
   M.warmCard.map = cardTex;
 
   const anchors = { you: new THREE.Vector3(), host: new THREE.Vector3(), unit: new THREE.Vector3() };
+  const labels: Label[] = [];
   let heroGlass: THREE.Mesh<THREE.BufferGeometry, THREE.MeshPhysicalMaterial> | null = null;
   let unit: Unit | null = null;
   const yourDoor = new THREE.Vector3(0, 0, FRONT - 0.9);
@@ -221,19 +226,8 @@ export function buildWorld(env: THREE.Texture, sky: THREE.Texture, offerText: st
       shadowed.addBox(sfW - 0.5, 0.06, b.you ? 1.6 : 1.3, fitting, b.x, SF - 0.66, faceZ + nz * (0.12 + (b.you ? 0.8 : 0.65)));
     }
     // recess floor, ceiling, warm back wall
-    const floor = new THREE.Mesh(planeGeometry(sfW, open), M.interiorFloor);
-    floor.rotation.x = -Math.PI / 2;
-    floor.position.set(b.x, BASE + 0.01, faceZ - nz * (open / 2));
-    floor.receiveShadow = true;
-    floor.matrixAutoUpdate = false;
-    floor.updateMatrix();
-    scene.add(floor);
-    const ceiling = new THREE.Mesh(planeGeometry(sfW, open), M.limestone);
-    ceiling.rotation.x = Math.PI / 2;
-    ceiling.position.set(b.x, glassTop, faceZ - nz * (open / 2));
-    ceiling.matrixAutoUpdate = false;
-    ceiling.updateMatrix();
-    scene.add(ceiling);
+    ground.addBox(sfW, 0.02, open, M.interiorFloor, b.x, BASE, faceZ - nz * (open / 2));
+    shadowed.addBox(sfW, 0.02, open, M.limestone, b.x, glassTop + 0.01, faceZ - nz * (open / 2));
     color.set(b.you ? 0xffe4c0 : b.host ? 0xf6d6ac : b.sign ? 0xdcbc95 : 0xa88b6a);
     unlit.addBox(sfW - 0.04, glassH, 0.04, M.warmCard, b.x, glassBottom + glassH / 2, faceZ - nz * (open - 0.03), undefined, color);
 
@@ -252,11 +246,7 @@ export function buildWorld(env: THREE.Texture, sky: THREE.Texture, offerText: st
         face.position.set(cx + 0.55, BASE + 0.96 + 0.19, czz + nz * 0.2);
         face.rotation.y = yaw;
         scene.add(face);
-        const stand = new THREE.Mesh(boxGeometry(0.16, 0.05, 0.14), M.enclosure);
-        stand.position.set(cx + 0.55, BASE + 0.985, czz + nz * 0.18);
-        stand.matrixAutoUpdate = false;
-        stand.updateMatrix();
-        scene.add(stand);
+        shadowed.addBox(0.16, 0.05, 0.14, M.enclosure, cx + 0.55, BASE + 0.985, czz + nz * 0.18);
         const halo = sprite(0x6fe0c6, 1.6, 0);
         halo.position.copy(face.position);
         scene.add(halo);
@@ -318,7 +308,7 @@ export function buildWorld(env: THREE.Texture, sky: THREE.Texture, offerText: st
       const czz = roomZ(2.0);
       shadowed.addBox(cw, 0.9, 0.62, M.counter, cx, BASE + 0.45, czz);
       shadowed.addBox(cw + 0.06, 0.06, 0.68, M.counterTop, cx, BASE + 0.93, czz);
-      unit = buildUnit(M, offerText);
+      unit = buildUnit(M, special);
       unit.group.position.set(cx - 0.15, BASE + 0.96, czz + nz * 0.04);
       const contactMat = new THREE.MeshBasicMaterial({ map: poolTexture(), color: 0x000000, transparent: true, opacity: 0.55, depthWrite: false });
       own.push(contactMat);
@@ -331,6 +321,10 @@ export function buildWorld(env: THREE.Texture, sky: THREE.Texture, offerText: st
       anchors.host.set(b.x, H + 1.0, cz);
     }
     if (b.you) anchors.you.set(b.x, H + 1.0, cz);
+    if (b.sign) {
+      const text = b.you ? "Your business" : b.sign.charAt(0) + b.sign.slice(1).toLowerCase();
+      labels[b.you ? "unshift" : "push"]({ id: b.id, text, position: new THREE.Vector3(b.x, H + 1.0, cz) });
+    }
   });
 
   /* --- street lamps ------------------------------------------------------- */
@@ -416,6 +410,7 @@ export function buildWorld(env: THREE.Texture, sky: THREE.Texture, offerText: st
     return frame;
   };
   anchors.unit.copy(unitFrame().position).addScaledVector(frame.up, PANEL_H * 0.5 + 0.12);
+  labels.push({ id: "unit", text: "Uptick screen", position: anchors.unit });
 
   const ON = new THREE.Color(0xf2b36a);
   const IDLE = new THREE.Color(0x2f7a6e);
@@ -476,5 +471,5 @@ export function buildWorld(env: THREE.Texture, sky: THREE.Texture, offerText: st
     fill.dispose();
   };
 
-  return { scene, anchors, unitFrame, update, warm, dispose };
+  return { scene, labels, anchors, unitFrame, update, warm, dispose };
 }

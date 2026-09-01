@@ -10,15 +10,17 @@ export default function NotFound() {
           This screen isn&rsquo;t running anything.
         </h1>
         <p className="page__lead">
-          The page you were after doesn&rsquo;t exist. There are two doors into Uptick — take
-          either one.
+          The page you were after doesn&rsquo;t exist. There are three ways into Uptick; take any of them.
         </p>
         <div className="page__acts">
-          <Link href={CTA.growth.href} className="btn btn--mint">
-            {CTA.growth.label}
-          </Link>
           <Link href={CTA.host.href} className="btn btn--outline">
             {CTA.host.label}
+          </Link>
+          <Link href={CTA.advertise.href} className="btn btn--outline">
+            {CTA.advertise.label}
+          </Link>
+          <Link href={CTA.growth.href} className="btn btn--mint">
+            {CTA.growth.label}
           </Link>
         </div>
       </header>

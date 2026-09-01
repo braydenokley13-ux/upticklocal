@@ -4,9 +4,9 @@ import ContactPanel from "@/components/ContactPanel";
 import { CTA } from "@/lib/content";
 
 export const metadata: Metadata = {
-  title: "Promote your business",
+  title: "Uptick Growth",
   description:
-    "Uptick Growth puts your offer on screens at up to five participating non-competing local stores. Customers scan, claim by text, visit, and redeem on their phone.",
+    "Uptick Growth turns local attention into measurable customer activity: your offer on screens at up to five nearby non-competing local stores, claimed by text, redeemed in person. Requires an Uptick screen.",
 };
 
 const STEPS = [
@@ -130,7 +130,8 @@ export default function GrowthPage() {
                 Provide the reward.
               </p>
               <p className="step__body" style={{ marginTop: 26 }}>
-                Growth does not require you to host a screen. The two are independent.
+                Growth requires an Uptick screen at your business. Hosting one is free, and it is where every Growth
+                pilot starts.
               </p>
             </div>
           </div>

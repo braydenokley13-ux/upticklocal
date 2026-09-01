@@ -34,7 +34,7 @@ export type Unit = {
  * real profile. Local +Z faces the viewer; the panel centre is the origin of
  * `panel`.
  */
-export function buildUnit(M: Materials, offerText: string): Unit {
+export function buildUnit(M: Materials, special: { line1: string; line2: string; tag: string }): Unit {
   const group = new THREE.Group();
   const own: THREE.Material[] = [];
 
@@ -75,7 +75,7 @@ export function buildUnit(M: Materials, offerText: string): Unit {
   glass.position.z = 0.0062;
 
   // The panel itself.
-  const panelMat = new THREE.MeshBasicMaterial({ map: screenTexture(offerText), toneMapped: false });
+  const panelMat = new THREE.MeshBasicMaterial({ map: screenTexture(special), toneMapped: false });
   own.push(panelMat);
   const panel = new THREE.Mesh(planeGeometry(PANEL_W, PANEL_H), panelMat);
   panel.position.z = 0.0044;

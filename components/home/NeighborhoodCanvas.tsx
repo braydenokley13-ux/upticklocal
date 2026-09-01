@@ -6,7 +6,7 @@ import { Engine, type FrameInfo, type QualityTier, type Slot } from "@/lib/three
 import { smoothstep } from "@/lib/three/shots";
 import { subscribeStage } from "@/lib/three/stage-bus";
 
-type Props = { offerText: string };
+type Props = { special: { line1: string; line2: string; tag: string } };
 
 /** Named compositions, for `?still=` bakes and QA. */
 const STILLS: Record<string, { slot: Slot; p: number }> = {
@@ -30,11 +30,12 @@ function markUnsupported() {
  * over it. Three annotations are projected from the model into the DOM so
  * they stay crisp at any pixel ratio.
  */
-export default function NeighborhoodCanvas({ offerText }: Props) {
+export default function NeighborhoodCanvas({ special }: Props) {
   const hostRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const labelRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [status, setStatus] = useState<"loading" | "ready" | "unsupported">("loading");
+  const [labels, setLabels] = useState<{ id: string; text: string }[]>([]);
 
   useEffect(() => {
     const host = hostRef.current;
@@ -49,25 +50,21 @@ export default function NeighborhoodCanvas({ offerText }: Props) {
 
     const projected = new THREE.Vector3();
     const onFrame = ({ slot, p, camera, width, height }: FrameInfo) => {
-      const anchors = engine.world.anchors;
       const finale = slot === "finale";
-      // Three annotations, each shown only while it is the thing to look at.
-      const alphas = finale
-        ? [0.9, 0, 0]
-        : [
-            smoothstep(0.24, 0.3, p) * (1 - smoothstep(0.6, 0.65, p)),
-            smoothstep(0.56, 0.62, p) * (1 - smoothstep(0.68, 0.72, p)),
-            smoothstep(0.78, 0.82, p) * (1 - smoothstep(0.87, 0.9, p)),
-          ];
-      [anchors.you, anchors.host, anchors.unit].forEach((anchor, i) => {
+      // Act II names every pocket of attention on the block; Act III keeps
+      // only Your Business; the screen is named when the camera reaches it.
+      const block = smoothstep(0.24, 0.3, p) * (1 - smoothstep(0.39, 0.44, p));
+      const you = finale ? 0.9 : Math.max(block, smoothstep(0.47, 0.52, p) * (1 - smoothstep(0.62, 0.66, p)));
+      const unit = finale ? 0 : smoothstep(0.78, 0.82, p) * (1 - smoothstep(0.87, 0.9, p));
+      engine.world.labels.forEach((label, i) => {
         const el = labelRefs.current[i];
         if (!el) return;
-        const a = alphas[i];
+        const a = label.id === "unit" ? unit : label.id === "you" ? you : finale ? 0 : block;
         if (a < 0.01) {
           if (el.style.opacity !== "0") el.style.opacity = "0";
           return;
         }
-        projected.copy(anchor).project(camera);
+        projected.copy(label.position).project(camera);
         if (projected.z > 1) {
           el.style.opacity = "0";
           return;
@@ -79,7 +76,7 @@ export default function NeighborhoodCanvas({ offerText }: Props) {
 
     let engine: Engine;
     try {
-      engine = new Engine(canvas, { offerText, calm, forceTier: forced, onFrame });
+      engine = new Engine(canvas, { special, calm, forceTier: forced, onFrame });
     } catch {
       markUnsupported();
       setStatus("unsupported");
@@ -97,6 +94,7 @@ export default function NeighborhoodCanvas({ offerText }: Props) {
       .then((tier) => {
         if (cancelled) return;
         host.dataset.tier = tier;
+        setLabels(engine.world.labels.map(({ id, text }) => ({ id, text })));
         observer.observe(host);
         // `?still=<beat>` or `?still=p:<progress>` for QA of any point in the story.
         const wanted = still?.startsWith("p:") ? { slot: "story" as Slot, p: Number(still.slice(2)) } : still ? STILLS[still] : null;
@@ -134,7 +132,7 @@ export default function NeighborhoodCanvas({ offerText }: Props) {
       observer.disconnect();
       engine.dispose();
     };
-  }, [offerText]);
+  }, [special]);
 
   if (status === "unsupported") return null;
 
@@ -142,11 +140,11 @@ export default function NeighborhoodCanvas({ offerText }: Props) {
     <div ref={hostRef} className="worldlayer" data-status={status} aria-hidden="true">
       <canvas ref={canvasRef} className="worldlayer__canvas" />
       <div className="worldlayer__labels">
-        {["Your business", "Selected host", "Uptick screen"].map((text, i) => (
+        {labels.map(({ id, text }, i) => (
           <div
-            key={text}
+            key={id}
             className="worldlabel"
-            data-kind={i}
+            data-id={id}
             ref={(el) => {
               labelRefs.current[i] = el;
             }}

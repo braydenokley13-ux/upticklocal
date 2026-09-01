@@ -15,15 +15,14 @@ const mono = Geist_Mono({ subsets: ["latin"], variable: "--font-mono", display: 
 export const metadata: Metadata = {
   metadataBase: new URL("https://upticklocal.com"),
   title: {
-    default: "Uptick Local — Reach nearby customers. Turn offers into visits.",
+    default: "Uptick Local — Grow your business by reaching the customers already around you.",
     template: "%s — Uptick Local",
   },
   description:
-    "Uptick puts your offer on screens at nearby non-competing local stores. Customers scan, claim by text, visit, and redeem on their phone. Host stores get a free 21-inch screen.",
+    "A hyperlocal screen network. Host a free screen and promote your own business, advertise across nearby Uptick locations, or run Growth: offers customers claim by text, visit and redeem in person.",
   openGraph: {
-    title: "Uptick Local — Reach nearby customers. Turn offers into visits.",
-    description:
-      "Your offer on screens at up to five participating non-competing local stores. Free screens for host stores.",
+    title: "Uptick Local — Grow your business by reaching the customers already around you.",
+    description: "Host a free screen, advertise locally, or turn local attention into measurable customer activity with Growth.",
     type: "website",
   },
 };

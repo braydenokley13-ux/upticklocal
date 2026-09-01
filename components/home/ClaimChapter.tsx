@@ -8,9 +8,9 @@ export default function ClaimChapter() {
     <section className="chapter chapter--claim" data-theme="light" aria-labelledby="claim-heading">
       <div className="chapter__inner chapter__inner--split">
         <div className="chapter__copy">
-          <p className="mono-tag mono-tag--ink">05 · The claim</p>
+          <p className="mono-tag mono-tag--ink">Uptick Growth · 05 · The claim</p>
           <h2 id="claim-heading" className="chapter__title">
-            A customer scans. The claim arrives by text.
+            With Growth, a customer scans. The claim arrives by text.
           </h2>
           <ol className="flow">
             <li>

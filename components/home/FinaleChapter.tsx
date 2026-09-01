@@ -23,16 +23,19 @@ export default function FinaleChapter() {
           <StillFrame name="finale" alt="The finished block at blue hour, every counter screen lit." />
         </div>
         <div className="finale__copy">
-          <p className="mono-tag">Your business · Five nearby screens · One local network</p>
+          <p className="mono-tag">Your business · The businesses around it · One local network</p>
           <h2 id="finale-heading" className="finale__title">
             Put your business on the local map.
           </h2>
           <div className="finale__acts">
-            <Link href={CTA.growth.href} className="btn btn--primary">
-              {CTA.growth.label}
-            </Link>
             <Link href={CTA.host.href} className="btn btn--ghost">
               {CTA.host.label}
+            </Link>
+            <Link href={CTA.advertise.href} className="btn btn--ghost">
+              {CTA.advertise.label}
+            </Link>
+            <Link href={CTA.growth.href} className="btn btn--primary">
+              {CTA.growth.label}
             </Link>
           </div>
         </div>
