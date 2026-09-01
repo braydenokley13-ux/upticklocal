@@ -6,7 +6,7 @@ import { CTA } from "@/lib/content";
 export const metadata: Metadata = {
   title: "How it works",
   description:
-    "Create an offer, Uptick distributes it to screens at nearby non-competing local stores, the customer claims it by text, visits, and redeems on their phone.",
+    "Your block is already a network. Uptick connects it with screens at local stores: host one for free, advertise across nearby locations, or run Growth offers customers claim by text and redeem in person.",
 };
 
 const SEQUENCE = [
@@ -66,7 +66,7 @@ export default function HowItWorksPage() {
       <section className="band band--paper" aria-labelledby="sequence">
         <div className="band__inner">
           <h2 id="sequence" className="band__title">
-            Offer to visit, in six steps.
+            Growth: offer to visit, in six steps.
           </h2>
           <div className="ledger">
             {SEQUENCE.map((step) => (
@@ -84,20 +84,22 @@ export default function HowItWorksPage() {
 
       <section className="band" aria-labelledby="two-doors">
         <div className="band__inner">
-          <p className="mono-tag">Two doors, one network</p>
+          <p className="mono-tag">Three ways in</p>
           <h2 id="two-doors" className="band__title">
-            Hosting and Growth are independent.
+            Host, Advertise, Growth.
           </h2>
           <p className="page__lead">
-            A store can host a free screen without ever buying anything. A business can run a Growth
-            offer without ever installing a screen. Some do both; neither requires the other.
+            Host a free screen and promote your own business. Advertise across nearby Uptick locations without a screen of your own. Or run Growth, the premium layer that turns local attention into measurable customer activity &mdash; it needs a host screen.
           </p>
           <div className="page__acts">
-            <Link href={CTA.growth.href} className="btn btn--mint">
-              {CTA.growth.label}
-            </Link>
             <Link href={CTA.host.href} className="btn btn--outline">
               {CTA.host.label}
+            </Link>
+            <Link href={CTA.advertise.href} className="btn btn--outline">
+              {CTA.advertise.label}
+            </Link>
+            <Link href={CTA.growth.href} className="btn btn--mint">
+              {CTA.growth.label}
             </Link>
           </div>
         </div>

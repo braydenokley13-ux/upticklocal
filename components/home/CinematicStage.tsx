@@ -4,30 +4,58 @@ import Link from "next/link";
 import { useCallback, useRef } from "react";
 import ScreenMatch from "@/components/home/ScreenMatch";
 import StillFrame from "@/components/home/StillFrame";
-import { CTA, OFFER_TEXT } from "@/lib/content";
+import { CTA, PROMISE } from "@/lib/content";
+import { prefersReducedMotion } from "@/lib/scroll";
 import { useStageProgress } from "@/lib/useStageProgress";
 
 const seg = (p: number, a: number, b: number) => Math.max(0, Math.min(1, (p - a) / (b - a)));
-const OFFER_WORDS = OFFER_TEXT.split(" ");
-const offerLines = (
-  <>
-    {OFFER_WORDS.slice(0, 3).join(" ")}
-    <br />
-    {OFFER_WORDS.slice(3).join(" ")}
-  </>
-);
+
+/** Where the second beat is held, as a fraction of the pinned scroll. */
+const BLOCK_AT = 0.3;
 
 /**
- * The opening five beats.
+ * The first act: the company, then the block, then the connection, then the
+ * screen.
  *
  * On the live path the section is 520vh tall and pins one viewport; scroll
  * drives the camera behind it and the opacity of the copy over it. Progress
  * goes straight to CSS custom properties — nothing here touches React state
- * on a scroll frame.
- *
- * Everywhere else the same beats are told as four stills with the copy set
- * underneath, composed for a vertical page.
+ * on a scroll frame. Everywhere else the same beats are told as stills with
+ * the copy set underneath, composed for a vertical page.
  */
+const COPY = {
+  block: {
+    tag: "01 · The block",
+    title: "Your block is already a network.",
+    body: "The café, the gym, the salon, the restaurant, the corner store. Each already has customers. Separate pockets of local attention, a few doors apart.",
+  },
+  connect: {
+    tag: "02 · The connection",
+    title: "Uptick connects them.",
+    body: "A screen at each participating business, linked into one local network — so a business can reach the customers already next door.",
+  },
+  screen: {
+    tag: "03 · The screen",
+    title: "Useful on its own. Stronger together.",
+    specs: [
+      ["21″", "countertop display, plug in and play"],
+      ["Yours", "your own specials and events run first"],
+      ["Free", "provided to host stores, no paid plan"],
+    ],
+  },
+};
+
+const specs = (
+  <dl className="specs">
+    {COPY.screen.specs.map(([dt, dd]) => (
+      <div key={dt}>
+        <dt>{dt}</dt>
+        <dd>{dd}</dd>
+      </div>
+    ))}
+  </dl>
+);
+
 export default function CinematicStage() {
   const sectionRef = useRef<HTMLElement>(null);
   const pinRef = useRef<HTMLDivElement>(null);
@@ -48,7 +76,7 @@ export default function CinematicStage() {
     pin.style.setProperty("--a5", a5.toFixed(3));
     pin.style.setProperty("--scrim", (1 - seg(p, 0.7, 0.8)).toFixed(3));
 
-    // A faded hero must not keep its links in the tab order, but it stays in
+    // A faded hero must not keep its link in the tab order, but it stays in
     // the accessibility tree: it carries the page's only h1.
     const hero = heroRef.current;
     if (hero) {
@@ -64,74 +92,37 @@ export default function CinematicStage() {
 
   useStageProgress("story", sectionRef, { onProgress });
 
-  const blockCopy = (
-    <>
-      <p className="mono-tag">02 · The block</p>
-      <h2 className="beat__title">Your block is already a network.</h2>
-      <p className="beat__body">
-        Cafés, gyms, salons, restaurants, convenience stores — each with its own everyday traffic, and a counter where
-        a screen can sit.
-      </p>
-    </>
-  );
-
-  const offerCopy = (
-    <>
-      <p className="mono-tag">03 · The offer</p>
-      <div className="offercard">
-        <p className="offercard__tag">Example offer</p>
-        <p className="offercard__line">{offerLines}</p>
-      </div>
-      <p className="beat__body">
-        Uptick places it on screens at up to five participating non-competing local stores nearby.
-      </p>
-    </>
-  );
-
-  const screenCopy = (
-    <>
-      <p className="mono-tag">04 · The screen</p>
-      <h2 className="beat__title">On the counter, at eye level.</h2>
-      <dl className="specs">
-        <div>
-          <dt>21″</dt>
-          <dd>countertop display, anti-glare glass</dd>
-        </div>
-        <div>
-          <dt>Plug</dt>
-          <dd>one power cable, no store setup</dd>
-        </div>
-        <div>
-          <dt>Free</dt>
-          <dd>provided to host stores, no paid plan</dd>
-        </div>
-      </dl>
-    </>
-  );
+  /** "See how it works": one move to the second beat, or to the second still. */
+  const toBlock = useCallback((event: React.MouseEvent<HTMLAnchorElement>) => {
+    const section = sectionRef.current;
+    if (!section) return;
+    event.preventDefault();
+    const behavior: ScrollBehavior = prefersReducedMotion() ? "instant" : "smooth";
+    const pin = pinRef.current;
+    const pinned = pin && getComputedStyle(pin).position === "sticky";
+    const top = section.getBoundingClientRect().top + window.scrollY;
+    if (pinned) {
+      window.scrollTo({ top: top + BLOCK_AT * (section.offsetHeight - window.innerHeight), behavior });
+    } else {
+      const frame = section.querySelector<HTMLElement>("#block-still");
+      window.scrollTo({ top: (frame?.getBoundingClientRect().top ?? 0) + window.scrollY - 24, behavior });
+    }
+  }, []);
 
   const hero = (
     <>
-      <p className="eyebrow">Local screen &amp; promotion network</p>
-      <h1 className="hero__title">
-        Reach nearby customers.
-        <br />
-        Turn offers into visits.
-        <br />
-        Bring them back.
-      </h1>
+      <p className="eyebrow">Hyperlocal screen network</p>
+      <h1 className="hero__title">{PROMISE}</h1>
       <div className="hero__acts">
-        <Link href={CTA.growth.href} className="btn btn--primary">
-          {CTA.growth.label}
-        </Link>
-        <Link href={CTA.host.href} className="btn btn--ghost">
-          {CTA.host.label}
-        </Link>
+        <a href={CTA.how.href} className="btn btn--ghost btn--down" onClick={toBlock}>
+          {CTA.how.label}
+        </a>
       </div>
     </>
   );
 
   return (
-    <section ref={sectionRef} className="stage" data-theme="dark" aria-label="How Uptick works, on one block">
+    <section ref={sectionRef} className="stage" data-theme="dark" aria-label="Uptick Local, on one block">
       {/* ---------------- live: the pinned cinematic ---------------- */}
       <div ref={pinRef} className="stage__pin">
         <div className="stage__scrim" aria-hidden="true" />
@@ -139,15 +130,29 @@ export default function CinematicStage() {
         <div ref={heroRef} className="beat beat--hero">
           {hero}
         </div>
+
+        <div className="beat beat--model" id="block">
+          <p className="mono-tag">{COPY.block.tag}</p>
+          <h2 className="beat__title">{COPY.block.title}</h2>
+          <p className="beat__body">{COPY.block.body}</p>
+        </div>
+
+        <div className="beat beat--signal">
+          <p className="mono-tag">{COPY.connect.tag}</p>
+          <h2 className="beat__title">{COPY.connect.title}</h2>
+          <p className="beat__body">{COPY.connect.body}</p>
+        </div>
+
+        <div className="beat beat--screen">
+          <p className="mono-tag">{COPY.screen.tag}</p>
+          <h2 className="beat__title">{COPY.screen.title}</h2>
+          {specs}
+        </div>
+
+        <ScreenMatch />
         <p className="stage__cue" aria-hidden="true">
           Scroll
         </p>
-
-        <div className="beat beat--model">{blockCopy}</div>
-        <div className="beat beat--signal">{offerCopy}</div>
-        <div className="beat beat--screen">{screenCopy}</div>
-
-        <ScreenMatch />
       </div>
 
       {/* ---------------- stills: phones, portrait tablets, no WebGL ---------------- */}
@@ -161,28 +166,34 @@ export default function CinematicStage() {
           />
         </div>
 
-        <div className="frame">
+        <div className="frame" id="block-still">
           <StillFrame
             name="model"
-            alt="The whole block from above the far corner: two rows of storefronts on a dark plinth, five of them carrying counter screens."
+            alt="The whole block from above the far corner: two rows of storefronts on a dark plinth, each lit from inside."
           />
-          {blockCopy}
+          <p className="mono-tag">{COPY.block.tag}</p>
+          <h2 className="frame__title">{COPY.block.title}</h2>
+          <p className="frame__body">{COPY.block.body}</p>
         </div>
 
         <div className="frame">
           <StillFrame
             name="signal"
-            alt="A thin warm ring spreads from Your Business across the street; the counter screens it reaches switch to the offer."
+            alt="A soft ring of light spreads across the street from Your Business; the counter screens it reaches switch on."
           />
-          {offerCopy}
+          <p className="mono-tag">{COPY.connect.tag}</p>
+          <h2 className="frame__title">{COPY.connect.title}</h2>
+          <p className="frame__body">{COPY.connect.body}</p>
         </div>
 
         <div className="frame">
           <StillFrame
             name="screen"
-            alt="The Uptick screen on a host store's counter: a thin dark 21-inch display showing the offer and a code to scan."
+            alt="The Uptick screen on a host store's counter: a thin dark 21-inch display showing the store's own special."
           />
-          {screenCopy}
+          <p className="mono-tag">{COPY.screen.tag}</p>
+          <h2 className="frame__title">{COPY.screen.title}</h2>
+          {specs}
         </div>
       </div>
     </section>

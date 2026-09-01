@@ -9,7 +9,7 @@ export type Slot = "story" | "finale";
 export type FrameInfo = { slot: Slot; p: number; camera: THREE.PerspectiveCamera; width: number; height: number };
 
 type Options = {
-  offerText: string;
+  special: { line1: string; line2: string; tag: string };
   /** Reduced motion: cuts between compositions, no eased moves. */
   calm: boolean;
   forceTier?: QualityTier | null;
@@ -63,7 +63,7 @@ export class Engine {
     this.sky = skyEquirect();
     this.env = pmrem.fromEquirectangular(this.sky).texture;
     pmrem.dispose();
-    this.world = buildWorld(this.env, this.sky, this.opts.offerText);
+    this.world = buildWorld(this.env, this.sky, this.opts.special);
     this.w = width;
     this.h = height;
     this.applyTier("balanced");

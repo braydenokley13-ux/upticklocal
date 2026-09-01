@@ -4,7 +4,7 @@ import ContactPanel from "@/components/ContactPanel";
 export const metadata: Metadata = {
   title: "Host a free screen",
   description:
-    "A free 21-inch countertop screen for your store. Show your own specials, join the local screen network, and share in advertising revenue. No paid plan required.",
+    "A free 21-inch countertop screen for your store. Promote your own specials and events, and join a local network of non-competing stores. No paid plan required.",
 };
 
 const STEPS = [
@@ -14,15 +14,15 @@ const STEPS = [
   },
   {
     title: "Your specials go first",
-    body: "Your own promotions run on it. Send us a special whenever you have one and we put it in the loop.",
+    body: "Your own specials, events and announcements run on it. Send us one whenever you have one and it goes in the loop.",
   },
   {
-    title: "It carries nearby offers",
-    body: "Offers from local businesses that do not compete with you. We screen every placement against what you sell.",
+    title: "You join the local network",
+    body: "It carries campaigns from nearby businesses that do not compete with you — and your screen puts you on their customers' block too.",
   },
   {
-    title: "You share the upside",
-    body: "As paid advertising runs in your area, host stores share in the revenue.",
+    title: "It can go further",
+    body: "Hosting is the foundation for Growth, if you ever want it. And as paid campaigns run in your area, host stores may share in that revenue.",
   },
 ];
 
@@ -41,8 +41,8 @@ const FAQS = [
     a: "Nothing. The screen, the setup and the support are covered by Uptick. Hosting never requires you to buy Growth or any other paid plan.",
   },
   {
-    q: "Do I have to advertise with Uptick to host a screen?",
-    a: "No. Hosting a screen and running a Growth offer are two separate things. Plenty of host stores never run an offer of their own, and plenty of Growth customers never host a screen.",
+    q: "Do I have to buy anything to host a screen?",
+    a: "No. Hosting is free and stands on its own: the screen promotes your business from day one. Advertising and Growth are separate choices you can make later, or never.",
   },
   {
     q: "Will a competitor's offer show up on my counter?",
@@ -59,12 +59,10 @@ export default function HostPage() {
     <div className="page">
       <header className="page__head">
         <p className="mono-tag">Host a screen</p>
-        <h1 className="page__title">
-          A screen on your counter, at no cost.
-        </h1>
+        <h1 className="page__title">Promote your own business. Join the network.</h1>
         <p className="page__lead">
-          A free 21-inch countertop display that runs your own specials and carries offers from
-          nearby non-competing local businesses. No paid plan required.
+          A free 21-inch countertop screen that shows your own specials and events first, and makes
+          your store part of a local network of non-competing businesses. No paid plan required.
         </p>
         <div className="page__acts">
           <a href="#apply" className="btn btn--mint">

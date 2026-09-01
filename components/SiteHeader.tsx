@@ -6,9 +6,9 @@ import { useEffect, useRef } from "react";
 import { onScrollFrame } from "@/lib/scroll";
 
 /**
- * Deliberately small: two products and one explainer, so three destinations,
- * with the Growth door carrying the weight. The bar reads the section under
- * it and swaps its contrast as the page passes from blue hour onto canvas.
+ * Deliberately small: the three ways in and one explainer. Growth carries a
+ * little more weight as the premium layer. The bar reads the section under it
+ * and swaps its contrast as the page passes from blue hour onto canvas.
  */
 export default function SiteHeader() {
   const pathname = usePathname();
@@ -40,11 +40,14 @@ export default function SiteHeader() {
         <Link href="/how-it-works" className="navlink navlink--quiet" aria-current={current("/how-it-works")}>
           How it works
         </Link>
-        <Link href="/host" className="navlink" aria-current={current("/host")}>
-          Host a free screen
+        <Link href="/host" className="navlink navlink--quiet" aria-current={current("/host")}>
+          Host
+        </Link>
+        <Link href="/advertise" className="navlink navlink--quiet" aria-current={current("/advertise")}>
+          Advertise
         </Link>
         <Link href="/growth" className="navlink navlink--primary" aria-current={current("/growth")}>
-          Promote your business
+          Growth
         </Link>
       </nav>
     </header>

@@ -146,12 +146,12 @@ export function signTexture(text: string, bright = false): THREE.Texture {
 }
 
 /**
- * The 21" unit's content. Rendered at 1600×900; the final shot puts this
- * panel across the whole viewport, and the DOM surface that takes over from
- * it is laid out to the same proportions (see ScreenMatch).
+ * The 21" unit's content: the host store's own special. Rendered at 1600×900;
+ * the final shot puts this panel across the whole viewport, and the DOM
+ * surface that takes over from it is laid out to the same proportions.
  */
-export function screenTexture(offerText: string): THREE.Texture {
-  const key = `screen:${offerText}`;
+export function screenTexture(special: { line1: string; line2: string; tag: string }): THREE.Texture {
+  const key = `screen:${special.line1}:${special.line2}`;
   const hit = cache.get(key);
   if (hit) return hit;
   const W = 1600;
@@ -173,61 +173,28 @@ export function screenTexture(offerText: string): THREE.Texture {
   g.textBaseline = "alphabetic";
   g.textAlign = "left";
 
-  // eyebrow
   g.fillStyle = "#e7a94f";
   g.font = `500 30px ${mono}`;
   g.letterSpacing = "8px";
-  g.fillText("EXAMPLE OFFER", 112, 150);
+  g.fillText(special.tag.toUpperCase(), 112, 150);
   g.letterSpacing = "0px";
 
-  // offer, two lines
   g.fillStyle = "#f4efe6";
-  g.font = `500 136px ${sans}`;
-  g.letterSpacing = "-4px";
-  const words = offerText.split(" ");
-  const cut = Math.min(3, words.length);
-  g.fillText(words.slice(0, cut).join(" "), 104, 400);
-  g.fillText(words.slice(cut).join(" "), 104, 546);
+  g.font = `500 150px ${sans}`;
+  g.letterSpacing = "-5px";
+  g.fillText(special.line1, 104, 430);
+  g.fillStyle = "rgba(244,239,230,.7)";
+  g.font = `400 84px ${sans}`;
+  g.letterSpacing = "-2px";
+  g.fillText(special.line2, 110, 560);
   g.letterSpacing = "0px";
 
-  g.fillStyle = "rgba(244,239,230,.62)";
-  g.font = `400 40px ${sans}`;
-  g.fillText("Scan to claim. Redeem on your phone.", 112, 660);
-
-  // the code — a finder-pattern stand-in, deliberately not scannable
-  const qs = 240;
-  const qx = W - 112 - qs;
-  const qy = H / 2 - qs / 2 - 30;
-  g.fillStyle = "#f4efe6";
-  g.beginPath();
-  g.roundRect(qx, qy, qs, qs, 14);
-  g.fill();
-  g.fillStyle = "#061416";
-  ([
-    [qx + 26, qy + 26],
-    [qx + qs - 26 - 56, qy + 26],
-    [qx + 26, qy + qs - 26 - 56],
-  ] as const).forEach(([x, y]) => {
-    g.fillRect(x, y, 56, 56);
-    g.fillStyle = "#f4efe6";
-    g.fillRect(x + 10, y + 10, 36, 36);
-    g.fillStyle = "#061416";
-    g.fillRect(x + 18, y + 18, 20, 20);
-  });
-  for (let i = 0; i < 9; i++) {
-    const x = qx + 108 + (i % 3) * 30;
-    const y = qy + 108 + Math.floor(i / 3) * 30;
-    if ((i * 7) % 3 !== 1) g.fillRect(x, y, 18, 18);
-  }
-  g.fillStyle = "rgba(244,239,230,.62)";
-  g.font = `500 24px ${mono}`;
+  g.fillStyle = "rgba(244,239,230,.5)";
+  g.font = `500 26px ${mono}`;
   g.letterSpacing = "6px";
-  g.textAlign = "center";
-  g.fillText("SCAN TO CLAIM", qx + qs / 2 + 3, qy + qs + 56);
+  g.fillText("CONVENIENCE · 118 MAIN ST", 112, 690);
   g.letterSpacing = "0px";
-  g.textAlign = "left";
 
-  // the mark
   g.fillStyle = "#6fe0c6";
   g.beginPath();
   g.arc(122, H - 112, 9, 0, Math.PI * 2);

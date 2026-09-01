@@ -91,8 +91,12 @@ export type HostScreen = {
 
 export type WorldState = { p: number; finale: boolean };
 
+export type Label = { id: string; text: string; position: THREE.Vector3 };
+
 export type World = {
   scene: THREE.Scene;
+  /** Every named storefront, Your Business first, plus the screen itself. */
+  labels: Label[];
   anchors: { you: THREE.Vector3; host: THREE.Vector3; unit: THREE.Vector3 };
   unitFrame: () => { position: THREE.Vector3; right: THREE.Vector3; up: THREE.Vector3; normal: THREE.Vector3 };
   update: (state: WorldState) => void;
@@ -105,7 +109,7 @@ export type World = {
    Assembly
    ---------------------------------------------------------------------- */
 
-export function buildWorld(env: THREE.Texture, sky: THREE.Texture, offerText: string): World {
+export function buildWorld(env: THREE.Texture, sky: THREE.Texture, special: { line1: string; line2: string; tag: string }): World {
   const scene = new THREE.Scene();
   scene.background = sky;
   scene.environment = env;
@@ -153,6 +157,7 @@ export function buildWorld(env: THREE.Texture, sky: THREE.Texture, offerText: st
   M.warmCard.map = cardTex;
 
   const anchors = { you: new THREE.Vector3(), host: new THREE.Vector3(), unit: new THREE.Vector3() };
+  const labels: Label[] = [];
   let heroGlass: THREE.Mesh<THREE.BufferGeometry, THREE.MeshPhysicalMaterial> | null = null;
   let unit: Unit | null = null;
   const yourDoor = new THREE.Vector3(0, 0, FRONT - 0.9);
@@ -318,7 +323,7 @@ export function buildWorld(env: THREE.Texture, sky: THREE.Texture, offerText: st
       const czz = roomZ(2.0);
       shadowed.addBox(cw, 0.9, 0.62, M.counter, cx, BASE + 0.45, czz);
       shadowed.addBox(cw + 0.06, 0.06, 0.68, M.counterTop, cx, BASE + 0.93, czz);
-      unit = buildUnit(M, offerText);
+      unit = buildUnit(M, special);
       unit.group.position.set(cx - 0.15, BASE + 0.96, czz + nz * 0.04);
       const contactMat = new THREE.MeshBasicMaterial({ map: poolTexture(), color: 0x000000, transparent: true, opacity: 0.55, depthWrite: false });
       own.push(contactMat);
@@ -331,6 +336,10 @@ export function buildWorld(env: THREE.Texture, sky: THREE.Texture, offerText: st
       anchors.host.set(b.x, H + 1.0, cz);
     }
     if (b.you) anchors.you.set(b.x, H + 1.0, cz);
+    if (b.sign) {
+      const text = b.you ? "Your business" : b.sign.charAt(0) + b.sign.slice(1).toLowerCase();
+      labels[b.you ? "unshift" : "push"]({ id: b.id, text, position: new THREE.Vector3(b.x, H + 1.0, cz) });
+    }
   });
 
   /* --- street lamps ------------------------------------------------------- */
@@ -416,6 +425,7 @@ export function buildWorld(env: THREE.Texture, sky: THREE.Texture, offerText: st
     return frame;
   };
   anchors.unit.copy(unitFrame().position).addScaledVector(frame.up, PANEL_H * 0.5 + 0.12);
+  labels.push({ id: "unit", text: "Uptick screen", position: anchors.unit });
 
   const ON = new THREE.Color(0xf2b36a);
   const IDLE = new THREE.Color(0x2f7a6e);
@@ -476,5 +486,5 @@ export function buildWorld(env: THREE.Texture, sky: THREE.Texture, offerText: st
     fill.dispose();
   };
 
-  return { scene, anchors, unitFrame, update, warm, dispose };
+  return { scene, labels, anchors, unitFrame, update, warm, dispose };
 }

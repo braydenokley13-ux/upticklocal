@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
-import { OFFER_TEXT } from "@/lib/content";
+import { SPECIAL } from "@/lib/content";
 import { useMediaQuery } from "@/lib/useMediaQuery";
 
 /** Live 3D only where it earns its cost: a landscape viewport at least 1024px wide. */
@@ -28,5 +28,5 @@ export default function WorldLayer() {
   const live = useMediaQuery(LIVE_QUERY);
   const still = useStillMode();
   if (!live && !still) return null;
-  return <NeighborhoodCanvas offerText={OFFER_TEXT} />;
+  return <NeighborhoodCanvas special={SPECIAL} />;
 }
