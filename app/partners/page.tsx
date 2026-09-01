@@ -28,7 +28,7 @@ export default function PartnersPage() {
       <header className="page__head">
         <p className="mono-tag">Screen network partners</p>
         <h1 className="page__title">
-          Already operate screens? <em>Let&rsquo;s talk.</em>
+          Already operate screens? Let&rsquo;s talk.
         </h1>
         <p className="page__lead">
           If you run digital screens in retail, fitness or hospitality, Uptick can connect that

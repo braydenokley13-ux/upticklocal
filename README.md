@@ -1,25 +1,35 @@
-# CODING AGENTS: READ THIS FIRST
+# Uptick Local
 
-This is a **handoff bundle** from Claude Design (claude.ai/design).
+Public website for Uptick Local: a local screen and promotion network with two independent products, **Uptick Growth** (an offer distributed to screens at nearby non-competing local stores) and **Host a free screen**.
 
-A user mocked up designs in HTML/CSS/JS using an AI design tool, then exported this bundle so a coding agent can implement the designs for real.
+Next.js 16 · React 19 · three.js. No backend; contact paths are plain email links.
 
-## What you should do — IMPORTANT
+## Run
 
-**Read the chat transcripts first.** There are 3 chat transcript(s) in `chats/`. The transcripts show the full back-and-forth between the user and the design assistant — they tell you **what the user actually wants** and **where they landed** after iterating. Don't skip them. The final HTML files are the output, but the chat is where the intent lives.
+```
+npm install
+npm run dev      # http://localhost:3000
+npm run build && npm start
+```
 
-**Read `project/Uptick Local Site v2.dc.html` in full.** The user had this file open when they triggered the handoff, so it's almost certainly the primary design they want built. Read it top to bottom — don't skim. Then **follow its imports**: open every file it pulls in (shared components, CSS, scripts) so you understand how the pieces fit together before you start implementing.
+## How the homepage is built
 
-**If anything is ambiguous, ask the user to confirm before you start implementing.** It's much cheaper to clarify scope up front than to build the wrong thing.
+- `components/home/CinematicStage.tsx` — the five opening beats. On landscape viewports ≥ 1024px they are one pinned section driven by scroll; everywhere else the same beats are baked stills with the copy set underneath.
+- `lib/three/` — the architectural model. `engine.ts` renders on demand (no animation loop; the renderer sleeps when nothing changes), measures a quality tier at load, and draws one static shadow map. `world.ts` is the block, `unit.ts` the screen, `shots.ts` the camera choreography.
+- `components/home/ScreenMatch.tsx` — the DOM surface the 3D screen hands over to at the end of the stage.
+- The product chapters (claim, visit, follow-up, who handles what, two doors) are plain DOM on warm canvas.
 
-## About the design files
+## Still frames
 
-The design medium is **HTML/CSS/JS** — these are prototypes, not production code. Your job is to **recreate them pixel-perfectly** in whatever technology makes sense for the target codebase (React, Vue, native, whatever fits). Match the visual output; don't copy the prototype's internal structure unless it happens to fit.
+Phones, portrait tablets and browsers without WebGL show `public/frames/*.webp`, rendered from the same scene. After changing the model, rebuild and re-bake:
 
-**Don't render these files in a browser or take screenshots unless the user asks you to.** Everything you need — dimensions, colors, layout rules — is spelled out in the source. Read the HTML and CSS directly; a screenshot won't tell you anything they don't.
+```
+npm run build && npm start
+npm run bake            # needs Playwright with Chromium; NODE_PATH may point at a global install
+```
 
-## Bundle contents
+`/?still=<hero|model|signal|screen|finale>` (or `?still=p:0.42`) renders a single composition, which the bake script and visual QA use.
 
-- `README.md` — this file
-- `chats/` — conversation transcripts (read these!)
-- `project/` — the `Uptick Local Site and System` project files (HTML prototypes, assets, components)
+## Design references
+
+`project/` and `chats/` are the original design handoff. They predate the current product thesis and are kept for reference only; nothing at runtime depends on them.

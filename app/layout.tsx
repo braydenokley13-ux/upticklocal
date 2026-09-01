@@ -1,35 +1,16 @@
 import type { Metadata } from "next";
-import { Archivo, IBM_Plex_Mono, Newsreader } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import "./globals.css";
 
 /**
- * Three faces, each with one job: Newsreader carries every headline, Archivo
- * carries everything you read at length, IBM Plex Mono carries labels, specs
- * and anything the system is stating as fact.
+ * Two faces. Geist carries everything you read — headlines and body alike, in
+ * a narrow band of weights. Geist Mono is the annotation on the drawing:
+ * labels, specs, states. Seasoning, not identity.
  */
-const display = Newsreader({
-  subsets: ["latin"],
-  variable: "--font-display",
-  display: "swap",
-  weight: ["200", "300", "400"],
-  style: ["normal", "italic"],
-});
-
-const body = Archivo({
-  subsets: ["latin"],
-  variable: "--font-body",
-  display: "swap",
-  weight: ["400", "500", "600", "700"],
-});
-
-const mono = IBM_Plex_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
-  display: "swap",
-  weight: ["400", "500"],
-});
+const sans = Geist({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
+const mono = Geist_Mono({ subsets: ["latin"], variable: "--font-mono", display: "swap", weight: ["400", "500"] });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://upticklocal.com"),
@@ -49,7 +30,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${display.variable} ${body.variable} ${mono.variable}`}>
+    <html lang="en" className={`${sans.variable} ${mono.variable}`}>
       <body>
         <a href="#main" className="skiplink">
           Skip to content

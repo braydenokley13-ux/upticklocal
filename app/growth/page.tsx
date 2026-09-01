@@ -49,9 +49,9 @@ export default function GrowthPage() {
   return (
     <div className="page">
       <header className="page__head">
-        <p className="mono-tag">Door two &middot; Uptick Growth</p>
+        <p className="mono-tag">Uptick Growth</p>
         <h1 className="page__title">
-          Your offer, <em>five nearby counters.</em>
+          Your offer, five nearby counters.
         </h1>
         <p className="page__lead">
           Uptick distributes your offer through screens at participating non-competing local stores,
@@ -87,7 +87,7 @@ export default function GrowthPage() {
       <section className="band" aria-labelledby="growth-measure">
         <div className="band__inner">
           <p className="mono-tag">What Uptick can tell you</p>
-          <h2 id="growth-measure" className="band__title" style={{ color: "var(--on-ink-bright)" }}>
+          <h2 id="growth-measure" className="band__title">
             Real activity, not estimated audiences.
           </h2>
           <div className="ledger">

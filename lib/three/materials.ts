@@ -1,14 +1,12 @@
 import * as THREE from "three";
-import { patternTexture, type PatternKind } from "./textures";
 
 /**
- * Geometry cache. The block puts ~1,400 boxes on screen and most of them are
- * repeats — window reveals, sills, mullions, shelves. Keying by dimensions
- * collapses that to a few dozen buffers.
+ * Geometry cache. Everything on the block is a box or a plane keyed by its
+ * dimensions, so the whole model shares a few dozen buffers.
  */
 const boxCache = new Map<string, THREE.BoxGeometry>();
 const planeCache = new Map<string, THREE.PlaneGeometry>();
-const geometries: THREE.BufferGeometry[] = [];
+const tracked: THREE.BufferGeometry[] = [];
 
 export function boxGeometry(w: number, h: number, d: number): THREE.BoxGeometry {
   const key = `${w.toFixed(3)}:${h.toFixed(3)}:${d.toFixed(3)}`;
@@ -16,7 +14,7 @@ export function boxGeometry(w: number, h: number, d: number): THREE.BoxGeometry 
   if (!g) {
     g = new THREE.BoxGeometry(w, h, d);
     boxCache.set(key, g);
-    geometries.push(g);
+    tracked.push(g);
   }
   return g;
 }
@@ -27,24 +25,19 @@ export function planeGeometry(w: number, h: number): THREE.PlaneGeometry {
   if (!g) {
     g = new THREE.PlaneGeometry(w, h);
     planeCache.set(key, g);
-    geometries.push(g);
+    tracked.push(g);
   }
   return g;
 }
 
-/** Convenience: a cached box under a shared material. */
-export function box(w: number, h: number, d: number, m: THREE.Material): THREE.Mesh {
-  return new THREE.Mesh(boxGeometry(w, h, d), m);
-}
-
 export function trackGeometry<T extends THREE.BufferGeometry>(g: T): T {
-  geometries.push(g);
+  tracked.push(g);
   return g;
 }
 
 export function disposeGeometry() {
-  geometries.forEach((g) => g.dispose());
-  geometries.length = 0;
+  tracked.forEach((g) => g.dispose());
+  tracked.length = 0;
   boxCache.clear();
   planeCache.clear();
 }
@@ -52,9 +45,11 @@ export function disposeGeometry() {
 export type Materials = ReturnType<typeof createMaterials>;
 
 /**
- * One palette for the whole block. Dark values are deliberately lifted: at
- * blue hour the shadow side of a building is still lit by a large blue sky,
- * so nothing here bottoms out at black.
+ * One material language for the whole model: chalky plaster in three close
+ * tones, pale limestone for the horizontals, dark architectural bronze and
+ * metal for everything that is fitted rather than built, and glass. Nothing
+ * is textured — the variation is massing, rhythm and light, the way it would
+ * be on a museum model.
  */
 export function createMaterials() {
   const made: THREE.Material[] = [];
@@ -62,104 +57,58 @@ export function createMaterials() {
     made.push(m);
     return m;
   };
-
-  const std = (o: THREE.MeshStandardMaterialParameters) =>
-    reg(new THREE.MeshStandardMaterial(o));
-
-  const surf = (
-    color: number,
-    kind: PatternKind,
-    rx: number,
-    ry: number,
-    roughness: number,
-    bumpScale: number
-  ) =>
-    std({
-      color,
-      roughness,
-      map: patternTexture(kind, rx, ry),
-      bumpMap: patternTexture(kind, rx, ry),
-      bumpScale,
-    });
+  const std = (o: THREE.MeshStandardMaterialParameters) => reg(new THREE.MeshStandardMaterial(o));
 
   const M = {
-    // --- facades -----------------------------------------------------------
-    plasterLight: surf(0xcbc4b4, "plaster", 5, 5, 0.92, 0.05),
-    /** Your Business reads lighter than its neighbours before any light hits it. */
-    plasterYou: surf(0xdcd5c4, "plaster", 5, 5, 0.88, 0.05),
-    plasterMid: surf(0xa6a193, "plaster", 5, 5, 0.94, 0.05),
-    stone: surf(0x8e8b81, "stone", 5, 5, 0.86, 0.07),
-    brick: surf(0x7a5f52, "brick", 6, 6, 0.9, 0.09),
-    base: surf(0x494741, "stone", 3, 1.2, 0.84, 0.05),
+    // --- walls -----------------------------------------------------------
+    you: std({ color: 0xe9e2d3, roughness: 0.94, envMapIntensity: 0.35 }),
+    ivory: std({ color: 0xd4ccbb, roughness: 0.95, envMapIntensity: 0.3 }),
+    sand: std({ color: 0xc4b59d, roughness: 0.95, envMapIntensity: 0.3 }),
+    stone: std({ color: 0xb2ada0, roughness: 0.92, envMapIntensity: 0.3 }),
+    /** Horizontals — cornices, sills, base bands, the stall riser. */
+    limestone: std({ color: 0xc9c4b6, roughness: 0.9, envMapIntensity: 0.3 }),
+    roof: std({ color: 0xa9a49a, roughness: 0.98 }),
 
-    // --- ground ------------------------------------------------------------
-    walk: surf(0x585c60, "pave", 36, 1, 0.93, 0.06),
-    road: std({
-      color: 0x22282b,
-      roughness: 0.52,
-      metalness: 0.1,
-      map: patternTexture("asphalt", 26, 2),
-      bumpMap: patternTexture("asphalt", 26, 2),
-      bumpScale: 0.03,
-      envMapIntensity: 0.55,
-    }),
-    lineWhite: std({ color: 0xb9b1a1, roughness: 0.9 }),
+    // --- fittings --------------------------------------------------------
+    bronze: std({ color: 0x4a423c, roughness: 0.6, metalness: 0.35, envMapIntensity: 0.8 }),
+    metal: std({ color: 0x4a5056, roughness: 0.45, metalness: 0.6, envMapIntensity: 0.8 }),
+    wood: std({ color: 0x5a3f2c, roughness: 0.7, envMapIntensity: 0.4 }),
+    /** Unlit upper windows: flush dark panels with a blue-hour sheen. */
+    glassDark: std({ color: 0x2b4552, roughness: 0.35, metalness: 0.2, envMapIntensity: 1.0 }),
 
-    // --- the presentation plinth the model sits on -------------------------
-    plinth: std({ color: 0x0c1417, roughness: 0.7, metalness: 0.1 }),
-    plinthTop: std({ color: 0x1b2529, roughness: 0.9 }),
+    // --- ground ----------------------------------------------------------
+    walk: std({ color: 0x9b978c, roughness: 0.96, envMapIntensity: 0.25 }),
+    kerb: std({ color: 0x7c7a72, roughness: 0.94 }),
+    road: std({ color: 0x24282b, roughness: 0.62, metalness: 0.08, envMapIntensity: 0.5 }),
+    marking: std({ color: 0x4d4b45, roughness: 0.95 }),
+    plinth: std({ color: 0x131a1f, roughness: 0.6, metalness: 0.15, envMapIntensity: 0.6 }),
+    plinthTop: std({ color: 0x232a30, roughness: 0.85 }),
 
-    // --- trim & fittings ---------------------------------------------------
-    wood: std({ color: 0x6a4f3a, roughness: 0.78 }),
-    metal: std({ color: 0x555f63, roughness: 0.34, metalness: 0.85 }),
-    trim: std({ color: 0x3b4347, roughness: 0.42, metalness: 0.6 }),
-    roof: std({ color: 0x343a3d, roughness: 0.96 }),
-    teal: std({ color: 0x15353a, roughness: 0.5, metalness: 0.3 }),
+    // --- interiors ------------------------------------------------------
+    interiorFloor: std({ color: 0x8b7f70, roughness: 0.9 }),
+    counter: std({ color: 0x7a6552, roughness: 0.75, envMapIntensity: 0.4 }),
+    counterTop: std({ color: 0xb9b3a7, roughness: 0.5, metalness: 0.05, envMapIntensity: 0.6 }),
 
+    // --- the screen unit --------------------------------------------------
+    enclosure: std({ color: 0x14181b, roughness: 0.38, metalness: 0.55, envMapIntensity: 1.2 }),
+
+    // --- glazing ----------------------------------------------------------
     glass: reg(
       new THREE.MeshPhysicalMaterial({
-        color: 0x0b1f24,
-        roughness: 0.06,
+        color: 0x0c2129,
+        roughness: 0.05,
         metalness: 0,
         transparent: true,
-        opacity: 0.3,
-        envMapIntensity: 1.1,
+        opacity: 0.26,
+        envMapIntensity: 1.2,
+        depthWrite: false,
       })
     ),
 
-    // --- emissive stand-ins (unlit on purpose — these are light sources) ----
-    warm: reg(new THREE.MeshBasicMaterial({ color: 0xffc888 })),
-    warmDim: reg(new THREE.MeshBasicMaterial({ color: 0xd39a5f })),
-    mint: reg(new THREE.MeshBasicMaterial({ color: 0x6fe0c6 })),
-
-    // --- planting ----------------------------------------------------------
-    canopy: std({ color: 0x2c3a31, roughness: 1 }),
-    trunk: std({ color: 0x2b2721, roughness: 1 }),
-
-    // --- interiors ---------------------------------------------------------
-    counter: std({ color: 0x8a6a4b, roughness: 0.72 }),
-    counterTop: std({ color: 0x2a3033, roughness: 0.35, metalness: 0.3 }),
-    interior: std({ color: 0x8d8172, roughness: 0.96 }),
-    interiorDark: std({ color: 0x4a453d, roughness: 0.9 }),
-    chrome: std({ color: 0x9aa3a6, roughness: 0.22, metalness: 0.9 }),
-    mirror: std({ color: 0x6f8590, roughness: 0.12, metalness: 0.7, envMapIntensity: 1.6 }),
-    upholstery: std({ color: 0x3a3f43, roughness: 0.86 }),
-    cooler: std({ color: 0x1d3b42, roughness: 0.2, metalness: 0.35 }),
-    /** Chiller interior — cool, so the store is not monochrome warm. */
-    coolerLight: reg(new THREE.MeshBasicMaterial({ color: 0x9fd8dc })),
-    rubber: std({ color: 0x22262a, roughness: 0.95 }),
-
-    /**
-     * Packaged goods. Muted and varied on purpose: one flat tone across a
-     * whole shelf reads as a backlit panel, four quiet ones read as stock.
-     */
-    goods: [
-      std({ color: 0x6b4a3e, roughness: 0.9 }),
-      std({ color: 0x4a5560, roughness: 0.88 }),
-      std({ color: 0x7d6f57, roughness: 0.92 }),
-      std({ color: 0x53604a, roughness: 0.9 }),
-      std({ color: 0x8a5a4a, roughness: 0.88 }),
-    ] as THREE.MeshStandardMaterial[],
+    // --- emissive stand-ins (unlit on purpose: these are the light sources)
+    warmCard: reg(new THREE.MeshBasicMaterial({ vertexColors: true })),
+    lampHead: reg(new THREE.MeshBasicMaterial({ color: 0xffd6a0 })),
+    mintLed: reg(new THREE.MeshBasicMaterial({ color: 0x6fe0c6 })),
   };
 
   const dispose = () => made.forEach((m) => m.dispose());

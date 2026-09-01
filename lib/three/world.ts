@@ -1,113 +1,103 @@
 import * as THREE from "three";
-import { buildInterior, type InteriorKind } from "./interiors";
 import { MergeBucket } from "./merge";
-import {
-  box,
-  createMaterials,
-  planeGeometry,
-  trackGeometry,
-  type Materials,
-} from "./materials";
-import {
-  backgroundTexture,
-  counterScreenTexture,
-  glowTexture,
-  heroScreenTexture,
-  signTexture,
-} from "./textures";
+import { boxGeometry, createMaterials, planeGeometry, trackGeometry, type Materials } from "./materials";
+import { glowTexture, interiorTexture, poolTexture, signTexture, waveTexture } from "./textures";
+import { buildUnit, PANEL_H, type Unit } from "./unit";
+import { smoothstep } from "./shots";
 
 /* -------------------------------------------------------------------------
-   The block
+   The block. One street, two rows of buildings, on a plinth.
    ---------------------------------------------------------------------- */
 
-export const ROAD_HALF = 5.5;
-export const WALK = 3;
-export const FRONT_N = -8.5;
-export const FRONT_S = 8.5;
+export const ROAD_HALF = 4.5;
+export const WALK = 2.6;
+export const FRONT = ROAD_HALF + WALK; // storefront line, either side
+const SF = 3.7; // ground storey, floor to the top of the fascia
+const FLOOR_H = 3.05; // upper storeys
+const PIER = 0.72;
+const BASE = 0.45; // stall riser / base band
+const PLINTH_W = 96;
+const PLINTH_D = 40;
 
-/** Facade materials a building may be clad in. */
-type SurfaceKey = "plasterLight" | "plasterYou" | "plasterMid" | "stone" | "brick";
+type Tone = "you" | "ivory" | "sand" | "stone";
 
 type BuildingDef = {
   id: string;
   sign: string;
-  x: number;
   w: number;
   d: number;
-  h: number;
+  /** Upper storeys above the shopfront. */
+  floors: number;
   side: "N" | "S";
-  mat: SurfaceKey;
-  awning?: "wood" | "metal";
-  interior?: InteriorKind;
-  /** Carries an Uptick screen. */
+  tone: Tone;
   host?: boolean;
-  /** The store the camera walks into at the end of the sequence. */
   hero?: boolean;
-  /** The advertiser. */
   you?: boolean;
+  canopy?: boolean;
+  fascia?: "bronze" | "wood";
+  /** Extra gap before this building (an alley). */
+  gap?: number;
 };
 
-const BUILDINGS: BuildingDef[] = [
-  { id: "you", sign: "YOUR BUSINESS", x: -4, w: 11, d: 9, h: 9.6, side: "S", mat: "plasterYou", awning: "metal", interior: "generic", you: true },
-  { id: "cafe", sign: "CAFÉ", x: 9, w: 9, d: 9, h: 8.2, side: "S", mat: "brick", awning: "wood", interior: "cafe" },
-  { id: "well", sign: "WELLNESS", x: -18, w: 10, d: 9, h: 11.2, side: "S", mat: "stone", interior: "wellness" },
-  { id: "conv", sign: "CONVENIENCE", x: -12, w: 12, d: 10, h: 8.6, side: "N", mat: "plasterMid", awning: "metal", interior: "market", host: true, hero: true },
-  { id: "rest", sign: "RESTAURANT", x: 2, w: 11, d: 10, h: 11.6, side: "N", mat: "brick", awning: "wood", interior: "restaurant", host: true },
-  { id: "salon", sign: "SALON", x: 15, w: 9, d: 9, h: 8.4, side: "N", mat: "plasterLight", interior: "salon", host: true },
-  { id: "bout", sign: "BOUTIQUE", x: 26, w: 10, d: 10, h: 9.8, side: "N", mat: "stone", awning: "metal", interior: "boutique", host: true },
-  { id: "gym", sign: "FITNESS", x: -26, w: 12, d: 11, h: 12.6, side: "N", mat: "stone", interior: "fitness", host: true },
-  { id: "auto", sign: "AUTO SERVICE", x: 22, w: 11, d: 10, h: 7.6, side: "S", mat: "plasterMid", awning: "metal", interior: "auto" },
-  { id: "far1", sign: "", x: -31, w: 9, d: 9, h: 10.4, side: "S", mat: "brick" },
-  { id: "far2", sign: "", x: 37, w: 10, d: 10, h: 11.4, side: "N", mat: "plasterMid" },
-  { id: "far3", sign: "", x: -40, w: 11, d: 10, h: 8.8, side: "N", mat: "stone" },
+type Building = BuildingDef & { x: number };
+
+// South row faces the road at -z and carries Your Business at x = 0.
+const SOUTH: BuildingDef[] = [
+  { id: "s3", sign: "", w: 9.6, d: 10, floors: 2, side: "S", tone: "sand" },
+  { id: "well", sign: "WELLNESS", w: 9.8, d: 10, floors: 3, side: "S", tone: "stone" },
+  { id: "you", sign: "YOUR BUSINESS", w: 12.4, d: 11, floors: 2, side: "S", tone: "you", you: true, canopy: true, fascia: "bronze" },
+  { id: "cafe", sign: "CAFÉ", w: 8.4, d: 10, floors: 2, side: "S", tone: "sand", host: true, canopy: true, fascia: "wood" },
+  { id: "s2", sign: "", w: 10.2, d: 10, floors: 3, side: "S", tone: "ivory", gap: 1.4 },
 ];
 
-/** Order matters: the offer travels to these in sequence. */
-export const HOSTS = ["conv", "rest", "salon", "bout", "gym"] as const;
+// North row faces the road at +z. The convenience store is the host we enter.
+const NORTH: BuildingDef[] = [
+  { id: "gym", sign: "FITNESS", w: 11.8, d: 11, floors: 3, side: "N", tone: "stone", host: true },
+  { id: "conv", sign: "CONVENIENCE", w: 11, d: 11, floors: 2, side: "N", tone: "ivory", host: true, hero: true, canopy: true, fascia: "bronze" },
+  { id: "rest", sign: "RESTAURANT", w: 10.6, d: 10, floors: 3, side: "N", tone: "sand", host: true, canopy: true, fascia: "wood" },
+  { id: "salon", sign: "SALON", w: 8.4, d: 10, floors: 2, side: "N", tone: "stone", host: true, gap: 1.2 },
+  { id: "n2", sign: "", w: 10.4, d: 10, floors: 2, side: "N", tone: "ivory" },
+];
 
-/** Order the block builds itself in, nearest first. */
-export const RISE_ORDER = ["conv", "rest", "salon", "bout", "gym", "auto", "far1", "far2", "far3"];
+function layoutRow(defs: BuildingDef[], anchorId: string, anchorX: number): Building[] {
+  let x = 0;
+  const out: Building[] = [];
+  defs.forEach((def, i) => {
+    x += i === 0 ? 0 : (def.gap ?? 0.22);
+    out.push({ ...def, x: x + def.w / 2 });
+    x += def.w;
+  });
+  const shift = anchorX - out.find((b) => b.id === anchorId)!.x;
+  out.forEach((b) => (b.x += shift));
+  return out;
+}
 
-export type QualityTier = "high" | "medium";
+export const BUILDINGS: Building[] = [...layoutRow(SOUTH, "you", 0), ...layoutRow(NORTH, "conv", -7.8)];
 
-export type ScreenRef = {
+const heightOf = (b: BuildingDef) => SF + b.floors * FLOOR_H;
+
+/* -------------------------------------------------------------------------
+   Types
+   ---------------------------------------------------------------------- */
+
+export type HostScreen = {
   id: string;
+  /** Distance from Your Business' door, along the ground. */
+  distance: number;
   face: THREE.Mesh<THREE.BufferGeometry, THREE.MeshBasicMaterial>;
   halo: THREE.Sprite;
-  idle: THREE.Texture;
-  offer?: THREE.Texture;
-  hero: boolean;
-  group: THREE.Group;
-  on?: boolean;
+  on: boolean;
 };
 
-export type RouteRef = {
-  id: string;
-  curve: THREE.QuadraticBezierCurve3;
-  mesh: THREE.Mesh<THREE.BufferGeometry, THREE.MeshBasicMaterial>;
-  halo: THREE.Mesh<THREE.BufferGeometry, THREE.MeshBasicMaterial>;
-  count: number;
-  haloCount: number;
-};
-
-export type LabelRef = {
-  id: string;
-  text: string;
-  you: boolean;
-  host: boolean;
-  position: THREE.Vector3;
-};
+export type WorldState = { p: number; finale: boolean };
 
 export type World = {
   scene: THREE.Scene;
-  groups: Record<string, THREE.Group>;
-  screens: ScreenRef[];
-  routes: RouteRef[];
-  chip: THREE.Group;
-  labels: LabelRef[];
-  heroGroup: THREE.Group;
-  /** The glazing the camera dissolves through to enter the host store. */
-  heroGlass?: { mesh: THREE.Object3D; material: THREE.MeshPhysicalMaterial };
+  anchors: { you: THREE.Vector3; host: THREE.Vector3; unit: THREE.Vector3 };
+  unitFrame: () => { position: THREE.Vector3; right: THREE.Vector3; up: THREE.Vector3; normal: THREE.Vector3 };
+  update: (state: WorldState) => void;
+  /** Compiles every material, including the ones that only show mid-story. */
+  warm: (renderer: THREE.WebGLRenderer, camera: THREE.Camera) => void;
   dispose: () => void;
 };
 
@@ -115,600 +105,365 @@ export type World = {
    Assembly
    ---------------------------------------------------------------------- */
 
-export function buildWorld(
-  env: THREE.Texture,
-  offerText: string,
-  quality: QualityTier
-): World {
+export function buildWorld(env: THREE.Texture, sky: THREE.Texture, offerText: string): World {
   const scene = new THREE.Scene();
-  scene.background = backgroundTexture();
+  scene.background = sky;
   scene.environment = env;
-  // Fog starts beyond the block itself, so the wide shot stays crisp and only
-  // the far end of the street falls away into blue-hour haze. Starting it too
-  // near is what greys out an establishing shot.
-  scene.fog = new THREE.Fog(0x0e2731, 80, 300);
+  scene.fog = new THREE.Fog(0x0f2230, 70, 190);
 
   const M = createMaterials();
-  const glow = glowTexture();
-  const spriteMaterials: THREE.SpriteMaterial[] = [];
-  const extraGeometry: THREE.BufferGeometry[] = [];
-  const lights: THREE.Light[] = [];
+  const own: (THREE.Material | THREE.BufferGeometry)[] = [];
+  const shadowed = new MergeBucket(); // casts + receives
+  const ground = new MergeBucket(); // receives
+  const unlit = new MergeBucket(); // emissive cards
+  const glazing = new MergeBucket(); // transparent storefront glass
+  const color = new THREE.Color();
 
-  const sprite = (color: number, size: number, opacity: number) => {
-    const mat = new THREE.SpriteMaterial({
-      map: glow,
-      color,
-      transparent: true,
-      opacity,
-      blending: THREE.AdditiveBlending,
-      depthWrite: false,
-    });
-    spriteMaterials.push(mat);
+  /* --- plinth and street -------------------------------------------------- */
+  const plinth = new THREE.Mesh(boxGeometry(PLINTH_W, 5, PLINTH_D), M.plinth);
+  plinth.position.y = -2.5;
+  plinth.matrixAutoUpdate = false;
+  plinth.updateMatrix();
+  scene.add(plinth);
+  ground.addBox(PLINTH_W + 0.5, 0.28, PLINTH_D + 0.5, M.plinthTop, 0, -0.14, 0);
+  ground.addBox(PLINTH_W, 0.06, ROAD_HALF * 2, M.road, 0, 0.03, 0);
+  [-1, 1].forEach((s) => {
+    ground.addBox(PLINTH_W, 0.16, WALK, M.walk, 0, 0.08, s * (ROAD_HALF + WALK / 2));
+    ground.addBox(PLINTH_W, 0.2, 0.14, M.kerb, 0, 0.1, s * (ROAD_HALF + 0.07));
+  });
+  for (let x = -PLINTH_W / 2 + 3; x < PLINTH_W / 2 - 2; x += 5.2) {
+    ground.addBox(2.2, 0.012, 0.11, M.marking, x, 0.064, 0);
+  }
+
+  /* --- buildings ---------------------------------------------------------- */
+  const hosts: HostScreen[] = [];
+  const sprites: THREE.SpriteMaterial[] = [];
+  const glow = glowTexture();
+  const sprite = (hex: number, size: number, opacity: number) => {
+    const mat = new THREE.SpriteMaterial({ map: glow, color: hex, transparent: true, opacity, blending: THREE.AdditiveBlending, depthWrite: false });
+    sprites.push(mat);
     const s = new THREE.Sprite(mat);
     s.scale.set(size, size, 1);
     return s;
   };
+  const poolMat = new THREE.MeshBasicMaterial({ map: poolTexture(), vertexColors: true, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false });
+  own.push(poolMat);
+  const pools = new MergeBucket();
+  const cardTex = interiorTexture();
+  M.warmCard.map = cardTex;
 
-  /* --- presentation plinth ------------------------------------------------
-     The model is a model. It sits on a base with a visible rim, which is what
-     stops the whole thing reading as a video-game street. */
-  const plinthW = 108;
-  const plinthD = 52;
-  const plinth = box(plinthW, 6, plinthD, M.plinth);
-  plinth.position.y = -3;
-  scene.add(plinth);
-  const rim = box(plinthW + 0.9, 0.5, plinthD + 0.9, M.plinthTop);
-  rim.position.y = -0.28;
-  scene.add(rim);
-
-  /* --- ground ----------------------------------------------------------- */
-  const road = box(plinthW, 0.1, ROAD_HALF * 2, M.road);
-  road.position.y = 0.02;
-  road.receiveShadow = true;
-  scene.add(road);
-
-  const ground = new MergeBucket();
-  for (let x = -plinthW / 2 + 3; x < plinthW / 2; x += 7) {
-    ground.addBox(3.2, 0.04, 0.28, M.lineWhite, x, 0.08, 0);
-  }
-  ([[-1, FRONT_N], [1, FRONT_S]] as const).forEach(([s, front]) => {
-    const walk = box(plinthW, 0.18, WALK, M.walk);
-    walk.position.set(0, 0.09, front - s * (WALK / 2));
-    walk.receiveShadow = true;
-    scene.add(walk);
-    ground.addBox(plinthW, 0.22, 0.3, M.base, 0, 0.11, s < 0 ? -ROAD_HALF - 0.15 : ROAD_HALF + 0.15);
-  });
-  ground.flush(scene, { receiveShadow: true }).forEach((m) => extraGeometry.push(m.geometry));
-
-  /* --- buildings --------------------------------------------------------- */
-  const groups: Record<string, THREE.Group> = {};
-  const screens: ScreenRef[] = [];
-  const labels: LabelRef[] = [];
-  let heroGlass: World["heroGlass"];
-
-  const SF = 3.4; // shopfront floor-to-soffit
-  const PIER = 0.95;
+  const anchors = { you: new THREE.Vector3(), host: new THREE.Vector3(), unit: new THREE.Vector3() };
+  let heroGlass: THREE.Mesh<THREE.BufferGeometry, THREE.MeshPhysicalMaterial> | null = null;
+  let unit: Unit | null = null;
+  const yourDoor = new THREE.Vector3(0, 0, FRONT - 0.9);
 
   BUILDINGS.forEach((b, i) => {
-    const g = new THREE.Group();
     const north = b.side === "N";
-    const front = north ? FRONT_N : FRONT_S;
-    const cz = north ? front - b.d / 2 : front + b.d / 2;
-    const faceZ = front - cz; // storefront plane, in group space
-    const nz = north ? 1 : -1; // outward normal
-    g.position.set(b.x, 0, cz);
-    g.userData = { h: b.h, id: b.id };
-
-    const mainMat = M[b.mat] as THREE.Material;
-    const detail = new MergeBucket();
-    const emissive = new MergeBucket();
-
-    // Recess depth. Real storefronts are deep; the depth is what lets the
-    // interiors read at all.
-    const open = b.hero ? 4.8 : b.interior ? 3.4 : 1.6;
-    const frontClear = b.hero ? 2.2 : 1.6;
-
-    /* Ground floor is genuinely cut open: two piers plus a rear volume. */
-    const upper = box(b.w, b.h - SF, b.d, mainMat);
-    upper.position.y = SF + (b.h - SF) / 2;
-    upper.castShadow = true;
-    upper.receiveShadow = true;
-    g.add(upper);
-
-    [-1, 1].forEach((sx) => {
-      const pier = box(PIER, SF, b.d, mainMat);
-      pier.position.set(sx * (b.w / 2 - PIER / 2), SF / 2, 0);
-      pier.castShadow = true;
-      pier.receiveShadow = true;
-      g.add(pier);
-    });
-
-    const rearDepth = b.d - open;
-    if (rearDepth > 0.4) {
-      const rear = box(b.w - PIER * 2 + 0.02, SF, rearDepth, mainMat);
-      rear.position.set(0, SF / 2, north ? -b.d / 2 + rearDepth / 2 : b.d / 2 - rearDepth / 2);
-      rear.receiveShadow = true;
-      g.add(rear);
-    }
-
-    /* Cornice steps, parapet, roof cap — the profile that reads as architecture
-       rather than an extruded rectangle. */
-    detail.addBox(b.w + 0.16, 0.3, b.d + 0.16, M.base, 0, 0.15, 0);
-    detail.addBox(b.w + 0.5, 0.3, b.d + 0.5, i % 3 === 0 ? M.stone : M.trim, 0, b.h + 0.06, 0);
-    detail.addBox(b.w + 0.3, 0.16, b.d + 0.3, M.base, 0, b.h - 0.14, 0);
-    detail.addBox(b.w + 0.2, 0.55, b.d + 0.2, mainMat, 0, b.h + 0.58, 0);
-    detail.addBox(b.w + 0.1, 0.08, b.d + 0.1, M.roof, 0, b.h + 0.34, 0);
-    detail.addBox(b.w + 0.22, 0.26, b.d + 0.22, M.base, 0, SF + 1.5, 0);
-
-    const bulk = box(2.2, 1.1, 2.0, M.roof);
-    bulk.position.set(-b.w * 0.22, b.h + 0.9, nz * b.d * 0.12);
-    bulk.castShadow = true;
-    g.add(bulk);
-    const hvac = box(1.6, 0.7, 1.2, M.roof);
-    hvac.position.set(b.w * 0.18, b.h + 0.75, -nz * b.d * 0.2);
-    hvac.castShadow = true;
-    g.add(hvac);
-
-    /* Pilasters between bays. */
-    const bays = Math.max(2, Math.round(b.w / 3.4));
-    for (let q = 1; q < bays; q++) {
-      detail.addBox(
-        0.34,
-        b.h - SF - 1.9,
-        0.22,
-        mainMat,
-        -b.w / 2 + (b.w / bays) * q,
-        SF + 1.75 + (b.h - SF - 1.9) / 2,
-        faceZ + nz * 0.1
-      );
-    }
-
-    /* --- shopfront ------------------------------------------------------- */
-    const sfH = SF - 0.35;
+    const nz = north ? 1 : -1; // outward normal, toward the road
+    const H = heightOf(b);
+    const cz = north ? -FRONT - b.d / 2 : FRONT + b.d / 2;
+    const faceZ = cz + nz * (b.d / 2); // world z of the storefront plane
+    const wall = M[b.tone] as THREE.Material;
+    const fitting = b.fascia === "wood" ? M.wood : b.fascia === "bronze" ? M.bronze : M.metal;
     const sfW = b.w - PIER * 2;
+    const open = b.hero ? 5.6 : b.you ? 3.6 : b.host ? 3.0 : 2.2;
+    const glassBottom = BASE;
+    const glassTop = SF - 0.55;
+    const glassH = glassTop - glassBottom;
+    const yaw = north ? 0 : Math.PI;
 
-    const floorSlab = new THREE.Mesh(planeGeometry(sfW, open), M.interior);
-    floorSlab.rotation.x = -Math.PI / 2;
-    floorSlab.position.set(0, 0.31, faceZ - nz * (open / 2));
-    floorSlab.receiveShadow = true;
-    g.add(floorSlab);
+    // --- massing ---------------------------------------------------------
+    shadowed.addBox(b.w + 0.06, BASE, b.d + 0.06, M.limestone, b.x, BASE / 2, cz);
+    [-1, 1].forEach((sx) => shadowed.addBox(PIER, SF - BASE, b.d, wall, b.x + sx * (b.w / 2 - PIER / 2), BASE + (SF - BASE) / 2, cz));
+    const rearD = b.d - open;
+    shadowed.addBox(sfW + 0.02, SF - BASE, rearD, wall, b.x, BASE + (SF - BASE) / 2, faceZ - nz * (open + rearD / 2));
+    shadowed.addBox(b.w, H - SF, b.d, wall, b.x, SF + (H - SF) / 2, cz);
+    shadowed.addBox(b.w + 0.14, 0.14, b.d + 0.14, M.limestone, b.x, SF + 0.37, cz);
+    shadowed.addBox(b.w + 0.26, 0.22, b.d + 0.26, M.limestone, b.x, H - 0.11, cz);
+    // parapet ring and roof membrane
+    shadowed.addBox(b.w, 0.5, 0.3, wall, b.x, H + 0.25, cz + nz * (b.d / 2 - 0.15));
+    shadowed.addBox(b.w, 0.5, 0.3, wall, b.x, H + 0.25, cz - nz * (b.d / 2 - 0.15));
+    [-1, 1].forEach((sx) => shadowed.addBox(0.3, 0.5, b.d - 0.6, wall, b.x + sx * (b.w / 2 - 0.15), H + 0.25, cz));
+    ground.addBox(b.w - 0.6, 0.04, b.d - 0.6, M.roof, b.x, H + 0.02, cz);
 
-    const ceilSlab = new THREE.Mesh(planeGeometry(sfW, open), M.plasterMid);
-    ceilSlab.rotation.x = Math.PI / 2;
-    ceilSlab.position.set(0, SF - 0.02, faceZ - nz * (open / 2));
-    g.add(ceilSlab);
-
-    if (b.interior) {
-      // Real set dressing, held back behind the counter zone.
-      const room = buildInterior(b.interior, {
-        width: sfW - 0.1,
-        depth: open - frontClear,
-        height: sfH,
-        M,
-      });
-      room.position.set(0, 0.31, faceZ - nz * frontClear);
-      room.rotation.y = north ? 0 : Math.PI;
-      g.add(room);
-    } else {
-      // Anonymous tenancy: a warm plane is all the depth this ever needs.
-      const inner = new THREE.Mesh(planeGeometry(sfW - 0.1, sfH - 0.3), M.warm);
-      inner.position.set(0, 0.35 + sfH / 2, faceZ - nz * (open - 0.06));
-      inner.rotation.y = north ? 0 : Math.PI;
-      g.add(inner);
+    // --- upper windows ---------------------------------------------------
+    const cols = Math.max(2, Math.round(b.w / 2.7));
+    const spacing = b.w / cols;
+    for (let k = 0; k < b.floors; k++) {
+      const yc = SF + k * FLOOR_H + FLOOR_H * 0.52;
+      for (let c = 0; c < cols; c++) {
+        const xc = b.x - b.w / 2 + spacing * (c + 0.5);
+        const seed = k * 3 + c * 5 + i * 7;
+        const lit = b.you ? seed % 2 === 0 : b.sign ? seed % 4 === 0 : seed % 5 === 0;
+        if (lit) {
+          color.set(b.you ? 0xffd7a6 : 0xe7b57c).multiplyScalar(b.sign ? 1 : 0.7);
+          unlit.addBox(1.05, 1.55, 0.05, M.warmCard, xc, yc, faceZ + nz * 0.01, undefined, color);
+        } else {
+          shadowed.addBox(1.05, 1.55, 0.05, M.glassDark, xc, yc, faceZ + nz * 0.01);
+        }
+        shadowed.addBox(1.27, 0.1, 0.18, M.limestone, xc, yc - 0.83, faceZ + nz * 0.06);
+        // the back of the block reads from the model shot, so it gets the same rhythm
+        const backZ = cz - nz * (b.d / 2);
+        if ((seed + 1) % 5 === 0) {
+          color.set(0xe7b57c).multiplyScalar(0.7);
+          unlit.addBox(1.05, 1.55, 0.05, M.warmCard, xc, yc, backZ - nz * 0.01, undefined, color);
+        } else {
+          shadowed.addBox(1.05, 1.55, 0.05, M.glassDark, xc, yc, backZ - nz * 0.01);
+        }
+        shadowed.addBox(1.27, 0.1, 0.18, M.limestone, xc, yc - 0.83, backZ - nz * 0.06);
+      }
     }
 
-    /* Interior light. Only the storefronts that carry the story get a real
-       point light; the rest are lit by their emissive strips and the hemisphere,
-       which keeps the forward-renderer light count sane. */
+    // --- shopfront -------------------------------------------------------
+    shadowed.addBox(sfW + 0.3, 0.85, 0.2, fitting, b.x, SF - 0.125, faceZ + nz * 0.1);
+    [-1, 1].forEach((sx) => shadowed.addBox(0.05, glassH, 0.08, b.you ? M.bronze : M.metal, b.x + sx * (sfW / 6), glassBottom + glassH / 2, faceZ + nz * 0.05));
+    if (b.canopy) {
+      shadowed.addBox(sfW - 0.5, 0.06, b.you ? 1.6 : 1.3, fitting, b.x, SF - 0.66, faceZ + nz * (0.12 + (b.you ? 0.8 : 0.65)));
+    }
+    // recess floor, ceiling, warm back wall
+    const floor = new THREE.Mesh(planeGeometry(sfW, open), M.interiorFloor);
+    floor.rotation.x = -Math.PI / 2;
+    floor.position.set(b.x, BASE + 0.01, faceZ - nz * (open / 2));
+    floor.receiveShadow = true;
+    floor.matrixAutoUpdate = false;
+    floor.updateMatrix();
+    scene.add(floor);
+    const ceiling = new THREE.Mesh(planeGeometry(sfW, open), M.limestone);
+    ceiling.rotation.x = Math.PI / 2;
+    ceiling.position.set(b.x, glassTop, faceZ - nz * (open / 2));
+    ceiling.matrixAutoUpdate = false;
+    ceiling.updateMatrix();
+    scene.add(ceiling);
+    color.set(b.you ? 0xffe4c0 : b.host ? 0xf6d6ac : b.sign ? 0xdcbc95 : 0xa88b6a);
+    unlit.addBox(sfW - 0.04, glassH, 0.04, M.warmCard, b.x, glassBottom + glassH / 2, faceZ - nz * (open - 0.03), undefined, color);
+
+    // a counter, so the room has a silhouette
     if (b.sign) {
-      const roomLight = new THREE.PointLight(
-        b.you ? 0xffc48a : 0xffb673,
-        b.you ? 13 : b.hero ? 7 : 7.5,
-        16,
-        2
-      );
-      roomLight.position.set(0, 2.1, faceZ - nz * (open * 0.5));
-      g.add(roomLight);
-      lights.push(roomLight);
+      const cw = Math.min(sfW * 0.42, 2.6);
+      const cx = b.x - sfW * 0.14;
+      const czz = faceZ - nz * (b.hero ? 2.0 : open * 0.62);
+      shadowed.addBox(cw, 0.9, 0.58, M.counter, cx, BASE + 0.45, czz);
+      shadowed.addBox(cw + 0.06, 0.06, 0.64, M.counterTop, cx, BASE + 0.93, czz);
+      if (b.host && !b.hero) {
+        // the host's counter screen, idle in mint until the offer arrives
+        const faceMat = new THREE.MeshBasicMaterial({ color: 0x2f7a6e });
+        own.push(faceMat);
+        const face = new THREE.Mesh(planeGeometry(0.5, 0.28), faceMat) as HostScreen["face"];
+        face.position.set(cx + 0.55, BASE + 0.96 + 0.19, czz + nz * 0.2);
+        face.rotation.y = yaw;
+        scene.add(face);
+        const stand = new THREE.Mesh(boxGeometry(0.16, 0.05, 0.14), M.enclosure);
+        stand.position.set(cx + 0.55, BASE + 0.985, czz + nz * 0.18);
+        stand.matrixAutoUpdate = false;
+        stand.updateMatrix();
+        scene.add(stand);
+        const halo = sprite(0x6fe0c6, 1.6, 0);
+        halo.position.copy(face.position);
+        scene.add(halo);
+        const door = new THREE.Vector3(b.x, 0, faceZ + nz * 0.9);
+        hosts.push({ id: b.id, distance: door.distanceTo(yourDoor), face, halo, on: false });
+      }
     }
 
-    /* Sky spilling in through the glazing. Small, but it is the only cool
-       light inside these rooms — without it the close shots go entirely
-       orange and the room loses its depth. */
+    // glazing — the hero store's is its own mesh because it dissolves
     if (b.hero) {
-      const skySpill = new THREE.PointLight(0x9fd0e4, 3.2, 9, 2);
-      skySpill.position.set(0, 2.4, faceZ - nz * 0.6);
-      g.add(skySpill);
-      lights.push(skySpill);
-    }
-
-    /* Light spilling onto the pavement — the thing that actually separates
-       one storefront from the next at a distance. */
-    const pool = sprite(0xffb163, b.you ? 12 : 9, b.you ? 0.36 : 0.24);
-    pool.position.set(0, 0.3, faceZ + nz * 1.6);
-    g.add(pool);
-
-    if (b.you) {
-      // Your Business wins on light, not on a marker: a soft overhead wash
-      // down the facade and a wider pool at the door.
-      const wash = new THREE.SpotLight(0xffe4c4, 26, 26, 0.5, 0.75, 2);
-      wash.position.set(0, 15, faceZ + nz * 7);
-      wash.target.position.set(0, 3.4, faceZ);
-      g.add(wash, wash.target);
-      lights.push(wash);
-    }
-
-    /* Glazing. */
-    const glassMaterial = M.glass.clone();
-    const glass = new THREE.Mesh(planeGeometry(sfW, sfH), glassMaterial);
-    glass.position.set(0, 0.35 + sfH / 2, faceZ + nz * 0.05);
-    glass.rotation.y = north ? 0 : Math.PI;
-    g.add(glass);
-    if (b.hero) heroGlass = { mesh: glass, material: glassMaterial };
-
-    const sheenMat = new THREE.MeshBasicMaterial({
-      color: 0x9fd0e4,
-      transparent: true,
-      opacity: 0.05,
-      blending: THREE.AdditiveBlending,
-      depthWrite: false,
-    });
-    const sheen = new THREE.Mesh(planeGeometry(sfW * 0.42, sfH * 0.95), sheenMat);
-    sheen.position.set(-sfW * 0.2, 0.35 + sfH / 2, faceZ + nz * 0.07);
-    sheen.rotation.y = north ? 0 : Math.PI;
-    g.add(sheen);
-
-    const cols = Math.max(2, Math.round(sfW / 2.6));
-    for (let c = 1; c < cols; c++) {
-      detail.addBox(0.12, sfH, 0.2, M.trim, -sfW / 2 + (sfW / cols) * c, 0.35 + sfH / 2, faceZ + nz * 0.06);
-    }
-    detail.addBox(b.w - 1.2, 0.34, 0.55, M.trim, 0, SF + 0.12, faceZ + nz * 0.12);
-
-    /* --- sign box -------------------------------------------------------- */
-    if (b.sign) {
-      const sw = Math.min(b.w - 2.2, b.sign.length * 0.62 + 1.2);
-      const tex = signTexture(b.sign);
-      const signMat = new THREE.MeshStandardMaterial({
-        map: tex,
-        roughness: 0.7,
-        emissive: 0xffffff,
-        emissiveMap: tex,
-        emissiveIntensity: b.you ? 0.78 : 0.42,
-      });
-      const sign = new THREE.Mesh(trackGeometry(new THREE.BoxGeometry(sw, sw / 5.4, 0.18)), signMat);
-      sign.position.set(0, SF + 0.95, faceZ + nz * 0.3);
-      sign.rotation.y = north ? 0 : Math.PI;
-      g.add(sign);
-      detail.addBox(sw + 0.16, sw / 5.4 + 0.16, 0.1, M.trim, 0, SF + 0.95, faceZ + nz * 0.24);
-    }
-
-    /* --- awning ---------------------------------------------------------- */
-    if (b.awning) {
-      const awning = box(b.w - 1.4, 0.14, 2.0, M[b.awning] as THREE.Material);
-      awning.position.set(0, SF + 0.42, faceZ + nz * 1.0);
-      awning.rotation.x = -nz * 0.1;
-      awning.castShadow = true;
-      g.add(awning);
-      detail.addBox(b.w - 1.4, 0.26, 0.06, M[b.awning] as THREE.Material, 0, SF + 0.28, faceZ + nz * 1.98);
-      [-1, 1].forEach((sx) =>
-        detail.addBox(0.08, 0.5, 0.08, M.trim, sx * (b.w / 2 - 1.1), SF + 0.68, faceZ + nz * 0.35)
+      const mat = M.glass.clone() as THREE.MeshPhysicalMaterial;
+      own.push(mat);
+      heroGlass = new THREE.Mesh(planeGeometry(sfW - 0.02, glassH), mat);
+      heroGlass.position.set(b.x, glassBottom + glassH / 2, faceZ + nz * 0.02);
+      heroGlass.rotation.y = yaw;
+      scene.add(heroGlass);
+    } else {
+      const m = new THREE.Matrix4().compose(
+        new THREE.Vector3(b.x, glassBottom + glassH / 2, faceZ + nz * 0.02),
+        new THREE.Quaternion().setFromEuler(new THREE.Euler(0, yaw, 0)),
+        new THREE.Vector3(1, 1, 1)
       );
+      glazing.add(planeGeometry(sfW - 0.02, glassH), M.glass, m);
     }
 
-    /* --- upper windows ---------------------------------------------------
-       An architrave, a four-bar frame, a lintel and a projecting sill. The
-       frame has to be a real surround rather than a solid panel — a solid one
-       simply buries the glazing behind it and the facade goes blank. All of it
-       is static trim, so it bakes into the merge bucket. */
-    const rows = Math.max(1, Math.floor((b.h - SF - 2.2) / 1.9));
-    const wc = Math.max(2, Math.round(b.w / 2.8));
-    const OPEN_W = 1.12;
-    const OPEN_H = 1.4;
-    const BAR = 0.1;
-
-    for (let r = 0; r < rows; r++) {
-      for (let c = 0; c < wc; c++) {
-        const wx = -b.w / 2 + (b.w / wc) * (c + 0.5);
-        const wy = SF + 2.1 + r * 1.9;
-        const lit = (i * 7 + r * 3 + c * 5) % 3 === 0;
-
-        // Raised architrave around the opening.
-        detail.addBox(OPEN_W + 0.5, OPEN_H + 0.5, 0.06, mainMat, wx, wy, faceZ + nz * 0.03);
-
-        // Glazing, just proud of the wall so it cannot z-fight.
-        emissive.addBox(
-          OPEN_W,
-          OPEN_H,
-          0.02,
-          lit ? ((r + c) % 2 ? M.warm : M.warmDim) : M.glass,
-          wx,
-          wy,
-          faceZ + nz * 0.07
-        );
-
-        // Frame: four bars, sitting proud of the glass.
-        detail.addBox(OPEN_W + BAR * 2, BAR, 0.12, M.trim, wx, wy + OPEN_H / 2, faceZ + nz * 0.1);
-        detail.addBox(OPEN_W + BAR * 2, BAR, 0.12, M.trim, wx, wy - OPEN_H / 2, faceZ + nz * 0.1);
-        detail.addBox(BAR, OPEN_H, 0.12, M.trim, wx - OPEN_W / 2, wy, faceZ + nz * 0.1);
-        detail.addBox(BAR, OPEN_H, 0.12, M.trim, wx + OPEN_W / 2, wy, faceZ + nz * 0.1);
-        // A single glazing bar, so the opening is not one blank sheet.
-        detail.addBox(0.05, OPEN_H, 0.08, M.trim, wx, wy, faceZ + nz * 0.09);
-
-        // Lintel over, sill under — the two elements that actually catch the
-        // raking light and give the facade its relief.
-        detail.addBox(
-          OPEN_W + 0.62,
-          0.16,
-          0.26,
-          i % 3 === 0 ? M.stone : M.base,
-          wx,
-          wy + OPEN_H / 2 + 0.28,
-          faceZ + nz * 0.12
-        );
-        detail.addBox(OPEN_W + 0.42, 0.14, 0.32, mainMat, wx, wy - OPEN_H / 2 - 0.22, faceZ + nz * 0.15);
-      }
+    // fascia lettering
+    if (b.sign) {
+      const tex = signTexture(b.sign, !!b.you);
+      const mat = new THREE.MeshBasicMaterial({ map: tex, transparent: true, depthWrite: false });
+      own.push(mat);
+      const sw = Math.min(sfW - 0.8, b.sign.length * 0.44 + 0.9);
+      const sign = new THREE.Mesh(planeGeometry(sw, sw / 8), mat);
+      sign.position.set(b.x, SF - 0.125, faceZ + nz * 0.205);
+      sign.rotation.y = yaw;
+      sign.matrixAutoUpdate = false;
+      sign.updateMatrix();
+      scene.add(sign);
     }
 
-    detail.flush(g, { castShadow: quality === "high", receiveShadow: true }).forEach((m) =>
-      extraGeometry.push(m.geometry)
-    );
-    emissive.flush(g).forEach((m) => extraGeometry.push(m.geometry));
-
-    /* --- the Uptick screen on the counter -------------------------------- */
-    if (b.host) {
-      const unit = new THREE.Group();
-      const idle = counterScreenTexture("idle");
-      const faceMat = new THREE.MeshBasicMaterial({ map: idle });
-      const face = new THREE.Mesh(planeGeometry(0.52, 0.3), faceMat);
-      const stand = box(0.3, 0.07, 0.2, M.teal);
-      stand.position.y = -0.17;
-      unit.add(face, stand);
-      const halo = sprite(0x6fe0c6, 2.2, 0);
-      halo.position.z = -0.05;
-      unit.add(halo);
-
-      const counterZ = faceZ - nz * (b.hero ? 1.6 : 1.15);
-      const counterW = b.hero ? 2.6 : 1.9;
-      const counter = new THREE.Group();
-      const top = box(counterW, 0.07, 0.62, M.counterTop);
-      top.position.y = 0.92;
-      const body = box(counterW, 0.9, 0.58, M.counter);
-      body.position.y = 0.45;
-      body.castShadow = true;
-      counter.add(top, body);
-      counter.position.set(b.hero ? 0.4 : 0, 0.31, counterZ);
-      g.add(counter);
-
-      unit.position.set((b.hero ? 0.4 : 0) - (b.hero ? 0.75 : 0.3), 1.45, faceZ - nz * (b.hero ? 1.45 : 1.0));
-      unit.rotation.y = north ? 0.06 : Math.PI - 0.06;
-      g.add(unit);
-
-      screens.push({
-        id: b.id,
-        face: face as THREE.Mesh<THREE.BufferGeometry, THREE.MeshBasicMaterial>,
-        halo,
-        idle,
-        hero: !!b.hero,
-        group: unit,
-      });
-
-      const warmL = new THREE.PointLight(0xffb972, b.hero ? 3.2 : 2.6, 12, 2);
-      warmL.position.set(0, 2.1, faceZ - nz * 2.4);
-      g.add(warmL);
-      lights.push(warmL);
+    // light on the pavement
+    if (b.sign) {
+      color.set(0xffb56a).multiplyScalar(b.you ? 0.62 : b.host ? 0.34 : 0.2);
+      const m = new THREE.Matrix4().compose(
+        new THREE.Vector3(b.x, 0.175, faceZ + nz * 1.3),
+        new THREE.Quaternion().setFromEuler(new THREE.Euler(-Math.PI / 2, 0, 0)),
+        new THREE.Vector3(1, 1, 1)
+      );
+      pools.add(planeGeometry(b.w * 0.95, 2.6), poolMat, m, color);
     }
 
-    groups[b.id] = g;
+    // --- the host we enter: a room the camera can stand in ----------------
+    if (b.hero) {
+      const roomZ = (z: number) => faceZ - nz * z;
+      shadowed.addBox(sfW * 0.86, 0.05, 0.12, M.lampHead, b.x, glassTop - 0.16, roomZ(open - 0.2));
+      unlit.addBox(sfW * 0.86, 0.05, 0.12, M.lampHead, b.x, glassTop - 0.16, roomZ(open - 0.2), undefined, color.set(0xffe2bf));
+      shadowed.addBox(sfW * 0.62, 0.04, 0.26, M.counter, b.x + 0.6, 2.05, roomZ(open - 0.16));
+      const cw = 2.8;
+      const cx = b.x + 0.3;
+      const czz = roomZ(2.0);
+      shadowed.addBox(cw, 0.9, 0.62, M.counter, cx, BASE + 0.45, czz);
+      shadowed.addBox(cw + 0.06, 0.06, 0.68, M.counterTop, cx, BASE + 0.93, czz);
+      unit = buildUnit(M, offerText);
+      unit.group.position.set(cx - 0.15, BASE + 0.96, czz + nz * 0.04);
+      const contactMat = new THREE.MeshBasicMaterial({ map: poolTexture(), color: 0x000000, transparent: true, opacity: 0.55, depthWrite: false });
+      own.push(contactMat);
+      const contact = new THREE.Mesh(planeGeometry(0.62, 0.34), contactMat);
+      contact.rotation.x = -Math.PI / 2;
+      contact.position.set(cx - 0.15, BASE + 0.964, czz + nz * 0.02);
+      scene.add(contact);
+      unit.group.rotation.y = yaw + (north ? -0.14 : 0.14);
+      scene.add(unit.group);
+      anchors.host.set(b.x, H + 1.0, cz);
+    }
+    if (b.you) anchors.you.set(b.x, H + 1.0, cz);
+  });
+
+  /* --- street lamps ------------------------------------------------------- */
+  const lampGeo = trackGeometry(new THREE.CylinderGeometry(0.045, 0.06, 4.4, 8));
+  const lamps: [number, number][] = [
+    [-25, -1],
+    [-3, -1],
+    [17, -1],
+    [-14, 1],
+    [8.5, 1],
+    [29, 1],
+  ];
+  const m4 = new THREE.Matrix4();
+  lamps.forEach(([x, s]) => {
+    const z = s * (ROAD_HALF + WALK - 0.55);
+    const toRoad = -s;
+    m4.makeTranslation(x, 0.16 + 2.2, z);
+    shadowed.add(lampGeo, M.metal, m4);
+    shadowed.addBox(0.75, 0.05, 0.08, M.metal, x + toRoad * 0.32, 4.6, z);
+    unlit.addBox(0.32, 0.06, 0.14, M.lampHead, x + toRoad * 0.6, 4.54, z, undefined, color.set(0xffd9ae));
+    const g = sprite(0xffcf9a, 2.2, 0.26);
+    g.position.set(x + toRoad * 0.6, 4.5, z);
     scene.add(g);
-
-    if (b.sign) {
-      labels.push({
-        id: b.id,
-        text: b.sign,
-        you: !!b.you,
-        host: !!b.host,
-        position: new THREE.Vector3(b.x, b.h + 1.6, cz),
-      });
-    }
   });
 
-  /* --- street furniture ---------------------------------------------------
-     Every lamp, bollard and tree grate on the block bakes into three meshes. */
-  const street = new MergeBucket();
-  const streetWarm = new MergeBucket();
-  const treeGroup = new THREE.Group();
-  scene.add(treeGroup);
+  /* --- the offer signal ---------------------------------------------------
+     A single soft ring of light that leaves Your Business and crosses the
+     block. Not a path, not a particle: light, moving over a model. */
+  const waveMat = new THREE.MeshBasicMaterial({ map: waveTexture(), color: 0xf2b46a, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false });
+  own.push(waveMat);
+  const wave = new THREE.Mesh(planeGeometry(2, 2), waveMat);
+  wave.rotation.x = -Math.PI / 2;
+  wave.position.set(yourDoor.x, 0.19, yourDoor.z);
+  wave.visible = false;
+  scene.add(wave);
+  const origin = sprite(0xffc48a, 2.4, 0);
+  origin.position.set(yourDoor.x, 0.9, yourDoor.z);
+  scene.add(origin);
 
-  for (let x = -46; x <= 46; x += 11.5) {
-    ([[-1, FRONT_N], [1, FRONT_S]] as const).forEach(([s, front]) => {
-      const lx = x + (s > 0 ? 4 : 5.5);
-      const lz = front - s * (WALK - 0.9);
+  /* --- flush the static geometry ------------------------------------------ */
+  const meshes = [
+    ...shadowed.flush(scene, { castShadow: true, receiveShadow: true }),
+    ...ground.flush(scene, { receiveShadow: true }),
+    ...unlit.flush(scene),
+    ...glazing.flush(scene),
+    ...pools.flush(scene),
+  ];
+  meshes.forEach((m) => own.push(m.geometry));
 
-      // Slim luminaire on a tapered pole with a short outreach arm.
-      const pole = new THREE.Mesh(
-        trackGeometry(new THREE.CylinderGeometry(0.09, 0.12, 5.4, 8)),
-        M.trim
-      );
-      pole.position.set(lx, 0.18 + 2.7, lz);
-      pole.castShadow = quality === "high";
-      scene.add(pole);
-      street.addBox(1.5, 0.1, 0.12, M.trim, lx - s * 0.7, 0.18 + 5.3, lz);
-      street.addBox(0.52, 0.12, 0.26, M.trim, lx - s * 1.4, 0.18 + 5.24, lz);
-      streetWarm.addBox(0.16, 0.05, 0.16, M.warm, lx - s * 1.4, 0.18 + 5.14, lz);
+  /* --- light --------------------------------------------------------------
+     One cool key from high behind the block, a hemisphere for the sky, and a
+     faint warm fill standing in for the bounce off the lit shopfronts. No
+     point lights: every interior and window is an emissive card. */
+  const hemi = new THREE.HemisphereLight(0x9cbcd0, 0x232f37, 1.5);
+  const key = new THREE.DirectionalLight(0xd6e8f4, 2.1);
+  key.position.set(-30, 40, -26);
+  key.castShadow = true;
+  const sc = key.shadow.camera;
+  sc.left = -44;
+  sc.right = 44;
+  sc.top = 30;
+  sc.bottom = -30;
+  sc.near = 5;
+  sc.far = 130;
+  key.shadow.bias = -0.0008;
+  key.shadow.normalBias = 0.05;
+  const fill = new THREE.DirectionalLight(0xf3c89c, 0.6);
+  fill.position.set(22, 9, 36);
+  scene.add(hemi, key, fill);
 
-      const halo = sprite(0xffc07a, 3.4, 0.42);
-      halo.position.set(lx - s * 1.4, 0.18 + 5.14, lz);
-      scene.add(halo);
-
-      street.addBox(0.26, 0.8, 0.26, M.trim, x + 2.4, 0.55, front - s * (WALK - 0.4));
-
-      if (Math.round(x) % 23 === 0 && Math.abs(x + 18.2) > 9) {
-        const tx = x + 6.2;
-        const tz = front - s * (WALK - 1.4);
-        const tree = new THREE.Group();
-        const trunk = new THREE.Mesh(
-          trackGeometry(new THREE.CylinderGeometry(0.11, 0.19, 2.9, 8)),
-          M.trunk
-        );
-        trunk.position.y = 1.45;
-        trunk.castShadow = quality === "high";
-        tree.add(trunk);
-
-        // Real branching, then a canopy built from overlapping masses rather
-        // than one sphere.
-        ([[0.35, 3.1, 0.5], [-0.3, 3.4, -0.4], [0.1, 3.7, 0.5]] as const).forEach(([dx, y, dz]) => {
-          const br = new THREE.Mesh(
-            trackGeometry(new THREE.CylinderGeometry(0.05, 0.08, 1.3, 6)),
-            M.trunk
-          );
-          br.position.set(dx * 0.6, y, dz * 0.6);
-          br.rotation.set(dz * 0.5, 0, -dx * 0.55);
-          tree.add(br);
-        });
-        ([
-          [0, 4.15, 0.6, 0], [0.62, 3.95, 0.46, 0.22], [-0.58, 4.05, 0.44, -0.2],
-          [0.2, 4.7, 0.44, -0.34], [-0.3, 4.55, 0.42, 0.3], [0.4, 4.35, 0.4, -0.5],
-          [-0.15, 3.85, 0.5, 0.5],
-        ] as const).forEach(([dx, y, r, dz], k) => {
-          const cn = new THREE.Mesh(trackGeometry(new THREE.SphereGeometry(r, 10, 8)), M.canopy);
-          cn.position.set(dx, y, dz);
-          cn.scale.set(1.15, 0.92, 1.1);
-          cn.rotation.set(k * 0.37, k * 1.1, k * 0.21);
-          cn.castShadow = quality === "high";
-          tree.add(cn);
-        });
-        tree.position.set(tx, 0.18, tz);
-        tree.rotation.y = (x % 7) * 0.4;
-        treeGroup.add(tree);
-        street.addBox(1.5, 0.06, 1.5, M.trim, tx, 0.2, tz);
-      }
-    });
-  }
-  street.flush(scene, { castShadow: false, receiveShadow: true }).forEach((m) =>
-    extraGeometry.push(m.geometry)
-  );
-  streetWarm.flush(scene).forEach((m) => extraGeometry.push(m.geometry));
-
-  /* --- offer travel -------------------------------------------------------
-     Thin, warm and translucent. This is a pulse of commercial activity moving
-     through a physical model, not a routing diagram. */
-  const doorOf = (id: string) => {
-    const b = BUILDINGS.find((v) => v.id === id)!;
-    return new THREE.Vector3(b.x, 1.2, b.side === "N" ? FRONT_N + 1.1 : FRONT_S - 1.1);
+  /* --- per-frame state ---------------------------------------------------- */
+  const unitPanel = unit!.panel;
+  const heroGlassMesh = heroGlass!;
+  const frame = { position: new THREE.Vector3(), right: new THREE.Vector3(), up: new THREE.Vector3(), normal: new THREE.Vector3() };
+  const q = new THREE.Quaternion();
+  const unitFrame = () => {
+    unitPanel.updateWorldMatrix(true, false);
+    unitPanel.getWorldPosition(frame.position);
+    unitPanel.getWorldQuaternion(q);
+    frame.right.set(1, 0, 0).applyQuaternion(q);
+    frame.up.set(0, 1, 0).applyQuaternion(q);
+    frame.normal.set(0, 0, 1).applyQuaternion(q);
+    return frame;
   };
-  const origin = doorOf("you");
-  const routes: RouteRef[] = HOSTS.map((id) => {
-    const end = doorOf(id);
-    const mid = origin.clone().add(end).multiplyScalar(0.5);
-    mid.y = 6.5 + Math.abs(end.x - origin.x) * 0.09;
-    const curve = new THREE.QuadraticBezierCurve3(origin.clone(), mid, end);
+  anchors.unit.copy(unitFrame().position).addScaledVector(frame.up, PANEL_H * 0.5 + 0.12);
 
-    const geo = trackGeometry(new THREE.TubeGeometry(curve, 150, 0.034, 8, false));
-    const mesh = new THREE.Mesh(
-      geo,
-      new THREE.MeshBasicMaterial({ color: 0xf6cf9a, transparent: true, opacity: 0.6 })
-    );
-    mesh.geometry.setDrawRange(0, 0);
+  const ON = new THREE.Color(0xf2b36a);
+  const IDLE = new THREE.Color(0x2f7a6e);
+  const REACH = 27;
 
-    const haloGeo = trackGeometry(new THREE.TubeGeometry(curve, 150, 0.17, 8, false));
-    const halo = new THREE.Mesh(
-      haloGeo,
-      new THREE.MeshBasicMaterial({
-        color: 0xe8a24a,
-        transparent: true,
-        opacity: 0.05,
-        blending: THREE.AdditiveBlending,
-        depthWrite: false,
-      })
-    );
-    halo.geometry.setDrawRange(0, 0);
+  const update = ({ p, finale }: WorldState) => {
+    // The signal: one ring leaving Your Business and crossing the block.
+    const s = finale ? 1 : smoothstep(0.44, 0.62, p);
+    const r = s * REACH;
+    const live = !finale && r > 0.3 && r < REACH - 0.01;
+    wave.visible = live;
+    if (live) {
+      wave.scale.set(r, r, 1);
+      waveMat.opacity = 0.9 * smoothstep(0, 0.08, s) * (1 - smoothstep(0.82, 1, s));
+    }
+    const originAlpha = finale ? 0 : smoothstep(0.4, 0.45, p) * (1 - smoothstep(0.5, 0.6, p));
+    origin.material.opacity = 0.7 * originAlpha;
+    origin.visible = originAlpha > 0.01;
 
-    scene.add(mesh, halo);
-    return {
-      id,
-      curve,
-      mesh: mesh as THREE.Mesh<THREE.BufferGeometry, THREE.MeshBasicMaterial>,
-      halo: halo as THREE.Mesh<THREE.BufferGeometry, THREE.MeshBasicMaterial>,
-      count: geo.index!.count,
-      haloCount: haloGeo.index!.count,
-    };
-  });
+    hosts.forEach((h) => {
+      const on = finale || r >= h.distance;
+      if (on !== h.on) {
+        h.on = on;
+        h.face.material.color.copy(on ? ON : IDLE);
+      }
+      h.halo.material.opacity = on ? (finale ? 0.28 : 0.42) : 0;
+      h.halo.material.color.copy(on ? ON : IDLE);
+    });
 
-  const chip = new THREE.Group();
-  const chipCore = new THREE.Mesh(
-    trackGeometry(new THREE.SphereGeometry(0.085, 12, 10)),
-    new THREE.MeshBasicMaterial({ color: 0xffe6c2 })
-  );
-  chip.add(chipCore, sprite(0xf0b878, 1.5, 0.7));
-  chip.visible = false;
-  scene.add(chip);
+    // The glazing dissolves so the camera can step inside.
+    const dive = finale ? 0 : smoothstep(0.7, 0.8, p);
+    heroGlassMesh.material.opacity = 0.26 * (1 - dive);
+    heroGlassMesh.visible = dive < 0.995;
+  };
 
-  /* --- the hero 21" unit --------------------------------------------------
-     The one object the camera gets close enough to inspect, so it is the one
-     object modelled with a real extruded profile and a rounded bezel. */
-  const heroGroup = buildHeroUnit(M, offerText, sprite);
-  const conv = BUILDINGS.find((b) => b.id === "conv")!;
-  const convFaceZ = conv.d / 2; // storefront plane, in the conv group's space
-  // Sits on the counter top: recess floor (0.31) + counter height (0.92).
-  heroGroup.position.set(-0.35, 1.235, convFaceZ - 1.5);
-  heroGroup.rotation.y = 0.1;
-  groups.conv.add(heroGroup);
-  // The generic host plate stands down for the store we walk into.
-  const heroPlate = screens.find((s) => s.hero);
-  if (heroPlate) heroPlate.group.visible = false;
-
-  /* --- lighting -----------------------------------------------------------
-     Cool ambient environment, one cold key from behind, warm bounce from the
-     shopfronts. Dark values are lifted so shadow reads as blue-hour shadow. */
-  const ambient = new THREE.AmbientLight(0x2b4b58, 0.3);
-  const hemi = new THREE.HemisphereLight(0x3d84a4, 0x101c20, 0.66);
-  scene.add(ambient, hemi);
-  lights.push(ambient, hemi);
-
-  const moon = new THREE.DirectionalLight(0xb6dcef, 1.25);
-  moon.position.set(-38, 34, -26);
-  moon.castShadow = true;
-  moon.shadow.mapSize.set(quality === "high" ? 2048 : 1024, quality === "high" ? 2048 : 1024);
-  const sc = moon.shadow.camera;
-  sc.left = -62;
-  sc.right = 62;
-  sc.top = 46;
-  sc.bottom = -46;
-  sc.near = 1;
-  sc.far = 170;
-  moon.shadow.bias = -0.0006;
-  moon.shadow.normalBias = 0.04;
-  scene.add(moon);
-  lights.push(moon);
-
-  const fill = new THREE.DirectionalLight(0xffb27a, 0.35);
-  fill.position.set(30, 12, 40);
-  // Cold rim from behind the block, so the far facades keep a lit edge
-  // against the fog instead of dissolving into it.
-  const rimLight = new THREE.DirectionalLight(0x86c4dd, 0.42);
-  rimLight.position.set(20, 8, -46);
-  scene.add(fill, rimLight);
-  lights.push(fill, rimLight);
-
-  // Tight, low key on the unit itself. Any hotter and the counter behind it
-  // blows out and the screen stops being the brightest thing in frame.
-  const heroSpot = new THREE.SpotLight(0xffc79a, 8, 8, 0.7, 0.5, 2);
-  heroSpot.position.set(conv.x - 0.1, 3.1, FRONT_N - conv.d / 2 + 1.4);
-  heroSpot.target.position.set(conv.x - 0.35, 1.35, FRONT_N - 1.5);
-  heroSpot.castShadow = quality === "high";
-  heroSpot.shadow.mapSize.set(1024, 1024);
-  scene.add(heroSpot, heroSpot.target);
-  lights.push(heroSpot);
+  const warm = (renderer: THREE.WebGLRenderer, camera: THREE.Camera) => {
+    wave.visible = true;
+    origin.visible = true;
+    renderer.compile(scene, camera);
+    wave.visible = false;
+    origin.visible = false;
+  };
 
   const dispose = () => {
     M.dispose();
-    spriteMaterials.forEach((m) => m.dispose());
-    extraGeometry.forEach((g) => g.dispose());
-    routes.forEach((r) => {
-      r.mesh.material.dispose();
-      r.halo.material.dispose();
-    });
-    screens.forEach((s) => s.face.material.dispose());
+    sprites.forEach((m) => m.dispose());
+    own.forEach((o) => o.dispose());
+    unit?.dispose();
     scene.traverse((o) => {
       const mesh = o as THREE.Mesh;
       if (!mesh.isMesh) return;
@@ -716,129 +471,10 @@ export function buildWorld(
       if (Array.isArray(mat)) mat.forEach((m) => m.dispose());
       else mat?.dispose();
     });
-    lights.forEach((l) => l.dispose?.());
+    key.dispose();
+    hemi.dispose();
+    fill.dispose();
   };
 
-  return { scene, groups, screens, routes, chip, labels, heroGroup, heroGlass, dispose };
-}
-
-/* -------------------------------------------------------------------------
-   The 21" host unit
-   ---------------------------------------------------------------------- */
-
-function buildHeroUnit(
-  M: Materials,
-  offerText: string,
-  sprite: (color: number, size: number, opacity: number) => THREE.Sprite
-): THREE.Group {
-  const group = new THREE.Group();
-
-  const roundedRect = (w: number, h: number, r: number) => {
-    const s = new THREE.Shape();
-    s.moveTo(-w / 2 + r, -h / 2);
-    s.lineTo(w / 2 - r, -h / 2);
-    s.quadraticCurveTo(w / 2, -h / 2, w / 2, -h / 2 + r);
-    s.lineTo(w / 2, h / 2 - r);
-    s.quadraticCurveTo(w / 2, h / 2, w / 2 - r, h / 2);
-    s.lineTo(-w / 2 + r, h / 2);
-    s.quadraticCurveTo(-w / 2, h / 2, -w / 2, h / 2 - r);
-    s.lineTo(-w / 2, -h / 2 + r);
-    s.quadraticCurveTo(-w / 2, -h / 2, -w / 2 + r, -h / 2);
-    return s;
-  };
-
-  // Wedge base, drawn as a profile and extruded — a real product silhouette
-  // rather than a rotated box.
-  const prof = new THREE.Shape();
-  const D = 0.2;
-  const hB = 0.058;
-  const hF = 0.014;
-  prof.moveTo(-D / 2, 0);
-  prof.lineTo(D / 2, 0);
-  prof.lineTo(D / 2, hB);
-  prof.lineTo(-D / 2 + 0.012, hF);
-  prof.quadraticCurveTo(-D / 2, hF, -D / 2, hF - 0.006);
-  prof.lineTo(-D / 2, 0.004);
-  prof.closePath();
-
-  const W = 0.27;
-  const wedge = trackGeometry(
-    new THREE.ExtrudeGeometry(prof, {
-      depth: W,
-      bevelEnabled: true,
-      bevelThickness: 0.003,
-      bevelSize: 0.003,
-      bevelSegments: 3,
-      curveSegments: 8,
-    })
-  );
-  wedge.rotateY(Math.PI / 2);
-  wedge.translate(-W / 2, 0, 0);
-  const base = new THREE.Mesh(wedge, M.teal);
-  base.castShadow = true;
-  group.add(base);
-
-  const display = new THREE.Group();
-  const encW = 0.492;
-  const encH = 0.3;
-  const encT = 0.03;
-
-  const enc = trackGeometry(
-    new THREE.ExtrudeGeometry(roundedRect(encW, encH, 0.02), {
-      depth: encT,
-      bevelEnabled: true,
-      bevelThickness: 0.004,
-      bevelSize: 0.004,
-      bevelSegments: 4,
-      curveSegments: 12,
-    })
-  );
-  enc.translate(0, encH / 2, -encT);
-  const enclosure = new THREE.Mesh(enc, M.teal);
-  enclosure.castShadow = true;
-  display.add(enclosure);
-
-  const glassGeo = trackGeometry(
-    new THREE.ExtrudeGeometry(roundedRect(encW - 0.012, encH - 0.012, 0.016), {
-      depth: 0.0025,
-      bevelEnabled: false,
-      curveSegments: 12,
-    })
-  );
-  glassGeo.translate(0, encH / 2, 0.0045);
-  display.add(
-    new THREE.Mesh(
-      glassGeo,
-      new THREE.MeshPhysicalMaterial({
-        color: 0x05100f,
-        roughness: 0.04,
-        metalness: 0,
-        transparent: true,
-        opacity: 0.5,
-        envMapIntensity: 2.2,
-        clearcoat: 1,
-      })
-    )
-  );
-
-  const panel = new THREE.Mesh(
-    planeGeometry(0.465, 0.2615),
-    new THREE.MeshBasicMaterial({ map: heroScreenTexture(offerText) })
-  );
-  panel.position.set(0, encH / 2, 0.0075);
-  display.add(panel);
-
-  const chin = box(0.05, 0.0022, 0.001, M.mint);
-  chin.position.set(0, 0.011, 0.0076);
-  display.add(chin);
-
-  display.position.set(0, 0.026, 0.02);
-  display.rotation.x = -0.14;
-  group.add(display);
-
-  const spill = sprite(0xffb972, 1.5, 0.35);
-  spill.position.set(0, 0.18, 0.12);
-  group.add(spill);
-
-  return group;
+  return { scene, anchors, unitFrame, update, warm, dispose };
 }

@@ -1,148 +1,166 @@
 import * as THREE from "three";
+import { PANEL_W } from "./unit";
+import type { World } from "./world";
 
 /**
- * Camera choreography.
+ * Camera choreography: five beats, each a held composition, joined by short
+ * authored moves. Nothing orbits and nothing floats; when the scroll stops the
+ * frame is a still.
  *
- * Every shot answers a question the visitor has at that moment, in order:
- * where are we → which one is mine → who else is on this block → where does
- * the offer go → which screen is showing it → what does the customer see.
- * There is no orbiting and no movement that is not doing that work.
+ *   1. Your Business, from the street, the block receding behind it
+ *   2. The block as a model, from above the far corner
+ *   3. The offer leaves: the same elevated view, held, while the signal runs
+ *   4. The camera enters the host store
+ *   5. The Uptick screen, as a product
+ *   →  the screen fills the frame and the page takes over
  */
 export type Shot = {
-  /** Scroll progress through the pinned stage, 0–1. */
+  /** Progress through the pinned stage, 0–1. */
   p: number;
   pos: [number, number, number];
   target: [number, number, number];
   fov: number;
-  /** Used by the reduced-motion path and for authoring clarity. */
-  note: string;
+  /** Authored in the unit's local frame (right, up, normal) rather than world. */
+  rel?: "unit";
+  /** Fill the viewport width with the panel; distance is solved per aspect. */
+  fill?: boolean;
 };
 
-export const SHOTS: Shot[] = [
-  { p: 0.0, pos: [17, 10, -23], target: [-4, 4.4, 8], fov: 32, note: "The block, from above the far corner" },
-  { p: 0.11, pos: [10, 7.5, -18], target: [-4, 4.0, 8], fov: 32, note: "Down onto Your Business" },
-  // Down the street, not over it. From overhead a block is a set of roofs, and
-  // from across it the near row hides the far one — the storefronts on both
-  // sides are the argument of this chapter, so the camera sits in the roadway
-  // and lets the street recede.
-  // Raking along the host row rather than across the roadway. These are the
-  // storefronts that will carry the offer, so the shot is a run of lit
-  // shopfronts and counters, not a view of the tarmac between them.
-  { p: 0.23, pos: [-30, 9, 6], target: [-6, 3.8, -6], fov: 33, note: "The neighbours arrive" },
-  { p: 0.34, pos: [-58, 15, 3], target: [12, 3.2, 0], fov: 34, note: "The whole block as one network" },
-  { p: 0.46, pos: [-17, 5.2, -3.5], target: [-5, 4.4, 8], fov: 30, note: "Street level, the offer leaves" },
-  { p: 0.58, pos: [-33, 12, 2], target: [-6, 4.2, -2], fov: 34, note: "The offer travels the block" },
-  { p: 0.71, pos: [-12.4, 4.8, 7.5], target: [-12.4, 2.3, -8.6], fov: 30, note: "Approaching the host store" },
-  { p: 0.83, pos: [-12.5, 3.4, 1.0], target: [-12.5, 2.1, -9.2], fov: 31, note: "Through the glazing" },
-  { p: 0.93, pos: [-12.5, 1.9, -7.4], target: [-12.5, 1.45, -10.2], fov: 29, note: "At the counter" },
-  // Close enough that the panel carries roughly two thirds of the frame width;
-  // any further back and the shelving behind it takes the shot.
-  { p: 1.0, pos: [-12.5, 1.5, -9.17], target: [-12.52, 1.4, -10.1], fov: 30, note: "The screen, full frame" },
+const HERO: Pick<Shot, "pos" | "target" | "fov"> = { pos: [-15.5, 6.2, -4.6], target: [2.6, 4.6, 7.4], fov: 33 };
+const MODEL: Pick<Shot, "pos" | "target" | "fov"> = { pos: [-52, 50, -36], target: [10, -2, 1], fov: 30 };
+/** The lift out of the street, clear of the north row's roofs. */
+const LIFT: Pick<Shot, "pos" | "target" | "fov"> = { pos: [-20, 20, -5.5], target: [2, 2, 4], fov: 31 };
+const TRAVEL: Pick<Shot, "pos" | "target" | "fov"> = { pos: [-28, 11.5, 1.5], target: [6, 1.2, 1.5], fov: 33 };
+const TRAVEL_END: Pick<Shot, "pos" | "target" | "fov"> = { pos: [-25, 10.8, 1], target: [5, 1.2, 1], fov: 33 };
+const APPROACH: Pick<Shot, "pos" | "target" | "fov"> = { pos: [-11.2, 2.7, -0.8], target: [-8.0, 1.45, -9.4], fov: 30 };
+
+export const STORY: Shot[] = [
+  { p: 0.0, ...HERO },
+  { p: 0.12, ...HERO },
+  { p: 0.19, ...LIFT },
+  { p: 0.27, ...MODEL },
+  { p: 0.36, ...MODEL },
+  { p: 0.44, ...TRAVEL },
+  { p: 0.62, ...TRAVEL_END },
+  { p: 0.7, ...APPROACH },
+  { p: 0.78, rel: "unit", pos: [-0.9, 0.2, 1.02], target: [-0.3, -0.01, 0], fov: 24 },
+  { p: 0.88, rel: "unit", pos: [-0.86, 0.19, 0.98], target: [-0.3, -0.01, 0], fov: 24 },
+  { p: 1.0, rel: "unit", fill: true, pos: [0, 0, 1], target: [0, 0, 0], fov: 24 },
 ];
 
-/** The closing pass: a slow lateral drift back across the finished block. */
-export const FINALE_SHOTS: Shot[] = [
-  { p: 0, pos: [-27, 6.5, 3.5], target: [-7, 3.6, -7], fov: 33, note: "Finale, entering the block" },
-  { p: 1, pos: [7, 6.5, 3.5], target: [27, 3.6, -7], fov: 33, note: "Finale, leaving the block" },
+/**
+ * The same beats composed for a vertical frame. These are not crops of the
+ * wide shots: a phone gets its own camera.
+ */
+export const PORTRAIT: Record<string, Shot> = {
+  hero: { p: 0, pos: [-9.5, 5.6, -0.2], target: [1.8, 4.6, 7.6], fov: 44 },
+  model: { p: 0, pos: [-44, 56, -34], target: [6, -2, 0], fov: 36 },
+  signal: { p: 0.56, pos: [-23, 12, 1.5], target: [4, 1, 1.5], fov: 46 },
+  screen: { p: 0.83, rel: "unit", pos: [-0.5, 0.26, 1.12], target: [-0.04, -0.03, 0], fov: 30 },
+  finale: { p: 0, pos: [-38, 14, 0], target: [10, 2.5, 0], fov: 44 },
+};
+
+/** The closing pass: a slow lateral drift across the finished block. */
+export const FINALE: Shot[] = [
+  { p: 0, pos: [-42, 14, 1.5], target: [10, 1, 0.5], fov: 34 },
+  { p: 1, pos: [-38, 13, -1.5], target: [10, 1, -0.5], fov: 34 },
 ];
 
 const clamp = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v));
-
 export const smoothstep = (a: number, b: number, x: number) => {
   const t = clamp((x - a) / (b - a), 0, 1);
   return t * t * (3 - 2 * t);
 };
-
-const easeInOutCubic = (x: number) =>
-  x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
-
+const easeInOut = (x: number) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
-
-const scratchPos = new THREE.Vector3();
-const scratchTarget = new THREE.Vector3();
-
-/**
- * Places the camera for a given progress value.
- *
- * `snap` is the reduced-motion path: instead of easing between shots we hold
- * the nearest one exactly. The visitor still gets all ten compositions, they
- * just arrive as cuts rather than as moves.
- */
-/**
- * Shots are framed for a wide viewport. On a narrower one a fixed vertical FOV
- * quietly crops the block at the sides, so instead we hold the horizontal
- * field and let the frame grow taller — and spend nearly all of that extra
- * height below the horizon, because on a street the ground is the subject and
- * the sky is not.
- */
-const REFERENCE_ASPECT = 1.6;
 const DEG = Math.PI / 180;
 
+/**
+ * Shots are framed for a 16:10 viewport. Narrower than that we hold the
+ * horizontal field and let the frame grow taller, spending most of the extra
+ * height below the horizon — on a street the ground is the subject.
+ */
+const REFERENCE_ASPECT = 1.6;
 function verticalFov(authored: number, aspect: number) {
   if (aspect >= REFERENCE_ASPECT) return authored;
   const halfHorizontal = Math.atan(Math.tan((authored / 2) * DEG) * REFERENCE_ASPECT);
   return (2 * Math.atan(Math.tan(halfHorizontal) / aspect)) / DEG;
 }
 
-export function applyShot(
-  camera: THREE.PerspectiveCamera,
-  shots: Shot[],
-  p: number,
-  opts: { snap?: boolean; breathe?: number; time?: number } = {}
-) {
+/** Turns a unit-relative shot into world space. */
+export function resolveShot(world: World, s: Shot, aspect: number): Shot {
+  return resolveAll(world, [s], aspect)[0];
+}
+
+/** Turns the unit-relative shots into world-space shots for the current aspect. */
+export function resolveStory(world: World, aspect: number): Shot[] {
+  return resolveAll(world, STORY, aspect);
+}
+
+function resolveAll(world: World, shots: Shot[], aspect: number): Shot[] {
+  const { position, right, up, normal } = world.unitFrame();
+  const v = new THREE.Vector3();
+  const toWorld = (o: [number, number, number]): [number, number, number] => {
+    v.copy(position).addScaledVector(right, o[0]).addScaledVector(up, o[1]).addScaledVector(normal, o[2]);
+    return [v.x, v.y, v.z];
+  };
+  return shots.map((s) => {
+    if (s.rel !== "unit") return s;
+    if (s.fill) {
+      // Distance at which the panel spans the full viewport width (with a
+      // hair of overscan so the bezel never shows at the edges).
+      const halfH = Math.tan((s.fov / 2) * DEG);
+      const dist = (PANEL_W * 0.5 * 1.03) / (halfH * aspect);
+      return { ...s, rel: undefined, fill: undefined, pos: toWorld([0, 0, dist]), target: toWorld([0, 0, 0]) };
+    }
+    return { ...s, rel: undefined, pos: toWorld(s.pos), target: toWorld(s.target) };
+  });
+}
+
+const scratchPos = new THREE.Vector3();
+const scratchTarget = new THREE.Vector3();
+
+/**
+ * Places the camera for a progress value. With `snap` the nearest keyframe is
+ * held exactly — the reduced-motion path: cuts, not moves.
+ */
+export function applyShot(camera: THREE.PerspectiveCamera, shots: Shot[], p: number, snap = false, exact = false) {
+  if (shots.length === 1) {
+    const s = shots[0];
+    camera.position.set(s.pos[0], s.pos[1], s.pos[2]);
+    camera.lookAt(s.target[0], s.target[1], s.target[2]);
+    camera.fov = exact ? s.fov : verticalFov(s.fov, camera.aspect);
+    camera.updateProjectionMatrix();
+    return;
+  }
   let i = 0;
   while (i < shots.length - 2 && p > shots[i + 1].p) i++;
   const a = shots[i];
   const b = shots[i + 1];
-
   let from = a;
+  let to = b;
   let t: number;
-
-  if (opts.snap) {
-    // Nearest keyframe wins; the camera never sits between two compositions.
-    const mid = (a.p + b.p) / 2;
-    from = p < mid ? a : b;
+  if (snap) {
+    from = to = p < (a.p + b.p) / 2 ? a : b;
     t = 0;
   } else {
-    t = easeInOutCubic(smoothstep(a.p, b.p, p));
+    t = easeInOut(smoothstep(a.p, b.p, p));
   }
-
-  const to = opts.snap ? from : b;
-  scratchPos.set(
-    lerp(from.pos[0], to.pos[0], t),
-    lerp(from.pos[1], to.pos[1], t),
-    lerp(from.pos[2], to.pos[2], t)
-  );
+  scratchPos.set(lerp(from.pos[0], to.pos[0], t), lerp(from.pos[1], to.pos[1], t), lerp(from.pos[2], to.pos[2], t));
   scratchTarget.set(
     lerp(from.target[0], to.target[0], t),
     lerp(from.target[1], to.target[1], t),
     lerp(from.target[2], to.target[2], t)
   );
-
-  const breathe = opts.breathe ?? 0;
-  if (breathe > 0) {
-    const time = opts.time ?? 0;
-    // A hand-held float, small enough to read as life rather than drift.
-    scratchPos.y += Math.sin(time * 0.32) * breathe;
-    scratchPos.x += Math.cos(time * 0.24) * breathe * 1.4;
-  }
-
   const authored = lerp(from.fov, to.fov, t);
   const fov = verticalFov(authored, camera.aspect);
-
-  // Push the added coverage downward so a tall viewport gains street, not sky.
   if (fov > authored) {
     const extra = (fov - authored) * DEG;
     const distance = scratchPos.distanceTo(scratchTarget);
-    // 0 would split the extra coverage evenly; 1 would put all of it below.
-    // A third biases towards the ground without dropping the subject out of
-    // the upper half of frame.
-    scratchTarget.y -= distance * Math.tan(extra / 2) * 0.35;
+    scratchTarget.y -= distance * Math.tan(extra / 2) * 0.3;
   }
-
   camera.position.copy(scratchPos);
   camera.lookAt(scratchTarget);
-
   if (Math.abs(camera.fov - fov) > 0.01) {
     camera.fov = fov;
     camera.updateProjectionMatrix();

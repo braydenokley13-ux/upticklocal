@@ -5,9 +5,9 @@ export default function NotFound() {
   return (
     <div className="page">
       <header className="page__head">
-        <p className="mono-tag">404 &middot; Off the network</p>
+        <p className="mono-tag">Off the network</p>
         <h1 className="page__title">
-          This screen isn&rsquo;t <em>running anything.</em>
+          This screen isn&rsquo;t running anything.
         </h1>
         <p className="page__lead">
           The page you were after doesn&rsquo;t exist. There are two doors into Uptick — take
