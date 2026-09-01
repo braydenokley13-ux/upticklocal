@@ -1926,15 +1926,19 @@ html[data-still] .worldlayer__labels {
   color: var(--canvas-light);
 }
 
-.navlink--quiet {
+.site-header .navlink--quiet {
   border-color: transparent;
-  opacity: 0.72;
+  color: var(--on-marine-soft);
 }
 
-.navlink--quiet:hover,
-.navlink--quiet[aria-current="page"] {
+.site-header[data-theme="light"] .navlink--quiet {
+  color: var(--on-canvas-soft);
+}
+
+.site-header .navlink--quiet:hover,
+.site-header .navlink--quiet[aria-current="page"] {
   border-color: transparent;
-  opacity: 1;
+  color: inherit;
 }
 
 @media (max-width: 880px) {
