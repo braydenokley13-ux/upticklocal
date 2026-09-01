@@ -64,6 +64,51 @@ export default function CinematicStage() {
 
   useStageProgress("story", sectionRef, { onProgress });
 
+  const blockCopy = (
+    <>
+      <p className="mono-tag">02 · The block</p>
+      <h2 className="beat__title">Your block is already a network.</h2>
+      <p className="beat__body">
+        Cafés, gyms, salons, restaurants, convenience stores — each with its own everyday traffic, and a counter where
+        a screen can sit.
+      </p>
+    </>
+  );
+
+  const offerCopy = (
+    <>
+      <p className="mono-tag">03 · The offer</p>
+      <div className="offercard">
+        <p className="offercard__tag">Example offer</p>
+        <p className="offercard__line">{offerLines}</p>
+      </div>
+      <p className="beat__body">
+        Uptick places it on screens at up to five participating non-competing local stores nearby.
+      </p>
+    </>
+  );
+
+  const screenCopy = (
+    <>
+      <p className="mono-tag">04 · The screen</p>
+      <h2 className="beat__title">On the counter, at eye level.</h2>
+      <dl className="specs">
+        <div>
+          <dt>21″</dt>
+          <dd>countertop display, anti-glare glass</dd>
+        </div>
+        <div>
+          <dt>Plug</dt>
+          <dd>one power cable, no store setup</dd>
+        </div>
+        <div>
+          <dt>Free</dt>
+          <dd>provided to host stores, no paid plan</dd>
+        </div>
+      </dl>
+    </>
+  );
+
   const hero = (
     <>
       <p className="eyebrow">Local screen &amp; promotion network</p>
@@ -98,44 +143,9 @@ export default function CinematicStage() {
           Scroll
         </p>
 
-        <div className="beat beat--model">
-          <p className="mono-tag">02 · The block</p>
-          <h2 className="beat__title">Your block is already a network.</h2>
-          <p className="beat__body">
-            Cafés, gyms, salons, restaurants, convenience stores — each with its own everyday traffic, and a counter
-            where a screen can sit.
-          </p>
-        </div>
-
-        <div className="beat beat--signal">
-          <p className="mono-tag">03 · The offer</p>
-          <div className="offercard">
-            <p className="offercard__tag">Example offer</p>
-            <p className="offercard__line">{offerLines}</p>
-          </div>
-          <p className="beat__body">
-            Uptick places it on screens at up to five participating non-competing local stores nearby.
-          </p>
-        </div>
-
-        <div className="beat beat--screen">
-          <p className="mono-tag">04 · The screen</p>
-          <h2 className="beat__title">On the counter, at eye level.</h2>
-          <dl className="specs">
-            <div>
-              <dt>21″</dt>
-              <dd>countertop display, anti-glare glass</dd>
-            </div>
-            <div>
-              <dt>Plug</dt>
-              <dd>one power cable, no store setup</dd>
-            </div>
-            <div>
-              <dt>Free</dt>
-              <dd>provided to host stores, no paid plan</dd>
-            </div>
-          </dl>
-        </div>
+        <div className="beat beat--model">{blockCopy}</div>
+        <div className="beat beat--signal">{offerCopy}</div>
+        <div className="beat beat--screen">{screenCopy}</div>
 
         <ScreenMatch />
       </div>
@@ -156,12 +166,7 @@ export default function CinematicStage() {
             name="model"
             alt="The whole block from above the far corner: two rows of storefronts on a dark plinth, five of them carrying counter screens."
           />
-          <p className="mono-tag">02 · The block</p>
-          <h2 className="frame__title">Your block is already a network.</h2>
-          <p className="frame__body">
-            Cafés, gyms, salons, restaurants, convenience stores — each with its own everyday traffic, and a counter
-            where a screen can sit.
-          </p>
+          {blockCopy}
         </div>
 
         <div className="frame">
@@ -169,14 +174,7 @@ export default function CinematicStage() {
             name="signal"
             alt="A thin warm ring spreads from Your Business across the street; the counter screens it reaches switch to the offer."
           />
-          <p className="mono-tag">03 · The offer</p>
-          <div className="offercard">
-            <p className="offercard__tag">Example offer</p>
-            <p className="offercard__line">{offerLines}</p>
-          </div>
-          <p className="frame__body">
-            Uptick places it on screens at up to five participating non-competing local stores nearby.
-          </p>
+          {offerCopy}
         </div>
 
         <div className="frame">
@@ -184,22 +182,7 @@ export default function CinematicStage() {
             name="screen"
             alt="The Uptick screen on a host store's counter: a thin dark 21-inch display showing the offer and a code to scan."
           />
-          <p className="mono-tag">04 · The screen</p>
-          <h2 className="frame__title">On the counter, at eye level.</h2>
-          <dl className="specs">
-            <div>
-              <dt>21″</dt>
-              <dd>countertop display, anti-glare glass</dd>
-            </div>
-            <div>
-              <dt>Plug</dt>
-              <dd>one power cable, no store setup</dd>
-            </div>
-            <div>
-              <dt>Free</dt>
-              <dd>provided to host stores, no paid plan</dd>
-            </div>
-          </dl>
+          {screenCopy}
         </div>
       </div>
     </section>

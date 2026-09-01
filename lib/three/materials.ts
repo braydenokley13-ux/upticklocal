@@ -85,7 +85,6 @@ export function createMaterials() {
     plinthTop: std({ color: 0x232a30, roughness: 0.85 }),
 
     // --- interiors ------------------------------------------------------
-    interiorDark: std({ color: 0x5a4a3c, roughness: 0.95 }),
     interiorFloor: std({ color: 0x8b7f70, roughness: 0.9 }),
     counter: std({ color: 0x7a6552, roughness: 0.75, envMapIntensity: 0.4 }),
     counterTop: std({ color: 0xb9b3a7, roughness: 0.5, metalness: 0.05, envMapIntensity: 0.6 }),

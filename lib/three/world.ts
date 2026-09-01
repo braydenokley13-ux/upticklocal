@@ -156,7 +156,6 @@ export function buildWorld(env: THREE.Texture, sky: THREE.Texture, offerText: st
   let heroGlass: THREE.Mesh<THREE.BufferGeometry, THREE.MeshPhysicalMaterial> | null = null;
   let unit: Unit | null = null;
   const yourDoor = new THREE.Vector3(0, 0, FRONT - 0.9);
-  const dynamic: THREE.Object3D[] = [];
 
   BUILDINGS.forEach((b, i) => {
     const north = b.side === "N";
@@ -329,7 +328,6 @@ export function buildWorld(env: THREE.Texture, sky: THREE.Texture, offerText: st
       scene.add(contact);
       unit.group.rotation.y = yaw + (north ? -0.14 : 0.14);
       scene.add(unit.group);
-      dynamic.push(unit.group);
       anchors.host.set(b.x, H + 1.0, cz);
     }
     if (b.you) anchors.you.set(b.x, H + 1.0, cz);
