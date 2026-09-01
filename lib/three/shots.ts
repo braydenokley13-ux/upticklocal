@@ -68,6 +68,22 @@ const scratchTarget = new THREE.Vector3();
  * the nearest one exactly. The visitor still gets all ten compositions, they
  * just arrive as cuts rather than as moves.
  */
+/**
+ * Shots are framed for a wide viewport. On a narrower one a fixed vertical FOV
+ * quietly crops the block at the sides, so instead we hold the horizontal
+ * field and let the frame grow taller — and spend nearly all of that extra
+ * height below the horizon, because on a street the ground is the subject and
+ * the sky is not.
+ */
+const REFERENCE_ASPECT = 1.6;
+const DEG = Math.PI / 180;
+
+function verticalFov(authored: number, aspect: number) {
+  if (aspect >= REFERENCE_ASPECT) return authored;
+  const halfHorizontal = Math.atan(Math.tan((authored / 2) * DEG) * REFERENCE_ASPECT);
+  return (2 * Math.atan(Math.tan(halfHorizontal) / aspect)) / DEG;
+}
+
 export function applyShot(
   camera: THREE.PerspectiveCamera,
   shots: Shot[],
@@ -111,10 +127,22 @@ export function applyShot(
     scratchPos.x += Math.cos(time * 0.24) * breathe * 1.4;
   }
 
+  const authored = lerp(from.fov, to.fov, t);
+  const fov = verticalFov(authored, camera.aspect);
+
+  // Push the added coverage downward so a tall viewport gains street, not sky.
+  if (fov > authored) {
+    const extra = (fov - authored) * DEG;
+    const distance = scratchPos.distanceTo(scratchTarget);
+    // 0 would split the extra coverage evenly; 1 would put all of it below.
+    // A third biases towards the ground without dropping the subject out of
+    // the upper half of frame.
+    scratchTarget.y -= distance * Math.tan(extra / 2) * 0.35;
+  }
+
   camera.position.copy(scratchPos);
   camera.lookAt(scratchTarget);
 
-  const fov = lerp(from.fov, to.fov, t);
   if (Math.abs(camera.fov - fov) > 0.01) {
     camera.fov = fov;
     camera.updateProjectionMatrix();
