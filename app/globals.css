@@ -7,6 +7,10 @@
    speaking; amber is an offer moving. Nothing else earns a colour.
    ========================================================================== */
 
+[id] {
+  scroll-margin-top: 84px;
+}
+
 :root {
   /* --- blue hour ---------------------------------------------------------- */
   --marine: #0a1820;

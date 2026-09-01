@@ -18,7 +18,7 @@ const STEPS = [
   },
   {
     title: "You join the local network",
-    body: "It carries campaigns from nearby businesses that do not compete with you — and your screen puts you on their customers' block too.",
+    body: "Your store becomes part of a block of connected counters: the customers of nearby businesses see you, and your screen carries campaigns from businesses that do not compete with you.",
   },
   {
     title: "It can go further",

@@ -35,7 +35,7 @@ export const WAYS = [
     id: "host",
     name: "Host",
     line: "Promote your own business. Join the network.",
-    requirement: "Comes with a free Uptick screen",
+    requirement: "Free screen included",
     points: [
       "A free 21″ countertop screen, plug and play.",
       "Your own specials and events run on it, first.",
