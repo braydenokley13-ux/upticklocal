@@ -48,7 +48,7 @@ export default function HowItWorksPage() {
       <header className="page__head">
         <p className="mono-tag">How it works</p>
         <h1 className="page__title">
-          The block does <em>the distribution.</em>
+          The block does the distribution.
         </h1>
         <p className="page__lead">
           Uptick is a neighbourhood screen and promotion network. One business&rsquo;s offer travels

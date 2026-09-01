@@ -49,9 +49,9 @@ export default function GrowthPage() {
   return (
     <div className="page">
       <header className="page__head">
-        <p className="mono-tag">Door two &middot; Uptick Growth</p>
+        <p className="mono-tag">Uptick Growth</p>
         <h1 className="page__title">
-          Your offer, <em>five nearby counters.</em>
+          Your offer, five nearby counters.
         </h1>
         <p className="page__lead">
           Uptick distributes your offer through screens at participating non-competing local stores,

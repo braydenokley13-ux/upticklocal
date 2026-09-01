@@ -98,8 +98,10 @@ export default function NeighborhoodCanvas({ offerText }: Props) {
         if (cancelled) return;
         host.dataset.tier = tier;
         observer.observe(host);
-        if (still && STILLS[still]) {
-          const s = STILLS[still];
+        // `?still=<beat>` or `?still=p:<progress>` for QA of any point in the story.
+        const wanted = still?.startsWith("p:") ? { slot: "story" as Slot, p: Number(still.slice(2)) } : still ? STILLS[still] : null;
+        if (still && wanted) {
+          const s = wanted;
           host.dataset.active = "true";
           engine.renderStill(s.slot, s.p, still);
           setStatus("ready");

@@ -58,9 +58,9 @@ export default function HostPage() {
   return (
     <div className="page">
       <header className="page__head">
-        <p className="mono-tag">Door one &middot; Host stores</p>
+        <p className="mono-tag">Host a screen</p>
         <h1 className="page__title">
-          A screen on your counter, <em>at no cost.</em>
+          A screen on your counter, at no cost.
         </h1>
         <p className="page__lead">
           A free 21-inch countertop display that runs your own specials and carries offers from

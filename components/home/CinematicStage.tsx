@@ -93,12 +93,12 @@ export default function CinematicStage() {
 
         <div ref={heroRef} className="beat beat--hero">
           {hero}
-          <p className="stage__cue" aria-hidden="true">
-            Scroll
-          </p>
         </div>
+        <p className="stage__cue" aria-hidden="true">
+          Scroll
+        </p>
 
-        <div className="beat beat--model" aria-hidden="true">
+        <div className="beat beat--model">
           <p className="mono-tag">02 · The block</p>
           <h2 className="beat__title">Your block is already a network.</h2>
           <p className="beat__body">
@@ -107,7 +107,7 @@ export default function CinematicStage() {
           </p>
         </div>
 
-        <div className="beat beat--signal" aria-hidden="true">
+        <div className="beat beat--signal">
           <p className="mono-tag">03 · The offer</p>
           <div className="offercard">
             <p className="offercard__tag">Example offer</p>
@@ -118,7 +118,7 @@ export default function CinematicStage() {
           </p>
         </div>
 
-        <div className="beat beat--screen" aria-hidden="true">
+        <div className="beat beat--screen">
           <p className="mono-tag">04 · The screen</p>
           <h2 className="beat__title">On the counter, at eye level.</h2>
           <dl className="specs">

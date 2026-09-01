@@ -28,6 +28,8 @@ export type Shot = {
 
 const HERO: Pick<Shot, "pos" | "target" | "fov"> = { pos: [-15.5, 6.2, -4.6], target: [2.6, 4.6, 7.4], fov: 33 };
 const MODEL: Pick<Shot, "pos" | "target" | "fov"> = { pos: [-52, 50, -36], target: [10, -2, 1], fov: 30 };
+/** The lift out of the street, clear of the north row's roofs. */
+const LIFT: Pick<Shot, "pos" | "target" | "fov"> = { pos: [-20, 20, -5.5], target: [2, 2, 4], fov: 31 };
 const TRAVEL: Pick<Shot, "pos" | "target" | "fov"> = { pos: [-28, 11.5, 1.5], target: [6, 1.2, 1.5], fov: 33 };
 const TRAVEL_END: Pick<Shot, "pos" | "target" | "fov"> = { pos: [-25, 10.8, 1], target: [5, 1.2, 1], fov: 33 };
 const APPROACH: Pick<Shot, "pos" | "target" | "fov"> = { pos: [-11.2, 2.7, -0.8], target: [-8.0, 1.45, -9.4], fov: 30 };
@@ -35,6 +37,7 @@ const APPROACH: Pick<Shot, "pos" | "target" | "fov"> = { pos: [-11.2, 2.7, -0.8]
 export const STORY: Shot[] = [
   { p: 0.0, ...HERO },
   { p: 0.12, ...HERO },
+  { p: 0.19, ...LIFT },
   { p: 0.27, ...MODEL },
   { p: 0.36, ...MODEL },
   { p: 0.44, ...TRAVEL },

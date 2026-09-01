@@ -89,15 +89,17 @@ export class Engine {
     await new Promise<void>((done) => {
       let n = 0;
       let last = 0;
+      let start = 0;
       const step = (t: number) => {
         if (this.disposed) return done();
+        if (!start) start = t;
         if (last) times.push(t - last);
         last = t;
         // A slight move each frame so the compositor cannot skip the redraw.
         this.current = 0.02 * (n % 2);
         this.draw();
         n++;
-        if (n < 9 && t - (times[0] ?? t) < 1600) requestAnimationFrame(step);
+        if (n < 10 && t - start < 1600) requestAnimationFrame(step);
         else done();
       };
       requestAnimationFrame(step);

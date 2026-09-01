@@ -42,10 +42,10 @@ export default function OfferPass() {
       }
     >
       <div className="pass" data-state={state}>
-        <header className="pass__top">
+        <div className="pass__top">
           <span className="pass__merchant">Your Business</span>
           <span className="pass__id">Claim 4KQ2</span>
-        </header>
+        </div>
 
         <div className="pass__body">
           <p className="pass__offer">{OFFER_SHORT}</p>
