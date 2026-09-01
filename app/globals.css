@@ -339,8 +339,7 @@ a {
 }
 
 .worldlayer[data-status="ready"] .worldlayer__loader {
-  opacity: 0;
-  visibility: hidden;
+  display: none;
 }
 
 .worldlayer__bar {
@@ -472,7 +471,7 @@ html[data-still] .worldlayer__labels {
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--on-marine-faint);
-  animation: cue 2.8s ease-in-out infinite;
+  animation: cue 2.8s ease-in-out 6;
 }
 
 @keyframes cue {
@@ -1244,12 +1243,25 @@ html[data-still] .worldlayer__labels {
 }
 
 .pass__dot {
+  position: relative;
   width: 7px;
   height: 7px;
   border-radius: 50%;
   background: var(--mint);
-  box-shadow: 0 0 0 0 rgba(95, 214, 187, 0.5);
+}
+
+.pass__dot::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: 50%;
+  border: 1px solid var(--mint);
+  opacity: 0;
   animation: pass-pulse 2.6s ease-out infinite;
+}
+
+.pass[data-state="redeemed"] .pass__dot::after {
+  animation: none;
 }
 
 .pass[data-state="redeemed"] .pass__dot {
@@ -1259,13 +1271,16 @@ html[data-still] .worldlayer__labels {
 
 @keyframes pass-pulse {
   0% {
-    box-shadow: 0 0 0 0 rgba(95, 214, 187, 0.5);
+    transform: scale(1);
+    opacity: 0.6;
   }
   70% {
-    box-shadow: 0 0 0 7px rgba(95, 214, 187, 0);
+    transform: scale(3);
+    opacity: 0;
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(95, 214, 187, 0);
+    transform: scale(3);
+    opacity: 0;
   }
 }
 

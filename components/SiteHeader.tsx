@@ -17,15 +17,27 @@ export default function SiteHeader() {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    return onScrollFrame(() => {
+    const stop = onScrollFrame(() => {
       const scrolled = window.scrollY > 24;
       if (el.dataset.scrolled !== String(scrolled)) el.dataset.scrolled = String(scrolled);
-      // Whatever section sits under the bar decides its theme.
-      const stack = document.elementsFromPoint(Math.round(window.innerWidth / 2), 40);
-      const under = stack.find((node) => !el.contains(node));
-      const theme = under?.closest<HTMLElement>("[data-theme]")?.dataset.theme ?? "dark";
-      if (el.dataset.theme !== theme) el.dataset.theme = theme;
     });
+    // Whatever section crosses the line just under the bar decides its theme.
+    // An observer on a one-pixel band costs nothing per scroll frame.
+    const sections = Array.from(document.querySelectorAll<HTMLElement>("[data-theme]")).filter((s) => s !== el);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const hit = entries.find((entry) => entry.isIntersecting);
+        if (!hit) return;
+        const theme = (hit.target as HTMLElement).dataset.theme ?? "dark";
+        if (el.dataset.theme !== theme) el.dataset.theme = theme;
+      },
+      { rootMargin: `-40px 0px -${Math.max(0, window.innerHeight - 41)}px 0px`, threshold: 0 }
+    );
+    sections.forEach((s) => observer.observe(s));
+    return () => {
+      stop();
+      observer.disconnect();
+    };
   }, [pathname]);
 
   const current = (href: string) => (pathname === href ? "page" : undefined);

@@ -58,11 +58,12 @@ export class Engine {
   }
 
   async init(width: number, height: number): Promise<QualityTier> {
-    await document.fonts.ready;
+    // The sky needs no fonts, so it is built while they load; the lettering does.
     const pmrem = new THREE.PMREMGenerator(this.renderer);
     this.sky = skyEquirect();
     this.env = pmrem.fromEquirectangular(this.sky).texture;
     pmrem.dispose();
+    await document.fonts.ready;
     this.world = buildWorld(this.env, this.sky, this.opts.special);
     this.w = width;
     this.h = height;
@@ -84,6 +85,12 @@ export class Engine {
    */
   private async measure(): Promise<QualityTier> {
     if (this.opts.calm) return "balanced";
+    // Let hydration and layout finish first, so the burst times the GPU and
+    // not the rest of the page mounting.
+    await new Promise<void>((done) =>
+      "requestIdleCallback" in window ? window.requestIdleCallback(() => done(), { timeout: 700 }) : setTimeout(done, 120)
+    );
+    if (this.disposed) return "balanced";
     const times: number[] = [];
     this.renderer.shadowMap.needsUpdate = true;
     await new Promise<void>((done) => {

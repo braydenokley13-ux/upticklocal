@@ -226,19 +226,8 @@ export function buildWorld(env: THREE.Texture, sky: THREE.Texture, special: { li
       shadowed.addBox(sfW - 0.5, 0.06, b.you ? 1.6 : 1.3, fitting, b.x, SF - 0.66, faceZ + nz * (0.12 + (b.you ? 0.8 : 0.65)));
     }
     // recess floor, ceiling, warm back wall
-    const floor = new THREE.Mesh(planeGeometry(sfW, open), M.interiorFloor);
-    floor.rotation.x = -Math.PI / 2;
-    floor.position.set(b.x, BASE + 0.01, faceZ - nz * (open / 2));
-    floor.receiveShadow = true;
-    floor.matrixAutoUpdate = false;
-    floor.updateMatrix();
-    scene.add(floor);
-    const ceiling = new THREE.Mesh(planeGeometry(sfW, open), M.limestone);
-    ceiling.rotation.x = Math.PI / 2;
-    ceiling.position.set(b.x, glassTop, faceZ - nz * (open / 2));
-    ceiling.matrixAutoUpdate = false;
-    ceiling.updateMatrix();
-    scene.add(ceiling);
+    ground.addBox(sfW, 0.02, open, M.interiorFloor, b.x, BASE, faceZ - nz * (open / 2));
+    shadowed.addBox(sfW, 0.02, open, M.limestone, b.x, glassTop + 0.01, faceZ - nz * (open / 2));
     color.set(b.you ? 0xffe4c0 : b.host ? 0xf6d6ac : b.sign ? 0xdcbc95 : 0xa88b6a);
     unlit.addBox(sfW - 0.04, glassH, 0.04, M.warmCard, b.x, glassBottom + glassH / 2, faceZ - nz * (open - 0.03), undefined, color);
 
@@ -257,11 +246,7 @@ export function buildWorld(env: THREE.Texture, sky: THREE.Texture, special: { li
         face.position.set(cx + 0.55, BASE + 0.96 + 0.19, czz + nz * 0.2);
         face.rotation.y = yaw;
         scene.add(face);
-        const stand = new THREE.Mesh(boxGeometry(0.16, 0.05, 0.14), M.enclosure);
-        stand.position.set(cx + 0.55, BASE + 0.985, czz + nz * 0.18);
-        stand.matrixAutoUpdate = false;
-        stand.updateMatrix();
-        scene.add(stand);
+        shadowed.addBox(0.16, 0.05, 0.14, M.enclosure, cx + 0.55, BASE + 0.985, czz + nz * 0.18);
         const halo = sprite(0x6fe0c6, 1.6, 0);
         halo.position.copy(face.position);
         scene.add(halo);
