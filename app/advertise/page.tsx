@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import BlockPlan from "@/components/home/BlockPlan";
 import ContactPanel from "@/components/ContactPanel";
 import PageVisual from "@/components/PageVisual";
 import { CTA } from "@/lib/content";
@@ -7,55 +8,68 @@ import { CTA } from "@/lib/content";
 export const metadata: Metadata = {
   title: "Advertise locally",
   description:
-    "Reach nearby customers across Uptick screen locations. Promote a service, an opening, an event or a special on screens at participating non-competing local stores. No screen of your own needed.",
+    "Reach nearby customers across Uptick screen locations. Promote a service, an opening, an event, a product or a special on the counter screens of non-competing local businesses near you. Uptick designs the creative with you. No screen of your own needed.",
 };
 
 const STEPS = [
   {
     title: "Choose what to promote",
-    body: "A service, a grand opening, a new location, an event, catering, a seasonal special, a product. Whatever the campaign is, it runs as one clean frame in the loop.",
+    body: "A service, a grand opening, a new location, an event, catering, a seasonal special, a product. One clear message for one clean frame.",
+  },
+  {
+    title: "We design it with you",
+    body: "You do not need a designer or an agency. Tell us the message; Uptick produces the creative, in your voice, to the screen's proportions.",
   },
   {
     title: "Choose where",
-    body: "Participating Uptick locations near you. Every placement is screened against what the host store sells, so nothing runs in a competitor.",
+    body: "Participating Uptick locations near you. Every placement is screened against what the host sells, so nothing runs in a competitor.",
   },
   {
     title: "It runs on the block",
-    body: "Your frame plays on the counter screens of nearby stores, at eye level, in the places your customers already go. No screen of your own is required.",
+    body: "Your frame plays at eye level on the counters your customers already stand at. No screen of your own is required.",
   },
   {
     title: "You see where it ran",
-    body: "Placements and play counts, by location, in plain language. Plays are not people: Uptick does not turn them into impressions.",
+    body: "Placements and play counts, by location, in plain language. Plays are not people, and Uptick never turns them into impressions.",
   },
 ];
 
 const CAMPAIGNS = [
-  ["A grand opening", "Announce it on the block before the doors open"],
-  ["A service", "Catering, repairs, classes, delivery"],
-  ["An event", "Tastings, launches, live nights, markets"],
-  ["A seasonal special", "Holiday hours, menus, offers"],
-  ["A new location", "Tell the neighbourhood you are here"],
-  ["An offer", "When you want one — and Growth if you want it measured"],
+  ["A grand opening", "Announce it on the block before the doors open."],
+  ["A service", "Catering, repairs, classes, delivery, consultations."],
+  ["An event", "Tastings, launches, live nights, markets, open houses."],
+  ["A seasonal special", "Holiday hours, menus, limited runs."],
+  ["A new location", "Tell the neighborhood you are here."],
+  ["A product", "The thing you want people to walk in and ask for."],
 ];
 
 export default function AdvertisePage() {
   return (
     <div className="page">
       <header className="page__head">
-        <p className="mono-tag">Advertise &middot; Reach the network</p>
-        <h1 className="page__title">Reach nearby customers across Uptick locations.</h1>
-        <p className="page__lead">
-          Advertise on screens at participating non-competing local stores around you. Flexible in
-          what you promote, precise in where it runs, and no screen of your own required.
-        </p>
-        <div className="page__acts">
-          <a href="#plan" className="btn btn--mint">
-            {CTA.advertise.label}
-          </a>
-          <Link href="/how-it-works" className="btn btn--outline">
-            See how it works
-          </Link>
+        <p className="mono-tag">Advertise · No screen needed</p>
+        <div className="page__copy">
+          <h1 className="page__title">Reach nearby customers across Uptick locations.</h1>
+          <p className="page__lead">
+            Your message on the counter screens of non-competing local businesses around you. Flexible in what you promote,
+            precise in where it runs, designed with you, and no screen of your own required.
+          </p>
+          <div className="page__acts">
+            <a href="#plan" className="btn btn--mint">
+              {CTA.advertise.label}
+            </a>
+            <Link href="/network" className="btn btn--outline">
+              How the network works
+            </Link>
+          </div>
         </div>
+        <figure className="page__object board">
+          <BlockPlan mode="advertise" />
+          <figcaption className="board__caption">
+            <span className="board__key" aria-hidden="true" />
+            Your campaign runs on the screens around you.
+          </figcaption>
+        </figure>
       </header>
 
       <PageVisual
@@ -66,9 +80,12 @@ export default function AdvertisePage() {
 
       <section className="band band--paper" aria-labelledby="advertise-steps">
         <div className="band__inner">
-          <h2 id="advertise-steps" className="band__title">
-            How advertising works.
-          </h2>
+          <header className="band__head">
+            <p className="mono-tag">How advertising works</p>
+            <h2 id="advertise-steps" className="band__title">
+              You bring the message. We bring the block.
+            </h2>
+          </header>
           <div className="steps">
             {STEPS.map((step, i) => (
               <div key={step.title}>
@@ -81,12 +98,21 @@ export default function AdvertisePage() {
         </div>
       </section>
 
-      <section className="band band--deep" aria-labelledby="advertise-what">
+      <section className="band band--light" aria-labelledby="advertise-what">
         <div className="band__inner">
-          <p className="mono-tag">What a campaign can be</p>
-          <h2 id="advertise-what" className="band__title" style={{ color: "var(--on-marine)" }}>
-            Whatever the neighbourhood should know.
-          </h2>
+          <header className="band__head">
+            <p className="mono-tag">What a campaign can be</p>
+            <h2 id="advertise-what" className="band__title">
+              Whatever the neighborhood should know.
+            </h2>
+            <p className="page__lead">
+              Want an offer measured all the way to the visit, with customers claiming it on their phone? That is Growth, and it
+              runs on a host screen at your own business.{" "}
+              <Link href="/growth" className="textlink">
+                About Growth
+              </Link>
+            </p>
+          </header>
           <div className="ledger">
             {CAMPAIGNS.map(([name, meta]) => (
               <div key={name} className="ledger__row">
@@ -95,15 +121,6 @@ export default function AdvertisePage() {
               </div>
             ))}
           </div>
-          <p className="page__lead" style={{ marginTop: 34 }}>
-            Want the campaign measured all the way to a visit? That is Growth: an offer customers
-            claim by text and redeem in person. It runs on a host screen of your own.
-          </p>
-          <div className="page__acts">
-            <Link href={CTA.growth.href} className="btn btn--outline">
-              About Uptick Growth
-            </Link>
-          </div>
         </div>
       </section>
 
@@ -111,7 +128,7 @@ export default function AdvertisePage() {
         id="plan"
         tag="Local campaign"
         title="Plan a local campaign."
-        lead="Tell us what you want the neighbourhood to know and roughly where, and we will come back with the Uptick locations nearby that could carry it."
+        lead="Tell us what you want the neighborhood to know and roughly where, and we will come back with the Uptick locations nearby that could carry it, and a first draft of the creative."
         include={[
           "Your business name and address",
           "What you want to promote",

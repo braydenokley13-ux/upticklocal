@@ -14,15 +14,17 @@ const nextConfig = {
 
   /**
    * The v1 site was organised around "locations" and "advertisers" and three
-   * named audience networks. The two-door model replaces that vocabulary, so
-   * the old paths move permanently rather than 404.
+   * named audience networks; v2 explained the system under "how it works".
+   * The current vocabulary replaces both, so the old paths move permanently
+   * rather than 404.
    */
   async redirects() {
     return [
       { source: "/locations", destination: "/host", permanent: true },
       { source: "/advertisers", destination: "/advertise", permanent: true },
-      { source: "/networks", destination: "/how-it-works", permanent: true },
-      { source: "/networks/:slug", destination: "/how-it-works", permanent: true },
+      { source: "/networks", destination: "/network", permanent: true },
+      { source: "/networks/:slug", destination: "/network", permanent: true },
+      { source: "/how-it-works", destination: "/network", permanent: true },
     ];
   },
 };

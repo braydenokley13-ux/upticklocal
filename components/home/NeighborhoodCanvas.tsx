@@ -103,6 +103,21 @@ export default function NeighborhoodCanvas({ special }: Props) {
       });
     };
 
+    // Probe for a context first, so a browser without WebGL takes the still
+    // presentation quietly instead of three.js reporting a failed renderer.
+    const probe = document.createElement("canvas");
+    let supported = false;
+    try {
+      supported = !!(probe.getContext("webgl2") || probe.getContext("webgl"));
+    } catch {
+      supported = false;
+    }
+    if (!supported) {
+      markUnsupported();
+      setStatus("unsupported");
+      return;
+    }
+
     let engine: Engine;
     try {
       engine = new Engine(canvas, { special, calm, forceTier: forced, onFrame });

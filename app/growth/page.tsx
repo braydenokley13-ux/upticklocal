@@ -1,86 +1,99 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import ContactPanel from "@/components/ContactPanel";
+import DropMessage from "@/components/home/DropMessage";
+import ScreenFace from "@/components/home/ScreenFace";
 import PageVisual from "@/components/PageVisual";
-import { CTA } from "@/lib/content";
+import { CONSENT, CTA, GROWTH_EXAMPLE } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Uptick Growth",
   description:
-    "Uptick Growth turns local attention into measurable customer activity: your offer on screens at up to five nearby non-competing local stores, claimed by text, redeemed in person. Requires an Uptick screen.",
+    "Uptick Growth turns local attention into measurable customer activity: a Monthly Anchor on your screen and the Uptick screens nearby, Uptick Drops that give customers a reason to come in now, claims and redemptions on their phone, and a plain report. Requires hosting.",
 };
 
-const STEPS = [
+const HOW = [
   {
-    title: "Choose the offer",
-    body: "One clear reason to come in — a dollar amount off, a free item with purchase, a first-visit discount. You choose it and you provide the reward.",
+    title: "Set the Anchor",
+    body: "One offer for the month, and what the reward is. It runs on your screen and on the Uptick screens nearby, with one code to scan. The screen is the durable reason to care.",
   },
   {
-    title: "It appears at nearby stores",
-    body: "Uptick places the offer on screens at up to five participating non-competing local stores. A café offer never runs in another café.",
-  },
-  {
-    title: "A customer scans",
-    body: "They enter their phone number and the claim link arrives by text. Opting into future offers from you is a separate, optional box.",
+    title: "Customers scan and claim",
+    body: "A number delivers this month's pass by text. Two boxes, both optional and off to start: updates from you, and Uptick Drops from nearby businesses.",
   },
   {
     title: "They visit and redeem",
-    body: "The customer opens the claim at your counter, taps redeem, and shows the confirmed screen to your staff. No POS integration, no code entry.",
+    body: "Open the pass, show staff, tap redeem, confirm. Uptick records the redemption and the time. No POS integration, no cashier code, no new software.",
   },
   {
-    title: "You follow up",
-    body: "Customers who opted in can receive future offers by text from your business — another reason to come back.",
+    title: "Send Drops",
+    body: "A Drop is a limited-time offer to the people who asked for one: morning hours, this weekend, the first thirty. The phone is the urgent reason to act.",
   },
   {
-    title: "You get a simple report",
-    body: "Signups, claims, redemptions and repeat offer activity, by placement, in plain language.",
+    title: "Read the report",
+    body: "Signups, claims, redemptions with time, Drops sent and what each brought back, by placement. Only what Uptick can actually observe.",
   },
 ];
 
 const TRACKED = [
-  ["Signups", "Numbers entered to receive a claim link"],
-  ["Claims", "Claim links delivered and opened"],
-  ["Redemptions", "Claims redeemed in your store, with time"],
-  ["SMS consent", "Customers who separately opted into your text list"],
-  ["Follow-up activity", "Sends, clicks, claims and redemptions on later offers"],
-  ["Placement activity", "Which host stores the activity came from"],
+  ["Signups", "Numbers entered at the Anchor"],
+  ["Claims", "Passes delivered and opened"],
+  ["Redemptions", "Passes redeemed at your counter, with the time"],
+  ["Drops sent", "Each Drop, and the claims and redemptions it brought back"],
+  ["Your list", "Customers who chose to hear from you again"],
+  ["Uptick Drops", "Customers who chose Drops from nearby businesses"],
+  ["By placement", "Which counters the activity came from"],
 ];
 
 export default function GrowthPage() {
+  const g = GROWTH_EXAMPLE;
   return (
     <div className="page">
       <header className="page__head">
-        <p className="mono-tag">Uptick Growth</p>
-        <h1 className="page__title">
-          Your offer, five nearby counters.
-        </h1>
-        <p className="page__lead">
-          Uptick distributes your offer through screens at participating non-competing local stores,
-          delivers the claim to the customer by text, and tracks what actually happens next.
-        </p>
-        <div className="page__acts">
-          <a href="#start" className="btn btn--mint">
-            {CTA.growth.label}
-          </a>
-          <Link href="/how-it-works" className="btn btn--outline">
-            See how it works
-          </Link>
+        <p className="mono-tag">Uptick Growth · Requires hosting</p>
+        <div className="page__copy">
+          <h1 className="page__title">Local attention, turned into visits you can count.</h1>
+          <p className="page__lead">
+            Growth is the premium layer on a host screen. A Monthly Anchor earns the sign-up on the counter; an Uptick Drop earns
+            the visit on the phone; the pass is redeemed at your register and reported back to you plainly.
+          </p>
+          <div className="page__acts">
+            <a href="#start" className="btn btn--mint">
+              {CTA.growth.label}
+            </a>
+            <a href="#how" className="btn btn--outline">
+              How it works
+            </a>
+          </div>
+        </div>
+        <div className="page__object">
+          <div className="unit">
+            <div className="unit__panel" aria-hidden="true">
+              <ScreenFace way="growth" />
+            </div>
+            <div className="unit__foot" aria-hidden="true" />
+          </div>
+          <p className="object__note">{g.note}</p>
         </div>
       </header>
 
       <PageVisual
         name="pockets"
-        alt="Across the street: the convenience store, the gym and the restaurant, each with a counter screen that can carry your offer."
-        caption="Premium · Requires an Uptick screen · Measured to the visit"
+        alt="Across the street: the convenience store, the gym and the restaurant, each with a counter screen that can carry your Anchor."
+        caption="Requires hosting · Anchor on the screens · Drops on the phone"
       />
 
-      <section className="band band--paper" aria-labelledby="growth-steps">
+      <section id="how" className="band band--paper" aria-labelledby="growth-how">
         <div className="band__inner">
-          <h2 id="growth-steps" className="band__title">
-            Six steps, and two of them are yours.
-          </h2>
+          <header className="band__head">
+            <p className="mono-tag">How Growth works</p>
+            <h2 id="growth-how" className="band__title">
+              Five steps. Two of them are yours.
+            </h2>
+            <p className="page__lead">You choose the offer and provide the reward. Uptick does the rest, and reports it back.</p>
+          </header>
           <div className="steps">
-            {STEPS.map((step, i) => (
+            {HOW.map((step, i) => (
               <div key={step.title}>
                 <p className="step__n">0{i + 1}</p>
                 <h3 className="step__title">{step.title}</h3>
@@ -91,12 +104,73 @@ export default function GrowthPage() {
         </div>
       </section>
 
-      <section className="band" aria-labelledby="growth-measure">
+      <section className="band band--light" aria-labelledby="growth-drop">
+        <div className="band__inner pair">
+          <div>
+            <p className="mono-tag">What makes a Drop a Drop</p>
+            <h2 id="growth-drop" className="band__title" style={{ marginTop: 16 }}>
+              Real windows. Real limits. Nothing invented.
+            </h2>
+            <p className="page__lead" style={{ marginTop: 20 }}>
+              A screen whose content changes monthly cannot keep saying &ldquo;today only&rdquo; and stay credible. A Drop can,
+              because it is true: it lands when the window opens and it ends when the window closes.
+            </p>
+            <ul className="places" aria-label="Kinds of Drop window" style={{ marginTop: 28 }}>
+              {g.windows.map((w) => (
+                <li key={w}>{w}</li>
+              ))}
+            </ul>
+            <p className="step__body" style={{ marginTop: 28 }}>
+              Drops go only to the people who asked for them. How often is up to you and the offer, not a schedule Uptick imposes.
+            </p>
+          </div>
+          <div className="phone phone--drop" style={{ justifySelf: "center" }}>
+            <DropMessage large />
+          </div>
+        </div>
+      </section>
+
+      <section className="band band--deep" aria-labelledby="growth-consent">
         <div className="band__inner">
-          <p className="mono-tag">What Uptick can tell you</p>
-          <h2 id="growth-measure" className="band__title">
-            Real activity, not estimated audiences.
-          </h2>
+          <header className="band__head">
+            <p className="mono-tag">Consent, exactly</p>
+            <h2 id="growth-consent" className="band__title">
+              The claim is one thing. The lists are two others.
+            </h2>
+            <p className="page__lead">
+              A customer&rsquo;s number is used once, to deliver the pass. Everything else is a separate choice, and both are
+              unchecked to start.
+            </p>
+          </header>
+          <div className="ledger">
+            <div className="ledger__row">
+              <span>{CONSENT.claim}</span>
+              <span className="ledger__meta">The action itself. Delivers this month&rsquo;s pass. No list is joined.</span>
+            </div>
+            <div className="ledger__row">
+              <span>{CONSENT.merchant}</span>
+              <span className="ledger__meta">Optional. Your Drops and updates, from your business only. Reply STOP any time.</span>
+            </div>
+            <div className="ledger__row">
+              <span>{CONSENT.network}</span>
+              <span className="ledger__meta">Optional, and separate. Drops from other nearby businesses, never hidden inside the first box.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="band band--paper" aria-labelledby="growth-measure">
+        <div className="band__inner">
+          <header className="band__head">
+            <p className="mono-tag">What Uptick reports</p>
+            <h2 id="growth-measure" className="band__title">
+              Real activity, not estimated audiences.
+            </h2>
+            <p className="page__lead">
+              A screen playing your Anchor is a play count, not a headcount. Uptick does not convert plays into impressions and does
+              not claim to know a customer&rsquo;s total spending. What it can observe, it reports.
+            </p>
+          </header>
           <div className="ledger">
             {TRACKED.map(([name, meta]) => (
               <div key={name} className="ledger__row">
@@ -105,40 +179,29 @@ export default function GrowthPage() {
               </div>
             ))}
           </div>
-          <p className="page__lead" style={{ marginTop: 34 }}>
-            Uptick reports what it can actually observe. A screen playing your offer is a play
-            count, not a headcount — we do not convert plays into impressions, and we do not claim
-            to know a customer&rsquo;s total spending or every return visit.
-          </p>
-        </div>
-      </section>
 
-      <section className="band band--paper" aria-labelledby="growth-split">
-        <div className="band__inner">
-          <h2 id="growth-split" className="band__title">
-            You don&rsquo;t need another system.
-          </h2>
-          <div className="split-responsibility" style={{ paddingTop: 0 }}>
+          <div className="split" style={{ marginTop: "clamp(48px, 7vh, 80px)" }}>
             <div>
               <p className="mono-tag mono-tag--ink">Uptick handles</p>
               <ul className="plainlist plainlist--ink">
-                <li>Screens</li>
-                <li>QR + claim flow</li>
-                <li>Customer texts</li>
-                <li>Tracking</li>
-                <li>Reporting</li>
+                <li>The screens</li>
+                <li>The code and the claim flow</li>
+                <li>The texts, the passes, the Drops</li>
+                <li>Tracking and the report</li>
               </ul>
             </div>
             <div>
-              <p className="mono-tag mono-tag--ink">Your business handles</p>
-              <p className="responsibility__yours">
+              <p className="mono-tag mono-tag--ink">You handle</p>
+              <p className="split__big">
                 Choose the offer.
                 <br />
                 Provide the reward.
               </p>
-              <p className="step__body" style={{ marginTop: 26 }}>
-                Growth requires an Uptick screen at your business. Hosting one is free, and it is where every Growth
-                pilot starts.
+              <p className="step__body" style={{ marginTop: 22 }}>
+                Growth runs on a host screen at your business. Hosting is free, and it is where every pilot starts.{" "}
+                <Link href="/host" className="textlink">
+                  Host a screen
+                </Link>
               </p>
             </div>
           </div>
@@ -149,10 +212,10 @@ export default function GrowthPage() {
         id="start"
         tag="30-day Growth pilot"
         title="Start a 30-day Growth pilot."
-        lead="Tell us what you sell and where you are, and we will come back with which nearby stores could carry your offer."
+        lead="Tell us what you sell and where you are, and we will come back with the Anchor we would run first and which nearby counters could carry it."
         include={[
           "Your business name and address",
-          "What you sell, so we can screen for non-competing stores",
+          "What you sell, so we can screen for non-competing counters",
           "The offer you would want to run",
           "The best number or email to reach you",
         ]}

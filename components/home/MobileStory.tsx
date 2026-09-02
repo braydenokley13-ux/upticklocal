@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef } from "react";
 import Frame from "@/components/home/Frame";
 import ScreenFace from "@/components/home/ScreenFace";
 import frames from "@/lib/frames.json";
-import { CTA, PHONE_STORY, PROMISE } from "@/lib/content";
+import { CTA, PHONE_STORY, PROMISE, PROMISE_LINE } from "@/lib/content";
 import { homography, lerpMat, toMatrix3d, translation, type Mat3 } from "@/lib/homography";
 import { prefersReducedMotion } from "@/lib/scroll";
 import { useScrollProgress } from "@/lib/useScrollProgress";
@@ -117,8 +117,11 @@ export default function MobileStory({ enabled }: { enabled: boolean }) {
       {/* ---- 1: the promise --------------------------------------------- */}
       <section className="m-hero" data-theme="dark" aria-label="Uptick Local">
         <div className="m-hero__copy">
-          <p className="eyebrow">Hyperlocal screen network</p>
-          <h1 className="m-hero__title">{PROMISE}</h1>
+          <p className="eyebrow">A local business growth system</p>
+          <h1 className="m-hero__title">
+            {PROMISE.lead} <em className="accent">{PROMISE.accent}</em>
+          </h1>
+          <p className="m-hero__line">{PROMISE_LINE}</p>
           <a href="#next-door" className="m-hero__cta" onClick={toNext}>
             {CTA.how.label}
             <span aria-hidden="true">↓</span>
