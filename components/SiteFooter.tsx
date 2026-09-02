@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CONTACT_EMAIL, NAV, SIGN_OFF } from "@/lib/content";
+import { CONTACT_EMAIL, NAV, SIGN_OFF, SUITE } from "@/lib/content";
 
 /**
  * The sign-off is the company's own line, set large, then the map of the
@@ -35,7 +35,9 @@ export default function SiteFooter() {
             <p className="site-footer__note">Ian White replies directly.</p>
           </div>
         </div>
-        <p className="site-footer__legal">© {new Date().getFullYear()} Uptick Local. Uptick Suite content is produced with JBCI.</p>
+        <p className="site-footer__legal">
+          © {new Date().getFullYear()} Uptick Local. {SUITE.partner.line}
+        </p>
       </div>
     </footer>
   );

@@ -54,8 +54,8 @@ export default function GrowthPage() {
         <div className="page__copy">
           <h1 className="page__title">Local attention, turned into visits you can count.</h1>
           <p className="page__lead">
-            Growth is the premium layer on a host screen. A Monthly Anchor earns the sign-up on the counter; an Uptick Drop earns
-            the visit on the phone; the pass is redeemed at your register and reported back to you plainly.
+            Growth is the premium layer on a host screen. A Monthly Anchor on the counter is the reason to care; an Uptick Drop on
+            the phone is the reason to act now; the pass is redeemed at your register and reported back to you plainly.
           </p>
           <div className="page__acts">
             <a href="#start" className="btn btn--mint">

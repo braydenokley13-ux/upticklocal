@@ -440,13 +440,21 @@
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: linear-gradient(to bottom, rgba(10, 24, 32, 0.4) 0%, rgba(10, 24, 32, 0) 26%, rgba(10, 24, 32, 0.5) 52%, rgba(10, 24, 32, 0.97) 100%);
+  /* The copy starts at 34vh, so the clear window has to close before it. */
+  background: linear-gradient(to bottom, rgba(10, 24, 32, 0.4) 0%, rgba(10, 24, 32, 0) 18%, rgba(10, 24, 32, 0.62) 42%, rgba(10, 24, 32, 0.97) 100%);
 }
 
 .m-finale__copy {
   position: relative;
   z-index: 2;
   padding: 34vh var(--mg) calc(var(--safe-bottom) + 44px);
+}
+
+/* Three phrases over a photograph: balanced, so the last one is not orphaned,
+   and carried by the same shadow the title uses. */
+.m-finale__copy .mono-tag {
+  text-wrap: balance;
+  text-shadow: 0 2px 14px rgba(6, 14, 20, 0.85);
 }
 
 /* ==========================================================================
@@ -860,8 +868,12 @@ html[data-menu="open"] {
     box-shadow: none;
   }
 
+  /* The bezel is gone here, so the clip that kept the screen inside it has to
+     go too — otherwise the pass cannot bleed to the edges the way the claim
+     card does two stations earlier. */
   .phone > * {
     border-radius: 0;
+    overflow: visible;
   }
 
   /* the claim and the pass fill the column edge to edge */
@@ -879,6 +891,7 @@ html[data-menu="open"] {
 
   .phone--drop > .drop {
     border-radius: 18px 18px 18px 6px;
+    overflow: hidden;
   }
 
   .claimui__offer {
@@ -990,6 +1003,10 @@ html[data-menu="open"] {
 
   .suite__site {
     margin-top: 14px;
+  }
+
+  .suite__foot .chapter__acts {
+    margin-top: 22px;
   }
 
   /* --- 07 · in the wild: the photograph first, full bleed -------------- */

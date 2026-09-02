@@ -15,20 +15,24 @@ import type { WayId } from "@/lib/content";
 
 type Store = { id: string; label: string; x: number; w: number; host?: boolean; you?: boolean };
 
+/* Every storefront on the street is named. The ones without a screen mark are
+   the businesses that have not joined yet — drawn, and quieter, so the plan
+   reads as a real street rather than a diagram with gaps in it. */
+
 const NORTH: Store[] = [
   { id: "gym", label: "Fitness", x: 24, w: 118, host: true },
   { id: "conv", label: "Convenience", x: 146, w: 112, host: true },
   { id: "rest", label: "Restaurant", x: 262, w: 108, host: true },
   { id: "salon", label: "Salon", x: 374, w: 88, host: true },
-  { id: "n2", label: "", x: 466, w: 110 },
+  { id: "n2", label: "Dry cleaner", x: 466, w: 110 },
 ];
 
 const SOUTH: Store[] = [
-  { id: "s3", label: "", x: 24, w: 96 },
+  { id: "s3", label: "Hardware", x: 24, w: 96 },
   { id: "well", label: "Wellness", x: 124, w: 100 },
   { id: "you", label: "Your business", x: 228, w: 128, you: true },
   { id: "cafe", label: "Café", x: 360, w: 88, host: true },
-  { id: "s2", label: "", x: 452, w: 124 },
+  { id: "s2", label: "Bank", x: 452, w: 124 },
 ];
 
 const N_Y = 40;
