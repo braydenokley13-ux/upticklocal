@@ -2,17 +2,23 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { CONTACT_EMAIL, NAV } from "@/lib/content";
 import { onScrollFrame } from "@/lib/scroll";
 
 /**
- * Deliberately small: the three ways in and one explainer. Growth carries a
- * little more weight as the premium layer. The bar reads the section under it
- * and swaps its contrast as the page passes from blue hour onto canvas.
+ * On a desktop: the three ways in and one explainer, with Growth carrying a
+ * little more weight as the premium layer. On a phone: the wordmark and one
+ * trigger, opening a sheet that lists everything in the order a new visitor
+ * should meet it. The bar reads the section under it and swaps its contrast
+ * as the page passes from blue hour onto canvas.
  */
 export default function SiteHeader() {
   const pathname = usePathname();
   const ref = useRef<HTMLElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const sheetRef = useRef<HTMLDivElement>(null);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const el = ref.current;
@@ -40,14 +46,38 @@ export default function SiteHeader() {
     };
   }, [pathname]);
 
+  // The sheet closes on navigation, on Escape, and returns focus to the trigger.
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    document.documentElement.dataset.menu = open ? "open" : "";
+    if (!open) return;
+    sheetRef.current?.querySelector<HTMLElement>("a")?.focus();
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setOpen(false);
+        triggerRef.current?.focus();
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      delete document.documentElement.dataset.menu;
+    };
+  }, [open]);
+
+  const toggle = useCallback(() => setOpen((v) => !v), []);
   const current = (href: string) => (pathname === href ? "page" : undefined);
 
   return (
-    <header ref={ref} className="site-header" data-scrolled="false" data-theme="dark">
+    <header ref={ref} className="site-header" data-scrolled="false" data-theme="dark" data-menu={open ? "open" : "closed"}>
       <Link href="/" className="wordmark" aria-label="Uptick Local — home">
         <span className="wordmark__dot" aria-hidden="true" />
         <span>uptick local</span>
       </Link>
+
       <nav className="site-nav" aria-label="Primary">
         <Link href="/how-it-works" className="navlink navlink--quiet" aria-current={current("/how-it-works")}>
           How it works
@@ -62,6 +92,33 @@ export default function SiteHeader() {
           Growth
         </Link>
       </nav>
+
+      <button ref={triggerRef} type="button" className="menu-btn" aria-expanded={open} aria-controls="site-menu" onClick={toggle}>
+        {open ? "Close" : "Menu"}
+        <span className="menu-btn__lines" aria-hidden="true" />
+      </button>
+
+      <div ref={sheetRef} id="site-menu" className="menu" role="dialog" aria-modal="true" aria-label="Menu" hidden={!open}>
+        <nav aria-label="Primary, phone">
+          <ul className="menu__list plainlist">
+            {NAV.map((item) => (
+              <li key={item.href}>
+                <Link href={item.href} className="menu__link" aria-current={current(item.href)} onClick={() => setOpen(false)}>
+                  <span className="menu__name">{item.label}</span>
+                  {"premium" in item ? <span className="menu__premium">Premium</span> : null}
+                  <span className="menu__line">{item.line}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        <div className="menu__foot">
+          <p className="mono-tag">Talk to us</p>
+          <a className="menu__mail" href={`mailto:${CONTACT_EMAIL}`}>
+            {CONTACT_EMAIL}
+          </a>
+        </div>
+      </div>
     </header>
   );
 }

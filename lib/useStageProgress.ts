@@ -1,59 +1,29 @@
 "use client";
 
-import { useEffect, useRef, type RefObject } from "react";
-import { clamp01, onScrollFrame } from "@/lib/scroll";
+import { useCallback, type RefObject } from "react";
 import { reportStage, type StageSlot } from "@/lib/three/stage-bus";
+import { useScrollProgress, type ProgressCallback } from "@/lib/useScrollProgress";
 
 type Options = {
-  /**
-   * Called with 0–1 progress every frame the section is on screen, and with
-   * `null` when it leaves. Use it to drive CSS custom properties directly —
-   * never React state, which would re-render the page on every scroll frame.
-   */
-  onProgress?: (progress: number | null) => void;
+  /** See useScrollProgress: drive styles from here, never React state. */
+  onProgress?: ProgressCallback;
+  /** Only the live cinematic needs this; the still presentation subscribes to nothing. */
+  enabled?: boolean;
 };
 
 /**
- * Maps a tall section's scroll position to 0–1 across its pinned viewport, and
- * publishes it to the shared WebGL layer.
+ * Scroll progress for one of the two cinematic sections, published to the
+ * shared WebGL layer as well as to the caller.
  */
-export function useStageProgress(
-  slot: StageSlot,
-  ref: RefObject<HTMLElement | null>,
-  { onProgress }: Options = {}
-) {
-  const callback = useRef(onProgress);
-  callback.current = onProgress;
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    let wasVisible = false;
-
-    const unsubscribe = onScrollFrame(() => {
-      const vh = window.innerHeight || 1;
-      const r = el.getBoundingClientRect();
-      const visible = r.bottom > 0 && r.top < vh;
-
-      if (!visible) {
-        if (wasVisible) {
-          wasVisible = false;
-          reportStage(slot, null);
-          callback.current?.(null);
-        }
-        return;
-      }
-
-      wasVisible = true;
-      const progress = clamp01(-r.top / Math.max(1, r.height - vh));
+export function useStageProgress(slot: StageSlot, ref: RefObject<HTMLElement | null>, { onProgress, enabled = true }: Options = {}) {
+  const publish = useCallback<ProgressCallback>(
+    (progress) => {
       reportStage(slot, progress);
-      callback.current?.(progress);
-    });
-
-    return () => {
-      unsubscribe();
-      reportStage(slot, null);
-    };
-  }, [ref, slot]);
+      onProgress?.(progress);
+    },
+    // The caller's callback is read through a ref inside useScrollProgress.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [slot]
+  );
+  useScrollProgress(ref, publish, enabled);
 }

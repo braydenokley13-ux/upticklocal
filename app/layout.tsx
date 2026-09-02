@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import "./globals.css";
+import "./mobile.css";
 
 /**
  * Two faces. Geist carries everything you read — headlines and body alike, in

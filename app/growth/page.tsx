@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import ContactPanel from "@/components/ContactPanel";
+import PageVisual from "@/components/PageVisual";
 import { CTA } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -66,6 +67,12 @@ export default function GrowthPage() {
           </Link>
         </div>
       </header>
+
+      <PageVisual
+        name="pockets"
+        alt="Across the street: the convenience store, the gym and the restaurant, each with a counter screen that can carry your offer."
+        caption="Premium · Requires an Uptick screen · Measured to the visit"
+      />
 
       <section className="band band--paper" aria-labelledby="growth-steps">
         <div className="band__inner">

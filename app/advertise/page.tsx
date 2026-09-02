@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import ContactPanel from "@/components/ContactPanel";
+import PageVisual from "@/components/PageVisual";
 import { CTA } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -56,6 +57,12 @@ export default function AdvertisePage() {
           </Link>
         </div>
       </header>
+
+      <PageVisual
+        name="connect"
+        alt="The block from above: a campaign leaves one business and the counter screens at the nearby stores switch on."
+        caption="Your campaign · Nearby screens · No screen of your own"
+      />
 
       <section className="band band--paper" aria-labelledby="advertise-steps">
         <div className="band__inner">

@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { Engine, type FrameInfo, type QualityTier, type Slot } from "@/lib/three/engine";
-import { smoothstep } from "@/lib/three/shots";
+import { MOBILE, smoothstep, type Shot } from "@/lib/three/shots";
 import { subscribeStage } from "@/lib/three/stage-bus";
 
 type Props = { special: { line1: string; line2: string; tag: string } };
@@ -18,6 +18,35 @@ const STILLS: Record<string, { slot: Slot; p: number }> = {
   fill: { slot: "story", p: 1 },
   finale: { slot: "finale", p: 0.45 },
 };
+
+/**
+ * `?still=` selects a composition for the bake and for QA:
+ *   still=<name>            one of the named desktop compositions
+ *   still=p:<progress>      any point in the story
+ *   still=m:<name>          one of the phone frames (its own camera and state)
+ * `cam=px,py,pz,tx,ty,tz,fov[,unit]` overrides the camera, and `p=` the state,
+ * so a composition can be tuned from the address bar before it is written down.
+ */
+function parseStill(params: URLSearchParams): { slot: Slot; p: number; shot?: Shot } | null {
+  const still = params.get("still");
+  if (still === null) return null;
+  let wanted: { slot: Slot; p: number; shot?: Shot } | undefined;
+  if (still.startsWith("p:")) wanted = { slot: "story", p: Number(still.slice(2)) };
+  else if (still.startsWith("m:")) {
+    const frame = MOBILE[still.slice(2)];
+    if (frame) wanted = { slot: frame.finale ? "finale" : "story", p: frame.p, shot: { p: 0, ...frame.shot } };
+  } else if (STILLS[still]) wanted = STILLS[still];
+  if (!wanted) return null;
+  const cam = params.get("cam");
+  if (cam) {
+    const n = cam.split(",");
+    const v = n.slice(0, 7).map(Number);
+    wanted.shot = { p: 0, pos: [v[0], v[1], v[2]], target: [v[3], v[4], v[5]], fov: v[6], rel: n[7] === "unit" ? "unit" : undefined };
+  }
+  const p = params.get("p");
+  if (p !== null) wanted.p = Number(p);
+  return wanted;
+}
 
 /** Flips the document to the still-frame presentation. CSS owns the swap. */
 function markUnsupported() {
@@ -96,12 +125,12 @@ export default function NeighborhoodCanvas({ special }: Props) {
         host.dataset.tier = tier;
         setLabels(engine.world.labels.map(({ id, text }) => ({ id, text })));
         observer.observe(host);
-        // `?still=<beat>` or `?still=p:<progress>` for QA of any point in the story.
-        const wanted = still?.startsWith("p:") ? { slot: "story" as Slot, p: Number(still.slice(2)) } : still ? STILLS[still] : null;
-        if (still && wanted) {
-          const s = wanted;
+        const wanted = parseStill(params);
+        if (wanted) {
           host.dataset.active = "true";
-          engine.renderStill(s.slot, s.p, still);
+          engine.renderStill(wanted.slot, wanted.p, wanted.shot);
+          // The bake reads the panel's corners off the window once the frame is up.
+          (window as Window & { __still?: { panel: [number, number][] } }).__still = { panel: engine.projectPanel() };
           setStatus("ready");
           requestAnimationFrame(() => {
             document.documentElement.dataset.still = "ready";
