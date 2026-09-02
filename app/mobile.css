@@ -616,14 +616,15 @@ html[data-menu="open"] {
     justify-content: space-between;
   }
 
-  /* No blur on a phone: a solid tint costs nothing per scroll frame. */
+  /* No blur on a phone: a solid bar costs nothing per scroll frame, and
+     display type never shows through it. */
   .site-header[data-scrolled="true"][data-theme="dark"] {
-    background: rgba(10, 24, 32, 0.9);
+    background: var(--marine);
     backdrop-filter: none;
   }
 
   .site-header[data-theme="light"] {
-    background: rgba(243, 240, 233, 0.94);
+    background: var(--canvas);
     backdrop-filter: none;
   }
 
@@ -1039,6 +1040,11 @@ html[data-menu="open"] {
 
   .places li {
     padding: 9px 12px;
+    font-size: 11px;
+  }
+
+  .example {
+    margin-top: 22px;
     font-size: 11px;
   }
 

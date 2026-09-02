@@ -2897,11 +2897,23 @@ html[data-still] .worldlayer__labels {
   color: var(--on-marine-soft);
 }
 
-.stack__note {
+.stack__note,
+.object__note {
   margin-top: 16px;
   font-family: var(--mono);
   font-size: 10.5px;
   letter-spacing: 0.08em;
   line-height: 1.6;
   color: var(--on-marine-faint);
+}
+
+/* Every named business on the site is a worked example, and says so. */
+.example {
+  margin-top: 28px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  line-height: 1.6;
+  color: var(--on-canvas-faint);
 }

@@ -73,6 +73,7 @@ export default function GrowthPage() {
             </div>
             <div className="unit__foot" aria-hidden="true" />
           </div>
+          <p className="object__note">{g.note}</p>
         </div>
       </header>
 

@@ -80,8 +80,8 @@ export default function NetworkPage() {
       <PageVisual
         name="connect"
         wide="model-wide.webp"
-        alt="The block as a model: two rows of local storefronts, five of them carrying Uptick screens, one signal crossing between them."
-        caption="One block · Five host screens · One network"
+        alt="The block as a model: two rows of local storefronts, several carrying counter screens, one signal crossing between them."
+        caption="The block as a model · One street · One network"
       />
 
       <section className="band band--paper" aria-labelledby="loop">

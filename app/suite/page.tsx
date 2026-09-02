@@ -46,7 +46,7 @@ export default function SuitePage() {
         </div>
         <div className="page__object">
           <ol className="stack">
-            {SUITE.surfaces.slice(0, 3).map((s) => (
+            {SUITE.second.surfaces.map((s) => (
               <li key={s.id} className="surface surface--dark" data-id={s.id}>
                 <span className="surface__channel">{s.channel}</span>
                 <span className="surface__title">{s.title}</span>
@@ -54,7 +54,10 @@ export default function SuitePage() {
               </li>
             ))}
           </ol>
-          <p className="stack__note">One conversation with {SUITE.source.business}, three of the six surfaces it became.</p>
+          <p className="stack__note">
+            One conversation with {SUITE.second.business}, a worked example, and three of the surfaces it became: &ldquo;
+            {SUITE.second.topic}&rdquo;
+          </p>
         </div>
       </header>
 

@@ -83,7 +83,7 @@ export default function AdvertisePage() {
           <header className="band__head">
             <p className="mono-tag">How advertising works</p>
             <h2 id="advertise-steps" className="band__title">
-              Five steps, and we take three of them.
+              You bring the message. We bring the block.
             </h2>
           </header>
           <div className="steps">

@@ -44,6 +44,7 @@ export default function SuiteChapter() {
             ))}
           </ol>
         </div>
+        <p className="example">{SUITE.example}</p>
 
         <div className="suite__foot">
           <p className="suite__cred">

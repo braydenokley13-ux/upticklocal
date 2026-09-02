@@ -22,7 +22,7 @@ export const CONTACT_EMAIL = "iwhite@upticklocal.com";
 export const SPECIAL = { line1: "COFFEE + BAGEL, $4", line2: "WEEKDAY MORNINGS", tag: "Your special", where: "Convenience · 118 Main St" };
 
 /** An Advertise example: a nearby business, on the screens around it. */
-export const CAMPAIGN = { line1: "GRAND OPENING", line2: "SATURDAY · 3 DOORS DOWN", who: "Main St Fitness", where: "Showing at 4 locations on this block" };
+export const CAMPAIGN = { line1: "GRAND OPENING", line2: "SATURDAY · 3 DOORS DOWN", who: "Main St Fitness", where: "Showing on the Uptick screens nearby" };
 
 /**
  * The Growth example. Joe's is a gas station with a market counter — the
@@ -31,6 +31,7 @@ export const CAMPAIGN = { line1: "GRAND OPENING", line2: "SATURDAY · 3 DOORS DO
  * time-boxed reason to come in now.
  */
 export const GROWTH_EXAMPLE = {
+  note: "A worked example. Joe's Market is not a client; the mechanics are exactly what runs.",
   merchant: "Joe's Market",
   address: "118 Main St",
   anchor: {
@@ -203,6 +204,19 @@ export const SUITE = {
     label: "One conversation with you",
     business: "Ridge Physical Therapy",
     topic: "What actually happens at a first physical therapy visit, and why most people wait too long to book one.",
+  },
+  /** Every business named here is a worked example, and the site says so. */
+  example: "A worked example. Ridge Physical Therapy is not a client.",
+  /** A second worked example, from a different trade, for the Suite page. */
+  second: {
+    label: "One conversation with you",
+    business: "Northside Roofing",
+    topic: "Most people call us after the leak. Here is what we look for before it, and what an honest estimate includes.",
+    surfaces: [
+      { id: "site", channel: "Website copy", title: "An estimate you can read.", body: "A services page that explains what is in the number before anyone has to ask." },
+      { id: "blog", channel: "Blog & articles", title: "What a roof inspection actually covers", body: "Useful enough to be found, plain enough to be trusted." },
+      { id: "google", channel: "Google Business", title: "Storm week: the three things to check today.", body: "Profile posts that keep your listing current and chosen." },
+    ],
   },
   surfaces: [
     { id: "site", channel: "Website copy", title: "Your first visit, explained.", body: "A service page that answers the questions people have before they call." },

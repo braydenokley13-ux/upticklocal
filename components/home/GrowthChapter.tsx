@@ -71,6 +71,7 @@ export default function GrowthChapter() {
             </p>
           </figure>
         </div>
+        <p className="example">{GROWTH_EXAMPLE.note}</p>
 
         <div className="loop">
           <figure className="station">

@@ -128,7 +128,7 @@ export default function HostPage() {
           <header className="band__head">
             <p className="mono-tag">Questions</p>
             <h2 id="host-faq" className="band__title">
-              The four we always get.
+              The four people ask first.
             </h2>
           </header>
           {FAQS.map((faq, i) => (
