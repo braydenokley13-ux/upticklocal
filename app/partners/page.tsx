@@ -18,7 +18,7 @@ const POINTS = [
   },
   {
     title: "Activity, reported per screen",
-    body: "Signups, claims and redemptions attributable to each placement — the same measurement discipline we hold ourselves to everywhere else.",
+    body: "Plays, and for Growth offers the signups, claims and redemptions attributable to each placement. The same counting discipline we hold ourselves to everywhere else.",
   },
 ];
 
@@ -27,13 +27,13 @@ export default function PartnersPage() {
     <div className="page">
       <header className="page__head">
         <p className="mono-tag">Screen network partners</p>
-        <h1 className="page__title">
-          Already operate screens? Let&rsquo;s talk.
-        </h1>
-        <p className="page__lead">
-          If you run digital screens in retail, fitness or hospitality, Uptick can connect that
-          inventory to local offer demand in the same neighbourhoods.
-        </p>
+        <h1 className="page__title">Already operate screens? Let&rsquo;s talk.</h1>
+        <div className="page__copy">
+          <p className="page__lead">
+            If you run digital screens in retail, fitness or hospitality, Uptick can connect that inventory to local demand in
+            the same neighborhoods: campaigns from nearby businesses and Growth Anchors, screened against what each host sells.
+          </p>
+        </div>
       </header>
 
       <section className="band band--paper" aria-labelledby="partner-points">

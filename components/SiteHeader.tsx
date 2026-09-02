@@ -3,15 +3,14 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { CONTACT_EMAIL, NAV } from "@/lib/content";
+import { CONTACT_EMAIL, CTA, NAV } from "@/lib/content";
 import { onScrollFrame } from "@/lib/scroll";
 
 /**
- * On a desktop: the three ways in and one explainer, with Growth carrying a
- * little more weight as the premium layer. On a phone: the wordmark and one
- * trigger, opening a sheet that lists everything in the order a new visitor
- * should meet it. The bar reads the section under it and swaps its contrast
- * as the page passes from blue hour onto canvas.
+ * On a desktop: the five places to go and one action. On a phone: the
+ * wordmark and one trigger, opening a sheet that lists everything in the
+ * order a new visitor should meet it. The bar reads the section under it
+ * and swaps its contrast as the page passes from blue hour onto canvas.
  */
 export default function SiteHeader() {
   const pathname = usePathname();
@@ -79,19 +78,16 @@ export default function SiteHeader() {
       </Link>
 
       <nav className="site-nav" aria-label="Primary">
-        <Link href="/how-it-works" className="navlink navlink--quiet" aria-current={current("/how-it-works")}>
-          How it works
-        </Link>
-        <Link href="/host" className="navlink navlink--quiet" aria-current={current("/host")}>
-          Host
-        </Link>
-        <Link href="/advertise" className="navlink navlink--quiet" aria-current={current("/advertise")}>
-          Advertise
-        </Link>
-        <Link href="/growth" className="navlink navlink--primary" aria-current={current("/growth")}>
-          Growth
-        </Link>
+        {NAV.map((item) => (
+          <Link key={item.href} href={item.href} className="navlink" aria-current={current(item.href)}>
+            {item.label}
+          </Link>
+        ))}
       </nav>
+
+      <a href={CTA.talk.href} className="navcta">
+        {CTA.talk.label}
+      </a>
 
       <button ref={triggerRef} type="button" className="menu-btn" aria-expanded={open} aria-controls="site-menu" onClick={toggle}>
         {open ? "Close" : "Menu"}
@@ -101,11 +97,16 @@ export default function SiteHeader() {
       <div ref={sheetRef} id="site-menu" className="menu" role="dialog" aria-modal="true" aria-label="Menu" hidden={!open}>
         <nav aria-label="Primary, phone">
           <ul className="menu__list plainlist">
+            <li>
+              <Link href="/" className="menu__link" aria-current={current("/")} onClick={() => setOpen(false)}>
+                <span className="menu__name">Overview</span>
+                <span className="menu__line">The block, the screen, the whole system</span>
+              </Link>
+            </li>
             {NAV.map((item) => (
               <li key={item.href}>
                 <Link href={item.href} className="menu__link" aria-current={current(item.href)} onClick={() => setOpen(false)}>
                   <span className="menu__name">{item.label}</span>
-                  {"premium" in item ? <span className="menu__premium">Premium</span> : null}
                   <span className="menu__line">{item.line}</span>
                 </Link>
               </li>

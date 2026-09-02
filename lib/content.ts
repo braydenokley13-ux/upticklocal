@@ -1,26 +1,67 @@
 /**
- * Copy that has to be identical in more than one place — on the 3D screen and
- * on the DOM surface that takes over from it, on the pass and in the text
- * thread. One source so nothing drifts.
+ * One source for every piece of copy that appears in more than one place —
+ * on the 3D screen and the DOM surface that takes over from it, on the pass
+ * and in the text thread, in the nav and in the footer. Nothing drifts.
  */
 
 /** The company promise. Everything on the homepage descends from this line. */
-export const PROMISE = "Grow your business by reaching the customers already around you.";
+export const PROMISE = { lead: "Grow your business by reaching the customers", accent: "already around you." };
+export const PROMISE_TEXT = `${PROMISE.lead} ${PROMISE.accent}`;
 
-/** What a host's own screen shows: the store's own special, first. */
-export const SPECIAL = { line1: "COFFEE + BAGEL, $4", line2: "WEEKDAY MORNINGS", tag: "Your special" };
-
-/** The Growth example offer. */
-export const OFFER_TEXT = "GET $10 OFF YOUR FIRST VISIT";
-export const OFFER_SHORT = "$10 off your first visit";
-
-/** An Advertise example: a nearby business, on the screens around it. */
-export const CAMPAIGN = { line1: "GRAND OPENING", line2: "SATURDAY · 3 DOORS DOWN", who: "Main St Fitness" };
+/** Under the promise: the whole system in one breath. */
+export const PROMISE_LINE =
+  "Countertop screens in the places people already go. Offers they can act on now. Content that makes them choose you.";
 
 export const CONTACT_EMAIL = "iwhite@upticklocal.com";
 
-/** The example claim, everywhere it is shown: the claim page, the text, the pass. */
-export const CLAIM = { merchant: "Your Business", address: "118 Main St", code: "4KQ2", link: "upticklocal.com/c/4KQ2", followUp: "upticklocal.com/c/8RM1" };
+/* -------------------------------------------------------------------------
+   What runs on the screen
+   ---------------------------------------------------------------------- */
+
+/** What a host's own screen shows: the store's own special, first. */
+export const SPECIAL = { line1: "COFFEE + BAGEL, $4", line2: "WEEKDAY MORNINGS", tag: "Your special", where: "Convenience · 118 Main St" };
+
+/** An Advertise example: a nearby business, on the screens around it. */
+export const CAMPAIGN = { line1: "GRAND OPENING", line2: "SATURDAY · 3 DOORS DOWN", who: "Main St Fitness", where: "Showing at 4 locations on this block" };
+
+/**
+ * The Growth example. Joe's is a gas station with a market counter — the
+ * kind of place that already has a stream of people and a reason to bring
+ * them back. The Anchor lives on the screen all month; a Drop is a
+ * time-boxed reason to come in now.
+ */
+export const GROWTH_EXAMPLE = {
+  merchant: "Joe's Market",
+  address: "118 Main St",
+  anchor: {
+    tag: "This month at Joe's",
+    line1: "$30+ ON GAS",
+    line2: "FREE LARGE COFFEE",
+    scan: "Scan for this month's offer + Uptick Drops",
+  },
+  drop: {
+    kind: "Morning Drop",
+    line: "$25+ fill-up → free large coffee before 11 AM.",
+    window: "Today only",
+    sent: "6:48 AM",
+  },
+  /** Other shapes a Drop can take. Real mechanics, not manufactured urgency. */
+  windows: ["Before 11 AM", "Friday to Sunday", "First 30 redemptions", "This week only", "While supplies last"],
+  offerShort: "Free large coffee with $30+ gas",
+  claim: { code: "7QK2", link: "upticklocal.com/c/7QK2", dropLink: "upticklocal.com/d/7QK2" },
+} as const;
+
+/** The three consent choices. Claiming is the action; the two lists are boxes, unchecked. */
+export const CONSENT = {
+  claim: "Text me this month's offer",
+  merchant: `Updates and offers from ${GROWTH_EXAMPLE.merchant}`,
+  network: "Uptick Local Drops from nearby businesses",
+  fine: "Both are optional and unchecked to start. Leaving them off never affects your claim. Reply STOP any time.",
+} as const;
+
+/* -------------------------------------------------------------------------
+   The opening act
+   ---------------------------------------------------------------------- */
 
 /** The opening act, as the desktop tells it in one pinned scene. */
 export const STORY = {
@@ -32,7 +73,7 @@ export const STORY = {
   connect: {
     tag: "02 · The connection",
     title: "Uptick connects them.",
-    body: "A screen at each participating business, linked into one local network — so a business can reach the customers already next door.",
+    body: "A screen on the counter of each participating business, linked into one local network. Attention that used to stop at the door moves along the street.",
   },
   screen: {
     tag: "03 · The screen",
@@ -40,15 +81,12 @@ export const STORY = {
     specs: [
       ["21″", "countertop display, plug in and play"],
       ["Yours", "your own specials and events run first"],
-      ["Free", "provided to host stores, no paid plan"],
+      ["Free", "provided to host businesses, no paid plan"],
     ],
   },
 } as const;
 
-/**
- * The same act on a phone: five frames, each its own picture. Shorter lines,
- * because each sits over a picture in one narrow column.
- */
+/** The same act on a phone: shorter lines, each over a picture in one narrow column. */
 export const PHONE_STORY = {
   pockets: {
     tag: "01 · Next door",
@@ -63,39 +101,44 @@ export const PHONE_STORY = {
   connect: {
     tag: "03 · The connection",
     title: STORY.connect.title,
-    body: "A screen at each participating store, linked into one local network. Your business can reach the customers already next door.",
+    body: "A screen on each participating counter, linked into one local network. Your business reaches the customers already next door.",
   },
   screen: {
     tag: "04 · The screen",
     title: "This is the Uptick screen.",
     body: "A free 21″ countertop display. Your own specials run on it first, and it is the door into everything else.",
   },
-  handoff: {
-    tag: "Uptick Growth",
-    title: "Growth goes one step further.",
-    body: "Host and Advertise are complete on their own. Growth is the premium layer: an offer that leaves the screen, lands on a customer's phone, and comes back as a visit you can count.",
-  },
+} as const;
+
+/* -------------------------------------------------------------------------
+   Navigation and actions
+   ---------------------------------------------------------------------- */
+
+export const CTA = {
+  how: { label: "See how it works", href: "#block" },
+  talk: { label: "Talk to us", href: `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("Uptick Local")}` },
+  host: { label: "Host a free screen", href: "/host" },
+  advertise: { label: "Advertise locally", href: "/advertise" },
+  growth: { label: "Start a 30-day Growth pilot", href: "/growth" },
+  suite: { label: "Ask about Uptick Suite", href: "/suite" },
 } as const;
 
 /** Primary navigation, in the order a new visitor should meet it. */
 export const NAV = [
-  { href: "/", label: "Overview", line: "The block, the screen, three ways in" },
-  { href: "/how-it-works", label: "How it works", line: "The network, in one picture" },
+  { href: "/network", label: "The Network", line: "The block, the screens, the rules" },
   { href: "/host", label: "Host", line: "A free screen. Your own specials." },
   { href: "/advertise", label: "Advertise", line: "Your campaign on nearby screens. No screen needed." },
-  { href: "/growth", label: "Growth", line: "Offer → claim → visit → redeem → measure.", premium: true },
+  { href: "/growth", label: "Growth", line: "Anchor, Drop, claim, visit, redeem, report." },
+  { href: "/suite", label: "Uptick Suite", line: "Content that makes them choose you." },
 ] as const;
 
-export const CTA = {
-  how: { label: "SEE HOW IT WORKS", href: "#block" },
-  host: { label: "HOST A FREE SCREEN", href: "/host" },
-  advertise: { label: "ADVERTISE LOCALLY", href: "/advertise" },
-  growth: { label: "START A 30-DAY GROWTH PILOT", href: "/growth" },
-} as const;
+/* -------------------------------------------------------------------------
+   The ways in
+   ---------------------------------------------------------------------- */
 
 /**
- * The three ways to take part. Host is the network itself; Advertise reaches
- * it without a screen; Growth is the premium layer on top of a screen.
+ * The three ways to use the physical network. Not tiers: Host is the network
+ * itself, Advertise reaches it without a screen, Growth runs on a host screen.
  */
 export const WAYS = [
   {
@@ -104,10 +147,12 @@ export const WAYS = [
     line: "Promote your own business. Join the network.",
     requirement: "Free screen included",
     short: "Free screen",
+    diagram: "Your counter joins the network. Your specials run first.",
     points: [
-      "A free 21″ countertop screen, plug and play.",
+      "A free 21″ countertop screen. One cable and your Wi-Fi.",
       "Your own specials and events run on it, first.",
-      "It joins a local network of non-competing stores.",
+      "Your business joins a block of non-competing counters.",
+      "As paid campaigns run nearby, host businesses share in the revenue.",
     ],
     cta: CTA.host,
   },
@@ -117,9 +162,11 @@ export const WAYS = [
     line: "Reach nearby customers across Uptick locations.",
     requirement: "No screen needed",
     short: "No screen needed",
+    diagram: "Your campaign runs on the screens around you.",
     points: [
-      "Promote a service, an opening, an event, a special — whatever the campaign is.",
-      "It runs on screens at participating non-competing local stores near you.",
+      "A service, an opening, an event, a product, a special.",
+      "Uptick designs the creative with you.",
+      "It runs on nearby screens, never in a competitor.",
       "You see where it ran, by location.",
     ],
     cta: CTA.advertise,
@@ -128,15 +175,98 @@ export const WAYS = [
     id: "growth",
     name: "Growth",
     line: "Turn local attention into measurable customer activity.",
-    requirement: "Requires an Uptick screen",
-    short: "Needs a screen",
+    requirement: "Requires hosting",
+    short: "Requires hosting",
+    diagram: "The Anchor on the screens. The Drop on their phone. The visit at your door.",
     points: [
-      "Your offer on screens at up to five nearby non-competing local stores.",
-      "Customers claim it by text, visit, and redeem on their phone.",
-      "Follow-up offers for the customers who opt in, and a plain report.",
+      "A Monthly Anchor on your screen and the Uptick screens nearby.",
+      "Uptick Drops: limited-time reasons to come in now.",
+      "Customers claim on their phone and redeem at your counter.",
+      "Claims, redemptions and follow-up, reported plainly.",
     ],
     cta: CTA.growth,
   },
 ] as const;
 
 export type WayId = (typeof WAYS)[number]["id"];
+
+/* -------------------------------------------------------------------------
+   Uptick Suite
+   ---------------------------------------------------------------------- */
+
+export const SUITE = {
+  tag: "Uptick Suite",
+  title: { lead: "Getting noticed is only", accent: "half", tail: "the job." },
+  lead: "When a customer looks you up, what they find decides whether they choose you. Uptick Suite is the content behind local businesses that read as credible, sound like themselves, and stay top of mind.",
+  /** One conversation with the owner, turned into every surface a customer checks. */
+  source: {
+    label: "One conversation with you",
+    business: "Ridge Physical Therapy",
+    topic: "What actually happens at a first physical therapy visit, and why most people wait too long to book one.",
+  },
+  surfaces: [
+    { id: "site", channel: "Website copy", title: "Your first visit, explained.", body: "A service page that answers the questions people have before they call." },
+    { id: "blog", channel: "Blog & articles", title: "Five signs it is time to see a physical therapist", body: "Keyword-smart, genuinely useful, written to be found." },
+    { id: "social", channel: "Social", title: "Most people wait six weeks longer than they should.", body: "A post that earns a save, not a scroll." },
+    { id: "google", channel: "Google Business", title: "New-patient visits this week: what to bring.", body: "Profile posts that keep your listing current and chosen." },
+    { id: "email", channel: "Email & newsletter", title: "Subject: The stretch we teach everyone first", body: "Campaigns that bring past patients back." },
+    { id: "ad", channel: "Ad creative & copy", title: "Move without the wince.", body: "Scroll-stopping creative and copy, for screens, social and search." },
+  ],
+  services: [
+    ["Website copy", "Clear, persuasive pages that turn visitors into customers."],
+    ["Blogs & articles", "Helpful, keyword-smart content that builds trust and ranks locally."],
+    ["Local content", "Location pages, service pages and content that speaks to your community."],
+    ["Social content", "Posts that build visibility and keep your audience coming back."],
+    ["Google Business profile", "Updates and posts that keep the listing people check first current."],
+    ["Email & newsletters", "Campaigns that inform, engage and bring people back."],
+    ["Ad creative & copy", "Creative and copy for screens, social and search that get clicks and calls."],
+    ["Strategy & repurposing", "One plan, one voice, every channel; nothing written twice."],
+  ],
+  industries: "Dentists, physical therapists, chiropractors, dermatology and med spas, law firms, home-service companies, and other expert local businesses.",
+  credibility: {
+    line: "Written to a professional standard.",
+    who: "Led by Jordana White, a Princeton graduate and professional writer who specializes in local businesses.",
+  },
+  website: "Need help with the website itself too? Ask us. We can help with design, build and technical improvements.",
+  cta: CTA.suite,
+} as const;
+
+/* -------------------------------------------------------------------------
+   Real-world proof
+   ---------------------------------------------------------------------- */
+
+/**
+ * Documentary photographs. Every caption says what the picture literally
+ * is; nothing here claims an Uptick-branded install unless it is one.
+ */
+export const PROOF = {
+  tag: "In the wild",
+  title: "The model shows the system. This is the counter.",
+  body: "Eye level, next to the register, where people already stand and wait. That is the placement every Uptick screen is built for.",
+  photos: [
+    {
+      src: "/photos/counter-convenience.webp",
+      width: 558,
+      height: 720,
+      alt: "A convenience-store counter: a countertop display stands between the register and a heated case, with the store's shelves behind it.",
+      caption: "Convenience store counter, photographed as found. The hardware and on-screen content are the store's existing screen supplier's, not an Uptick install.",
+    },
+  ],
+} as const;
+
+/* -------------------------------------------------------------------------
+   The closing
+   ---------------------------------------------------------------------- */
+
+export const FINALE = {
+  tag: "Your business · The businesses around it · One local network",
+  title: "Put your business on the local map.",
+  doors: [
+    { id: "host", name: "Host a screen", line: "Turn your counter into a local destination.", href: CTA.host.href },
+    { id: "advertise", name: "Advertise", line: "Get in front of more locals, no screen needed.", href: CTA.advertise.href },
+    { id: "growth", name: "Growth", line: "Anchor, Drop, visit, redeem, report.", href: CTA.growth.href },
+    { id: "suite", name: "Uptick Suite", line: "Content that gets you chosen online.", href: CTA.suite.href },
+  ],
+} as const;
+
+export const SIGN_OFF = { lead: "Increase your", accent: "local." };

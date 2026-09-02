@@ -2,7 +2,7 @@
 
 import { useCallback, useRef } from "react";
 import ScreenMatch from "@/components/home/ScreenMatch";
-import { CTA, PROMISE, STORY } from "@/lib/content";
+import { CTA, PROMISE, PROMISE_LINE, STORY } from "@/lib/content";
 import { prefersReducedMotion } from "@/lib/scroll";
 import { useStageProgress } from "@/lib/useStageProgress";
 
@@ -39,7 +39,7 @@ export default function CinematicStage({ enabled }: { enabled: boolean }) {
     pin.style.setProperty("--a5", a5.toFixed(3));
     pin.style.setProperty("--scrim", (1 - seg(p, 0.7, 0.8)).toFixed(3));
 
-    // A faded hero must not keep its link in the tab order, but it stays in
+    // A faded hero must not keep its links in the tab order, but it stays in
     // the accessibility tree: it carries the page's only h1.
     const hero = heroRef.current;
     if (hero) {
@@ -71,11 +71,17 @@ export default function CinematicStage({ enabled }: { enabled: boolean }) {
         <div className="stage__scrim" aria-hidden="true" />
 
         <div ref={heroRef} className="beat beat--hero">
-          <p className="eyebrow">Hyperlocal screen network</p>
-          <h1 className="hero__title">{PROMISE}</h1>
+          <p className="eyebrow">A local business growth system</p>
+          <h1 className="hero__title">
+            {PROMISE.lead} <em className="accent">{PROMISE.accent}</em>
+          </h1>
+          <p className="hero__line">{PROMISE_LINE}</p>
           <div className="hero__acts">
             <a href={CTA.how.href} className="btn btn--ghost btn--down" onClick={toBlock}>
               {CTA.how.label}
+            </a>
+            <a href={CTA.talk.href} className="btn btn--mint">
+              {CTA.talk.label}
             </a>
           </div>
         </div>

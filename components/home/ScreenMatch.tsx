@@ -13,7 +13,7 @@ export default function ScreenMatch() {
         <p className="screenmatch__eyebrow">{SPECIAL.tag}</p>
         <p className="screenmatch__offer">{SPECIAL.line1}</p>
         <p className="screenmatch__sub">{SPECIAL.line2}</p>
-        <p className="screenmatch__where">Convenience · 118 Main St</p>
+        <p className="screenmatch__where">{SPECIAL.where}</p>
         <p className="screenmatch__mark">
           <span className="screenmatch__dot" />
           uptick local
