@@ -69,8 +69,8 @@ export default function SuitePage() {
               Everything a customer reads before they choose.
             </h2>
             <p className="page__lead">
-              The promise is content: clear, credible, in your voice, and kept current. Not a website build, though we can help
-              with that too.
+              The promise is content: clear, credible, in your voice, and kept current. If the website itself needs work too, ask
+              us what is possible.
             </p>
           </header>
           <div className="ledger">
@@ -121,7 +121,10 @@ export default function SuitePage() {
               {SUITE.credibility.line}
             </p>
             <p className="page__lead" style={{ marginTop: 22 }}>
-              {SUITE.credibility.who} Uptick Suite is produced with JBCI, the content studio behind it.
+              {SUITE.credibility.who}
+            </p>
+            <p className="page__lead" style={{ marginTop: 18 }}>
+              <strong className="lead__strong">{SUITE.partner.line}</strong> {SUITE.partner.note}
             </p>
             <p className="page__lead" style={{ marginTop: 18 }}>
               {SUITE.website}

@@ -33,7 +33,7 @@ export default function GrowthChapter() {
           </h2>
           <p className="chapter__lead">
             A screen whose content changes monthly cannot keep shouting &ldquo;today only&rdquo;. So Growth splits the job in two: the
-            Anchor lives on the screen and earns the sign-up; the Drop lands on the phone and earns the visit.
+            Anchor on the screen is the reason to care, and the Drop on the phone is the reason to act.
           </p>
         </header>
 
@@ -66,8 +66,8 @@ export default function GrowthChapter() {
               <DropMessage large />
             </div>
             <p className="station__note">
-              A time-boxed reason to act: {g.windows.slice(0, 3).join(", ").toLowerCase()}. Sent only to the people who asked for
-              them. Real mechanics, not manufactured urgency.
+              A time-boxed reason to act — {g.windows.slice(0, 3).join(" · ")}. Sent only to the people who asked for them. Real
+              mechanics, not manufactured urgency.
             </p>
           </figure>
         </div>

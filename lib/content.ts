@@ -203,7 +203,7 @@ export const SUITE = {
   source: {
     label: "One conversation with you",
     business: "Ridge Physical Therapy",
-    topic: "What actually happens at a first physical therapy visit, and why most people wait too long to book one.",
+    topic: "What actually happens at a first physical therapy visit, and how to tell when it is time to book one.",
   },
   /** Every business named here is a worked example, and the site says so. */
   example: "A worked example. Ridge Physical Therapy is not a client.",
@@ -220,28 +220,36 @@ export const SUITE = {
   },
   surfaces: [
     { id: "site", channel: "Website copy", title: "Your first visit, explained.", body: "A service page that answers the questions people have before they call." },
-    { id: "blog", channel: "Blog & articles", title: "Five signs it is time to see a physical therapist", body: "Keyword-smart, genuinely useful, written to be found." },
-    { id: "social", channel: "Social", title: "Most people wait six weeks longer than they should.", body: "A post that earns a save, not a scroll." },
+    { id: "blog", channel: "Blog & articles", title: "Five signs it is time to see a physical therapist", body: "Search-aware, genuinely useful, written to be found." },
+    { id: "social", channel: "Social", title: "The thing we check first is rarely the part that hurts.", body: "A post that earns a save, not a scroll." },
     { id: "google", channel: "Google Business", title: "New-patient visits this week: what to bring.", body: "Profile posts that keep your listing current and chosen." },
     { id: "email", channel: "Email & newsletter", title: "Subject: The stretch we teach everyone first", body: "Campaigns that bring past patients back." },
     { id: "ad", channel: "Ad creative & copy", title: "Move without the wince.", body: "Scroll-stopping creative and copy, for screens, social and search." },
   ],
   services: [
-    ["Website copy", "Clear, persuasive pages that turn visitors into customers."],
-    ["Blogs & articles", "Helpful, keyword-smart content that builds trust and ranks locally."],
+    ["Website copy", "Clear, persuasive pages that give a visitor a reason to choose you."],
+    ["Blogs & articles", "Helpful, search-aware writing that builds trust and supports your local visibility."],
     ["Local content", "Location pages, service pages and content that speaks to your community."],
     ["Social content", "Posts that build visibility and keep your audience coming back."],
     ["Google Business profile", "Updates and posts that keep the listing people check first current."],
     ["Email & newsletters", "Campaigns that inform, engage and bring people back."],
-    ["Ad creative & copy", "Creative and copy for screens, social and search that get clicks and calls."],
+    ["Ad creative & copy", "Creative and copy for screens, social and search, built to be acted on."],
     ["Strategy & repurposing", "One plan, one voice, every channel; nothing written twice."],
   ],
   industries: "Dentists, physical therapists, chiropractors, dermatology and med spas, law firms, home-service companies, and other expert local businesses.",
+  /**
+   * Suite is delivered with JBCI, the editorial partner. Said plainly and
+   * once: a customer buys the capability, not the corporate structure.
+   */
+  partner: {
+    line: "Uptick Suite, in partnership with JBCI.",
+    note: "JBCI is the editorial partner behind Suite: content strategy and professional writing. Uptick brings the local distribution, the screens and the customer activation.",
+  },
   credibility: {
     line: "Written to a professional standard.",
     who: "Led by Jordana White, a Princeton graduate and professional writer who specializes in local businesses.",
   },
-  website: "Need help with the website itself too? Ask us. We can help with design, build and technical improvements.",
+  website: "Need help with the website itself too? Ask us what is possible.",
   cta: CTA.suite,
 } as const;
 
@@ -263,7 +271,7 @@ export const PROOF = {
       width: 558,
       height: 720,
       alt: "A convenience-store counter: a countertop display stands between the register and a heated case, with the store's shelves behind it.",
-      caption: "Convenience store counter, photographed as found. The hardware and on-screen content are the store's existing screen supplier's, not an Uptick install.",
+      caption: "Not an Uptick install. Another screen supplier's hardware and content, photographed as found on a convenience-store counter. The placement is the point.",
     },
   ],
 } as const;

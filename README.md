@@ -19,7 +19,7 @@ npx tsc --noEmit
 
 ## Copy
 
-`lib/content.ts` is the single source for every claim the site makes: the promise, the worked Growth example (Monthly Anchor + Uptick Drop), the three consent choices, the four ways, Uptick Suite, the proof section and the finale. Nothing on the site should state a customer, a number or a result that is not literally true; the example businesses (Joe's Market, Ridge Physical Therapy) are labelled as examples.
+`lib/content.ts` is the single source for every claim the site makes: the promise, the worked Growth example (Monthly Anchor + Uptick Drop), the three consent choices, the four ways, Uptick Suite, the proof section and the finale. Nothing on the site should state a customer, a number or a result that is not literally true; the example businesses (Joe's Market, Ridge Physical Therapy, Northside Roofing) are labelled as examples. In particular: no search-ranking promise, no invented statistic, no website build promised as a Suite deliverable, and no causal claim that the Anchor or the Drop produces a result — each is described by the job it does. Uptick Suite is delivered with JBCI, the editorial partner; `SUITE.partner` is the one place that relationship is worded, and it appears in the homepage Suite chapter, on `/suite` and in the footer.
 
 ## How the homepage is built
 

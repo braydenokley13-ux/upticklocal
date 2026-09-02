@@ -47,9 +47,12 @@ export default function SuiteChapter() {
         <p className="example">{SUITE.example}</p>
 
         <div className="suite__foot">
-          <p className="suite__cred">
-            <strong>{SUITE.credibility.line}</strong> {SUITE.credibility.who}
-          </p>
+          <div className="suite__cred">
+            <p>
+              <strong>{SUITE.credibility.line}</strong> {SUITE.credibility.who}
+            </p>
+            <p className="suite__partner">{SUITE.partner.line}</p>
+          </div>
           <p className="suite__site">{SUITE.website}</p>
           <div className="chapter__acts">
             <Link href={SUITE.cta.href} className="btn btn--ink">
