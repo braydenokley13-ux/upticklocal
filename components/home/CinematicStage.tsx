@@ -1,10 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { useCallback, useRef } from "react";
 import ScreenMatch from "@/components/home/ScreenMatch";
-import StillFrame from "@/components/home/StillFrame";
-import { CTA, PROMISE } from "@/lib/content";
+import { CTA, PROMISE, STORY } from "@/lib/content";
 import { prefersReducedMotion } from "@/lib/scroll";
 import { useStageProgress } from "@/lib/useStageProgress";
 
@@ -14,49 +12,14 @@ const seg = (p: number, a: number, b: number) => Math.max(0, Math.min(1, (p - a)
 const BLOCK_AT = 0.3;
 
 /**
- * The first act: the company, then the block, then the connection, then the
- * screen.
- *
- * On the live path the section is 520vh tall and pins one viewport; scroll
- * drives the camera behind it and the opacity of the copy over it. Progress
- * goes straight to CSS custom properties — nothing here touches React state
- * on a scroll frame. Everywhere else the same beats are told as stills with
- * the copy set underneath, composed for a vertical page.
+ * The first act on a desktop: the company, then the block, then the
+ * connection, then the screen. The section is 520vh tall and pins one
+ * viewport; scroll drives the camera behind it and the opacity of the copy
+ * over it. Progress goes straight to CSS custom properties — nothing here
+ * touches React state on a scroll frame. Phones tell the same act in
+ * MobileStory.
  */
-const COPY = {
-  block: {
-    tag: "01 · The block",
-    title: "Your block is already a network.",
-    body: "The café, the gym, the salon, the restaurant, the corner store. Each already has customers. Separate pockets of local attention, a few doors apart.",
-  },
-  connect: {
-    tag: "02 · The connection",
-    title: "Uptick connects them.",
-    body: "A screen at each participating business, linked into one local network — so a business can reach the customers already next door.",
-  },
-  screen: {
-    tag: "03 · The screen",
-    title: "Useful on its own. Stronger together.",
-    specs: [
-      ["21″", "countertop display, plug in and play"],
-      ["Yours", "your own specials and events run first"],
-      ["Free", "provided to host stores, no paid plan"],
-    ],
-  },
-};
-
-const specs = (
-  <dl className="specs">
-    {COPY.screen.specs.map(([dt, dd]) => (
-      <div key={dt}>
-        <dt>{dt}</dt>
-        <dd>{dd}</dd>
-      </div>
-    ))}
-  </dl>
-);
-
-export default function CinematicStage() {
+export default function CinematicStage({ enabled }: { enabled: boolean }) {
   const sectionRef = useRef<HTMLElement>(null);
   const pinRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
@@ -90,111 +53,62 @@ export default function CinematicStage() {
     }
   }, []);
 
-  useStageProgress("story", sectionRef, { onProgress });
+  useStageProgress("story", sectionRef, { onProgress, enabled });
 
-  /** "See how it works": one move to the second beat, or to the second still. */
+  /** "See how it works": one move to the second beat. */
   const toBlock = useCallback((event: React.MouseEvent<HTMLAnchorElement>) => {
     const section = sectionRef.current;
     if (!section) return;
     event.preventDefault();
     const behavior: ScrollBehavior = prefersReducedMotion() ? "instant" : "smooth";
-    const pin = pinRef.current;
-    const pinned = pin && getComputedStyle(pin).position === "sticky";
     const top = section.getBoundingClientRect().top + window.scrollY;
-    if (pinned) {
-      window.scrollTo({ top: top + BLOCK_AT * (section.offsetHeight - window.innerHeight), behavior });
-    } else {
-      const frame = section.querySelector<HTMLElement>("#block-still");
-      window.scrollTo({ top: (frame?.getBoundingClientRect().top ?? 0) + window.scrollY - 24, behavior });
-    }
+    window.scrollTo({ top: top + BLOCK_AT * (section.offsetHeight - window.innerHeight), behavior });
   }, []);
-
-  const hero = (
-    <>
-      <p className="eyebrow">Hyperlocal screen network</p>
-      <h1 className="hero__title">{PROMISE}</h1>
-      <div className="hero__acts">
-        <a href={CTA.how.href} className="btn btn--ghost btn--down" onClick={toBlock}>
-          {CTA.how.label}
-        </a>
-      </div>
-    </>
-  );
 
   return (
     <section ref={sectionRef} className="stage" data-theme="dark" aria-label="Uptick Local, on one block">
-      {/* ---------------- live: the pinned cinematic ---------------- */}
       <div ref={pinRef} className="stage__pin">
         <div className="stage__scrim" aria-hidden="true" />
 
         <div ref={heroRef} className="beat beat--hero">
-          {hero}
+          <p className="eyebrow">Hyperlocal screen network</p>
+          <h1 className="hero__title">{PROMISE}</h1>
+          <div className="hero__acts">
+            <a href={CTA.how.href} className="btn btn--ghost btn--down" onClick={toBlock}>
+              {CTA.how.label}
+            </a>
+          </div>
         </div>
 
         <div className="beat beat--model" id="block">
-          <p className="mono-tag">{COPY.block.tag}</p>
-          <h2 className="beat__title">{COPY.block.title}</h2>
-          <p className="beat__body">{COPY.block.body}</p>
+          <p className="mono-tag">{STORY.block.tag}</p>
+          <h2 className="beat__title">{STORY.block.title}</h2>
+          <p className="beat__body">{STORY.block.body}</p>
         </div>
 
         <div className="beat beat--signal">
-          <p className="mono-tag">{COPY.connect.tag}</p>
-          <h2 className="beat__title">{COPY.connect.title}</h2>
-          <p className="beat__body">{COPY.connect.body}</p>
+          <p className="mono-tag">{STORY.connect.tag}</p>
+          <h2 className="beat__title">{STORY.connect.title}</h2>
+          <p className="beat__body">{STORY.connect.body}</p>
         </div>
 
         <div className="beat beat--screen">
-          <p className="mono-tag">{COPY.screen.tag}</p>
-          <h2 className="beat__title">{COPY.screen.title}</h2>
-          {specs}
+          <p className="mono-tag">{STORY.screen.tag}</p>
+          <h2 className="beat__title">{STORY.screen.title}</h2>
+          <dl className="specs">
+            {STORY.screen.specs.map(([dt, dd]) => (
+              <div key={dt}>
+                <dt>{dt}</dt>
+                <dd>{dd}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
 
         <ScreenMatch />
         <p className="stage__cue" aria-hidden="true">
           Scroll
         </p>
-      </div>
-
-      {/* ---------------- stills: phones, portrait tablets, no WebGL ---------------- */}
-      <div className="stage__frames">
-        <div className="frame frame--hero">
-          {hero}
-          <StillFrame
-            name="hero"
-            priority
-            alt="An architectural model of a neighbourhood block at blue hour. Your Business stands in the foreground, lit from inside; the other storefronts recede behind it."
-          />
-        </div>
-
-        <div className="frame" id="block-still">
-          <StillFrame
-            name="model"
-            alt="The whole block from above the far corner: two rows of storefronts on a dark plinth, each lit from inside."
-          />
-          <p className="mono-tag">{COPY.block.tag}</p>
-          <h2 className="frame__title">{COPY.block.title}</h2>
-          <p className="frame__body">{COPY.block.body}</p>
-        </div>
-
-        <div className="frame">
-          <StillFrame
-            name="signal"
-            alt="A soft ring of light spreads across the street from Your Business; the counter screens it reaches switch on."
-          />
-          <p className="mono-tag">{COPY.connect.tag}</p>
-          <h2 className="frame__title">{COPY.connect.title}</h2>
-          <p className="frame__body">{COPY.connect.body}</p>
-        </div>
-
-        <div className="frame">
-          <StillFrame
-            name="screen"
-            alt="The Uptick screen on a host store's counter: a thin dark 21-inch display showing the store's own special."
-          />
-          <p className="mono-tag">{COPY.screen.tag}</p>
-          <h2 className="frame__title">{COPY.screen.title}</h2>
-          {specs}
-        </div>
       </div>
     </section>
   );

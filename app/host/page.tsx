@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import ContactPanel from "@/components/ContactPanel";
+import PageVisual from "@/components/PageVisual";
 
 export const metadata: Metadata = {
   title: "Host a free screen",
@@ -70,6 +71,12 @@ export default function HostPage() {
           </a>
         </div>
       </header>
+
+      <PageVisual
+        name="screen"
+        alt="The Uptick screen on a host store's counter, showing the store's own special."
+        caption="21″ · Free to host · Your specials first"
+      />
 
       <section className="band band--paper" aria-labelledby="host-steps">
         <div className="band__inner">

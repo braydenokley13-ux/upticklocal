@@ -2,26 +2,23 @@
 
 import Link from "next/link";
 import { useRef } from "react";
-import StillFrame from "@/components/home/StillFrame";
 import { CTA } from "@/lib/content";
 import { useStageProgress } from "@/lib/useStageProgress";
 
 /**
- * Chapter 10 — back to the block at blue hour, every counter screen lit.
- * By now the visitor knows what each object is, so "the local map" is a
- * description rather than a metaphor. Nothing follows it.
+ * Chapter 10 on a desktop — back to the block at blue hour, every counter
+ * screen lit, in the live model. By now the visitor knows what each object
+ * is, so "the local map" is a description rather than a metaphor. Nothing
+ * follows it. Phones close with MobileFinale.
  */
-export default function FinaleChapter() {
+export default function FinaleChapter({ enabled }: { enabled: boolean }) {
   const sectionRef = useRef<HTMLElement>(null);
-  useStageProgress("finale", sectionRef);
+  useStageProgress("finale", sectionRef, { enabled });
 
   return (
     <section ref={sectionRef} className="finale" data-theme="dark" aria-labelledby="finale-heading">
       <div className="finale__pin">
         <div className="finale__scrim" aria-hidden="true" />
-        <div className="finale__frames">
-          <StillFrame name="finale" alt="The finished block at blue hour, every counter screen lit." />
-        </div>
         <div className="finale__copy">
           <p className="mono-tag">Your business · The businesses around it · One local network</p>
           <h2 id="finale-heading" className="finale__title">

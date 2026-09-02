@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  /** The dev badge sits over the page in screenshots; QA reads the page, not the badge. */
+  devIndicators: false,
 
   /**
    * Pin the workspace root. Without it Turbopack walks up past the repository,

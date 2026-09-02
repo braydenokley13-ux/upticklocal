@@ -49,15 +49,33 @@ export const STORY: Shot[] = [
 ];
 
 /**
- * The same beats composed for a vertical frame. These are not crops of the
- * wide shots: a phone gets its own camera.
+ * The phone's frames. Not crops of the wide shots: each is its own camera,
+ * held at its own aspect, with the block in its own state. Composed at
+ * 390px first, then baked (scripts/bake-frames.mjs).
+ *
+ *   hero     Your Business, close and low, the block receding behind it
+ *   block    the street from above Your Business — the other storefronts
+ *   pockets  the far row from the kerb: each store lit from inside, on its own
+ *   connect  the same frame, with the signal crossing and the counters lit
+ *   screen   the Uptick screen on the host's counter, as a product
+ *   finale   the finished block at blue hour
  */
-export const PORTRAIT: Record<string, Shot> = {
-  hero: { p: 0, pos: [-9.5, 5.6, -0.2], target: [1.8, 4.6, 7.6], fov: 44 },
-  model: { p: 0, pos: [-44, 56, -34], target: [6, -2, 0], fov: 36 },
-  signal: { p: 0.56, pos: [-23, 12, 1.5], target: [4, 1, 1.5], fov: 46 },
-  screen: { p: 0.83, rel: "unit", pos: [-0.5, 0.26, 1.12], target: [-0.04, -0.03, 0], fov: 30 },
-  finale: { p: 0, pos: [-38, 14, 0], target: [10, 2.5, 0], fov: 44 },
+export type MobileFrame = {
+  shot: Pick<Shot, "pos" | "target" | "fov" | "rel">;
+  /** Story progress that sets the block's state (signal, counter screens). */
+  p: number;
+  finale?: boolean;
+  /** Width and height of the baked frame. */
+  size: [number, number];
+};
+
+export const MOBILE: Record<string, MobileFrame> = {
+  hero: { shot: { pos: [-9.5, 3.4, -2], target: [1.0, 4.4, 7.4], fov: 50 }, p: 0, size: [1170, 1560] },
+  pockets: { shot: { pos: [-1, 2.6, 4.8], target: [-8, 3.2, -7.1], fov: 62 }, p: 0.3, size: [1170, 1462] },
+  block: { shot: { pos: [-22, 20, -4], target: [4, 1.5, 6], fov: 50 }, p: 0.3, size: [1170, 1462] },
+  connect: { shot: { pos: [-22, 20, -4], target: [4, 1.5, 6], fov: 50 }, p: 0.56, size: [1170, 1462] },
+  screen: { shot: { rel: "unit", pos: [-0.5, 0.27, 1.12], target: [-0.045, -0.035, 0], fov: 29.5 }, p: 0.83, size: [1170, 1462] },
+  finale: { shot: { pos: [-40, 12.5, 0], target: [10, 0.6, 0], fov: 42 }, p: 0.45, finale: true, size: [1170, 1462] },
 };
 
 /** The closing pass: a slow lateral drift across the finished block. */

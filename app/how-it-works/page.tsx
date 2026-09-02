@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import StillFrame from "@/components/home/StillFrame";
+import PageVisual from "@/components/PageVisual";
 import { CTA } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -57,11 +57,12 @@ export default function HowItWorksPage() {
         </p>
       </header>
 
-      <section className="band band--deep" aria-label="The block">
-        <div className="band__inner">
-          <StillFrame name="model" alt="The block as a model: two rows of local storefronts, five of them carrying Uptick screens." />
-        </div>
-      </section>
+      <PageVisual
+        name="connect"
+        wide="model-wide.webp"
+        alt="The block as a model: two rows of local storefronts, five of them carrying Uptick screens, one signal crossing between them."
+        caption="One block · Five host screens · One network"
+      />
 
       <section className="band band--paper" aria-labelledby="sequence">
         <div className="band__inner">

@@ -1,5 +1,6 @@
 import * as THREE from "three";
-import { applyShot, FINALE, PORTRAIT, resolveShot, resolveStory, type Shot } from "./shots";
+import { applyShot, FINALE, resolveShot, resolveStory, type Shot } from "./shots";
+import { PANEL_H, PANEL_W } from "./unit";
 import { buildWorld, type World } from "./world";
 import { disposeTextures, skyEquirect } from "./textures";
 import { disposeGeometry } from "./materials";
@@ -43,6 +44,8 @@ export class Engine {
   private lastT = 0;
   private w = 1;
   private h = 1;
+  /** A held composition: once set, every redraw (resize, settle) keeps it. */
+  private still: Shot | null = null;
   private env: THREE.Texture | null = null;
   private sky: THREE.Texture | null = null;
   private disposed = false;
@@ -170,19 +173,26 @@ export class Engine {
    * One synchronous frame at an exact progress — for stills and bakes. In a
    * portrait viewport the named beat gets its own composition.
    */
-  renderStill(slot: Slot, p: number, portraitOf?: string) {
+  renderStill(slot: Slot, p: number, shot?: Shot) {
     this.slot = slot;
     this.current = this.target = p;
     this.active = true;
-    const portrait = portraitOf && this.camera.aspect < 1 ? PORTRAIT[portraitOf] : undefined;
-    if (portrait) {
-      const finale = slot === "finale";
-      applyShot(this.camera, [resolveShot(this.world, portrait, this.camera.aspect)], p, false, true);
-      this.world.update({ p, finale });
-      this.renderer.render(this.world.scene, this.camera);
-      return;
-    }
+    this.still = shot ?? null;
     this.draw();
+  }
+
+  /**
+   * The screen's active panel, projected into the current frame as four
+   * corners in image coordinates (0–1, top-left origin). The bake stores it
+   * next to the still so the page can lay real DOM over the baked panel.
+   */
+  projectPanel(): [number, number][] {
+    const { position, right, up } = this.world.unitFrame();
+    const v = new THREE.Vector3();
+    return ([[-1, 1], [1, 1], [1, -1], [-1, -1]] as const).map(([sx, sy]) => {
+      v.copy(position).addScaledVector(right, (sx * PANEL_W) / 2).addScaledVector(up, (sy * PANEL_H) / 2).project(this.camera);
+      return [v.x * 0.5 + 0.5, -v.y * 0.5 + 0.5];
+    });
   }
 
   private schedule() {
@@ -209,7 +219,8 @@ export class Engine {
 
   private draw() {
     const finale = this.slot === "finale";
-    applyShot(this.camera, finale ? FINALE : this.story, this.current, this.opts.calm);
+    if (this.still) applyShot(this.camera, [resolveShot(this.world, this.still, this.camera.aspect)], this.current, false, true);
+    else applyShot(this.camera, finale ? FINALE : this.story, this.current, this.opts.calm);
     this.world.update({ p: this.current, finale });
     this.renderer.render(this.world.scene, this.camera);
     this.opts.onFrame?.({ slot: this.slot, p: this.current, camera: this.camera, width: this.w, height: this.h });
