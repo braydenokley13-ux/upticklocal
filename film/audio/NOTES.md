@@ -1,6 +1,14 @@
-# Sound intent · five hero shots
+# Sound intent
 
-No score in this run. Silence is a material. No whooshes. One tempo, 76 bpm, when anything is rhythmic.
+Silence is a material. No whooshes. One tempo, 76 bpm, when anything is rhythmic.
+
+This was written for the five hero shots, when the plan was to carry them on sound design alone.
+The assembled film keeps every rule below and adds one thing the shots did not need: an underscore,
+written to this cut and to no other (`film/audio/synth.py::make_music_bed`, mapped in `CUES.md`).
+It sits *under* the picture — it never announces a beat the picture is already making, it goes to
+near-silence for the 830 ms hole, and it ducks 6 dB so the redemption note is alone. `SCORE = false`
+in `film/audio/cues.ts` plays the original intent: the sound design by itself, with one root chord
+under the 21.
 
 ## Hero 1 · 3 → the physical block
 Room tone only under the page (a faint air-handler hum, almost nothing). The word-by-word sentence has no sound.

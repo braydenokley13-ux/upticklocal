@@ -960,53 +960,62 @@ def _pad_chord(freqs, n, seed, spread=0.38):
 
 
 def make_music_bed():
-    """90 s, stereo, 76 bpm, in D.  Cut to the film's real timeline
-    (2148 frames at 24 fps = 89.5 s), act boundaries as delivered by the edit.
+    """69.5 s, stereo, 76 bpm, in D.  Cut to the film's real timeline
+    (1646 frames at 24 fps = 68.58 s), act boundaries as delivered by the edit.
 
-    0-4.0       near-silence -- the page
-    4.0-10.5    a sub-bass D1 swell -- the lift off the concrete, the settle
-    10.5-14.5   the D pad enters -- the typing
-    14.5-27.5   pad + quarter-note pulse -- instruments into the plan
-    27.5-35.8   the pad lifts to A, the dominant -- Approve, the block at dusk
-    35.8-51.75  the arpeggio over A -- two ways in, the cafe, the same Offer
-    51.75-67.6  the dip: pad alone, back in D -- the question, the 900 ms
-                hole, the provenance tick.  From 66.4 s the pad ducks a
-                further 6 dB so the redemption note at 66.75 s stands alone.
-    67.6-74.0   the build -- pulse returns, a bass phrase, a second arpeggio
-                voice a fifth up, the pad's filter opening
-    74.0-78.5   the crescendo -- the last thresholds, the morning fully up.
-                The loudest point in the film, at -14 dBFS.
-    78.5-86.0   the resolve -- everything cuts as the 21 lands; one warm D
-                major chord decays under the closing lines
-    86.0-90.0   silence but for a faint air
+    0-3.0       near-silence -- the page
+    3.0-9.0     a sub-bass D1 swell -- the lift off the concrete, the settle
+    9.0-12.63   the D pad enters -- the typing
+    12.63-30.67 pad + quarter-note pulse -- the instruments, the plan, the
+                Approve, the block at dusk.  The pad lifts to A at 22.58 s,
+                where Act V starts.
+    30.67-40.33 the arpeggio over A -- two ways in, the cafe, the same Offer
+    40.33-53.68 the dip: pad alone, back in D -- the question, the 830 ms
+                hole at 42.0 s, the provenance tick, the forecourt and the
+                counter.  From 51.90 s the pad ducks a further 6 dB so the
+                redemption note at 52.08 s stands alone.
+    53.68-59.0  the build and the crescendo -- pulse returns, a four-note
+                bass phrase D-A-B-G on the odd beats, a second arpeggio
+                voice a fifth up, the pad's filter opening.  The loudest
+                point in the film, at -14 dBFS, is the last threshold.
+    59.0-65.0   the resolve -- everything cuts as the morning washes the set
+                away; one warm D major chord decays under the 21 and the
+                closing lines
+    65.0-69.5   silence but for a faint air
+
+    The bass phrase ends on G so the cut at 59.0 s lands on the D major
+    resolve: a plagal step into the 21, not a stop.
 
     Nothing exceeds -12 dBFS peak; a soft-clip limiter sits at the end.
     """
-    dur, n = 90.0, n_samples(90.0)
+    dur, n = 69.5, n_samples(69.5)
     rng = rng_for("music-bed")
 
-    CUT = 78.5              # the 21 lands; everything rhythmic stops here
+    CUT = 59.0              # the morning takes the set; everything rhythmic stops
+    ARP0, ARP1 = 30.667, 40.333     # Act VI
+    DIP0, DIP1 = 40.333, 53.684     # Act VII and the redemption
+    BUILD = 53.684                  # bar 17
     mix = np.zeros((2, n))  # air, the sub swell, the resolve chord
-    pre = np.zeros((2, n))  # everything that the cut at 78.5 s silences
+    pre = np.zeros((2, n))  # everything that the cut at 59.0 s silences
 
     # ---- faint air, present the whole way through -----------------------
     air = np.stack([fft_filter(white(n, rng), lo=40, hi=1600, order=2)
                     for _ in range(2)])
     air = air / np.max(np.abs(air))
-    air_lvl = ramp(n, [(0, db(-56)), (4.0, db(-55)), (10.5, db(-53)),
-                       (51.75, db(-52)), (78.5, db(-52)), (86.0, db(-56)),
-                       (89.0, db(-60)), (90.0, 0.0)])
+    air_lvl = ramp(n, [(0, db(-56)), (3.0, db(-55)), (9.0, db(-53)),
+                       (40.3, db(-52)), (59.0, db(-52)), (65.0, db(-56)),
+                       (68.6, db(-60)), (69.5, 0.0)])
     mix += air * air_lvl
 
-    # ---- 4.0-10.5 s: the sub-bass D1 swell under the lift ---------------
-    sub_n = n_samples(7.6)
+    # ---- 3.0-9.0 s: the sub-bass D1 swell under the lift ----------------
+    sub_n = n_samples(6.4)
     sub = (sine(NOTE["D1"], sub_n) + 0.35 * sine(NOTE["D1"] * 2, sub_n)
            + 0.12 * sine(NOTE["D1"] * 3, sub_n))
     sub /= np.max(np.abs(sub))
-    sub_env = ramp(sub_n, [(0, 0.0), (3.2, 1.0), (5.0, 0.78), (6.9, 0.0)])
+    sub_env = ramp(sub_n, [(0, 0.0), (2.7, 1.0), (4.2, 0.78), (5.8, 0.0)])
     sub_env = fft_filter(sub_env, hi=3.0, order=1)          # smooth the corners
     sub = sub * sub_env * db(-27.0)
-    add_at(mix, np.stack([sub, sub * 0.97]), 4.0)
+    add_at(mix, np.stack([sub, sub * 0.97]), 3.0)
 
     # ---- pads -----------------------------------------------------------
     def pad_section(t0, t1, freqs, seed, level_env, cutoff_at,
@@ -1027,33 +1036,33 @@ def make_music_bed():
     d_major = [NOTE["D2"], NOTE["A2"], NOTE["D3"], NOTE["F#3"], NOTE["A3"]]
     a_sus = [NOTE["A2"], NOTE["E3"], NOTE["A3"], NOTE["B3"]]
 
-    # 10.5-29.0 : D, under the typing and the instruments
-    pad_section(10.5, 29.0, d_major, 10,
-                lambda m: ramp(m, [(0, db(-24)), (3, db(-22)),
-                                   (15, db(-22)), (18.5, db(-24))]),
-                lambda t: 620.0, 2.2, 1.6)
-    # 27.5-53.0 : the lift to A, held through Act VI
-    pad_section(27.5, 53.0, a_sus, 30,
-                lambda m: ramp(m, [(0, db(-26)), (3, db(-22.5)),
-                                   (20, db(-22.5)), (25.5, db(-25.5))]),
-                lambda t: 780.0, 2.0, 2.0)
-    # 51.75-68.2 : the dip, back to D.  The ramp at 14.65 s into the section
-    # (= 66.4 s absolute) is the extra 6 dB duck that clears the redeem note.
-    pad_section(51.75, 68.2, d_major, 50,
-                lambda m: ramp(m, [(0, db(-27)), (2.5, db(-25)),
-                                   (12.0, db(-26)),
-                                   (14.65, db(-26)),      # 66.40 s
-                                   (14.95, db(-32)),      # 66.70 s, -6 dB
-                                   (15.85, db(-32)),      # 67.60 s
-                                   (16.45, db(-34))]),
-                lambda t: 520.0, 2.5, 0.6)
-    # 67.6-78.55 : the build and the crescendo, filter opening 480 -> 3000 Hz
-    pad_section(67.6, 78.55, d_major, 70,
-                lambda m: ramp(m, [(0, db(-27)), (3.0, db(-22)),
-                                   (6.4, db(-19)), (9.4, db(-17)),
-                                   (10.95, db(-17))]),
+    # 9.0-24.4 : D, under the typing and the instruments
+    pad_section(9.0, 24.4, d_major, 10,
+                lambda m: ramp(m, [(0, db(-24)), (2.6, db(-22)),
+                                   (12.4, db(-22)), (15.4, db(-24))]),
+                lambda t: 620.0, 2.0, 1.5)
+    # 22.58-41.5 : the lift to A at Approve, held through Act VI
+    pad_section(22.583, 41.5, a_sus, 30,
+                lambda m: ramp(m, [(0, db(-26)), (2.6, db(-22.5)),
+                                   (15.0, db(-22.5)), (18.92, db(-25.5))]),
+                lambda t: 780.0, 1.8, 1.8)
+    # 40.33-53.9 : the dip, back to D.  The ramp at 11.57 s into the section
+    # (= 51.90 s absolute) is the extra 6 dB duck that clears the redeem note.
+    pad_section(DIP0, 53.9, d_major, 50,
+                lambda m: ramp(m, [(0, db(-27)), (2.2, db(-25)),
+                                   (10.0, db(-26)),
+                                   (11.57, db(-26)),      # 51.90 s
+                                   (11.87, db(-32)),      # 52.20 s, -6 dB
+                                   (12.97, db(-32)),      # 53.30 s
+                                   (13.57, db(-34))]),
+                lambda t: 520.0, 2.2, 0.6)
+    # 53.68-59.05 : the build and the crescendo, filter opening 480 -> 3000 Hz
+    pad_section(BUILD, 59.05, d_major, 70,
+                lambda m: ramp(m, [(0, db(-27)), (1.6, db(-22)),
+                                   (3.2, db(-19)), (4.7, db(-17)),
+                                   (5.37, db(-17))]),
                 lambda t: 480.0 + (3000.0 - 480.0) *
-                min(max((t - 0.8) / 9.0, 0.0), 1.0) ** 1.5, 1.6, 0.05)
+                min(max((t - 0.4) / 4.4, 0.0), 1.0) ** 1.5, 1.2, 0.05)
 
     # ---- the quarter-note pulse (76 bpm) --------------------------------
     def pulse_click(level):
@@ -1077,14 +1086,15 @@ def make_music_bed():
         return [k * BEAT for k in range(b0, int(t1 / BEAT) + 1)
                 if t0 <= k * BEAT < t1]
 
-    for t in beats_between(14.5, 51.75):
+    PULSE0 = 12.632                                # bar 4
+    for t in beats_between(PULSE0, ARP1):
         strong = (round(t / BEAT) % 4 == 0)
         lv = -29.0 if strong else -32.0
-        ease = min((t - 14.5) / 3.0, 1.0)          # in over one bar
+        ease = min((t - PULSE0) / 3.0, 1.0)        # in over one bar
         add_at(pre, pan(pulse_click(lv) * ease, 0.0), t)
-    for t in beats_between(67.6, CUT):
+    for t in beats_between(BUILD, CUT):
         strong = (round(t / BEAT) % 4 == 0)
-        g = min((t - 67.6) / 7.0, 1.0)             # crescendo through build
+        g = min((t - BUILD) / 4.2, 1.0)            # crescendo through build
         lv = (-30.0 if strong else -33.0) + 6.0 * g
         add_at(pre, pan(pulse_click(lv), 0.0), t)
 
@@ -1100,30 +1110,31 @@ def make_music_bed():
     # voice 1: D-F#-A-D across two octaves, a six-step figure so it drifts
     # gently against the 4/4 pulse instead of marching with it
     v1 = [NOTE["D3"], NOTE["A3"], NOTE["D4"], NOTE["F#4"], NOTE["A4"], NOTE["D5"]]
-    t = math.ceil(35.8 / eighth) * eighth
+    t = math.ceil(ARP0 / eighth) * eighth
     i = 0
-    while t < 51.75:
+    while t < ARP1:
         # Act VI has its own world (the grinder, the cups, the murmur);
         # the score stays under it rather than beside it.
-        lv = -27.5 - (7.0 if t > 50.4 else 0.0)    # thin out into the dip
+        lv = -27.5 - (7.0 if t > ARP1 - 1.4 else 0.0)    # thin out into the dip
         add_at(pre, pan(arp_note(v1[i % len(v1)], lv), 0.30 * math.sin(i * 1.1)), t)
         t += eighth
         i += 1
-    t = math.ceil(67.6 / eighth) * eighth
+    t = math.ceil(BUILD / eighth) * eighth
     i = 0
     while t < CUT:
-        g = min((t - 67.6) / 8.0, 1.0)
+        g = min((t - BUILD) / 4.6, 1.0)
         add_at(pre, pan(arp_note(v1[i % len(v1)], -27.0 + 5.0 * g),
                         0.32 * math.sin(i * 1.1)), t)
         t += eighth
         i += 1
 
     # voice 2: the same figure a fifth up, entering inside the build
+    V2_IN = 56.053                                  # beat 71
     v2 = [NOTE["A3"], NOTE["E4"], NOTE["A4"], NOTE["C#5"], NOTE["E5"], NOTE["A5"]]
-    t = math.ceil(71.0 / eighth) * eighth
+    t = math.ceil(V2_IN / eighth) * eighth
     i = 0
     while t < CUT:
-        g = min((t - 71.0) / 6.0, 1.0)
+        g = min((t - V2_IN) / 2.4, 1.0)
         add_at(pre, pan(arp_note(v2[i % len(v2)], -33.0 + 5.0 * g, 0.34),
                         -0.34 * math.sin(i * 0.9)), t)
         t += eighth
@@ -1138,39 +1149,38 @@ def make_music_bed():
         x *= env_ad(m, 0.020, length * 0.34, curve=1.2)
         return peak_norm(x, level)
 
-    # D2-A1-B1-G1, one chord per bar, on beats 1 and 3.  The phrase is placed
-    # (D as a pickup on beat 86) so that its last bar is G -- and the cut at
-    # 78.5 s lands on the D major resolve, a plagal step rather than a stop.
-    bass_plan = [(86, "D2"), (88, "A1"), (90, "A1"), (92, "B1"),
-                 (94, "B1"), (96, "G1"), (98, "G1")]
+    # D2-A1-B1-G1, one per half-bar through the build.  The phrase is placed
+    # so its last bar is G -- and the cut at 59.0 s lands on the D major
+    # resolve, a plagal step rather than a stop.
+    bass_plan = [(68, "D2"), (70, "A1"), (72, "B1"), (74, "G1")]
     for beat_index, name in bass_plan:
         t = beat_index * BEAT
         if t >= CUT:
             continue
-        g = min(max((t - 67.6) / 9.0, 0.0), 1.0)
+        g = min(max((t - BUILD) / 4.8, 0.0), 1.0)
         add_at(pre, pan(bass_note(NOTE[name], -30.0 + 8.0 * g), 0.0), t)
 
-    # ---- the cut at 78.5 s ----------------------------------------------
+    # ---- the cut at 59.0 s ----------------------------------------------
     # Everything rhythmic and every pad stops here, together, in 40 ms -- the
-    # 21 lands into the space that leaves.
+    # morning washes the set away and the 21 lands into the space that leaves.
     gate = np.ones(n)
     i0, fl = n_samples(CUT), n_samples(0.04)
     gate[i0:i0 + fl] = 0.5 + 0.5 * np.cos(np.pi * np.linspace(0, 1, fl))
     gate[i0 + fl:] = 0.0
     mix += pre * gate
 
-    # ---- 78.5-86.0 s: the resolve.  One D major root chord. --------------
-    res_n = n_samples(7.6)
+    # ---- 59.0-65.0 s: the resolve.  One D major root chord. --------------
+    res_n = n_samples(6.4)
     res = _pad_chord([NOTE["D2"], NOTE["A2"], NOTE["D3"], NOTE["F#3"],
                       NOTE["A3"], NOTE["D4"]], res_n, 90, spread=0.30)
     res = fft_filter(res, hi=1500, order=2)
     res = fft_filter(res, lo=32, order=2)
     rt = t_axis(res_n)
     r_att = 0.5 - 0.5 * np.cos(np.pi * np.clip(rt / 0.25, 0, 1))
-    r_dec = np.exp(-rt / 2.5) * np.clip(1.0 - (rt / 7.4) ** 2.5, 0.0, 1.0)
+    r_dec = np.exp(-rt / 2.3) * np.clip(1.0 - (rt / 6.2) ** 2.5, 0.0, 1.0)
     res = res / np.max(np.abs(res)) * r_att * r_dec * db(-15.5)
     # a low D underneath so the resolve has a floor
-    sub2 = sine(NOTE["D1"] * 2, res_n) * r_att * np.exp(-rt / 2.0) * db(-30.0)
+    sub2 = sine(NOTE["D1"] * 2, res_n) * r_att * np.exp(-rt / 1.9) * db(-30.0)
     res += np.stack([sub2, sub2])
     add_at(mix, res, CUT)
 

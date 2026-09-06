@@ -25,7 +25,7 @@ const SECONDS: Record<string, number> = {
   grain: 0.6,
   "pad-mint": 12,
   "chord-root": 8,
-  "music-bed": 90,
+  "music-bed": 69.5,
 };
 
 const FPS = 24;
