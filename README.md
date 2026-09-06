@@ -48,3 +48,21 @@ npm run bake            # needs Playwright with Chromium; NODE_PATH may point at
 ## Design references
 
 `project/` and `chats/` are the original design handoff. They predate the current product thesis and are kept for reference only; nothing at runtime depends on them. The photographs in `project/uploads/` are the source for `public/photos/`.
+
+## Film R&D lab (branch `film/uptick-growth-rd`)
+
+An experimental workstation for the Uptick Growth film: five hero-shot prototypes, each a Remotion composition, reviewed at `/film-rd` (private, `noindex`) with a frame-accurate transport. Nothing on the production routes imports from it.
+
+```
+npm run dev              # then open http://localhost:3000/film-rd
+npm run film:dev         # Remotion Studio for the compositions
+npm run film:render      # MP4 previews + stills + contact sheets + the lab's manifest → public/film-rd/renders
+npm run film:tracks      # Blender → 2D tracks (blender/exports/*.json) the compositions import
+npm run film:plates      # Blender plates (long; resumable) → public/film-rd/plates/*.mp4
+```
+
+- `film/` — the Remotion project: `data/joes.ts` is the one fixture every shot reads (21 through the door = 14 returned + 7 new; 104 relationships with overlapping signals; nearby-screen acquisition Friday morning); `primitives/` are the film-level product objects (GrowthPlan, Offer/Pass slab, ScreenContent, type); `block/` composites Blender plates and reads their tracks; `compositions/Hero1…5` are the gates; `audio/NOTES.md` is the sound intent.
+- `blender/` — the Uptick Block, built procedurally with `bpy` (see `blender/README.md`).
+- `film/PLAN.md` and `film/REPORT.md` — the implementation plan and the R&D report.
+
+Renders use a local Chromium: `FILM_CHROME=/path/to/chrome-headless-shell` (defaults to Playwright's in the remote environment).
