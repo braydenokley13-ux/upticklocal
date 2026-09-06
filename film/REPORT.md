@@ -60,10 +60,28 @@ _(A v3 result below)_
 
 ## Block status
 
+One procedural neighbourhood in `blender/scripts/block.py`, built from constants (road half-width 4.5 m, 3.7 m sidewalks, 0.13 m curbs, six lots on the far side, a parking lot and a low row on the near side, a staggered second row behind, masses beyond the cross streets). Every shot builds it fresh, deterministically, in about half a second, then keys a camera, a lighting state and the people. Four lighting states (dawn, morning, dusk, night); Hero 1 uses dawn. What is in it after pass 4: the far row with distinct materials (brick, pale render, tan, stone, green-grey, charcoal), coursing and dirt gradients, stall risers, transoms, mullions, recessed doors, awnings, planters, bistro tables, an A-board, plaques, upper windows with reveals and sills and a deterministic scatter of lit cards, parapets, roof gravel, HVAC, vents, skylights, downpipes; Joe's with a forecourt, two pump islands (two-tone pumps with the brand stripe, hoses, boots, screens), a canopy with a painted fascia, stripe and drip edge, lit soffit panels, a store with a double door, an entrance light, a coffee station, gondolas and a cooler, a security light, bollards, wheel stops, stain patches, a price sign with lit lines; sidewalks with score lines, gutters, drains, manholes, a crosswalk, lane markings; lamps, a bench, a bike rack, a bin, trees; satin cars with solid cabins; and scale figures (capsule, neck, head) in matte amber that walk paths, pause, cross thresholds and go inside, with threshold events exported alongside per-frame 2D tracks so composited objects sit on physical things.
+
+What it is not: it is not photoreal and is not meant to be. It is an abstract-physical world with real light. Its limits at R&D quality (960×540, 24 samples, denoised, 4 CPU cores at ~20 s a frame): softness when upscaled 2×, some denoiser smear on the figures' edges, no motion blur from the renderer (a composite speed blur stands in), and a sky that is a clean gradient with aerosol haze rather than weather.
+
 ## Known weaknesses
+
+- The Block reads as a set, not a street, in any frame that holds still on plain geometry for long; the shots that work keep the camera moving and the frame dressed (figures, cars, awnings, the brick corner).
+- Figures are legible as people at street height and as pins from above; the top-down phases of B expose this.
+- Plates are rendered once per variant; every world change costs a full re-render (about an hour a plate on this machine), which is why the world was iterated on stills first and the composite carries as much as it can (grain, the warm cut, the speed blur, the printed page).
+- Hero 3 and Hero 5 plates have not been re-rendered on the pass-4 world; their compositions exist but are unreviewed since the Hero 1 redirect.
 
 ## Before full-film production
 
+- Render the surviving plates at 1920×1080 / 96 samples (roughly 8–10× the R&D time per frame); consider a GPU box, or a render farm, for the ~74 s film.
+- A real sky (clouds, or an HDRI) and renderer motion blur.
+- A second look-dev pass on Joe's store interior and the pumps at the mid-lift distance, where the camera is closest to geometry.
+- Sound design against the sound-intent notes in `film/audio/NOTES.md`.
+
 ## Primitives reusable in `/growth` and `/growth/demo`
 
+`GrowthPlanCard` (one plan, per-row reveal, press and fill states), `OfferSlab` / `PassSlab`, `ScreenContent` (the counter unit's states), the type voices (`Numeral`, `Line`, `Mono`, `Voice`, `Words`, `Rule`), the motion grammar in `film/motion` (the plane bezier, ramps and windows at 76 bpm), the fixture in `film/data/joes.ts`, and the homography helpers for sitting DOM on tracked surfaces. None of them import anything from the app, so they can move into shared components without dragging Remotion along.
+
 ## Recommendation
+
+_(after the Hero 1 A v3 review)_
