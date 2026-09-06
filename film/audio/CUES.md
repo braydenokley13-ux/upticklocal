@@ -12,18 +12,20 @@ Output: `public/film-rd/audio/` · 48 000 Hz · 16-bit PCM · stereo for beds an
 pads, mono for one-shots. Levels below are **measured from the rendered files**,
 not intended values.
 
-Act plan used for placement:
+Act plan used for placement — the film's real timeline, 2148 frames at
+24 fps = 89.5 s:
 
 | act | time | on screen |
 | --- | --- | --- |
-| I | 0–10.5 s | the page, then the street at dawn |
-| II–IV | 10.5–27.5 s | typing, instruments, the plan |
-| V–VI | 27.5–43 s | approve, the dusk block, the café |
-| VII | 43–54 s | the question, silence, the provenance tick |
-| VIII | 54–61 s | offer → pass → redeem |
-| IX–X | 61–75 s | the return, five thresholds, the street brightening |
-| XI | 75–81 s | the proof, the root chord |
-| XII | 81–86 s | silence |
+| I | 0–10.5 s | the page until 4.0 s; the lift off the concrete 4.0–8.2 s; the settle to 10.5 |
+| II–IV | 10.5–27.5 s | typing (first keystroke ≈ 11.75 s), instruments, the plan lands ≈ 26 s |
+| V | 27.5–35.8 s | Approve pressed at 28.0 s; the block at dusk from 29.8; windows light 32.6–34.0 |
+| VI | 35.8–51.75 s | the text 35.8–40.4; the café 40.4–47.4 (scan at 45.5); the same Offer 47.4–51.75 |
+| VII | 51.75–60.75 s | the question, the 900 ms hole, the sheet, the tick ≈ 57.0 s |
+| VIII | 60.75–70.25 s | offer → pass; Redeem pressed 64.25; Confirm 65.4; **the redeem note at 66.75 s must be alone** |
+| IX–X | 70.25–78.5 s | the return; thresholds at 70.9 / 72.4 / 73.8 / 75.1 / 76.2 s; the street brightening |
+| XI | 78.5–84.0 s | the 21 lands on the page at 78.6; "came through the door." 80.5; "14 returned. 7 were new." 82.0 |
+| XII | 84.0–89.5 s | Uptick Growth at 85.4; the closing line 86.6; footer 88 |
 
 ---
 
@@ -53,36 +55,49 @@ Act plan used for placement:
 | `grain.wav` | 600 ms | mono | −20.0 | −44.4 | 56 kB | 17 tiny grains thinning out, 1.5–4.2 kHz | **Act III.** Visit ticks landing. Nothing lands inside 07–10 — leave that gap silent, it is the point. Also for facts arriving on the paper slides. |
 | `pad-mint.wav` | 12.00 s | stereo | −24.0 | −32.6 | 2 250 kB | seamless loop; A3, one tone, detuned partials, 0.25 Hz shimmer, ≤ 12 dB of breathing | **Act V, 28–34 s** as the signal enters the block (thin it out as the screens arm), and **Act VII, ~50 s** under the sheet rising, very soft. Mint is one tone — never layer two of these. |
 | `chord-root.wav` | 8.00 s | stereo | −16.0 | −31.8 | 1 500 kB | D2 + A2 + D3 + F♯3 detuned saws under a 1.4 kHz low-pass, 400 ms attack, silent by 8 s | **Act IV** as the sheet lands (one soft resolve chord, nothing when Approve appears), and **Act XI, 75–81 s** holding under the 21 while the street falls away. Ends the film by running out, not by hitting. |
-| `music-bed.wav` | 96.00 s | stereo | −14.0 | −31.7 | 18 000 kB | the ambient score, in D at 76 bpm — see below | Optional full-length underscore. `NOTES.md` specifies **no score in this run**, so this is the alternate pass: start it at 0 s and it lines up act-for-act. |
-| | | | | | **53.3 MB** | | |
+| `music-bed.wav` | 90.00 s | stereo | −14.0 | −31.7 | 16 875 kB | the ambient score, in D at 76 bpm — see below | Optional full-length underscore, cut to the 89.5 s timeline. `NOTES.md` specifies **no score in this run**, so this is the alternate pass: lay it at 0 s and it lines up act-for-act, with 0.5 s of run-out past the last frame. |
+| | | | | | **52.1 MB** | | |
 
 ---
 
 ## `music-bed.wav` in detail
 
-96 s, in D, one tempo throughout: **76 bpm = 0.789474 s per beat**. Measured by
-spectral-flux autocorrelation of the rendered file: **76.01 bpm**, onsets
-sitting on the beat grid with a 3.9 ms standard deviation. Master chain is a
-tanh soft-clip at −13 dBFS followed by a −14 dBFS peak ceiling, so the file
-never comes within 2 dB of the −12 dBFS limit.
+90.0 s, in D, one tempo throughout: **76 bpm = 0.789474 s per beat**. Cut to
+the act map above, with 0.5 s of run-out past the last frame. Measured by
+spectral-flux autocorrelation of the rendered file: **76.01 bpm** in all three
+rhythmic passages, with pulse onsets sitting on the beat grid to 0.6 ms sd.
+Master chain is a tanh soft-clip at −13 dBFS followed by a −14 dBFS peak
+ceiling, so the file never comes within 2 dB of the −12 dBFS limit.
 
-| time | passage | peak | rms | what happens |
+| time | passage | peak | rms | on screen |
 | ---: | --- | ---: | ---: | --- |
-| 0–6 s | near-silence | −53.3 | −66.6 | faint air only |
-| 6–10 s | sub swell | −24.6 | −33.5 | D1 (36.7 Hz) enters and recedes; felt, not heard |
-| 10–14 s | pad enters | −18.4 | −28.8 | D major, wide detuned saws under a 620 Hz low-pass |
-| 14–28 s | pad + pulse | −19.4 | −30.9 | quarter-note pulse at 76 bpm, eased in over two bars |
-| 28–32 s | the lift | −19.4 | −31.8 | pad crossfades to A (voiced A–E–A–B) |
-| 32–44 s | arpeggio | −17.2 | −29.5 | sine 1/8 notes, D–A–D–F♯–A–D over two octaves; a six-note figure against 4/4, so it drifts instead of marching |
-| 44–56 s | **the dip** | −22.7 | −35.5 | pulse and arpeggio drop out; pad alone, back to D — the provenance passage |
-| 56–66 s | the build | −16.7 | −31.0 | pulse returns, bass on beats 1 and 3 (D2–A1–B1–G1, four bars repeating), pad filter rising 480 → 3 000 Hz |
-| 66–74 s | crescendo | **−14.0** | −27.1 | second arpeggio voice a fifth up (A–E–A–C♯–E–A) from 62 s; loudest point of the film |
-| 74–80 s | the resolve | −16.8 | −33.1 | everything cuts; one warm D major chord decaying over 6 s |
-| 80–96 s | silence | −51.1 | −68.2 | faint air, fading out |
+| 0–4.0 s | near-silence | −53.4 | −66.4 | the page |
+| 4.0–10.5 s | sub swell — D1 (36.7 Hz) enters and recedes; felt, not heard | −24.2 | −31.9 | the lift off the concrete, the settle |
+| 10.5–14.5 s | the D pad enters — wide detuned saws under a 620 Hz low-pass | −19.4 | −32.7 | the typing |
+| 14.5–27.5 s | pad + quarter-note pulse, eased in over one bar | −18.8 | −30.9 | instruments → the plan |
+| 27.5–35.8 s | the lift to A, the dominant (voiced A–E–A–B) | −19.9 | −31.4 | Approve → the block at dusk |
+| 35.8–51.75 s | the arpeggio over A — sine 1/8 notes, D–A–D–F♯–A–D over two octaves; a six-note figure against 4/4, so it drifts instead of marching | −16.6 | −30.3 | two ways in, the café, the same Offer |
+| 51.75–66.4 s | **the dip** — pulse and arpeggio out, pad alone, back in D | −22.4 | −35.0 | the question, the 900 ms hole, the provenance tick |
+| 66.4–67.6 s | the duck — the pad drops a further 6 dB | −30.9 | −40.8 | **the redemption note at 66.75 s stands alone** |
+| 67.6–74.0 s | the build — pulse returns, bass phrase, second arpeggio voice a fifth up (A–E–A–C♯–E–A) from 71.0 s, pad filter opening 480 → 3 000 Hz | −16.1 | −30.5 | the pass goes into a pocket, the first thresholds |
+| 74.0–78.5 s | the crescendo — **the loudest point in the film** | **−14.0** | −26.7 | the last thresholds, the morning fully up |
+| 78.5–86.0 s | the resolve — everything cuts in 40 ms; one warm D major chord decays | −16.9 | −33.0 | the 21 lands, "came through the door.", "14 returned. 7 were new.", Uptick Growth |
+| 86.0–90.0 s | silence but for a faint air, fading out | −52.4 | −69.0 | the closing line, the footer |
 
 The pulse's click deliberately occupies 650–1 900 Hz, above the pad's low-pass
 corner — measured, it stands 14.6 dB proud of the pad between beats while
 staying at −30 dBFS. That is how it can be quiet and still be felt.
+
+The bass phrase in the build is **D2 – A1 – B1 – G1** on beats 1 and 3, placed
+with the D as a pickup on beat 86 (67.895 s) so that its last bar is G and the
+cut at 78.5 s arrives on the D major resolve — a plagal step into the 21,
+rather than a stop. Verified from the render: 55.00 / 61.25 / 48.75 Hz at
+beats 90 / 94 / 98.
+
+The cut at 78.5 s is a real cut: every pad, the pulse, both arpeggios and the
+bass are gated together over 40 ms, so the resolve chord's 250 ms attack rises
+into the space that leaves. Measured, the mix drops 5 dB in the 70 ms across
+the cut before the chord swells.
 
 ---
 
@@ -96,8 +111,10 @@ staying at −30 dBFS. That is how it can be quiet and still be felt.
   timeline and carry short head/tail fades — cut to them, don't loop them.
 - **Silence is a cue.** Three places want an actual hole in the mix, not a
   quiet bed: the 3 landing on the pavement (Act I), the 900 ms after `send`
-  (Act VII), and the last five seconds (Act XII). Mute the beds; do not
-  crossfade them.
+  (Act VII, ≈ 52.5 s), and the closing line and footer (Act XII, from 86.0 s).
+  Mute the beds; do not crossfade them. The bed already goes silent at 86.0 s
+  and ducks 6 dB for the redemption note — the other cues need the same
+  restraint at those two moments.
 - **Never stack the mint.** `pad-mint`, `key-last`, `tick` and `redeem` are the
   mint family and each is a single clean tone. Two at once turns the idea into
   a chord and loses it.
