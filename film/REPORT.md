@@ -70,11 +70,21 @@ Hero 1 A is the opening. Carry three things into every other shot: the world at 
 
 ### Hero 2 · Friday mornings are slow → understanding → plan
 
-_(first pass under review; see below)_
+Pure typographic motion on the paper, 17 s, no Block. Two critic rounds (`film/review/hero2-punchlist.md`): 6/10 → 8/10. The first round found one disqualifying thing on a product whose pitch is honest reading: the amber flood above the day line peaked in the afternoon while the caption said mornings. The flood is now exactly the 63 people who tend to answer in the morning, placed where they answer, none after 11:00; below the line, last Friday's three visits; the afternoon is left honestly empty on a 06:00–16:00 axis that shares its origin with the weeks line. The plan no longer cuts in: Friday walks from its baseline into the first row, the two mint uprights leave the day line and bracket 7–10 AM and stay, $0.62 steps × 30 into "First 30 · max reward exposure $18.60". No row rules, Approve at the rows' weight, Joe's rule in amber on its own line, money in ink, amber for people only, and the film's only arrow is gone from the fixture.
+
+| Hero 2 | Score | What works | What bothers | Keep? |
+| --- | --- | --- | --- | --- |
+| The sentence is the interface | 8/10 (critic, round 2) | The typing beat; the weeks line; the honest axis with three below and 63 above; $0.62 → × 30 → $18.60 | The held tail is one column and could still tip toward a slide; the reading beat carries the whole shot | Yes |
 
 ### Hero 4 · Does diesel count? → provenance → answer
 
-_(first pass under review; see below)_
+On the marine field, 9 s, no Block. Two critic rounds (`film/review/hero4-punchlist.md`): 5/10 → 8/10. The first pass read as a chat transcript with a ghost screenshot behind it; the second pass replaced bubbles with paper planes (no radius, no shadow, cream against cooler paper with the mint edge), deleted the typing indicator and the stray timestamp, gave the approved plan a legible header in real depth to the upper right, and made the three words visibly leave the plan's fuel line at its own size on long mint trails before landing inside the answer, which has already opened for them. The critic's verdict on round two: grounded is proven by one image, the plan's fuel row left reading `Fuel: ————` with a mint rule where the words were.
+
+| Hero 4 | Score | What works | What bothers | Keep? |
+| --- | --- | --- | --- | --- |
+| The answer comes from the plan | 8/10 (critic, round 2) | The emptied fuel row; the serif question; the landing as one sentence; the silence and the lamp | The tail stacks in one column; the sheet's body copy is evidence and must stay readable at every blur | Yes |
+
+Both shots share the paper/marine registers the film alternates through, so the cut order in assembly must keep a Block shot between them.
 
 ### Hero 3 and Hero 5 · prepared, not rendered
 
