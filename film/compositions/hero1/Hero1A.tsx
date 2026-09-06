@@ -28,7 +28,7 @@ const PAGE_END = sec(PAGE_END_SEC);
 const PLATE_FRAMES = T.frames;
 const HOLD = (T.meta.hold as number) ?? 22;
 const LIFT_END = ((T.meta.tilt as number[]) ?? [22, 100])[1];
-const SETTLE = PAGE_END + LIFT_END + 6;
+const SETTLE = PAGE_END + LIFT_END - 12;
 export const HERO1A_FRAMES = PAGE_END + PLATE_FRAMES;
 
 // the page's own layout: the number at the left on the sidewalk, the sentence beside it, the hairline where the curb is
@@ -69,7 +69,7 @@ export const Hero1A = () => {
   const sentenceOut = ramp(frame, PAGE_END + 12, 20, IN);
   const ruleOut = ramp(frame, PAGE_END + HOLD + 30, 30, IN);
   // the printed 3 darkens with the morning, then stands up as the mark
-  const lift = ramp(frame, PAGE_END + LIFT_END - 10, 14, PLANE);
+  const lift = ramp(frame, PAGE_END + LIFT_END - 20, 14, PLANE);
   const snap = 1 + 0.1 * Math.sin(Math.PI * lift); // the mark commits with a small overshoot, like a stamp
   const risen = ramp(frame, PAGE_END + HOLD, LIFT_END - HOLD, PLANE);
   const paint = ramp(frame, PAGE_END + HOLD + 4, 28, PLANE);
@@ -83,11 +83,8 @@ export const Hero1A = () => {
       <div style={{ position: "absolute", inset: 0, background: COLOR.canvas, mixBlendMode: "multiply", opacity: onPlate ? 0.55 * (1 - ramp(frame, PAGE_END + 10, 40, PLANE)) : 0 }} />
       {/* the page, printed on the pavement */}
       <div style={{ position: "absolute", left: 0, top: 0, width: WIDTH, height: HEIGHT, transform: pageMatrix, transformOrigin: "0 0", filter: blur > 0.05 ? `blur(${blur.toFixed(2)}px)` : undefined }}>
-        <div style={{ position: "absolute", left: NUM_X, top: NUM_CY, transform: "translate(0, -50%)", opacity: numeralIn * (1 - lift) * (1 - paint) }}>
-          <Numeral value={GAP.visits} size={NUM_SIZE} color={COLOR.ink} weight={200} />
-        </div>
-        <div style={{ position: "absolute", left: NUM_X, top: NUM_CY, transform: "translate(0, -50%)", opacity: (1 - lift) * paint }}>
-          <Numeral value={GAP.visits} size={NUM_SIZE} color={COLOR.ink} weight={500} />
+        <div style={{ position: "absolute", left: NUM_X, top: NUM_CY, transform: "translate(0, -50%)", opacity: numeralIn * (1 - lift) }}>
+          <Numeral value={GAP.visits} size={NUM_SIZE} color={COLOR.ink} weight={200} style={{ WebkitTextStroke: paint > 0.01 ? `${(14 * paint).toFixed(1)}px ${COLOR.ink}` : undefined }} />
         </div>
         <div style={{ position: "absolute", left: SENT_X, top: SENT_Y, width: 1000, opacity: 1 - sentenceOut }}>
           <Line size={40} color={COLOR.inkSoft}>

@@ -63,7 +63,7 @@ export function Sentence({ x, y, frame, start, opacity, size = 40, width = 760 }
 export function SettledBlock({ frame, settleAt, land, plateFrame, T }: { frame: number; settleAt: number; land: Pt; plateFrame: number; T: TrackData }) {
   const settled = ramp(frame, settleAt, 14, OUT);
   const label = ramp(frame, settleAt - 8, 12, OUT);
-  const line = ramp(frame, settleAt + 30, 16, OUT);
+  const line = ramp(frame, settleAt + 14, 16, OUT);
   const clock = String(T.meta.clock ?? "Friday · 07:12");
   void plateFrame;
   return (
