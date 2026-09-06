@@ -71,16 +71,22 @@ export const Hero1A = () => {
   // the printed 3 darkens with the morning, then stands up as the mark
   const lift = ramp(frame, PAGE_END + LIFT_END - 12, 22, PLANE);
   const risen = ramp(frame, PAGE_END + HOLD, LIFT_END - HOLD, PLANE);
+  const paint = ramp(frame, PAGE_END + HOLD + 4, 28, PLANE);
+  const speed = ramp(frame, PAGE_END + HOLD + 8, 44, PLANE);
+  const blur = 3.2 * Math.sin(Math.PI * speed);
 
   return (
     <Frame>
-      <Plate src="film-rd/plates/hero1a.mp4" from={PAGE_END} frames={PLATE_FRAMES} />
+      <Plate src="film-rd/plates/hero1a.mp4" from={PAGE_END} frames={PLATE_FRAMES} style={{ filter: blur > 0.05 ? `blur(${blur.toFixed(2)}px)` : undefined }} />
       <div style={{ position: "absolute", inset: 0, background: COLOR.canvas, opacity: paper }} />
       <div style={{ position: "absolute", inset: 0, background: COLOR.canvas, mixBlendMode: "multiply", opacity: onPlate ? 0.55 * (1 - ramp(frame, PAGE_END + 10, 40, PLANE)) : 0 }} />
       {/* the page, printed on the pavement */}
-      <div style={{ position: "absolute", left: 0, top: 0, width: WIDTH, height: HEIGHT, transform: pageMatrix, transformOrigin: "0 0" }}>
-        <div style={{ position: "absolute", left: NUM_X, top: NUM_CY, transform: "translate(0, -50%)", opacity: numeralIn * (1 - lift) }}>
+      <div style={{ position: "absolute", left: 0, top: 0, width: WIDTH, height: HEIGHT, transform: pageMatrix, transformOrigin: "0 0", filter: blur > 0.05 ? `blur(${blur.toFixed(2)}px)` : undefined }}>
+        <div style={{ position: "absolute", left: NUM_X, top: NUM_CY, transform: "translate(0, -50%)", opacity: numeralIn * (1 - lift) * (1 - paint) }}>
           <Numeral value={GAP.visits} size={NUM_SIZE} color={COLOR.ink} weight={200} />
+        </div>
+        <div style={{ position: "absolute", left: NUM_X, top: NUM_CY, transform: "translate(0, -50%)", opacity: (1 - lift) * paint }}>
+          <Numeral value={GAP.visits} size={NUM_SIZE} color={COLOR.ink} weight={500} />
         </div>
         <div style={{ position: "absolute", left: SENT_X, top: SENT_Y, width: 1000, opacity: 1 - sentenceOut }}>
           <Line size={40} color={COLOR.inkSoft}>
@@ -104,7 +110,7 @@ export const Hero1A = () => {
         </Mono>
       </div>
       {/* the mark: the 3 standing up where it lay */}
-      <div style={{ position: "absolute", left: land.x, top: land.y, transform: `translate(-50%, -50%) scale(${0.6 + 0.4 * lift})`, opacity: lift, fontFamily: FONT.sans, fontWeight: 500, fontSize: 36, color: COLOR.ink, lineHeight: 1 }}>
+      <div style={{ position: "absolute", left: land.x, top: land.y, transform: `translate(-50%, -50%) scale(${0.6 + 0.4 * lift})`, opacity: lift, fontFamily: FONT.sans, fontWeight: 500, fontSize: 44, color: COLOR.ink, lineHeight: 1 }}>
         {GAP.visits}
       </div>
       <Vignette opacity={risen * 0.7} />

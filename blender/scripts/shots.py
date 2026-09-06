@@ -435,15 +435,15 @@ def _exposure(frame, value):
 
 def shot_hero1a(W: B.World):
     """A · the page is the pavement. Straight down on the sidewalk in front of Joe's; the camera lifts and the block rises."""
-    frames = 144
+    frames = 156
     walk, ppl = _hero1_common(W)
     lot = W.tracks["joes_lot"].location
     fcx, fcy = lot.x + 1.5, B.ROAD_HALF + FP_DY
     cam = camera(lens=26, fstop=4.0, focus=34.0)
     key_cam(cam, 0, (fcx, fcy, FP_Z), (fcx, fcy + 0.0001, 0.0), lens=26, focus=FP_Z)
     key_cam(cam, 22, (fcx, fcy, FP_Z), (fcx, fcy + 0.0001, 0.0), lens=26, focus=FP_Z)
-    key_cam(cam, 62, (fcx - 1.2, fcy - 12.0, 7.4), (fcx - 0.4, B.FRONT + 6.0, 2.4), lens=27, focus=24.0)
-    key_cam(cam, 100, E_FINAL["pos"], E_FINAL["target"], lens=E_FINAL["lens"], focus=34.0)
+    key_cam(cam, 74, (fcx - 4.5, fcy - 11.0, 7.2), (fcx - 1.0, B.FRONT + 5.0, 2.6), lens=27, focus=24.0)
+    key_cam(cam, 110, E_FINAL["pos"], E_FINAL["target"], lens=E_FINAL["lens"], focus=34.0)
     key_cam(cam, frames - 1, E_DRIFT["pos"], E_DRIFT["target"], lens=E_DRIFT["lens"], focus=34.0)
     ease(cam)
     ease(cam.data)
@@ -451,8 +451,8 @@ def shot_hero1a(W: B.World):
     base = B.STATES["dawn"]["exposure"]
     _exposure(0, base + 3.0)
     _exposure(14, base + 2.8)
-    _exposure(48, base)
-    return {"frames": frames, "cam": cam, "people": ppl, "names": HERO1_TRACKS, "meta": {"variant": "A", "hold": 22, "tilt": [22, 100], "clock": "Friday · 07:12"}, "comp": {"mist": 0.45, "mist_color": (0.74, 0.66, 0.56), "mist_start": 30, "mist_depth": 140}}
+    _exposure(52, base)
+    return {"frames": frames, "cam": cam, "people": ppl, "names": HERO1_TRACKS, "meta": {"variant": "A", "hold": 22, "tilt": [22, 110], "clock": "Friday · 07:12"}, "comp": {"mist": 0.45, "mist_color": (0.74, 0.66, 0.56), "mist_start": 30, "mist_depth": 140}}
 
 
 def shot_hero1b(W: B.World):
