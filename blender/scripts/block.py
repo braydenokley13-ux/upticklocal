@@ -526,6 +526,24 @@ def figure(name: str, loc, mat, height=1.72, group="people", segs=16, rings=6) -
     return _link(obj, group)
 
 
+def hose(name: str, a, b, sag: float, mat, group: str, r=0.018) -> bpy.types.Object:
+    """A fuel hose: a bezier from the boot to the nozzle holster that sags under its own weight."""
+    cu = bpy.data.curves.new(name, "CURVE")
+    cu.dimensions = "3D"
+    cu.bevel_depth = r
+    cu.bevel_resolution = 3
+    cu.resolution_u = 8
+    sp = cu.splines.new("BEZIER")
+    sp.bezier_points.add(2)
+    mid = ((a[0] + b[0]) / 2, (a[1] + b[1]) / 2, min(a[2], b[2]) - sag)
+    for p, co in zip(sp.bezier_points, (a, mid, b)):
+        p.co = co
+        p.handle_left_type = p.handle_right_type = "AUTO"
+    ob = bpy.data.objects.new(name, cu)
+    cu.materials.append(mat)
+    return _link(ob, group)
+
+
 _FONTS: dict[str, bpy.types.VectorFont] = {}
 
 
@@ -697,7 +715,9 @@ def build(screen_images: dict[str, str] | None = None, cars=True, people_mat=Tru
         box(f"gutter{s}", (BLOCK_X1 - BLOCK_X0, 0.42, 0.012), (0, s * (ROAD_HALF - 0.21), 0.006), gutter, bevel=0, group="ground")
         # storm drains at the curb, a few along the block
         for gx in (-33.0, 3.2, 19.0, 44.0):
-            box(f"drain{s}{gx}", (0.9, 0.3, 0.03), (gx, s * (ROAD_HALF - 0.18), 0.012), iron, bevel=0.004, group="ground")
+            box(f"drain{s}{gx}", (0.9, 0.3, 0.05), (gx, s * (ROAD_HALF - 0.18), -0.02), mat_surface("drainpit", "#0f1112", rough=1.0), bevel=0, group="ground")
+            for bi in range(6):
+                box(f"drainbar{s}{gx}{bi}", (0.9, 0.028, 0.02), (gx, s * (ROAD_HALF - 0.18) - 0.125 + bi * 0.05, 0.008), iron, bevel=0.003, group="ground")
     for mx, my in ((-20.0, 1.6), (14.0, -2.2), (38.0, 1.2)):
         cylinder(f"manhole{mx}", 0.42, 0.02, (mx, my, 0.008), iron, group="ground", verts=32)
     # a crosswalk by the café end of the block
@@ -775,7 +795,7 @@ def build(screen_images: dict[str, str] | None = None, cars=True, people_mat=Tru
     sky = nt.nodes.new("ShaderNodeTexSky")
     sky.sky_type = "SINGLE_SCATTERING"
     sky.sun_disc = True
-    sky.sun_size = math.radians(0.9)
+    sky.sun_size = math.radians(0.45)
     sky.altitude = 40
     sky.air_density = 1.2
     sky.aerosol_density = 2.2
@@ -839,8 +859,8 @@ def _build_shop(W: World, lot: Lot, i: int, trim, fascia, frame, door, glass, da
         zc = GROUND + k * STOREY + STOREY * 0.52
         for c in range(cols):
             xc = x0 + sp * (c + 0.5)
-            box(f"{g}_reveal{k}{c}", (1.15, 0.3, 1.7), (xc, y0 + 0.14, zc), mat_surface("reveal", "#3a3d3f", rough=0.9), bevel=0, group=g)
-            wg = plane(f"{g}_wglass{k}{c}", (1.15, 1.7), (xc, y0 + 0.2, zc), dark_glass, group=g, rot=(math.pi / 2, 0, 0))
+            box(f"{g}_reveal{k}{c}", (1.15, 0.42, 1.7), (xc, y0 + 0.2, zc), mat_surface("reveal", "#3a3d3f", rough=0.9), bevel=0, group=g)
+            wg = plane(f"{g}_wglass{k}{c}", (1.15, 1.7), (xc, y0 + 0.32, zc), dark_glass, group=g, rot=(math.pi / 2, 0, 0))
             box(f"{g}_sill{k}{c}", (1.35, 0.22, 0.08), (xc, y0 - 0.06, zc - 0.9), trim, bevel=0.01, group=g)
             if (k * 3 + c * 5 + i) % 7 == 2:
                 box(f"{g}_ac{k}{c}", (0.7, 0.5, 0.45), (xc, y0 - 0.22, zc - 0.55), mat_surface("acunit", "#c9c6bd", rough=0.6), bevel=0.02, group=g)
@@ -1242,7 +1262,8 @@ def _build_joes(W: World, lot: Lot, forecourt, trim, fascia, frame, door, glass,
             box(f"{g}_pumpscreen{ix}{iy}b", (0.34, 0.02, 0.24), (icx, py + 0.29, CURB_H + 0.16 + 1.5), mat_screen(f"pumpscreen{ix}{iy}b", None, hexstr="#0e1c22", strength=0.0), bevel=0, group=g)
             for sx in (-1, 1):
                 box(f"{g}_boot{ix}{iy}{sx}", (0.12, 0.62, 0.5), (icx + sx * 0.53, py, CURB_H + 0.16 + 1.25), pump_dark, bevel=0.01, group=g)
-                cylinder(f"{g}_hose{ix}{iy}{sx}", 0.02, 0.9, (icx + sx * 0.58, py + 0.1, CURB_H + 0.16 + 0.7), pump_dark, group=g, verts=8)
+                hose(f"{g}_hose{ix}{iy}{sx}", (icx + sx * 0.58, py + 0.12, CURB_H + 0.16 + 1.5), (icx + sx * 0.62, py - 0.22, CURB_H + 0.16 + 0.95), 0.55, pump_dark, g)
+                box(f"{g}_nozzle{ix}{iy}{sx}", (0.07, 0.16, 0.08), (icx + sx * 0.62, py - 0.26, CURB_H + 0.16 + 0.98), mat_surface("steel", "#b9bcc0", rough=0.25, metallic=0.8), bevel=0.01, group=g)
             W.pump_points.append(Vector((icx - 1.6 * isx, py, 0)))
             W.tracks[f"pump_{ix}{iy}"] = empty(f"track_pump_{ix}{iy}", (icx, py - 0.3, CURB_H + 0.16 + 1.45))
         for sx in (-1, 1):

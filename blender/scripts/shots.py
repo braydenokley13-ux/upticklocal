@@ -135,7 +135,7 @@ class People:
         path crosses the frontage line."""
         self.n += 1
         nm = name or f"person{self.n}"
-        p = B.figure(nm, (path[0][0], path[0][1], B.CURB_H), self.W.person_mat, height=height)
+        p = B.figure(nm, (path[0][0], path[0][1], B.CURB_H), self.W.person_mat, height=height * (0.94 + 0.12 * B._fac(self.n, 5)))
         self.objects.append(p)
         pauses = pauses or {}
         f = start
@@ -190,7 +190,7 @@ class People:
     def stand(self, at: tuple[float, float], start: int, end: int, name=None, height=1.72, face=None):
         self.n += 1
         nm = name or f"person{self.n}"
-        p = B.figure(nm, (at[0], at[1], B.CURB_H), self.W.person_mat, height=height)
+        p = B.figure(nm, (at[0], at[1], B.CURB_H), self.W.person_mat, height=height * (0.95 + 0.1 * B._fac(self.n, 7)))
         self.objects.append(p)
         p.hide_render = True
         p.keyframe_insert("hide_render", frame=0)
@@ -357,7 +357,7 @@ def _dawn_life(ppl: People, offset=0):
     ppl.walk([(cafe_door[0], cafe_door[1] + 1.0), (cafe_door[0], B.FRONT - 0.6), (cafe_door[0] + 1.0, y + 0.7), (cafe_door[0] + 14.0, y + 0.9)], offset + 96, start_hidden=True)
     # walkers who pass Joe's without turning in (never under the opening camera)
     ppl.walk([(-30.0, y - 0.9), (-6.0, y - 0.8), (24.0, y - 0.7)], offset + 60, speed=1.35)
-    ppl.walk([(-1.0, -y + 0.4), (-24.0, -y + 0.6)], offset + 40, speed=1.25)
+    ppl.walk([(-1.0, -y + 0.4), (-24.0, -y + 0.6)], offset + 24, speed=1.3)
     # people already inside: two at the café counter, one in the pharmacy; two seated outside the café
     ppl.stand((cafe.cx - 1.4, B.FRONT + 3.3), 0, 10000)
     ppl.stand((cafe.cx + 1.2, B.FRONT + 2.2), 0, 10000)
@@ -369,7 +369,7 @@ def _dawn_life(ppl: People, offset=0):
         ppl.stand((cafe_door[0] - 1.1 - dx, B.FRONT - 0.9 - dy), 0, 10000, height=1.72 - 0.05 * k)
     ppl.walk([(cafe.cx - 12.0, y + 0.2), (cafe.cx - 3.0, y + 0.4)], offset + 10, speed=1.2)
     # someone crosses the road toward the café in the last seconds, past Joe's empty mouth
-    ppl.walk([(6.0, -y + 0.5), (10.0, -0.5), (13.5, y - 0.6), (cafe_door[0] - 3.0, y - 0.3)], offset - 60, speed=1.45)
+    ppl.walk([(6.0, -y + 0.5), (10.0, -0.5), (13.5, y - 0.6), (cafe_door[0] - 3.0, y - 0.3)], offset - 110, speed=1.45)
     # someone reaching the restaurant end, and a person at the barber door
     rest = B.LOTS[5]
     ppl.walk([(rest.cx - 4, y + 0.5), (rest.cx + (rest.w - 1.4) * 0.22, y), (rest.cx + (rest.w - 1.4) * 0.22, B.FRONT + 2.4)], offset + 40, into="restaurant")
@@ -448,6 +448,7 @@ def shot_hero1a(W: B.World):
     key_cam(cam, 22, (fcx, fcy, FP_Z), (fcx, fcy + 0.0001, 0.0), lens=26, focus=FP_Z)
     key_cam(cam, 74, (fcx - 4.5, fcy - 11.0, 7.8), (fcx - 1.0, B.FRONT + 2.0, 1.4), lens=27, focus=22.0)
     key_cam(cam, 110, E_FINAL["pos"], E_FINAL["target"], lens=E_FINAL["lens"], focus=34.0)
+    key_cam(cam, 132, E_DRIFT["pos"], E_DRIFT["target"], lens=E_DRIFT["lens"], focus=34.0)
     key_cam(cam, frames - 1, E_DRIFT["pos"], E_DRIFT["target"], lens=E_DRIFT["lens"], focus=34.0)
     ease(cam)
     ease(cam.data)
