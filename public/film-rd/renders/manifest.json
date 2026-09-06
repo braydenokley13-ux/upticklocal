@@ -2,73 +2,28 @@
   "Hero1": {
     "video": "/film-rd/renders/Hero1.mp4",
     "contact": "/film-rd/renders/Hero1-contact.png",
-    "stills": [
-      "/film-rd/renders/stills/Hero1-0010.png",
-      "/film-rd/renders/stills/Hero1-0011.png",
-      "/film-rd/renders/stills/Hero1-0058.png",
-      "/film-rd/renders/stills/Hero1-0060.png",
-      "/film-rd/renders/stills/Hero1-0063.png",
-      "/film-rd/renders/stills/Hero1-0110.png",
-      "/film-rd/renders/stills/Hero1-0116.png",
-      "/film-rd/renders/stills/Hero1-0121.png",
-      "/film-rd/renders/stills/Hero1-0163.png",
-      "/film-rd/renders/stills/Hero1-0171.png",
-      "/film-rd/renders/stills/Hero1-0180.png",
-      "/film-rd/renders/stills/Hero1-0211.png",
-      "/film-rd/renders/stills/Hero1-0222.png",
-      "/film-rd/renders/stills/Hero1-0232.png",
-      "/film-rd/renders/stills/Hero1-0238.png",
-      "/film-rd/renders/stills/Hero1-0249.png",
-      "/film-rd/renders/stills/Hero1-0261.png"
-    ],
+    "stills": [],
     "renderedAt": "2026-09-06 15:33",
     "bytes": 12691984
   },
   "Hero2": {
     "video": "/film-rd/renders/Hero2.mp4",
     "contact": "/film-rd/renders/Hero2-contact.png",
-    "stills": [
-      "/film-rd/renders/stills/Hero2-0016.png",
-      "/film-rd/renders/stills/Hero2-0098.png",
-      "/film-rd/renders/stills/Hero2-0188.png",
-      "/film-rd/renders/stills/Hero2-0277.png",
-      "/film-rd/renders/stills/Hero2-0359.png",
-      "/film-rd/renders/stills/Hero2-0404.png"
-    ],
+    "stills": [],
     "renderedAt": "2026-09-06 16:09",
     "bytes": 1254718
   },
   "Hero4": {
     "video": "/film-rd/renders/Hero4.mp4",
     "contact": "/film-rd/renders/Hero4-contact.png",
-    "stills": [
-      "/film-rd/renders/stills/Hero4-0009.png",
-      "/film-rd/renders/stills/Hero4-0010.png",
-      "/film-rd/renders/stills/Hero4-0052.png",
-      "/film-rd/renders/stills/Hero4-0058.png",
-      "/film-rd/renders/stills/Hero4-0099.png",
-      "/film-rd/renders/stills/Hero4-0110.png",
-      "/film-rd/renders/stills/Hero4-0147.png",
-      "/film-rd/renders/stills/Hero4-0163.png",
-      "/film-rd/renders/stills/Hero4-0190.png",
-      "/film-rd/renders/stills/Hero4-0211.png",
-      "/film-rd/renders/stills/Hero4-0214.png",
-      "/film-rd/renders/stills/Hero4-0238.png"
-    ],
+    "stills": [],
     "renderedAt": "2026-09-06 16:10",
     "bytes": 999593
   },
   "Hero5": {
     "video": "/film-rd/renders/Hero5.mp4",
     "contact": "/film-rd/renders/Hero5-contact.png",
-    "stills": [
-      "/film-rd/renders/stills/Hero5-0009.png",
-      "/film-rd/renders/stills/Hero5-0055.png",
-      "/film-rd/renders/stills/Hero5-0105.png",
-      "/film-rd/renders/stills/Hero5-0155.png",
-      "/film-rd/renders/stills/Hero5-0201.png",
-      "/film-rd/renders/stills/Hero5-0226.png"
-    ],
+    "stills": [],
     "renderedAt": "2026-09-06 16:58",
     "bytes": 988126
   }

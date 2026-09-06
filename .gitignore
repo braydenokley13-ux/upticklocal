@@ -34,3 +34,7 @@ blender/.plate-cache
 
 # Per-shot review stills are cut from the previews by scripts/film-sheet.py; the contact sheets are the record
 public/film-rd/renders/stills
+
+# Proof cuts are re-rendered from the timeline by scripts/film-proof.sh; the contact sheets beside them are the record
+film/review/proof/*.mp4
+film/review/frames

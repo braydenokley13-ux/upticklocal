@@ -7,7 +7,7 @@
 #   public/film-rd/final/uptick-growth-1080p.mp4          H.264 CRF 20, faststart, web                     (B)
 #   public/film-rd/final/uptick-growth-1080p.webm         VP9 CRF 31, web                                  (B)
 #   public/film-rd/final/uptick-growth-poster.jpg         the poster frame                                 (B, D)
-#   public/film-rd/final/uptick-growth-loop.mp4           the silent 10 s loop                              (C)
+#   public/film-rd/final/uptick-growth-loop.mp4           the silent 8.5 s loop                            (C)
 #   public/film-rd/final/contact/                         one frame every 2 s, nine to a sheet             (F)
 #
 # 4K: the project renders at 3840×2160 with `--scale=2` (SCALE=2 scripts/film-master.sh master); the Blender
@@ -37,8 +37,10 @@ if has web; then
   FF -i "$OUT/uptick-growth-master-1080p.mp4" -c:v libvpx-vp9 -crf 31 -b:v 0 -row-mt 1 -pix_fmt yuv420p -c:a libopus -b:a 128k "$OUT/uptick-growth-1080p.webm"
 fi
 if has poster; then
+  # frame 200: the settle. The painted 3 on the pavement beside JOE'S · 07:00-10:00,
+  # the block behind it, the line on the road. The one frame that is the whole film.
   echo "== poster"
-  npx remotion still Film "$OUT/uptick-growth-poster.png" --frame="${POSTER_FRAME:-240}" --scale="$SCALE" --log=error
+  npx remotion still Film "$OUT/uptick-growth-poster.png" --frame="${POSTER_FRAME:-200}" --scale="$SCALE" --log=error
   FF -i "$OUT/uptick-growth-poster.png" -q:v 2 "$OUT/uptick-growth-poster.jpg"
 fi
 if has teaser; then

@@ -631,49 +631,72 @@ def capsule(name: str, r, h, loc, mat, group="people", segs=16, rings=6) -> bpy.
     return _link(obj, group)
 
 
-def figure(name: str, loc, mat, height=1.72, group="people", segs=16, rings=6, depth=0.68) -> bpy.types.Object:
-    """A person as an architect's scale figure: a slim capsule body, a neck, a head. One mesh, origin at the feet.
-    The body is an ellipse in plan — broad across the shoulders (local X), shallow front to back (local Y) — so
-    which way a figure faces is legible, and a walker turned into its direction of travel reads as one."""
+def figure(name: str, loc, mat, height=1.72, group="people", segs=14, rings=5, depth=0.57) -> bpy.types.Object:
+    """A person as an architect's scale figure: two legs, a torso broad at the shoulder and
+    narrow at the waist, a short neck, an ovoid head. One mesh, origin at the feet.
+
+    At forty pixels tall the silhouette does all the work, and a capsule on a ball reads as a
+    game piece rather than a person: the legs are what make it human at this distance. The
+    body is an ellipse in plan — broad across the shoulders (local X), shallow front to back
+    (local Y) — so which way a figure faces is legible, and a walker turned into its direction
+    of travel reads as one. Everything scales with height, so a short figure is a short person
+    and not a compressed one.
+    """
     mesh = bpy.data.meshes.new(name)
     vs, fs = [], []
 
-    def ring_rows(rows, dy=depth):
+    def stack(rows, dx=0.0, dy=depth):
+        """A tube through (radius, z) rows, centred at local x = dx, elliptical in plan."""
         base = len(vs)
         for rr, z in rows:
             for i in range(segs):
                 a = 2 * math.pi * i / segs
-                vs.append((rr * math.cos(a), rr * dy * math.sin(a), z))
-        n = len(rows)
-        for j in range(n - 1):
+                vs.append((dx + rr * math.cos(a), rr * dy * math.sin(a), z))
+        for j in range(len(rows) - 1):
             for i in range(segs):
                 i2 = (i + 1) % segs
                 fs.append((base + j * segs + i, base + j * segs + i2, base + (j + 1) * segs + i2, base + (j + 1) * segs + i))
 
-    # body: a capsule to the shoulders, a shade narrower at the top
-    r = 0.17
-    top = height - 0.33
-    body = max(0.0, top - 2 * r)
-    rows = []
-    for k in range(rings, 0, -1):
-        a = k / rings * math.pi / 2
-        rows.append((r * math.cos(a), r - r * math.sin(a)))
-    rows.append((r, r))
-    rows.append((r * 0.88, r + body))
-    for k in range(1, rings + 1):
-        a = k / rings * math.pi / 2
-        rows.append((r * 0.88 * math.cos(a), r + body + r * 0.88 * math.sin(a)))
-    ring_rows(rows)
+    s = height / 1.72  # every proportion is a fraction of a 1.72 m person
+    TIP = 0.004        # a ring small enough to close a tube without a fan
+
+    # legs: two tapered columns, ankle to hip, ending inside the torso
+    for side in (-1, 1):
+        stack(
+            [
+                (TIP, 0.0),
+                (0.043 * s, 0.018 * s),
+                (0.041 * s, 0.10 * s),
+                (0.052 * s, 0.44 * s),
+                (0.072 * s, 0.80 * s),
+                (0.078 * s, 0.92 * s),
+                (TIP, 0.99 * s),
+            ],
+            dx=side * 0.090 * s,
+            dy=0.92,
+        )
+    # torso: hips, a waist, shoulders that carry the width
+    stack(
+        [
+            (TIP, 0.84 * s),
+            (0.140 * s, 0.88 * s),
+            (0.168 * s, 0.96 * s),
+            (0.150 * s, 1.09 * s),
+            (0.172 * s, 1.22 * s),
+            (0.198 * s, 1.33 * s),
+            (0.205 * s, 1.39 * s),
+            (0.176 * s, 1.435 * s),
+            (0.090 * s, 1.465 * s),
+            (TIP, 1.48 * s),
+        ]
+    )
     # neck
-    ring_rows([(0.055, top - 0.02), (0.055, height - 0.2)], dy=0.9)
-    # head: a sphere whose top is the height
-    hr = 0.115
-    hz = height - hr
-    rows = []
-    for k in range(-rings, rings + 1):
-        a = k / rings * math.pi / 2
-        rows.append((max(0.004, hr * math.cos(a)), hz + hr * math.sin(a)))
-    ring_rows(rows, dy=0.86)
+    stack([(0.050 * s, 1.40 * s), (0.047 * s, 1.505 * s)], dy=0.92)
+    # head: an ovoid, taller than it is wide, its crown at the figure's height
+    hr, hh = 0.096 * s, 0.113 * s
+    hz = height - hh
+    stack([(max(TIP, hr * math.cos(k / rings * math.pi / 2)), hz + hh * math.sin(k / rings * math.pi / 2)) for k in range(-rings, rings + 1)], dy=0.88)
+
     mesh.from_pydata(vs, [], fs)
     mesh.update()
     for poly in mesh.polygons:
@@ -892,7 +915,9 @@ def build(screen_images: dict[str, str] | None = None, cars=True, people_mat=Tru
     glass = mat_glass()
     dark_glass = mat_glass("upperglass", tint="#9db2b8", alpha_tint=0.5, rough=0.06)
     sign = mat_emissive("sign", P.sign, 0.35, base="#e2ddd2")
-    W.person_mat = mat_emissive("person", "#f0a64a", 1.3, base="#e2a24f")
+    # a little emission so a figure holds its amber in shade, not enough to flatten it into a
+    # self-lit toy: people have to take the same sun and the same shadow as the block they stand on
+    W.person_mat = mat_emissive("person", "#f0a64a", 0.35, base="#e2a24f")
     W.person_mat.node_tree.nodes["Principled BSDF"].inputs["Roughness"].default_value = 0.55
     W.lamp_mat = mat_emissive("lamphead", P.lamp, 0.0, base="#cfc8b8")
 

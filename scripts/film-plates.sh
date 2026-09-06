@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# The eleven physical plates, in the order the film needs them most, at the length the edit
+# The thirteen physical plates, in the order the film needs them most, at the length the edit
 # actually uses. Resumable: a frame already on disk is skipped, so this can be stopped and
 # restarted, and a shot can be re-rendered by deleting its directory under plates/seq.
 #
@@ -15,19 +15,26 @@ RES=${RES:-1280x720}
 SAMPLES=${SAMPLES:-18}
 export PLATE_RES_CAP=${PLATE_RES_CAP:-$RES}
 
-# shot:last-frame-the-edit-uses
+# shot:last-frame-the-edit-uses — ordered so each of the three proof cuts in film/review/PROOF.md
+# can be assembled the moment its shots land, rather than after the whole queue.
 ORDER=(
+  # PROOF 1 · the café screen publishes the offer, and a scan starts a relationship
+  cafe:25
+  scan:45
+  # PROOF 2 · the walk up, the door, the counter, the one press, the coffee
+  threshold:25
+  counter:27
   device:77      # the redemption, and the only place the product has to be read
-  scan:45        # the crossing into the relationship
-  cafe:25        # the panel that publishes the offer
-  threshold:25   # the door
-  counter:27     # the phone across the counter
-  coffee:25      # the reward
-  approach:29    # the walk up
-  rise:39        # the crossing back to the page
-  morning_door:23
+  coffee:25
+  approach:29
+  # PROOF 3 · the morning builds physically, then the page takes it back
   morning_pump:26
   morning_walk:27
+  morning_door:23
+  rise:39
+  # the two long plates the acts either end of the film sit on
+  hero1a:143
+  hero3a:143
 )
 
 want=("$@")

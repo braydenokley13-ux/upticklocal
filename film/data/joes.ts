@@ -64,9 +64,11 @@ export const ECONOMICS = {
 
 /** Channels Joe actually has. Screens are an advantage, never a requirement. */
 export const REACH = {
-  direct: { label: "Your customers", detail: "104 said yes", how: "text · tonight" },
-  location: { label: "Your location", detail: "pump & counter", how: "the code at the pump and the counter" },
-  screens: { label: "Nearby Uptick reach", detail: "2 screens on this block", count: 2, how: "Friday 7–10", available: true },
+  /* `line` is the film's voice: one self-contained sentence a viewer reads in a second,
+     spoken over the thing it describes. `label`/`detail`/`how` stay for the product surfaces. */
+  direct: { label: "Your customers", detail: "104 said yes", how: "text · tonight", line: "A text tonight, to the 104 who said yes." },
+  location: { label: "Your location", detail: "pump & counter", how: "the code at the pump and the counter", line: "The code at his pump and his counter." },
+  screens: { label: "Nearby Uptick reach", detail: "2 screens on this block", count: 2, how: "Friday 7–10", available: true, line: "Two Uptick screens on this block." },
   noScreens: { label: "Nearby Uptick reach", detail: "Not in this area yet", note: "The plan runs without it." },
 } as const;
 
