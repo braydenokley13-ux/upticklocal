@@ -23,7 +23,7 @@ Crossings:
 
 No crossing is a cross-dissolve. Each is a move, a match, or a scale change we can point at.
 
-## The four lens families
+## The lens families
 
 Sensor is 36 mm across, so these are millimetres as a photographer means them. Depth of field is always on — an f-stop is part of the lens, not an effect.
 
@@ -33,8 +33,16 @@ Sensor is 36 mm across, so these are millimetres as a photographer means them. D
 | `street` | 50 mm | f/4 | 1.58 m | a person crossing a real distance |
 | `human` | 75 mm | f/2.8 | 1.42 m | the counter, the shoulder, the exchange |
 | `device` | 95 mm | f/2.2 | 1.10 m | the phone, the cup, the thing in the hand |
+| `page` | 26 mm | f/4 | 10.0 m | the one exception, below |
 
 A shot may open the stop or lengthen the lens within a family (the coffee is 85 mm), but it may not sit between families.
+
+`page` is the exception and it exists so that the exception is written down rather than hidden
+in a shot. The film opens looking straight down at the sidewalk in front of Joe's, and the
+editorial page is printed on exactly the ground that frame covers. The lens and the height
+together decide that footprint, so the page decides the lens — it is a compositing requirement,
+not a taste. Nothing else in the film may use it: the shot lifts out of it and lands at 30 mm
+across the street, and every other camera belongs to one of the four.
 
 ## Every shot declares
 

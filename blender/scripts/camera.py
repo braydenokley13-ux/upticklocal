@@ -110,7 +110,8 @@ class Cam:
         else:
             d = self.focus_on(focus if focus is not None else target)
         self.obj.data.dof.keyframe_insert("focus_distance", frame=frame)
-        self.moves.append(dict(frame=frame, pos=tuple(round(v, 3) for v in pos), focus=round(d, 3), label=label))
+        self.moves.append(dict(frame=frame, pos=tuple(round(v, 3) for v in pos), focus=round(d, 3),
+                               lens=round(self.obj.data.lens, 1), height=round(float(pos[2]), 2), label=label))
         return self
 
     def lock(self, pos, target, frames: int, *, focus=None, roll=0.0, label="locked"):
@@ -128,6 +129,10 @@ class Cam:
             background=self.background, motivation=self.motivation,
             stops=[m["label"] or f"f{m['frame']}" for m in self.moves],
             focus=[m["focus"] for m in self.moves],
+            # a locked shot has one of each; a move has the lens it opens on and the lens it lands on,
+            # and the report should be able to say so without anyone retyping it
+            lenses=[m["lens"] for m in self.moves],
+            heights=[m["height"] for m in self.moves],
         )
 
 

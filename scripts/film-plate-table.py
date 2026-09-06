@@ -38,6 +38,7 @@ def main():
     print("| --- | ---: | --- | --- |")
     missing = []
     total = 0
+    locked = 0
     for shot, act, used in ORDER:
         p = os.path.join(EXPORTS, f"{shot}.json")
         if not os.path.exists(p):
@@ -49,19 +50,26 @@ def main():
         lens = spec.get("lens")
         fstop = spec.get("fstop")
         h = spec.get("height")
+        lenses = spec.get("lenses") or ([lens] if lens else [])
+        heights = spec.get("heights") or ([h] if h else [])
         bits = []
-        if lens:
-            bits.append(f"{lens:.0f} mm" + (f" f/{fstop:.1f}" if fstop else ""))
-        if h:
-            bits.append(f"{h:.2f} m")
+        if lenses:
+            lo, hi = min(lenses), max(lenses)
+            rng = f"{lo:.0f} mm" if abs(hi - lo) < 0.6 else f"{lo:.0f}–{hi:.0f} mm"
+            bits.append(rng + (f" f/{fstop:.1f}" if fstop else ""))
+        if heights:
+            a, b = heights[0], heights[-1]
+            bits.append(f"{a:.2f} m" if abs(b - a) < 0.02 else f"{a:.2f} → {b:.2f} m")
         if spec.get("motivation"):
             bits.append(spec["motivation"])
+        if spec.get("motivation") == "locked":
+            locked += 1
         head = " · ".join(bits)
         subject = spec.get("subject", "")
         fg = spec.get("foreground")
         tail = f"{subject}" + (f"; foreground: {fg}" if fg else "")
         print(f"| `{shot}` | {used} | {act} | {head} — {tail} |")
-    print(f"\n{total} frames" + (f" · missing exports: {', '.join(missing)}" if missing else ""))
+    print(f"\n{total} frames · {locked} of {len(ORDER)} locked" + (f" · missing exports: {', '.join(missing)}" if missing else ""))
     return 1 if missing else 0
 
 
