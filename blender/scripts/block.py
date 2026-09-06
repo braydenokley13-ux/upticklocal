@@ -1746,8 +1746,8 @@ STATES = {
     # lamps on; Joe's on; upper-window density; canopy on
     "dawn": dict(elev=9.0, rot=112, exposure=-2.25, sun=0.62, interior_w=3800, emis=26.0, lamps=0.25, joes=0.4, windows=0.35, canopy=0.35),
     "morning": dict(elev=18.0, rot=128, exposure=-3.1, interior_w=2600, emis=20.0, lamps=0.0, joes=1.0, windows=0.2, canopy=0.7),
-    "dusk": dict(elev=-3.5, rot=296, exposure=0.9, interior_w=520, emis=5.0, lamps=1.0, joes=0.0, windows=0.55, canopy=0.0),
-    "night": dict(elev=-9.0, rot=310, exposure=1.8, interior_w=420, emis=4.0, lamps=1.0, joes=0.0, windows=0.6, canopy=0.0),
+    "dusk": dict(elev=-3.5, rot=296, exposure=1.0, interior_w=520, emis=6.0, lamps=1.0, lamp_w=1400, joes=0.9, windows=0.55, canopy=0.9),
+    "night": dict(elev=-9.0, rot=310, exposure=1.8, interior_w=420, emis=4.0, lamps=1.0, lamp_w=1600, joes=0.6, windows=0.6, canopy=0.6),
 }
 
 
@@ -1823,7 +1823,7 @@ def set_state(W: World, name: str, frame: int | None = None, **overrides):
                 p.inputs["Emission Strength"].keyframe_insert("default_value", frame=frame)
     # street lamps
     for lo in W.lamps:
-        lo.data.energy = st["interior_w"] * 0.5 * st["lamps"]
+        lo.data.energy = st.get("lamp_w", st["interior_w"] * 0.5) * st["lamps"]
         if frame is not None:
             lo.data.keyframe_insert("energy", frame=frame)
     if W.lamp_mat:

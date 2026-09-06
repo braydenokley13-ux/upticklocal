@@ -47,7 +47,12 @@ export const Act5Approve = () => {
   // ---------------------------------------------------------------- B · delivered
   const bIn = ramp(frame, B_START - 6, 26, PLANE);
   const lot = trackAt(TA, "joes_lot", pa);
+  const pumpL = trackAt(TA, "pump_10", pa);
+  const doorJ = trackAt(TA, "door_joes", pa);
   const drop = ramp(frame, B_START + 2, 24, PLANE);
+  // once landed, the line takes Joe's frontage, pump island to door, and stays: the plan is live at a place
+  const span = ramp(frame, B_START + 26, 26, PLANE);
+  const frontW = Math.max(60, Math.abs(doorJ.x - pumpL.x) + 40);
   const lineX = APPROVE_AT.x + 75 + (lot.x - APPROVE_AT.x - 75) * drop;
   const lineY = APPROVE_AT.y + 14 + (lot.y - APPROVE_AT.y - 14) * drop;
   const delivered = ramp(frame, B_START + 40, 30, PLANE); // the point thins as the signal is delivered
@@ -79,8 +84,8 @@ export const Act5Approve = () => {
         </div>
       )}
       {/* the line: the whole plan inside one object, then a signal entering the world */}
-      {frame >= 40 && frame < B_START + 90 && (
-        <div style={{ position: "absolute", left: lineX, top: lineY, width: 150 * lineIn * (1 - drop) + 10, height: 3 + 2 * drop, background: COLOR.mint, transform: "translate(-50%, -50%)", borderRadius: 2, boxShadow: `0 0 ${14 + 26 * drop}px ${2 + 4 * drop}px rgba(95,214,187,${0.3 + 0.3 * drop})`, opacity: lineIn * (1 - delivered) }} />
+      {frame >= 40 && (
+        <div style={{ position: "absolute", left: lineX, top: lineY, width: 150 * lineIn * (1 - drop) + 10 + (frontW - 10) * span, height: 3 + 2 * drop - 3 * span, background: COLOR.mint, transform: "translate(-50%, -50%)", borderRadius: 2, opacity: 1 - 0.35 * delivered, boxShadow: `0 0 ${14 + 10 * drop - 12 * span}px ${2 + 2 * drop - 3 * span}px rgba(94,214,178,${0.5 - 0.25 * span})` }} />
       )}
 
       {/* B · the block at dusk: the world lights where Joe already has a way in */}
@@ -105,11 +110,11 @@ export const Act5Approve = () => {
             {ledger.map((l, i) => {
               const a = ramp(frame, l.at, 14, OUT);
               return (
-                <div key={l.title} style={{ marginTop: i === 0 ? 0 : 22, opacity: a, transform: `translateY(${(1 - a) * 8}px)` }}>
-                  <Mono color={COLOR.onMarineFaint} size={13}>
+                <div key={l.title} style={{ marginTop: i === 0 ? 0 : 26, opacity: a, transform: `translateY(${(1 - a) * 8}px)` }}>
+                  <Mono color={COLOR.onMarineFaint} size={14}>
                     {l.title}
                   </Mono>
-                  <div style={{ fontSize: 24, color: COLOR.onMarine, marginTop: 6, letterSpacing: "-0.01em" }}>{l.line}</div>
+                  <div style={{ fontSize: 30, color: COLOR.onMarine, marginTop: 6, letterSpacing: "-0.015em" }}>{l.line}</div>
                 </div>
               );
             })}

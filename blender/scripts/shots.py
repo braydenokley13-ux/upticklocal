@@ -557,7 +557,10 @@ def shot_hero1(W: B.World):
 def shot_hero3a(W: B.World):
     """Distribute. Thursday 6:48 PM. The plan enters the block; texts land in homes (windows), the two screens arm."""
     frames = 144
-    B.set_state(W, "dusk", frame=0)
+    # Joe's is dark until the plan lands on its lot; then the canopy, the sign and the entrance light: delivered
+    B.set_state(W, "dusk", frame=0, joes=0.0, canopy=0.0)
+    B.set_state(W, "dusk", frame=38, joes=0.0, canopy=0.0)
+    B.set_state(W, "dusk", frame=52)
     cam = camera(lens=22, fstop=4.0, focus=34.0)
     key_cam(cam, 0, E_DUSK["pos"], E_DUSK["target"], lens=E_DUSK["lens"], focus=34.0)
     key_cam(cam, frames - 1, E_DUSK_END["pos"], E_DUSK_END["target"], lens=E_DUSK_END["lens"], focus=34.0)
