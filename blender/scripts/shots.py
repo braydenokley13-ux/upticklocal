@@ -395,6 +395,8 @@ def shot_hero1(W: B.World):
     W.tracks["joes_walk"] = B.empty("track_joes_walk", walk)
     cam = camera(lens=26)
     key_cam(cam, 0, (walk[0] + 1.5, B.ROAD_HALF + 2.4, 10.0), (walk[0] + 1.5, B.ROAD_HALF + 2.4001, 0.0), lens=26)
+    # the lift: up and back over the sidewalk, already looking at the frontage, so the block rises into view
+    key_cam(cam, 32, (walk[0] + 1.0, B.ROAD_HALF - 3.5, 16.5), (walk[0] + 0.5, B.FRONT + 6.0, 0.8), lens=26)
     key_cam(cam, 72, ESTABLISH["pos"], ESTABLISH["target"], lens=26)
     key_cam(cam, frames - 1, (-1.5, -24.5, 25.5), (2.5, 13.0, 2.5), lens=26)
     ease(cam)

@@ -49,7 +49,7 @@ export const Hero1 = () => {
   // The big 3 sits with its optical centre slightly above the landing point.
   const bigX = land0.x;
   const bigY = land0.y;
-  const size = 840 - (840 - 36) * shrink;
+  const size = 720 - (720 - 36) * shrink;
   const x = bigX + (land.x - bigX) * shrink;
   const y = bigY + (land.y - bigY) * shrink;
   const numeralColor = shrink < 0.5 ? COLOR.ink : COLOR.onMarine;
@@ -107,7 +107,7 @@ export const Hero1 = () => {
 
       {/* the 3: a number, then a mark on a place */}
       <div style={{ position: "absolute", left: x, top: y, transform: "translate(-50%, -50%)", opacity: numeralIn }}>
-        <Numeral value={GAP.visits} size={size} color={numeralColor} weight={shrink > 0.5 ? 500 : 300} style={shrink > 0.5 ? { fontFamily: undefined } : undefined} />
+        <Numeral value={GAP.visits} size={size} color={numeralColor} weight={shrink > 0.5 ? 500 : 200} />
       </div>
       {/* the mark's caption, once it has landed */}
       <div style={{ position: "absolute", left: land.x + 30, top: land.y - 12, opacity: label * settled }}>
@@ -120,7 +120,7 @@ export const Hero1 = () => {
 
       {/* the line that says it */}
       <div style={{ position: "absolute", left: 96, bottom: 84, opacity: sameStreet }}>
-        <Line size={34} color={COLOR.onMarine} weight={400}>
+        <Line size={34} color={COLOR.onMarine} weight={400} style={{ textShadow: "0 1px 14px rgba(0,0,0,0.65)" }}>
           Same street. Same morning.
         </Line>
       </div>
