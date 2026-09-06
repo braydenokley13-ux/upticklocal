@@ -656,6 +656,10 @@ def shot_hero3b(W: B.World):
     q.location = (spot2.x, spot2.y, B.CURB_H)
     q.keyframe_insert("location", frame=118)
     q.keyframe_insert("location", frame=frames - 1)
+    # standing at the counter: upright; the walk keys its lean only while it moves
+    t0, tl = path_frames([(door.x - 0.2, B.FRONT + 1.2), (spot.x, spot.y)], 0.85, {})
+    q.rotation_euler = (0.0, 0.0, q.rotation_euler[2])
+    q.keyframe_insert("rotation_euler", frame=18 + t0 + tl + 4)
     ease(q, linear=True)
     head = B.empty("track_person_cafe", (0, 0, 1.5))
     head.parent = q
