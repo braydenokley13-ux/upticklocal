@@ -35,8 +35,8 @@
       "/film-rd/renders/stills/Hero2-0359.png",
       "/film-rd/renders/stills/Hero2-0404.png"
     ],
-    "renderedAt": "2026-09-06 14:22",
-    "bytes": 1252886
+    "renderedAt": "2026-09-06 14:39",
+    "bytes": 1278112
   },
   "Hero4": {
     "video": "/film-rd/renders/Hero4.mp4",
@@ -55,7 +55,7 @@
       "/film-rd/renders/stills/Hero4-0214.png",
       "/film-rd/renders/stills/Hero4-0238.png"
     ],
-    "renderedAt": "2026-09-06 14:23",
-    "bytes": 727514
+    "renderedAt": "2026-09-06 14:40",
+    "bytes": 986206
   }
 }
