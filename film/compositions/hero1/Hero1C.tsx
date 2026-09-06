@@ -1,7 +1,7 @@
 import { useCurrentFrame } from "remotion";
 import tracks from "../../../blender/exports/hero1c.json";
-import { homographyMatrix3d, lerpQuad, rectQuad, type Quad } from "../../block/homography";
-import { Plate, quadAt, trackAt, type TrackData } from "../../block/plate";
+import { applyHomography, homography, homographyMatrix3d, lerpQuad, rectQuad, type Quad } from "../../block/homography";
+import { Plate, quadAt, type TrackData } from "../../block/plate";
 import { GAP } from "../../data/joes";
 import { IN, OUT, PLANE, ramp, sec } from "../../motion";
 import { Frame } from "../../primitives/Frame";
@@ -32,7 +32,7 @@ export const HERO1C_FRAMES = PAGE_END + PLATE_FRAMES;
 // the page's own layout: the 3 low on a wide baseline, the sentence to its right, the rule near the bottom edge
 const NUM_X = 300;
 const NUM_Y = HEIGHT * 0.66;
-const RULE_Y = HEIGHT * 0.9;
+const RULE_Y = HEIGHT * 0.86;
 
 export const Hero1C = () => {
   const frame = useCurrentFrame();
@@ -57,8 +57,9 @@ export const Hero1C = () => {
   // the plate shows through as the page lies down; the page's surface dissolves into the pavement once flat
   const plateIn = ramp(frame, TILT_START + 6, 26, PLANE);
   const dissolve = ramp(frame, TILT_START + TILT_FRAMES - 4, 22, IN);
-  // the 3 stays: it lifts off the flattened page and becomes an upright mark on the pavement
-  const land = trackAt(T, "joes_walk", pf);
+  // the 3 stays: it lifts off the flattened page, where it lay, and becomes an upright mark there
+  const [markX, markY] = applyHomography(homography(WIDTH, HEIGHT, ground), NUM_X + 640 * 0.27, NUM_Y);
+  const land = { x: markX, y: markY, depth: 0 };
   const lift = ramp(frame, TILT_START + TILT_FRAMES - 6, 24, PLANE);
 
   return (

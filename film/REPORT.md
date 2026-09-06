@@ -36,7 +36,21 @@ _Branch `film/uptick-growth-rd`. Five hero-shot prototypes as quality gates for 
 
 ## Hero shots
 
-_(filled in below after rendering and critique)_
+### Hero 1 · `3` → the physical block
+
+The first pass (a cream page fading to a high beige archviz plate with a shrinking 3) was rejected by the critic at 3/10 and by the client: a Blender test, an ordinary transition, a camera too high and safe, no human energy. Everything below is the second push.
+
+**The world, passes 2–4.** Colour separation across the six buildings (brick café, pale render, tan, stone, green-grey, charcoal) instead of six greys; people as architect's scale figures (slim capsule, neck, head) in matte amber, lit by the morning rather than glowing; Joe's canopy as a painted fascia with a brand stripe and a drip edge instead of a blown-out light band; two-tone pumps with the stripe; a real price sign (dark panel, two lit lines); dawn a stop darker with the sun at 0.62 against a real sky fill and dust in the air for a warm horizon; the neighbours' interiors warmer; the back row with parapet caps, string courses, sills and a stagger; satin cars with dark solid cabins; and the settle camera brought down from 10.5 m to 5.2 m across the street at 29 mm, Joe's centre-left and the café alive on the right. Rejected on the way: capsule people at 6× emission (candles), a white price panel, the whole street in one beige.
+
+**Three materially different transitions**, each on the same 4 s page and the same settle:
+
+| Variant | The idea | Camera |
+| --- | --- | --- |
+| A · the page is the pavement | The page is a photograph of the sidewalk in front of Joe's, straight down, blown to paper. At the cut nothing moves: the cream lifts off and the concrete is already under the number; the hairline is the curb; the dark band under it is the road. The page layer is projected onto the ground with a homography from four tracked footprint corners, so the printed 3 stays on the pavement, foreshortening as the camera lifts, and stands up as the mark at the settle. | Hold straight down (22 f) → lift and crane back across the street (78 f) → settle and drift. |
+| B · the descent | The page is a plan of the block from 70 m, paper-white; the 3 stamps onto Joe's lot; a crane-down settles into the street. | 70 m plan → descent to the settle. |
+| C · the page tilts in | The page itself, as a plane, tilts into the street's ground plane over Joe's lot and dissolves; the 3 lands as a mark. | A slow push only. |
+
+_(verdicts below)_
 
 ## Block status
 
