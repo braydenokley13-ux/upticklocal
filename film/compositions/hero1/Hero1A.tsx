@@ -69,7 +69,8 @@ export const Hero1A = () => {
   const sentenceOut = ramp(frame, PAGE_END + 12, 20, IN);
   const ruleOut = ramp(frame, PAGE_END + HOLD + 30, 30, IN);
   // the printed 3 darkens with the morning, then stands up as the mark
-  const lift = ramp(frame, PAGE_END + LIFT_END - 12, 22, PLANE);
+  const lift = ramp(frame, PAGE_END + LIFT_END - 10, 14, PLANE);
+  const snap = 1 + 0.1 * Math.sin(Math.PI * lift); // the mark commits with a small overshoot, like a stamp
   const risen = ramp(frame, PAGE_END + HOLD, LIFT_END - HOLD, PLANE);
   const paint = ramp(frame, PAGE_END + HOLD + 4, 28, PLANE);
   const speed = ramp(frame, PAGE_END + HOLD + 8, 44, PLANE);
@@ -110,7 +111,7 @@ export const Hero1A = () => {
         </Mono>
       </div>
       {/* the mark: the 3 standing up where it lay */}
-      <div style={{ position: "absolute", left: land.x, top: land.y, transform: `translate(-50%, -50%) scale(${0.6 + 0.4 * lift})`, opacity: lift, fontFamily: FONT.sans, fontWeight: 500, fontSize: 44, color: COLOR.ink, lineHeight: 1 }}>
+      <div style={{ position: "absolute", left: land.x, top: land.y, transform: `translate(-50%, -50%) scale(${(0.7 + 0.3 * lift) * snap})`, opacity: lift, fontFamily: FONT.sans, fontWeight: 500, fontSize: 44, color: COLOR.ink, lineHeight: 1, textShadow: "0 0 14px rgba(243,240,233,0.85)" }}>
         {GAP.visits}
       </div>
       <Vignette opacity={risen * 0.7} />

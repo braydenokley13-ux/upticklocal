@@ -76,7 +76,7 @@ export function SettledBlock({ frame, settleAt, land, plateFrame, T }: { frame: 
       </div>
       {/* the mark's caption on the sunlit pavement beside it */}
       <div style={{ position: "absolute", left: land.x + 36, top: land.y - 14, opacity: label }}>
-        <Mono color={COLOR.ink} size={24}>
+        <Mono color={COLOR.ink} size={24} style={{ textShadow: "0 0 14px rgba(243,240,233,0.85), 0 0 4px rgba(243,240,233,0.9)" }}>
           {BUSINESS.short} · {GAP.window}
         </Mono>
       </div>

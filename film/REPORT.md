@@ -52,7 +52,11 @@ The first pass (a cream page fading to a high beige archviz plate with a shrinki
 
 **Verdict on C (rejected).** 5/10 from the critic, and mine agrees. The tilting page is the cleanest literal "number becomes place" device of the three, and that is worth keeping as a primitive. But the street is fully visible behind the plane before the transformation finishes, so there is no reveal left to have; the camera barely moves, which fails the film's camera rule and gives the boxes and pumps nowhere to hide; and a translucent card laying into a scene reads as a card flip, which the client's list rejects. Kept: the plane-into-ground homography, now used properly in A.
 
-_(verdicts on A and B below)_
+**Verdict on B (rejected).** 5.5/10 from the critic. The plan emerging under the number and the 3 stamping onto Joe's lot as a locator are clean, confident beats, and the stamp is worth stealing. But a 70 m straight-down opening that cranes into the street is structurally the drone establishing shot the client's list rejects; the rooftop phase is topographic rather than atmospheric, so "the street is alive" only lands in the last second; and the descent covers a huge scale change in too few frames, reading as a fly-through path rather than a controlled descent. Kept: the stamp, now in A's settle.
+
+**Verdict on A (chosen).** 6/10 then 7/10 from the critic across two rounds, against 3/10 for the first pass. The cut is invisible: the cream lifts and the concrete is already under the number, the hairline is the curb, the dark band is the road. The camera performs the brief's journey (still frame → lift → reveal → settle) as one real move, and the printed 3 on the pavement is the film's first physical image. What the critic still saw, and what the third pass answers: the forecourt moment mid-lift exposed the CG (now an oblique path over a longer lift, with a speed blur at the crane's fastest moment, on the pass-4 world); the thin printed 3 foreshortened into a scrawl (it now takes paint weight as the camera lifts, the same glyph); the back row read as boxes (pass 4); the mark and caption needed more presence at the settle (larger, with a stamp overshoot and a paper halo).
+
+_(A v3 result below)_
 
 ## Block status
 
