@@ -138,7 +138,7 @@ export const Hero4 = ({ thread = "text", historyAt = 0 }: { thread?: "text" | "o
   // --- the thread ---------------------------------------------------------
   const historyIn = ramp(frame, T.history + historyAt, 14, OUT);
   // the offer plane yields as the sheet arrives: the evidence outranks the history
-  const historyYield = 1 - 0.45 * ramp(frame, T.sheet, 18, PLANE);
+  const historyYield = 1 - 0.68 * ramp(frame, T.sheet, 18, PLANE);
   const questionIn = ramp(frame, T.question, 12, PLANE);
   const silence = frame >= T.silence[0] && frame < T.silence[1] ? (frame - T.silence[0]) / (T.silence[1] - T.silence[0]) : frame >= T.silence[1] ? 1 : 0;
 
