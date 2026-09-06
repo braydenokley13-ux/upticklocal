@@ -2,7 +2,7 @@ import type { ComponentType } from "react";
 import { Sequence } from "remotion";
 import { HERO1A_FRAMES, Hero1A } from "./hero1/Hero1A";
 import { Hero2, HERO2_TIMELINE } from "./Hero2";
-import { Hero4Offer } from "./Hero4";
+import { HERO4_FRAMES, Hero4Offer } from "./Hero4";
 import { ACT5_FRAMES, Act5Approve } from "./acts/Act5Approve";
 import { ACT6_FRAMES, Act6TwoWays } from "./acts/Act6TwoWays";
 import { ACT8_FRAMES, Act8Redeem } from "./acts/Act8Redeem";
@@ -23,7 +23,7 @@ export const ACTS: Act[] = [
   { id: "II–IV", name: "Owner speaks · understands · one plan", frames: HERO2_TIMELINE.end, component: Hero2, note: "Friday mornings are slow → instruments → Morning Coffee Drop" },
   { id: "V", name: "Thought becomes action", frames: ACT5_FRAMES, component: Act5Approve, note: "Approve → one line → the block at dusk, delivered where Joe already has a way in" },
   { id: "VI", name: "Two ways in", frames: ACT6_FRAMES, component: Act6TwoWays, note: "a text Thursday evening · the café screen Friday 7:04 → the same Offer" },
-  { id: "VII", name: "The relationship is useful", frames: 216, component: Hero4Offer, note: "Does diesel count? → the approved plan answers · 38 handled, 2 went to Joe" },
+  { id: "VII", name: "The relationship is useful", frames: HERO4_FRAMES, component: Hero4Offer, note: "Does diesel count? → the approved plan answers · 38 handled, 2 went to Joe" },
   { id: "VIII", name: "Offer → Pass → Redeem now", frames: ACT8_FRAMES, component: Act8Redeem, note: "the same slab; into a pocket, through the door; held up at the counter; two taps; the block becomes the live redeemed state" },
   { id: "IX–XI", name: "The build · the proof", frames: ACT9_FRAMES, component: Act9Return, note: "the same forecourt, the count standing; 4 · 9 · 14 · 21; the page returns with the door's warmth" },
   { id: "XII", name: "Resolve", frames: ACT12_FRAMES, component: Act12Resolve, note: "Uptick Growth · Tell Uptick what you want more of." },

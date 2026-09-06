@@ -79,3 +79,32 @@ Two modes, and the difference is absolute.
 
 - **Review mode** may carry timestamps, shot names, source labels, technical notes.
 - **Film mode** carries almost none of it. No engineering commentary in frame — not "no PIN", not "no scanner", not "recorded". The absence of complexity is demonstrated by the interaction, never announced.
+
+## Two rules the block taught us
+
+**Keyframe the lens, always.** A `Cam` with a moving eye and a fixed `lens=` is a
+lie: Blender interpolates the transform but the focal length stays wherever the
+last shot left it in the camera datablock. Every key that moves the camera also
+carries `lens=` and `focus=`. `shot_scan` lost a whole pass to this — the
+focus pull was still travelling on the frame the edit used, so the panel read
+as mush.
+
+**Joe's door is at (−1.72, 20.30).** The lot's own origin drifted twice during
+the build and every interior shot that looks at the door — `threshold`,
+`counter`, `coffee` — is framed off that number. There is an aisle cut through
+the three shelf runs on the door's axis, because a store with shelving
+opposite its entrance gives a camera at the back of the room no floor and no
+legs to look at.
+
+## Verifying a frame before you render it
+
+`blender/scripts/render.py <shot> --still N --res 800x450 --samples 24` is the
+loop. Twenty-four seconds a frame is cheap enough to iterate on and honest
+enough to judge composition, occlusion and depth of field. Judge the framing
+there; judge the light and the materials only at 1280×720.
+
+Projecting a mesh's bounding box to NDC is a hint, not an answer: an object
+straddling the camera plane clips against the near plane and reports garbage
+extents. When the projection is ambiguous, query the world-space box instead
+and reason about it analytically — and remember `bpy.context.view_layer.update()`
+after `B.build()`, or `matrix_world` is stale and every box comes back local.

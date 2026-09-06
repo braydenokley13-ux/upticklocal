@@ -14,7 +14,7 @@ import { residueY } from "./Act9Return";
  * did it, and one line the film has earned: what Joe said, in the form
  * every owner can say it.
  */
-export const ACT12_FRAMES = 132;
+export const ACT12_FRAMES = 118;
 const CLOSING = "Tell Uptick what you want more of.";
 
 export const Act12Resolve = () => {
@@ -22,7 +22,7 @@ export const Act12Resolve = () => {
   const out = 1 - ramp(frame, 4, 22, IN);
   const nameIn = ramp(frame, 34, 18, OUT);
   const lineIn = ramp(frame, 62, 18, OUT);
-  const footIn = ramp(frame, 96, 14, OUT);
+  const footIn = ramp(frame, 88, 14, OUT);
   const y = residueY();
   return (
     <Frame>

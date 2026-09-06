@@ -37,18 +37,18 @@ const TS = trackScan as unknown as TrackData;
  */
 
 const T = {
-  textIn: 6,
-  textPress: 46,
-  textOpen: 54,
-  toCafe: 82, // the rectangle leaves the relationship
-  cafeAt: 96,
-  scanAt: 124,
-  glassAt: 154, // the DOM offer takes over the tracked glass
-  toPhone: 162, // and opens out
-  phoneAt: 182,
-  save: 232,
-  saved: 244,
-  end: 282,
+  textIn: 4,
+  textPress: 32,
+  textOpen: 40,
+  toCafe: 62, // the rectangle leaves the relationship
+  cafeAt: 76,
+  scanAt: 102, // the café panel runs its whole plate, then we are at the counter
+  glassAt: 128, // the DOM offer takes over the tracked glass
+  toPhone: 136, // and opens out
+  phoneAt: 156,
+  save: 196,
+  saved: 208,
+  end: 232,
 } as const;
 
 export const ACT6_FRAMES = T.end;

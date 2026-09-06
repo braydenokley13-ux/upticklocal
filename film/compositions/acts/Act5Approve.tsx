@@ -16,15 +16,15 @@ const TA = tracksA as unknown as TrackData;
 /**
  * ACT V · THOUGHT BECOMES ACTION
  *
- * 0–2.3 s   The plan, as Hero 2 left it. One tap on Approve. The rows are
+ * 0–2.1 s   The plan, as Hero 2 left it. One tap on Approve. The rows are
  *           absorbed into the word; the word becomes one mint line.
- * 2.3–8.3 s The line drops into the block at dusk and is delivered only
+ * 2.1–8.1 s The line drops into the block at dusk and is delivered only
  *           where Joe already has a way in: the homes of people who said
  *           yes (a text, tonight), his own pumps and counter, the two
  *           Uptick screens on the block. No diagram: the block itself
  *           lights, and a ledger keeps the account.
  */
-export const A_END = 56;
+export const A_END = 50;
 const B_START = A_END;
 const B_FRAMES = TA.frames; // 144
 export const ACT5_FRAMES = B_START + B_FRAMES;

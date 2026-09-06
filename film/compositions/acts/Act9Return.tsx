@@ -33,7 +33,7 @@ export const CUTS9 = SHOTS9.reduce<number[]>((acc, s) => [...acc, (acc[acc.lengt
 const RISE_AT = CUTS9[3];
 const WASH = RISE_AT + 20; // the morning takes the set
 const PROOF = WASH + 16;
-export const ACT9_FRAMES = PROOF + 116;
+export const ACT9_FRAMES = PROOF + 98;
 
 /** Where the store's base line finished, in page pixels. Act XII keeps the rule there. */
 export function residueY() {
@@ -52,7 +52,7 @@ export const Act9Return = () => {
 
   const numeral = ramp(frame, PROOF + 6, 14, OUT);
   const said = ramp(frame, PROOF + 26, 14, OUT);
-  const split = ramp(frame, PROOF + 62, 16, OUT);
+  const split = ramp(frame, PROOF + 54, 16, OUT);
 
   return (
     <AbsoluteFill style={{ background: COLOR.marineDeep }}>

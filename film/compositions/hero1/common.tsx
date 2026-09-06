@@ -13,7 +13,7 @@ import { Meta } from "../../review/Meta";
  * in how the page becomes the place.
  */
 export const LEFT = 96;
-export const PAGE_END_SEC = 4;
+export const PAGE_END_SEC = 3;
 
 /** The page laid out around where the 3 will land (A, B) or low, on a wide baseline (C). */
 export type PageLayout = "high" | "low";

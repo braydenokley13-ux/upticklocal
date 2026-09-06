@@ -26,7 +26,7 @@ const T = tracks as unknown as TrackData;
  * camera settles across the street, when it stands up as the mark.
  */
 const PAGE_END = sec(PAGE_END_SEC);
-const PLATE_FRAMES = T.frames;
+const PLATE_FRAMES = T.frames - 12; // the last twelve are settled and empty: the cut comes on the line, not after it
 const HOLD = (T.meta.hold as number) ?? 22;
 const LIFT_END = ((T.meta.tilt as number[]) ?? [22, 100])[1];
 const SETTLE = PAGE_END + LIFT_END - 12;

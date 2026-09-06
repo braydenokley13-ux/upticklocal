@@ -26,11 +26,11 @@ import { COLOR } from "../../tokens";
 
 /** the head of each plate we skip, how long each shot runs, and therefore where the cuts fall */
 export const SHOTS8 = [
-  { src: PLATES.approach, head: 4, len: 26 },
-  { src: PLATES.threshold, head: 2, len: 24 },
-  { src: PLATES.counter, head: 4, len: 24 },
+  { src: PLATES.approach, head: 4, len: 22 },
+  { src: PLATES.threshold, head: 2, len: 22 },
+  { src: PLATES.counter, head: 4, len: 22 },
   { src: PLATES.device, head: 6, len: 72 },
-  { src: PLATES.coffee, head: 0, len: 26 },
+  { src: PLATES.coffee, head: 0, len: 24 },
 ] as const;
 
 export const CUTS = SHOTS8.reduce<number[]>((acc, s) => [...acc, (acc[acc.length - 1] ?? 0) + s.len], [0]);

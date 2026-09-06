@@ -47,27 +47,27 @@ const PERSPECTIVE = 1400;
 // the beat grid at 76 bpm (18.95 frames a beat)
 const T = {
   history: 0,
-  question: 38,
-  silence: [50, 76] as const,
-  sheet: 76,
-  light: 88,
-  lift: 95,
-  land: 133,
-  sink: 137,
-  gone: 168,
-  line1: 172,
-  line2: 188,
-  end: 216,
+  question: 28,
+  silence: [40, 60] as const,
+  sheet: 60,
+  light: 72,
+  lift: 79,
+  land: 117,
+  sink: 121,
+  gone: 152,
+  line1: 156,
+  line2: 172,
+  end: 192,
 };
 
 /**
  * The departure, word by word. Each word's copy is handed the row over three
  * frames, drops clear of the plate, un-skews over eight, and lands in its
- * slot. The sentence is complete at 130; T.land stays the beat the answer is
+ * slot. The sentence is complete at 114; T.land stays the beat the answer is
  * settled on.
  */
-const SPAWN = [96, 100, 104] as const;
-const LANDF = [122, 126, 130] as const;
+const SPAWN = [80, 84, 88] as const;
+const LANDF = [106, 110, 114] as const;
 const HAND = 3;
 const DROP = 4;
 const UNSKEW = 8;
@@ -191,9 +191,9 @@ export const Hero4 = ({ thread = "text", historyAt = 0 }: { thread?: "text" | "o
   };
   const landed = (i: number) => frame >= LANDF[i];
 
-  const plate = ramp(frame, 116, 6, OUT); // the plane opens at full width and fades: it never wipes over the words
+  const plate = ramp(frame, 100, 6, OUT); // the plane opens at full width and fades: it never wipes over the words
   const provenance = ramp(frame, LANDF[2] + 1, 12, OUT);
-  const week = ramp(frame, 158, 14, OUT);
+  const week = ramp(frame, 142, 14, OUT);
   const line1 = ramp(frame, T.line1, 14, OUT);
   const line2 = ramp(frame, T.line2, 14, OUT);
 
@@ -363,3 +363,6 @@ export const Hero4 = ({ thread = "text", historyAt = 0 }: { thread?: "text" | "o
 
 /** The film's Hero 4: the café stranger's question, read from the Offer thread. */
 export const Hero4Offer = () => <Hero4 thread="offer" historyAt={-14} />;
+
+/** The act's length, so the timeline never has to know a number twice. */
+export const HERO4_FRAMES = T.end;

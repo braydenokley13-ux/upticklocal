@@ -34,21 +34,27 @@ const L2 = 620; // the day line
 const DAY0 = 6;
 const DAY1 = 16;
 
-// the beat grid at 76 bpm (18.95 frames a beat)
+// the beat grid at 76 bpm (18.95 frames a beat). The three acts overlap on
+// purpose: the day line begins drawing while Friday's own label is still
+// arriving, and the responders start above the line before the last visit has
+// landed on it. They are different heights in the frame, so they read at once,
+// and the reading assembles instead of being presented a beat at a time.
 const T = {
-  caret: 12,
-  type: 30,
-  reset: 104,
-  friday: 114,
-  mornings: 160,
-  slow: 210,
-  flood: 246,
-  context: 262,
-  assemble: 300,
-  plan: 322,
-  approve: 384,
-  end: 408,
+  caret: 6,
+  type: 16,
+  reset: 76,
+  friday: 82,
+  mornings: 116,
+  slow: 152,
+  flood: 182,
+  context: 204,
+  assemble: 236,
+  plan: 258,
+  approve: 304,
+  end: 326,
 };
+/** Frames per character while the sentence types. */
+const TYPE_RATE = 1.45;
 
 // last Friday's three visits, in hours
 const MORNING = [7.68, 8.92, 9.5];
@@ -96,9 +102,9 @@ export const Hero2 = () => {
 
   // --- typed --------------------------------------------------------------
   const pauses: Record<number, number> = { 6: 6, 15: 5 };
-  const chars = typed(frame, T.type, sentence.length, 1.7, pauses);
+  const chars = typed(frame, T.type, sentence.length, TYPE_RATE, pauses);
   const done = chars >= sentence.length;
-  const doneAt = T.type + Math.round(sentence.length * 1.7) + 11;
+  const doneAt = T.type + Math.round(sentence.length * TYPE_RATE) + 11;
   const caretOn = frame < T.type ? Math.floor((frame - T.caret) / 11) % 2 === 0 : frame < T.reset;
   const caretMint = done ? ramp(frame, doneAt, 5, OUT) : 0;
   const origins: number[] = [];
@@ -149,18 +155,18 @@ export const Hero2 = () => {
   const rowTop = (key: keyof typeof PLAN_ROWS) => PLAN_Y + PLAN_ROWS[key] + 14;
   // two of the four sentence words hand over: Friday walks into row 1, mornings
   // flies to the title's first-word slot and becomes the Morning of the title.
-  const travel = ramp(frame, T.assemble + 4, 30, PLANE); // Friday + the two uprights, 304→334
-  const resolve = ramp(frame, T.assemble + 34, 4, PLANE); // row 1 completes around the word, 334→338
-  const morn = ramp(frame, T.assemble + 10, 24, PLANE); // mornings → Morning, 310→334
-  const slowOut = 1 - ramp(frame, T.assemble + 12, 10, IN); // slow holds past the flood, 312→322
-  const rowsIn = (k: number) => ramp(frame, T.plan + 14 + k * 6, 12, OUT); // offer 336, fuel 342, audience 348
+  const travel = ramp(frame, T.assemble + 4, 30, PLANE); // Friday + the two uprights, 240→270
+  const resolve = ramp(frame, T.assemble + 34, 4, PLANE); // row 1 completes around the word, 270→274
+  const morn = ramp(frame, T.assemble + 10, 24, PLANE); // mornings → Morning, 246→270
+  const slowOut = 1 - ramp(frame, T.assemble + 12, 10, IN); // slow holds past the flood, 248→258
+  const rowsIn = (k: number) => ramp(frame, T.plan + 14 + k * 6, 12, OUT); // offer 272, fuel 278, audience 284
   const approveIn = ramp(frame, T.approve, 12, OUT);
-  const ruleIn = ramp(frame, T.approve + 4, 12, OUT); // Joe's rule is fully in by 400
+  const ruleIn = ramp(frame, T.approve + 4, 12, OUT); // Joe's rule is fully in by 320
   // the money: it leaves the reading with everything else, pins itself on the
   // limit row's baseline with its right edge at the row's end, and counts ×30 there
-  const moneyTravel = ramp(frame, T.assemble + 4, 34, PLANE); // 304→338
-  const count = ramp(frame, T.plan + 18, 22, PLANE); // 340→362
-  const limitIn = ramp(frame, T.plan + 30, 12, OUT); // "First 30 · max reward exposure" fades in at 352
+  const moneyTravel = ramp(frame, T.assemble + 4, 34, PLANE); // 240→274
+  const count = ramp(frame, T.plan + 18, 22, PLANE); // 276→298
+  const limitIn = ramp(frame, T.plan + 30, 12, OUT); // "First 30 · max reward exposure" fades in at 288
   const steps = Math.max(1, Math.min(ECONOMICS.limit, Math.ceil(count * ECONOMICS.limit)));
   const money = `$${(ECONOMICS.coffeeCost * steps).toFixed(2)}`;
   const moneyRight = 1920 - (PLAN_X + rowW[3]);
