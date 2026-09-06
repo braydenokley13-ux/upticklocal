@@ -159,7 +159,9 @@ export function PhonePass({ press = 0, redeemed = 0, tick = 0, clockFrames = 0 }
       </div>
       <div style={{ position: "absolute", left: PAD, right: PAD, top: 296, fontSize: 82, fontWeight: 500, letterSpacing: "-0.035em", lineHeight: 1.0 }}>{PASS.title}</div>
       <div style={{ position: "absolute", left: PAD, right: PAD, top: 424, fontSize: 34, fontWeight: 400, lineHeight: 1.32, color: COLOR.inkSoft, opacity: 1 - yield_ }}>{PASS.instruction}</div>
-      <Rows reveal={1} opacity={1 - yield_} />
+      {/* the terms stay: they are what was redeemed, and they keep the card whole
+          instead of leaving a hole between the headline and the state */}
+      <Rows reveal={1} opacity={1 - 0.55 * yield_} />
 
       {/* the one object: the action becomes the state, in place */}
       <div style={{ position: "absolute", left: PAD, right: PAD, top, height: h, background: COLOR.ink, color: COLOR.canvas, borderRadius: 6, transform: `scale(${1 - 0.03 * press})`, overflow: "hidden" }}>
@@ -187,11 +189,6 @@ export function PhonePass({ press = 0, redeemed = 0, tick = 0, clockFrames = 0 }
         </div>
       </div>
 
-      <div style={{ position: "absolute", left: PAD, right: PAD, top: BLOCK.done.top + BLOCK.done.h + 44, opacity: detail }}>
-        <Mono color={COLOR.inkFaint} size={21}>
-          {PASS.live}
-        </Mono>
-      </div>
       <div style={{ position: "absolute", left: PAD, right: PAD, top: BLOCK.rest.top + BLOCK.rest.h + 40, fontSize: 28, color: COLOR.inkSoft, opacity: 1 - Math.min(1, yield_ * 1.6) }}>{PASS.window}</div>
     </div>
   );

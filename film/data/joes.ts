@@ -151,20 +151,17 @@ export const CONVERSE = {
  */
 export const PASS = {
   id: "JF·0417",
-  title: "Free large coffee",
+  /** The pass is the offer, saved — so it says what the offer said. */
+  title: OFFER.headline,
   instruction: "Show this at the counter, then tap Redeem now.",
   merchant: BUSINESS.name,
   window: "Friday · 7–10 AM · one per customer",
   redeemNow: "Redeem now",
-  confirm: "Confirm — this can't be undone",
-  confirmYes: "Redeem",
-  confirmNo: "Not yet",
   /** The live state's clock starts here and runs in real seconds. */
   redeemedAt: "Fri · 7:42 AM",
   redeemedClock: { h: 7, m: 42, s: 8 },
   redeemedLine: "Redeemed.",
   redeemedDetail: "One large coffee · Pump 3 · regular",
-  live: "Live · this screen updates every second",
   ordinal: "1 of 30",
 } as const;
 
