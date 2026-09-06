@@ -57,5 +57,19 @@
     ],
     "renderedAt": "2026-09-06 16:10",
     "bytes": 999593
+  },
+  "Hero5": {
+    "video": "/film-rd/renders/Hero5.mp4",
+    "contact": "/film-rd/renders/Hero5-contact.png",
+    "stills": [
+      "/film-rd/renders/stills/Hero5-0009.png",
+      "/film-rd/renders/stills/Hero5-0055.png",
+      "/film-rd/renders/stills/Hero5-0105.png",
+      "/film-rd/renders/stills/Hero5-0155.png",
+      "/film-rd/renders/stills/Hero5-0201.png",
+      "/film-rd/renders/stills/Hero5-0226.png"
+    ],
+    "renderedAt": "2026-09-06 16:58",
+    "bytes": 988126
   }
 }

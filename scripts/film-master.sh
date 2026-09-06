@@ -7,7 +7,7 @@
 #   public/film-rd/final/uptick-growth-1080p.mp4          H.264 CRF 20, faststart, web                     (B)
 #   public/film-rd/final/uptick-growth-1080p.webm         VP9 CRF 31, web                                  (B)
 #   public/film-rd/final/uptick-growth-poster.jpg         the poster frame                                 (B, D)
-#   public/film-rd/final/uptick-growth-loop.mp4           the silent 8 s loop                              (C)
+#   public/film-rd/final/uptick-growth-loop.mp4           the silent 10 s loop                              (C)
 #   public/film-rd/final/contact/                         one frame every 2 s, nine to a sheet             (F)
 #
 # 4K: the project renders at 3840×2160 with `--scale=2` (SCALE=2 scripts/film-master.sh master); the Blender

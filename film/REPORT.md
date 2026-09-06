@@ -1,121 +1,96 @@
-# Uptick Growth · Film R&D report
+# Uptick Growth · final film report
 
-_Branch `film/uptick-growth-rd`. Five hero-shot prototypes as quality gates for the film. Nothing here touches production routes._
+_Branch `film/uptick-growth-rd`. Nothing here touches production routes. The film, its deliverables, the source, the critics' record, and what is still weak. The R&D report this replaces is in the branch history (`git log -- film/REPORT.md`)._
 
-## What was built
+## The film
 
-- **A film R&D lab** at `/film-rd`: the five shots on Remotion's Player with a frame-accurate transport (play/pause, scrub, frame stepping, keyboard), a 16:9 stage, and the render ledger (MP4, stills, contact sheet) per shot.
-- **Five Remotion compositions** (`film/compositions/Hero1…5.tsx`), 1920×1080 at 24 fps, each independently previewable in Remotion Studio (`npm run film:dev`) and renderable (`npm run film:render`).
-- **The Uptick Block in Blender** (`blender/scripts/block.py`, `shots.py`, `render.py`): one authored neighbourhood — Gym · Pharmacy · Joe's Fuel & Go · Café · Barber · Restaurant on the far side of Main St, a low near row, cross streets, masses beyond — with real interiors, counter screens, a fuel canopy and pumps, sidewalks with curbs, cars, lamps, trees, and four lighting states (dawn, morning, dusk, night). People are amber capsules that walk sidewalks, pause and cross thresholds. Four plate shots render image sequences and export per-frame 2D tracks so the Direction 1 layers sit on physical things.
-- **One fixture** (`film/data/joes.ts`) feeding every shot, with the corrections built in: 21 through the door = 14 returned + 7 new; 104 relationships with overlapping signals (63 morning responders, 41 lapsed); nearby-screen acquisition Friday morning inside the 7–10 window; $0.62 × 30 = $18.60. The file throws if it ever disagrees with itself.
-- **Shared primitives** (`film/primitives/`): Frame, type voices (Numeral, Line, Mono, Voice, Words, Rule), GrowthPlanCard (one plan, per-row reveal, press/fill), OfferSlab and PassSlab (message · offer · pass as one slab), ScreenContent (what a counter unit shows; also rendered to PNG as the Blender screen texture so the physical panel and the DOM object are the same picture), plate/track helpers and a homography for sitting DOM objects on tracked surfaces.
-- **Pipeline scripts**: plate render/encode (resumable), preview render, stills + contact sheets, the lab manifest; `scripts/film-review.py` (frames and 2×2 review sheets from any preview, the critic's input) and `blender/scripts/lookdev.py` (a 20-second still of the Block from any camera and state, the way materials, light and camera were iterated before each hour-long plate). The critic's brief and every punch list live in `film/review/`.
+**Uptick Growth** · 2148 frames at 24 fps · 89.5 s · 1920×1080 · twelve acts on one timeline (`film/compositions/Film.tsx`). No narration. One family for the film's voice (Geist), one serif for the customer's voice (Newsreader italic), mono for facts. Cream and marine as pages, ink as type, amber for people, mint for eight events.
 
-## Tools actually available
+| act | frames | s | what happens |
+| --- | --- | --- | --- |
+| I · The gap | 0–252 | 0–10.5 | `3` and one sentence on cream. The page is a photograph of the sidewalk in front of Joe's; the cream lifts off the concrete, the hairline is the curb, the camera cranes back across Main St; the printed 3 stays on the pavement, takes paint weight, and stands as the mark. "Same street. Same morning." |
+| II–IV · Owner speaks · understands · one plan | 252–660 | 10.5–27.5 | Joe types "Friday mornings are slow" at 96 px, no input chrome. The three words become instruments: six Fridays, an honest 06:00–16:00 axis, 3 visits below it, 63 morning responders above it. The plan assembles from the instruments into one statement block: Morning Coffee Drop · 7–10 AM · $25+ fill-up, coffee on us · regular, premium, diesel · 104 relationships · first 30, $18.60. Approve, in plain ink. |
+| V · Thought becomes action | 660–860 | 27.5–35.8 | One tap. The plan becomes a line under the header; the line takes Joe's frontage on the block at dusk; five windows light where Joe already has a way in; two screens arm. The ledger: 5 homes · 2 screens · 0 new accounts. |
+| VI · Two ways in | 860–1242 | 35.8–51.75 | Thursday 6:48 PM: a text for someone who said yes; opened, it becomes the Offer. Friday 7:04 AM at the café two doors down: Joe's offer arrives on the counter screen, a stranger notices, scans; the screen's content lifts off the glass and becomes the same Offer. Rows, permission, Yes. The Offer folds to the head of a thread. |
+| VII · The relationship is useful | 1242–1458 | 51.75–60.75 | "Does diesel count?" 900 ms of nothing. The approved plan surfaces; its fuel row lights; regular · premium · diesel leave the row and land as the answer, the row left reading `Fuel: ————`. "This week: 38 handled · 2 needed Joe", with the provenance. |
+| VIII · Offer → Pass → Redeem now | 1458–1686 | 60.75–70.25 | The plane unfolds to the slab; Save my pass; the slab becomes the Pass. 7:41 at the counter: staff see it; Redeem now; one confirmation that can't be undone; the ink block travels up the pass and becomes the live redeemed state: JOE'S · 07:41:06 running · "Regular, pump 4". Mint marks the moment and nothing else. |
+| IX–XI · Physical · the build · the proof | 1686–2016 | 70.25–84 | The pass goes into a pocket; the forecourt from the near curb; five customers cross the threshold as the light advances 07:42 → 09:50; 1 · 4 · 9 · 14 · 21 steps on the door, never on a counter. The page returns with the door's warmth on it: "21 came through the door." then "14 returned. 7 were new." |
+| XII · Resolve | 2016–2148 | 84–89.5 | The proof leaves. Uptick Growth. "Tell Uptick what you want more of." |
 
-| Tool | Status |
-| --- | --- |
-| Blender | Not installed at start. `apt` provides Blender 4.0.2 (runs headless, but without OpenImageDenoise and without EEVEE: no GPU/EGL). The `bpy` 5.0.1 pip wheel installs and runs Cycles on CPU **with** OIDN denoising; used for everything. 4 cores, no GPU. |
-| Remotion | 4.0.521 with the Player in the Next app. Chromium from Playwright's headless shell. |
-| ffmpeg | Remotion's bundled ffmpeg (its `select` filter syntax is limited; seeking with `-ss` works). |
-| Fonts | Geist, Geist Mono, Newsreader as OFL files from `@fontsource`, committed under `public/film-rd/fonts` with licences; Geist converted to TTF for Blender signage. |
+"38 handled · 2 needed Joe" sits with the provenance in Act VII and never after the 21.
 
-**Blender was used**, for the Block: all four plates are Cycles renders of the procedural world. R&D plates are 960×540 / 24 samples / OIDN (≈18–25 s per frame on this CPU; 696 frames total). The compositions upscale them 2×, which is visible as softness on the block plates in these previews. The same scripts render 1920×1080 at higher samples for the finished film (`RES=1920x1080 SAMPLES=96 npm run film:plates`), roughly 8–10× the render time.
+## Deliverables
 
-## Where the renders live
+All under `public/film-rd/final/` from one command, `scripts/film-master.sh` (steps `master web poster teaser sheet`; `SCALE=2` renders the project at 3840×2160).
 
-| Output | Path |
-| --- | --- |
-| Hero previews (MP4, h264 crf 18) | `public/film-rd/renders/Hero{1..5}.mp4` |
-| Stills | `public/film-rd/renders/stills/Hero{n}-{frame}.png` |
-| Contact sheets | `public/film-rd/renders/Hero{n}-contact.png` |
-| Block plates (MP4) | `public/film-rd/plates/{hero1,hero3a,hero3b,hero5}.mp4` |
-| Plate frame sequences | `public/film-rd/plates/seq/` (git-ignored; rebuilt by `npm run film:plates`) |
-| Tracks | `blender/exports/*.json` |
-| Screen textures | `blender/assets/screens/*.png` |
-
-## Hero shots
-
-### Hero 1 · `3` → the physical block
-
-The first pass (a cream page fading to a high beige archviz plate with a shrinking 3) was rejected by the critic at 3/10 and by the client: a Blender test, an ordinary transition, a camera too high and safe, no human energy. Everything below is the second push.
-
-**The world, passes 2–4.** Colour separation across the six buildings (brick café, pale render, tan, stone, green-grey, charcoal) instead of six greys; people as architect's scale figures (slim capsule, neck, head) in matte amber, lit by the morning rather than glowing; Joe's canopy as a painted fascia with a brand stripe and a drip edge instead of a blown-out light band; two-tone pumps with the stripe; a real price sign (dark panel, two lit lines); dawn a stop darker with the sun at 0.62 against a real sky fill and dust in the air for a warm horizon; the neighbours' interiors warmer; the back row with parapet caps, string courses, sills and a stagger; satin cars with dark solid cabins; and the settle camera brought down from 10.5 m to 5.2 m across the street at 29 mm, Joe's centre-left and the café alive on the right. Rejected on the way: capsule people at 6× emission (candles), a white price panel, the whole street in one beige.
-
-**Three materially different transitions**, each on the same 4 s page and the same settle:
-
-| Variant | The idea | Camera |
+| | file | what |
 | --- | --- | --- |
-| A · the page is the pavement | The page is a photograph of the sidewalk in front of Joe's, straight down, blown to paper. At the cut nothing moves: the cream lifts off and the concrete is already under the number; the hairline is the curb; the dark band under it is the road. The page layer is projected onto the ground with a homography from four tracked footprint corners, so the printed 3 stays on the pavement, foreshortening as the camera lifts, and stands up as the mark at the settle. | Hold straight down (22 f) → lift and crane back across the street (78 f) → settle and drift. |
-| B · the descent | The page is a plan of the block from 70 m, paper-white; the 3 stamps onto Joe's lot; a crane-down settles into the street. | 70 m plan → descent to the settle. |
-| C · the page tilts in | The page itself, as a plane, tilts into the street's ground plane over Joe's lot and dissolves; the 3 lands as a mark. | A slow push only. |
+| A | `uptick-growth-master-1080p.mp4` | the master: H.264 CRF 15 from PNG frames, 24 fps, the mix lifted once to −1 dBTP |
+| B | `uptick-growth-1080p.mp4` · `uptick-growth-1080p.webm` · `uptick-growth-poster.jpg` | web H.264 (CRF 20, faststart, AAC 160k) and VP9/Opus, with the poster |
+| C | `uptick-growth-loop.mp4` | the silent 10 s loop: the 3 becoming the sidewalk, cut to loop (`film/compositions/Teaser.tsx`) |
+| D | `uptick-growth-poster.png` | the poster frame (Film frame 236: the settle, the painted 3 beside "JOE'S · 07:00–10:00") |
+| E | `film/`, `blender/`, `scripts/`, `public/film-rd/{plates,audio,fonts}` | organised source: compositions, acts, primitives, the fixture, the Blender world and shots, the sound, the pipeline |
+| F | `contact/` | the final contact sheet: one frame every two seconds, nine to a sheet |
+| G | this file · `film/HANDOFF.md` · `film/review/` | the report, the website/app handoff, the critics' record |
 
-**Verdict on C (rejected).** 5/10 from the critic, and mine agrees. The tilting page is the cleanest literal "number becomes place" device of the three, and that is worth keeping as a primitive. But the street is fully visible behind the plane before the transformation finishes, so there is no reveal left to have; the camera barely moves, which fails the film's camera rule and gives the boxes and pumps nowhere to hide; and a translucent card laying into a scene reads as a card flip, which the client's list rejects. Kept: the plane-into-ground homography, now used properly in A.
+**Resolution.** The master is 1920×1080. The Blender plates render at 1280×720 (24 samples, OIDN, motion blur) on four CPU cores at 45–50 s a frame, 684 plate frames in all; at 3840×2160 the plates would be a 3× upscale under vector typography, which is not a 4K film, so the honest master is 1080p and the project renders 4K with `SCALE=2` when the plates are re-rendered on a GPU box (`RES=2560x1440 SAMPLES=64 scripts/film-render-plates.sh`, roughly 8× this machine's time per frame).
 
-**Verdict on B (rejected).** 5.5/10 from the critic. The plan emerging under the number and the 3 stamping onto Joe's lot as a locator are clean, confident beats, and the stamp is worth stealing. But a 70 m straight-down opening that cranes into the street is structurally the drone establishing shot the client's list rejects; the rooftop phase is topographic rather than atmospheric, so "the street is alive" only lands in the last second; and the descent covers a huge scale change in too few frames, reading as a fly-through path rather than a controlled descent. Kept: the stamp, now in A's settle.
+## Gate history
 
-**Verdict on A (chosen).** 6/10 then 7/10 from the critic across two rounds, against 3/10 for the first pass. The cut is invisible: the cream lifts and the concrete is already under the number, the hairline is the curb, the dark band is the road. The camera performs the brief's journey (still frame → lift → reveal → settle) as one real move, and the printed 3 on the pavement is the film's first physical image. What the critic still saw, and what the third pass answers: the forecourt moment mid-lift exposed the CG (now an oblique path over a longer lift, with a speed blur at the crane's fastest moment, on the pass-4 world); the thin printed 3 foreshortened into a scrawl (it now takes paint weight as the camera lifts, the same glyph); the back row read as boxes (pass 4); the mark and caption needed more presence at the settle (larger, with a stamp overshoot and a paper halo).
+Every hero shot went through a critic who had not built it (`film/review/CRITIC.md`; the punch lists are the record). The stricter scale applied from the production mandate on: 6 prototype · 7 decent startup film · 8 professional but not special · 9 the minimum for a final · 9.5+ signature.
 
-**A, third pass: 7/10 from the critic, and it passes the gate.** The verdict in their words: materially more cinematic, physical and legible than the 3/10 pass, no contest; the wide street and canopy frames clear the low-poly and previs bar; the storm drain landing on the hairline the instant cream becomes concrete is "the single cleanest number-becomes-place moment in the piece"; the printed 3 now has real weight and reads as pavement signage; and the address on the page becoming the street's dateline does real work for "same street, same morning." Ready as the template for the other four shots' world and transition language.
+| shot | rounds | scores | what the rounds changed |
+| --- | --- | --- | --- |
+| Hero 1 · the gap | 6 | 3 → 6 / 5 (A vs C) → 7 / 5.5 (A vs B) → 7 → 6 (stricter scale) → 6.5 gate, approved with conditions | B (the 70 m descent) and C (the tilting page) rejected as the drone cliché and a card flip; A kept. The cut made invisible (the cream leaves on one frame under the plate's exposure ramp); the printed 3 never shrinks, it takes paint weight and stays as the mark; the crane keeps the 3 inside the frame; the world rebuilt through six passes (below) |
+| Hero 2 · owner speaks | 3 | 6 → 8 → 8.5 | The flood made honest (63 morning responders, none after 11:00) on one axis that shares the weeks line's origin; the plan assembles from the instruments instead of cutting in; row rules and the Approve underline gone; money in ink; the plan block at the instruments' origin with one leading; "mornings" becomes the plan's "Morning" |
+| Hero 4 · does diesel count | 3 | 5 → 8 → 8.5 | Chat bubbles, the typing indicator and the stray timestamp gone; paper planes; the approved plan legible in real depth; the three words leave the fuel row at its own scale and land inside the answer, the row left emptied; the question yields to the answer |
+| Acts V, VI, IX · the block | on plates | verified against the R&D plates, then the finals | Act V: the delivered line takes Joe's frontage and persists; Joe's lights when the line lands; the ledger at reading size. Act VI: the café screen's quad tracked so the content lifts by homography; the queue walker turns on the notice frame. Act IX: the thresholds on tracked door frames; the count steps on the tap |
+| Act VIII · redemption | redesigned | — | Replaced the earlier PIN/scan grammar with one transforming object: Redeem now → Confirm — this can't be undone → the ink block travels up the pass and becomes the live state (merchant, running clock, one detail only now could produce). No mint field |
+| The full cut | 1 | see below | fifteen categories, `film/review/FULLCUT.md` |
 
-What the gate review still wanted, and what was done with it: the macro pavement read as polished lobby floor rather than sidewalk (broad stains and an aggregate speckle are now in the concrete, in the 1280×720 render); the crane's fastest half-second dropped the printed 3 to the frame edge (the mid key now looks further down and the mark stays inside the frame, peak 844 px of 1080, in the 1280×720 render); nothing in the world itself said "Joe's" at R&D resolution (the canopy name is larger and the price sign carries a name plate); the café queue was evenly spaced (now uneven, one turned); the closing line was suspected of pulsing (it is one monotonic fade, verified in the code).
+## The Block
 
-| Hero 1 A | Score | What works | What bothers | Keep? |
-| --- | --- | --- | --- | --- |
-| The page is the pavement | 7/10 (critic), 7/10 (lead) | An invisible cut; the hairline is the curb with a drain on it; one continuous crane from the pavement to the street; the printed 3 as paint; the settle with the café alive and Joe's quiet | The concrete and the mid-lift are still the clean-CG moments; the sky is a gradient; the figures are pins from above; it is R&D resolution | Yes, as the film's opening and as the template |
+One procedural neighbourhood (`blender/scripts/block.py`) built deterministically from constants, keyed per shot (`shots.py`), rendered with Cycles on CPU with OpenImageDenoise (`render.py`, resumable image sequences, per-frame 2D tracks exported beside every plate so the editorial layer sits on physical things: `blender/exports/<shot>.json`).
 
-## Recommendation
+Six world passes. Pass 6, applied before the final plates: brick with world-space coursing; facades as plates with real openings, piers, sills and lintels; cornices that throw a shadow line; cast sidewalk slabs with joints, a patched slab and gullies; figures with height and yaw variety, a lean, and contact shadows from the sun; a three-box sedan; a 2.3 m price panel and the canopy name on the fascia; renderer motion blur (shutter 0.5). Four lighting states; the dusk state gives the street lamps real wattage and Joe's its lights the moment the plan lands.
 
-Hero 1 A is the opening. Carry three things into every other shot: the world at pass 4 with the dawn state and the street-height settle camera; the rule that the editorial layer is printed onto a tracked physical surface (a homography from four tracked corners) rather than dissolved over it; and the settle grammar (ink marks and captions on lit pavement, the line on the road, the dateline top-left). Rejected variants B and C stay in the lab as evidence, with B's stamp and C's plane-into-ground kept as primitives. Before assembling the film, render the surviving plates at 1920×1080 and give the concrete, the sky and the figures one more look-dev pass at that resolution.
+Four plates in the film: `hero1a` (Act I, 156 f), `hero3a` (Act V, 144 f), `hero3b` (Act VI, 168 f), `hero5` (Act IX, 216 f). Every camera is authored: a straight-down hold that lifts on an oblique path and cranes to a street-height settle at 29 mm (I); an upper window across the street with a slow drift (V); an eye-height dolly from the street through the café door to the counter screen (VI); the forecourt from the near curb at 4.6 m, 35 mm, as the light advances (IX).
 
-### Hero 2 · Friday mornings are slow → understanding → plan
+Leftovers the pass-6 world still carries: cornice overruns at two corners, the near row's back faces, level-of-detail beyond the second row, blinds, forecourt joints under the islands, the slab field's extent. None reads at the film's cameras; all are listed in `blender/scripts/block.py`.
 
-Pure typographic motion on the paper, 17 s, no Block. Two critic rounds (`film/review/hero2-punchlist.md`): 6/10 → 8/10. The first round found one disqualifying thing on a product whose pitch is honest reading: the amber flood above the day line peaked in the afternoon while the caption said mornings. The flood is now exactly the 63 people who tend to answer in the morning, placed where they answer, none after 11:00; below the line, last Friday's three visits; the afternoon is left honestly empty on a 06:00–16:00 axis that shares its origin with the weeks line. The plan no longer cuts in: Friday walks from its baseline into the first row, the two mint uprights leave the day line and bracket 7–10 AM and stay, $0.62 steps × 30 into "First 30 · max reward exposure $18.60". No row rules, Approve at the rows' weight, Joe's rule in amber on its own line, money in ink, amber for people only, and the film's only arrow is gone from the fixture.
+## Typography
 
-| Hero 2 | Score | What works | What bothers | Keep? |
-| --- | --- | --- | --- | --- |
-| The sentence is the interface | 8/10 (critic, round 2) | The typing beat; the weeks line; the honest axis with three below and 63 above; $0.62 → × 30 → $18.60 | The held tail is one column and could still tip toward a slide; the reading beat carries the whole shot | Yes |
+Geist Sans 200/300/400, Geist Mono 400/500, Newsreader italic; all SIL OFL 1.1, the files and licences committed under `public/film-rd/fonts/`. The A/B against Bricolage Grotesque and Hanken Grotesk at the film's four sizes (`film/review/typography.md`) kept Geist: the 640 px weight-200 numeral holds its bowls where the others go idiosyncratic or soft, and the film's argument wants the voice to be quiet. Weight 200 only above 96 px. The serif is the customer's voice and nothing else. Mono is for the header's facts, never for labels. Text is measured with the tracking it is set in (`film/typography/measure.ts`), so uprights and counters sit on the letters.
 
-### Hero 4 · Does diesel count? → provenance → answer
+## Sound
 
-On the marine field, 9 s, no Block. Two critic rounds (`film/review/hero4-punchlist.md`): 5/10 → 8/10. The first pass read as a chat transcript with a ghost screenshot behind it; the second pass replaced bubbles with paper planes (no radius, no shadow, cream against cooler paper with the mint edge), deleted the typing indicator and the stray timestamp, gave the approved plan a legible header in real depth to the upper right, and made the three words visibly leave the plan's fuel line at its own size on long mint trails before landing inside the answer, which has already opened for them. The critic's verdict on round two: grounded is proven by one image, the plan's fuel row left reading `Fuel: ————` with a mint rule where the words were.
+Built into the edit (`film/audio/cues.ts` → `film/compositions/Sound.tsx`), every cue at a frame the picture motivates. The material is synthesised from noise and sinusoids by `film/audio/synth.py` (deterministic, no recordings, no third-party audio), rendered to `public/film-rd/audio/*.ogg`; the cue sheet with measured levels is `film/audio/CUES.md`; the intent is `film/audio/NOTES.md`.
 
-| Hero 4 | Score | What works | What bothers | Keep? |
-| --- | --- | --- | --- | --- |
-| The answer comes from the plan | 8/10 (critic, round 2) | The emptied fuel row; the serif question; the landing as one sentence; the silence and the lamp | The tail stacks in one column; the sheet's body copy is evidence and must stay readable at every blur | Yes |
+Room tone under the page; the street at 7:12 as the cream lifts; the keystrokes at the typing's own cadence with a cleaner click on the last key; three rising ticks as the words re-set; a dry grain as the 63 land; one soft resolve as the plan lands and nothing when Approve appears; one press; a held mint pad as the signal enters the block, a wooden tap per window; the café's grinder stopping; the scan; paper unfolds; the send, then 900 ms of nothing; the row landing as the clearest small sound in the film; the redeem note alone; the same tap on every threshold, never louder; the street falling away under the 21; silence for the resolve. Under it a score in D at 76 bpm cut to the act boundaries (`music-bed`), dipping under the question and resolving at the 21. The master is lifted once to −1 dBTP (`scripts/film-peak.py`); the film is also cut to work muted.
 
-Both shots share the paper/marine registers the film alternates through, so the cut order in assembly must keep a Block shot between them.
+## Pipeline
 
-### Hero 3 and Hero 5 · prepared, not rendered
+Blender owns the physical world; Remotion owns the timeline, the typography, the compositing and the final render. Nothing is screen-recorded.
 
-Camera and architecture only, pending Hero 1's hi-res review; no plates rendered on the pass-4 world.
+```
+python3 film/audio/synth.py                                  # the sound material (WAV, git-ignored) → scripts/film-audio-encode.sh → .ogg
+RES=1280x720 SAMPLES=24 scripts/film-render-plates.sh hero3a hero1a hero3b hero5   # the plates and their tracks (resumable)
+npm run film:dev                                             # Remotion Studio on film/index.ts
+scripts/film-render.sh Hero1 Hero2 …                         # previews, stills, contact sheets per shot
+scripts/film-review.py Film --every 48 --per-sheet 9         # the critic's sheets from any preview
+scripts/film-master.sh                                       # master · web · poster · loop · contact sheet
+```
 
-- **Hero 3 A (press → the block at dusk).** The camera is re-keyed from the old 25 m crane to the settle's grammar: an upper window across the street (9.5 m, 20 mm, a slow drift), so the homes the texts land in are windows in a wall, not roofs on a map. The five homes are chosen inside that frame (café ×3, pharmacy ×2), the two screens arm at their plaques, and every tracked point (homes, plaques, doors, pumps, Joe's lot) is verified inside the frame from the exported tracks. Interaction: the plan card presses in the app layer; the press becomes a mint signal that branches from Joe's lot to the homes (amber windows lighting on the threshold frames) and to the two plaques; the reach ledger counts.
-- **Hero 3 B/C (the café).** Eye-height dolly from the street through the door to the counter screen (unchanged); the screen quad is tracked so the offer lifts off the physical panel into the OfferSlab by homography. The person in the queue turns to the screen on the notice frame.
-- **Hero 5 (return → 21).** The forecourt from the near curb at 4.6 m, 35 mm, the store door open all morning; five customers cross the threshold on tracked frames (30, 66, 100, 130, 156) as the light advances from 07:42 to 09:50. Interaction: the pass sweeps, a mint point drops to the door, the count steps on each threshold, the page returns with amber residue, 21.
-- **Tracks** for all three are exported against the pass-4 world; the compositions typecheck against them. A block-level fix landed on the way (pump tracks were one per island, not one per pump).
+## The full-cut review
 
-## Block status
+_Filled from the critic's pass on the assembled film (`film/review/fullcut-review.md`)._
 
-One procedural neighbourhood in `blender/scripts/block.py`, built from constants (road half-width 4.5 m, 3.7 m sidewalks, 0.13 m curbs, six lots on the far side, a parking lot and a low row on the near side, a staggered second row behind, masses beyond the cross streets). Every shot builds it fresh, deterministically, in about half a second, then keys a camera, a lighting state and the people. Four lighting states (dawn, morning, dusk, night); Hero 1 uses dawn. What is in it after pass 4: the far row with distinct materials (brick, pale render, tan, stone, green-grey, charcoal), coursing and dirt gradients, stall risers, transoms, mullions, recessed doors, awnings, planters, bistro tables, an A-board, plaques, upper windows with reveals and sills and a deterministic scatter of lit cards, parapets, roof gravel, HVAC, vents, skylights, downpipes; Joe's with a forecourt, two pump islands (two-tone pumps with the brand stripe, hoses, boots, screens), a canopy with a painted fascia, stripe and drip edge, lit soffit panels, a store with a double door, an entrance light, a coffee station, gondolas and a cooler, a security light, bollards, wheel stops, stain patches, a price sign with lit lines; sidewalks with score lines, gutters, drains, manholes, a crosswalk, lane markings; lamps, a bench, a bike rack, a bin, trees; satin cars with solid cabins; and scale figures (capsule, neck, head) in matte amber that walk paths, pause, cross thresholds and go inside, with threshold events exported alongside per-frame 2D tracks so composited objects sit on physical things.
+«FULLCUT-TABLE»
 
-What it is not: it is not photoreal and is not meant to be. It is an abstract-physical world with real light. Its limits at R&D quality (960×540, 24 samples, denoised, 4 CPU cores at ~20 s a frame): softness when upscaled 2×, some denoiser smear on the figures' edges, no motion blur from the renderer (a composite speed blur stands in), and a sky that is a clean gradient with aerosol haze rather than weather.
+## Remaining weaknesses
 
-## Known weaknesses
+«WEAKNESSES»
 
-- The Block reads as a set, not a street, in any frame that holds still on plain geometry for long; the shots that work keep the camera moving and the frame dressed (figures, cars, awnings, the brick corner).
-- Figures are legible as people at street height and as pins from above; the top-down phases of B expose this.
-- Plates are rendered once per variant; every world change costs a full re-render (about an hour a plate on this machine), which is why the world was iterated on stills first and the composite carries as much as it can (grain, the warm cut, the speed blur, the printed page).
-- Hero 3 and Hero 5 plates have not been re-rendered on the pass-4 world; their compositions exist but are unreviewed since the Hero 1 redirect.
+## What the site takes
 
-## Before full-film production
-
-- Render the surviving plates at 1920×1080 / 96 samples (roughly 8–10× the R&D time per frame); consider a GPU box, or a render farm, for the ~74 s film.
-- A real sky (clouds, or an HDRI) and renderer motion blur.
-- A second look-dev pass on Joe's store interior and the pumps at the mid-lift distance, where the camera is closest to geometry.
-- Sound design against the sound-intent notes in `film/audio/NOTES.md`.
-
-## Primitives reusable in `/growth` and `/growth/demo`
-
-`GrowthPlanCard` (one plan, per-row reveal, press and fill states), `OfferSlab` / `PassSlab`, `ScreenContent` (the counter unit's states), the type voices (`Numeral`, `Line`, `Mono`, `Voice`, `Words`, `Rule`), the motion grammar in `film/motion` (the plane bezier, ramps and windows at 76 bpm), the fixture in `film/data/joes.ts`, and the homography helpers for sitting DOM on tracked surfaces. None of them import anything from the app, so they can move into shared components without dragging Remotion along.
-
+`film/HANDOFF.md`: the grammar the film froze, the primitives to port (`OfferSlab`, `PassSlab`, `GrowthPlanCard`, `ScreenFaceContent`, `Touch`, the type voices, the fixture), the page mapping for `/growth`, `/growth/demo` and the owner app, and what not to port. Preparation only; nothing on the site changed.
