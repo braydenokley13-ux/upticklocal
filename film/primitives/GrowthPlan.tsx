@@ -26,7 +26,14 @@ export type PlanReveal = {
 
 export const PLAN_W = 820;
 export const PLAN_PAD = 56;
-export const PLAN_ROWS = { title: 0, window: 152, offer: 240, fuel: 328, audience: 404, limit: 492, approve: 600 } as const;
+/**
+ * One leading for the whole block: 112 px, baseline to baseline, for every
+ * row and for Approve (which carries no 14 px row margin, hence its 126 px
+ * offset); the title gets one and a half. Changing this changes Hero 2,
+ * PlanAtRest and Act V together, which is the only way the cut between them
+ * stays invisible.
+ */
+export const PLAN_ROWS = { title: 0, window: 92, offer: 204, fuel: 316, audience: 428, limit: 540, approve: 666 } as const;
 export const PLAN_H = 700;
 
 export const PLAN_LINES = {
