@@ -819,9 +819,15 @@ def shot_hero5c(W: B.World):
     y = B.ROAD_HALF + 1.9
     ppl.walk([(-30.0, y - 0.9), (30.0, y - 0.7)], -46, speed=1.3, start_hidden=False)
     dx, dy = door.x, door.y
-    nxt = [(14.0, y + 0.2), (8.0, 12.5), (dx, dy - 1.2), (dx + 0.9, dy + 1.9)]
-    before, last = path_frames(nxt, 1.3, {})
-    ppl.walk(nxt, int(round(112 - before - last * 0.55)), speed=1.3, into="joes", name="next", hide_after=False, start_hidden=False)
+    # the next customer comes in behind and turns along the front of the store. The storefront glass (y 19.82)
+    # reflects the room from this side, so anyone standing deeper in the store appears in the window behind
+    # the first customer; a path along the front keeps that reflection off the glass. The crossing of the door
+    # line (y = door.y) on the third leg is the threshold, at frame 112.
+    nxt = [(14.0, y + 0.2), (8.0, 12.5), (dx, dy - 1.2), (dx + 0.3, dy + 0.2), (dx - 2.6, dy + 0.5)]
+    legs = [max(1, round((Vector(nxt[i]) - Vector(nxt[i - 1])).length / 1.3 * FPS)) for i in range(1, len(nxt))]
+    cross = (dy - nxt[2][1]) / (nxt[3][1] - nxt[2][1])
+    ppl.walk(nxt, int(round(112 - legs[0] - legs[1] - legs[2] * cross)), speed=1.3, name="next", hide_after=False, start_hidden=False)
+    ppl.events.append({"frame": 112, "kind": "threshold", "who": "next", "lot": "joes"})
     names = ["phone", "phone_top", "counter", "coffee", "door_joes", "pump_00"]
     thresholds = sorted(e["frame"] for e in ppl.events)
     return {"frames": frames, "cam": cam, "people": ppl, "names": names, "meta": {"state": "morning", "clock": "07:42", "thresholds": thresholds}, "comp": {"mist": 0.08, "mist_start": 6, "mist_depth": 60}}
