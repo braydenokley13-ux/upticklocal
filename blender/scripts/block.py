@@ -36,6 +36,10 @@ STOREY = 3.25
 GROUND = 4.1  # shopfront storey, floor to top of fascia
 BLOCK_X0, BLOCK_X1 = -48.0, 48.0  # cross streets at the block ends
 CROSS_W = 12.0
+# the storm gullies: real holes in the road, with a shaft and a recessed grate in each
+GULLY_X = (-33.0, 3.2, 19.0, 44.0)
+GULLY_HW = 0.53
+GULLY_Y0, GULLY_Y1 = 3.82, 4.46
 
 
 # --------------------------------------------------------------------------
@@ -138,6 +142,124 @@ def mat_surface(name: str, hexstr: str, rough=0.85, metallic=0.0, spec=0.4, bump
             mixn.inputs[6].default_value = srgb(hexstr)
         nt.links.new(ramp.outputs["Color"], mixn.inputs[7])
         nt.links.new(mixn.outputs[2], p.inputs["Base Color"])
+    _MATS[name] = m
+    return m
+
+
+def _adjust(hexstr: str, mul=1.0, sat=1.0):
+    """A tone derived from a palette colour: scaled in value, pulled toward its own grey in saturation.
+    Every brick tone comes through here, so nothing can climb above the palette's muted range."""
+    r, g, b, _ = srgb(hexstr)
+    lum = 0.2126 * r + 0.7152 * g + 0.0722 * b
+    r, g, b = (lum + (c - lum) * sat for c in (r, g, b))
+    return (max(0.0, r * mul), max(0.0, g * mul), max(0.0, b * mul), 1.0)
+
+
+def _wall_vec(nt, offset=(0.0, 0.0)):
+    """A world-space wall coordinate: (x, z) on a face looking along ±Y, (y, z) on a face looking along ±X.
+
+    Brick coursing therefore runs level and continues across every separate box of a facade — the piers,
+    the spandrels and the flanks are one wall, not one texture per box. Returns (vector socket, position split)."""
+    geo = nt.nodes.new("ShaderNodeNewGeometry")
+    pos = nt.nodes.new("ShaderNodeSeparateXYZ")
+    nt.links.new(geo.outputs["Position"], pos.inputs["Vector"])
+    nrm = nt.nodes.new("ShaderNodeSeparateXYZ")
+    nt.links.new(geo.outputs["Normal"], nrm.inputs["Vector"])
+    ab = nt.nodes.new("ShaderNodeMath")
+    ab.operation = "ABSOLUTE"
+    nt.links.new(nrm.outputs["Y"], ab.inputs[0])
+    gt = nt.nodes.new("ShaderNodeMath")
+    gt.operation = "GREATER_THAN"
+    gt.inputs[1].default_value = 0.5
+    nt.links.new(ab.outputs[0], gt.inputs[0])
+    pick = nt.nodes.new("ShaderNodeMix")
+    pick.data_type = "FLOAT"
+    nt.links.new(gt.outputs[0], pick.inputs["Factor"])
+    nt.links.new(pos.outputs["Y"], pick.inputs[2])
+    nt.links.new(pos.outputs["X"], pick.inputs[3])
+    comb = nt.nodes.new("ShaderNodeCombineXYZ")
+    nt.links.new(pick.outputs[0], comb.inputs["X"])
+    nt.links.new(pos.outputs["Z"], comb.inputs["Y"])
+    off = nt.nodes.new("ShaderNodeVectorMath")
+    off.operation = "ADD"
+    off.inputs[1].default_value = (offset[0], offset[1], 0.0)
+    nt.links.new(comb.outputs["Vector"], off.inputs[0])
+    return off.outputs["Vector"], pos
+
+
+def _mul(nt, a_socket, b_socket):
+    n = nt.nodes.new("ShaderNodeMix")
+    n.data_type = "RGBA"
+    n.blend_type = "MULTIPLY"
+    n.inputs["Factor"].default_value = 1.0
+    nt.links.new(a_socket, n.inputs[6])
+    nt.links.new(b_socket, n.inputs[7])
+    return n.outputs[2]
+
+
+def mat_brick(name: str, hexstr: str, rough=0.75, bump=0.55, dirt=0.18, bw=0.235, rh=0.080, tone=1.0, seed=0) -> bpy.types.Material:
+    """Real brickwork: a Brick Texture in world metres, two muted tones of one palette colour with a lighter
+    mortar, a slow tonal drift over the wall, soot toward the ground, and a bump that sinks the joints."""
+    if name in _MATS:
+        return _MATS[name]
+    m, p, nt = _new_mat(name)
+    p.inputs["Roughness"].default_value = rough
+    p.inputs["Specular IOR Level"].default_value = 0.32
+    vec, pos = _wall_vec(nt, offset=(_fac(seed, 11) * bw * 2, _fac(seed, 17) * rh * 3))
+    br = nt.nodes.new("ShaderNodeTexBrick")
+    br.offset = 0.5
+    br.offset_frequency = 2
+    br.squash = 1.0
+    br.squash_frequency = 2
+    br.inputs["Color1"].default_value = _adjust(hexstr, 1.12 * tone, 0.78)
+    br.inputs["Color2"].default_value = _adjust(hexstr, 0.82 * tone, 0.62)
+    br.inputs["Mortar"].default_value = _adjust(hexstr, 1.58 * tone, 0.22)
+    br.inputs["Scale"].default_value = 1.0
+    br.inputs["Mortar Size"].default_value = 0.012
+    br.inputs["Mortar Smooth"].default_value = 0.1
+    br.inputs["Bias"].default_value = 0.0
+    br.inputs["Brick Width"].default_value = bw
+    br.inputs["Row Height"].default_value = rh
+    nt.links.new(vec, br.inputs["Vector"])
+    color_out = br.outputs["Color"]
+    # a slow drift over metres, so a large wall never reads as one flat value
+    big = nt.nodes.new("ShaderNodeTexNoise")
+    big.inputs["Scale"].default_value = 0.45
+    big.inputs["Detail"].default_value = 2.0
+    dramp = nt.nodes.new("ShaderNodeValToRGB")
+    dramp.color_ramp.elements[0].color = (0.87, 0.87, 0.88, 1)
+    dramp.color_ramp.elements[1].color = (1.10, 1.10, 1.09, 1)
+    nt.links.new(big.outputs["Fac"], dramp.inputs["Fac"])
+    color_out = _mul(nt, color_out, dramp.outputs["Color"])
+    if dirt > 0:
+        # soot and rain-wash at street level, measured in metres of world height
+        dv = nt.nodes.new("ShaderNodeMath")
+        dv.operation = "DIVIDE"
+        dv.inputs[1].default_value = 6.0
+        nt.links.new(pos.outputs["Z"], dv.inputs[0])
+        gr = nt.nodes.new("ShaderNodeValToRGB")
+        gr.color_ramp.elements[0].position = 0.0
+        gr.color_ramp.elements[0].color = (1 - dirt, 1 - dirt, 1 - dirt * 0.9, 1)
+        gr.color_ramp.elements[1].position = 0.42
+        gr.color_ramp.elements[1].color = (1, 1, 1, 1)
+        nt.links.new(dv.outputs[0], gr.inputs["Fac"])
+        color_out = _mul(nt, color_out, gr.outputs["Color"])
+    nt.links.new(color_out, p.inputs["Base Color"])
+    # the face of a brick is not flat, and the joint is behind it
+    fine = nt.nodes.new("ShaderNodeTexNoise")
+    fine.inputs["Scale"].default_value = 160.0
+    fine.inputs["Detail"].default_value = 4.0
+    bfine = nt.nodes.new("ShaderNodeBump")
+    bfine.inputs["Strength"].default_value = 0.14
+    bfine.inputs["Distance"].default_value = 0.003
+    nt.links.new(fine.outputs["Fac"], bfine.inputs["Height"])
+    bjoint = nt.nodes.new("ShaderNodeBump")
+    bjoint.inputs["Strength"].default_value = bump
+    bjoint.inputs["Distance"].default_value = 0.008
+    bjoint.invert = True
+    nt.links.new(br.outputs["Fac"], bjoint.inputs["Height"])
+    nt.links.new(bfine.outputs["Normal"], bjoint.inputs["Normal"])
+    nt.links.new(bjoint.outputs["Normal"], p.inputs["Normal"])
     _MATS[name] = m
     return m
 
@@ -415,6 +537,40 @@ def plane(name: str, size, loc, mat, group="block", rot=(0, 0, 0)) -> bpy.types.
     return _link(obj, group)
 
 
+def plane_with_holes(name: str, size, loc, mat, holes, group="ground") -> bpy.types.Object:
+    """A flat surface with rectangular openings cut out of it, so what is under it can actually be seen.
+    `holes` are (x0, x1, y0, y1) in the surface's own frame. The origin stays at `loc`, so any material
+    driven by object coordinates (the asphalt's wheel tracks) is unchanged."""
+    w, d = size
+    xs = sorted({-w / 2, w / 2} | {v for h in holes for v in h[:2]})
+    ys = sorted({-d / 2, d / 2} | {v for h in holes for v in h[2:]})
+    xs = [v for v in xs if -w / 2 - 1e-6 <= v <= w / 2 + 1e-6]
+    ys = [v for v in ys if -d / 2 - 1e-6 <= v <= d / 2 + 1e-6]
+    verts = [(x, y, 0.0) for y in ys for x in xs]
+    nx = len(xs)
+    faces = []
+    for j in range(len(ys) - 1):
+        for i in range(nx - 1):
+            mx, my = (xs[i] + xs[i + 1]) / 2, (ys[j] + ys[j + 1]) / 2
+            if any(h[0] < mx < h[1] and h[2] < my < h[3] for h in holes):
+                continue
+            faces.append((j * nx + i, j * nx + i + 1, (j + 1) * nx + i + 1, (j + 1) * nx + i))
+    mesh = bpy.data.meshes.new(name)
+    mesh.from_pydata(verts, [], faces)
+    mesh.update()
+    mesh.uv_layers.new(name="UVMap")
+    uvl = mesh.uv_layers.active.data
+    for poly in mesh.polygons:
+        for li in poly.loop_indices:
+            v = mesh.vertices[mesh.loops[li].vertex_index].co
+            uvl[li].uv = (v.x, v.y)
+    obj = bpy.data.objects.new(name, mesh)
+    obj.location = loc
+    if mat is not None:
+        mesh.materials.append(mat)
+    return _link(obj, group)
+
+
 def cylinder(name: str, r, h, loc, mat, group="block", verts=24, rot=(0, 0, 0)) -> bpy.types.Object:
     mesh = bpy.data.meshes.new(name)
     vs, fs = [], []
@@ -475,17 +631,19 @@ def capsule(name: str, r, h, loc, mat, group="people", segs=16, rings=6) -> bpy.
     return _link(obj, group)
 
 
-def figure(name: str, loc, mat, height=1.72, group="people", segs=16, rings=6) -> bpy.types.Object:
-    """A person as an architect's scale figure: a slim capsule body, a neck, a head. One mesh, origin at the feet."""
+def figure(name: str, loc, mat, height=1.72, group="people", segs=16, rings=6, depth=0.68) -> bpy.types.Object:
+    """A person as an architect's scale figure: a slim capsule body, a neck, a head. One mesh, origin at the feet.
+    The body is an ellipse in plan — broad across the shoulders (local X), shallow front to back (local Y) — so
+    which way a figure faces is legible, and a walker turned into its direction of travel reads as one."""
     mesh = bpy.data.meshes.new(name)
     vs, fs = [], []
 
-    def ring_rows(rows, close_bottom=False, close_top=False):
+    def ring_rows(rows, dy=depth):
         base = len(vs)
         for rr, z in rows:
             for i in range(segs):
                 a = 2 * math.pi * i / segs
-                vs.append((rr * math.cos(a), rr * math.sin(a), z))
+                vs.append((rr * math.cos(a), rr * dy * math.sin(a), z))
         n = len(rows)
         for j in range(n - 1):
             for i in range(segs):
@@ -507,7 +665,7 @@ def figure(name: str, loc, mat, height=1.72, group="people", segs=16, rings=6) -
         rows.append((r * 0.88 * math.cos(a), r + body + r * 0.88 * math.sin(a)))
     ring_rows(rows)
     # neck
-    ring_rows([(0.055, top - 0.02), (0.055, height - 0.2)])
+    ring_rows([(0.055, top - 0.02), (0.055, height - 0.2)], dy=0.9)
     # head: a sphere whose top is the height
     hr = 0.115
     hz = height - hr
@@ -515,7 +673,7 @@ def figure(name: str, loc, mat, height=1.72, group="people", segs=16, rings=6) -
     for k in range(-rings, rings + 1):
         a = k / rings * math.pi / 2
         rows.append((max(0.004, hr * math.cos(a)), hz + hr * math.sin(a)))
-    ring_rows(rows)
+    ring_rows(rows, dy=0.86)
     mesh.from_pydata(vs, [], fs)
     mesh.update()
     for poly in mesh.polygons:
@@ -581,8 +739,11 @@ def empty(name: str, loc, group="track") -> bpy.types.Object:
 # --------------------------------------------------------------------------
 @dataclass
 class Palette:
-    body: list[str] = field(default_factory=lambda: ["#6e4b41", "#cbc3b4", "#8c7d6a", "#b7b1a5", "#5e6b64", "#3f4345"])
+    # muted masonry: nothing here is allowed to read as a colour, only as a stone
+    body: list[str] = field(default_factory=lambda: ["#6a5850", "#c4bdb0", "#8a7d6d", "#b2ada2", "#5e6b64", "#484c4e"])
     trim: str = "#8e8a82"  # sills, cornices, pale stone
+    coping: str = "#9a958c"  # the weathered cap on a parapet
+    room: str = "#232527"  # the dark of a room seen through a window at dawn
     riser: str = "#6c6862"  # stall risers: darker stone
     gutter: str = "#8e8b84"
     fascia: str = "#262a2c"
@@ -643,7 +804,7 @@ LOTS = [
     Lot("gym", "FORM", -46.5, -31.0, 16, 3, P.body[2], sign="FORM", interior="gym", bulkhead=True),
     Lot("pharmacy", "PHARMACY", -31.0, -18.0, 14, 2, P.body[3], sign="PHARMACY", interior="pharmacy", screen=True),
     Lot("joes", "JOE'S FUEL & GO", -18.0, 16.0, 16, 1, P.body[1], interior="joes", you=True),
-    Lot("cafe", "ALDER", 16.0, 27.5, 14, 2, P.body[0], sign="ALDER", awning="#5a3a2e", interior="cafe", screen=True),
+    Lot("cafe", "ALDER", 16.0, 27.5, 14, 2, P.body[0], sign="ALDER", awning="#5b453c", interior="cafe", screen=True),
     Lot("barber", "BARBER", 27.5, 35.0, 14, 2, P.body[4], sign="BARBER", awning=P.awning[2], interior="barber"),
     Lot("restaurant", "OSTERIA", 35.0, 46.5, 15, 3, P.body[5], sign="OSTERIA", awning="#3a3f3e", interior="restaurant", bulkhead=True),
 ]
@@ -676,6 +837,38 @@ class World:
         self.joes_canopy_lights: list = []
 
 
+def _gully(gx: float, s: int, iron, group="ground"):
+    """A cast-iron gully at the curb. The road has a hole here, so the shaft under it is real: four dark walls
+    and a floor half a metre down. The frame sits flush with the asphalt and the slotted bars are set 30 mm
+    below it, so the slots are holes that go dark, not a drawing of holes."""
+    xa, xb = gx - GULLY_HW, gx + GULLY_HW
+    ya, yb = (s * GULLY_Y0, s * GULLY_Y1) if s > 0 else (s * GULLY_Y1, s * GULLY_Y0)
+    shaft = mat_surface("gullyshaft", "#191b1c", rough=0.96)
+    tag = f"gully{s}{gx:.0f}"
+    # the shaft: walls that overlap the road edge so no light finds its way round them, and a floor
+    box(f"{tag}_wN", (xb - xa + 0.16, 0.08, 0.60), ((xa + xb) / 2, yb + 0.02, -0.29), shaft, bevel=0, group=group)
+    box(f"{tag}_wS", (xb - xa + 0.16, 0.08, 0.60), ((xa + xb) / 2, ya - 0.02, -0.29), shaft, bevel=0, group=group)
+    box(f"{tag}_wE", (0.08, yb - ya + 0.16, 0.60), (xb + 0.02, (ya + yb) / 2, -0.29), shaft, bevel=0, group=group)
+    box(f"{tag}_wW", (0.08, yb - ya + 0.16, 0.60), (xa - 0.02, (ya + yb) / 2, -0.29), shaft, bevel=0, group=group)
+    box(f"{tag}_floor", (xb - xa + 0.20, yb - ya + 0.20, 0.10), ((xa + xb) / 2, (ya + yb) / 2, -0.60), shaft, bevel=0, group=group)
+    # the frame, set flush in the asphalt
+    fo, fi = 0.07, 0.03
+    box(f"{tag}_fS", (xb - xa + 2 * fo, fo + fi, 0.075), ((xa + xb) / 2, ya - (fo - fi) / 2, -0.023), iron, bevel=0.006, group=group)
+    box(f"{tag}_fN", (xb - xa + 2 * fo, fo + fi, 0.075), ((xa + xb) / 2, yb + (fo - fi) / 2, -0.023), iron, bevel=0.006, group=group)
+    box(f"{tag}_fW", (fo + fi, yb - ya + 2 * fo, 0.075), (xa - (fo - fi) / 2, (ya + yb) / 2, -0.023), iron, bevel=0.006, group=group)
+    box(f"{tag}_fE", (fo + fi, yb - ya + 2 * fo, 0.075), (xb + (fo - fi) / 2, (ya + yb) / 2, -0.023), iron, bevel=0.006, group=group)
+    # the grate itself, 30 mm down inside the frame
+    inner = (yb - fi) - (ya + fi)
+    nb = 6
+    bw = 0.05
+    slot = (inner - nb * bw) / (nb - 1)
+    for i in range(nb):
+        y = ya + fi + bw / 2 + i * (bw + slot)
+        box(f"{tag}_bar{i}", (xb - xa - 0.02, bw, 0.05), ((xa + xb) / 2, y, -0.055), iron, bevel=0.004, group=group)
+    for i, rx in enumerate((-0.24, 0.24)):
+        box(f"{tag}_rib{i}", (0.045, inner, 0.05), (gx + rx, (ya + yb) / 2, -0.055), iron, bevel=0.004, group=group)
+
+
 def build(screen_images: dict[str, str] | None = None, cars=True, people_mat=True) -> World:
     W = World()
     screen_images = screen_images or {}
@@ -704,20 +897,43 @@ def build(screen_images: dict[str, str] | None = None, cars=True, people_mat=Tru
     W.lamp_mat = mat_emissive("lamphead", P.lamp, 0.0, base="#cfc8b8")
 
     # --- ground -----------------------------------------------------------
-    plane("ground_far", (600, 600), (0, 0, -0.02), mat_surface("ground_far", "#3a3d3f", rough=0.95), group="ground")
-    plane("road", (BLOCK_X1 - BLOCK_X0 + 2 * CROSS_W + 120, ROAD_HALF * 2), (0, 0, 0.0), asphalt, group="ground")
+    road_len = BLOCK_X1 - BLOCK_X0 + 2 * CROSS_W + 120
+    holes = [(gx - GULLY_HW, gx + GULLY_HW, s * GULLY_Y1, s * GULLY_Y0) if s < 0 else (gx - GULLY_HW, gx + GULLY_HW, s * GULLY_Y0, s * GULLY_Y1)
+             for s in (-1, 1) for gx in GULLY_X]
+    plane_with_holes("ground_far", (600, 600), (0, 0, -0.02), mat_surface("ground_far", "#3a3d3f", rough=0.95), holes, group="ground")
+    plane_with_holes("road", (road_len, ROAD_HALF * 2), (0, 0, 0.0), asphalt, holes, group="ground")
     gutter = mat_surface("gutter", P.gutter, rough=0.8, spec=0.45)
     iron = mat_surface("iron", "#2e3032", rough=0.55, metallic=0.4)
     for s in (-1, 1):
         # sidewalk slab, a curb with a chamfer, a concrete gutter strip against the asphalt
         box(f"walk{s}", (BLOCK_X1 - BLOCK_X0, WALK, CURB_H), (0, s * (ROAD_HALF + WALK / 2), CURB_H / 2), walk, bevel=0.0, group="ground")
         box(f"curb{s}", (BLOCK_X1 - BLOCK_X0, 0.24, CURB_H + 0.005), (0, s * (ROAD_HALF + 0.12), CURB_H / 2 + 0.0025), curb, bevel=0.035, group="ground")
-        box(f"gutter{s}", (BLOCK_X1 - BLOCK_X0, 0.42, 0.012), (0, s * (ROAD_HALF - 0.21), 0.006), gutter, bevel=0, group="ground")
-        # storm drains at the curb, a few along the block
-        for gx in (-33.0, 3.2, 19.0, 44.0):
-            box(f"drain{s}{gx}", (0.9, 0.3, 0.05), (gx, s * (ROAD_HALF - 0.18), -0.02), mat_surface("drainpit", "#0f1112", rough=1.0), bevel=0, group="ground")
-            for bi in range(6):
-                box(f"drainbar{s}{gx}{bi}", (0.9, 0.028, 0.02), (gx, s * (ROAD_HALF - 0.18) - 0.125 + bi * 0.05, 0.008), iron, bevel=0.003, group="ground")
+        # the gutter strip runs between the gullies, not over them
+        seg = [-(BLOCK_X1 - BLOCK_X0) / 2]
+        for gx in GULLY_X:
+            seg += [gx - GULLY_HW - 0.09, gx + GULLY_HW + 0.09]
+        seg.append((BLOCK_X1 - BLOCK_X0) / 2)
+        for a, b in zip(seg[0::2], seg[1::2]):
+            if b - a > 0.05:
+                box(f"gutter{s}{a:.0f}", (b - a, 0.42, 0.012), ((a + b) / 2, s * (ROAD_HALF - 0.21), 0.006), gutter, bevel=0, group="ground")
+        for gx in GULLY_X:
+            _gully(gx, s, iron)
+    # the sidewalk across Joe's frontage, cast as real slabs: the chamfer on every edge turns each joint into
+    # a groove that takes the low sun, one bay is a later patch in a different mix, one joint is sealed with tar
+    slabmat = mat_concrete("walkslab", P.walk, score=False)
+    patchmat = mat_concrete("walkpatch", "#b1aca1", score=False)
+    tar = mat_surface("tarseam", "#26282a", rough=0.3, spec=0.55)
+    sx0, sx1 = LOTS[2].x0, LOTS[2].x1
+    sy0, sy1 = ROAD_HALF + 0.26, FRONT - 0.55
+    ncol, nrow, sgap = 21, 2, 0.018
+    cw, ch = (sx1 - sx0) / ncol, (sy1 - sy0) / nrow
+    for c in range(ncol):
+        for r in range(nrow):
+            box(f"walkslab{c}_{r}", (cw - sgap, ch - sgap, 0.07), (sx0 + cw * (c + 0.5), sy0 + ch * (r + 0.5), CURB_H - 0.03),
+                patchmat if (c, r) == (12, 0) else slabmat, bevel=0.014, group="ground")
+    for j in range(5):
+        box(f"tarseam{j}", (0.075, (sy1 - sy0) / 5 + 0.05, 0.014), (sx0 + cw * 8 + 0.06 * (_fac(j, 3) - 0.5), sy0 + (sy1 - sy0) * (j + 0.5) / 5, CURB_H + 0.005),
+            tar, bevel=0.004, group="ground", rot=(0, 0, 0.09 * (_fac(j, 7) - 0.5)))
     for mx, my in ((-20.0, 1.6), (14.0, -2.2), (38.0, 1.2)):
         cylinder(f"manhole{mx}", 0.42, 0.02, (mx, my, 0.008), iron, group="ground", verts=32)
     # a crosswalk by the café end of the block
@@ -749,10 +965,12 @@ def build(screen_images: dict[str, str] | None = None, cars=True, people_mat=Tru
     _parking_lot(W, -22.0, 21.0, trim)
 
     # --- beyond the cross streets: quieter masses, so the block is a block --
-    beyond = mat_surface("beyond", "#5f6365", rough=0.95, bump=0.2, scale=4)
-    beyond2 = mat_surface("beyond2", "#7a6d62", rough=0.95, bump=0.2, scale=4, courses=0.1)
-    beyond3 = mat_surface("beyond3", "#a29a8d", rough=0.95, bump=0.2, scale=4)
+    beyond = mat_brick("beyond", "#63666a", seed=2, rh=0.078, dirt=0.14)
+    beyond2 = mat_brick("beyond2", "#7a6d62", seed=5, rh=0.072, dirt=0.16)
+    beyond3 = mat_brick("beyond3", "#9d968c", seed=9, rh=0.084, dirt=0.12)
     beyond_trim = mat_surface("beyond_trim", "#8e8a82", rough=0.9)
+    beyond_coping = mat_surface("coping", P.coping, rough=0.9, bump=0.12, scale=14)
+    beyond_room = mat_surface("room_dark", P.room, rough=0.95)
     masses = [
         (BLOCK_X0 - CROSS_W - 40, BLOCK_X0 - CROSS_W, FRONT, FRONT + 18, 9.5),
         (BLOCK_X0 - CROSS_W - 40, BLOCK_X0 - CROSS_W, -FRONT - 16, -FRONT, 8.0),
@@ -771,17 +989,20 @@ def build(screen_images: dict[str, str] | None = None, cars=True, people_mat=Tru
     masses.append((BLOCK_X0 - 30, BLOCK_X1 + 30, -FRONT - 30, -FRONT - 50, 9.0))
     for k, (x0, x1, y0, y1, h) in enumerate(masses):
         m = (beyond, beyond2, beyond3)[k % 3]
-        box(f"beyond{k}", (x1 - x0, abs(y1 - y0), h), ((x0 + x1) / 2, (y0 + y1) / 2, h / 2), m, bevel=0.05, group="beyond")
-        box(f"beyond{k}_cap", (x1 - x0 + 0.3, abs(y1 - y0) + 0.3, 0.32), ((x0 + x1) / 2, (y0 + y1) / 2, h - 0.16), beyond_trim, bevel=0.03, group="beyond")
-        box(f"beyond{k}_course", (x1 - x0 + 0.16, abs(y1 - y0) + 0.16, 0.14), ((x0 + x1) / 2, (y0 + y1) / 2, 3.6), beyond_trim, bevel=0.01, group="beyond")
-        # window rhythm on the faces that look at the block
-        if y0 >= FRONT + 20:
+        ya, yb = min(y0, y1), max(y0, y1)
+        faced = y0 >= FRONT + 20  # the second row behind the far row: these faces are in every street frame
+        set_back = (FACADE_T + BACK_D) if faced else 0.0
+        box(f"beyond{k}", (x1 - x0, (yb - ya) - set_back, h), ((x0 + x1) / 2, (ya + set_back + yb) / 2, h / 2), m, bevel=0.05, group="beyond")
+        box(f"beyond{k}_course", (x1 - x0 + 0.3, (yb - ya) + 0.3, 0.15), ((x0 + x1) / 2, (ya + yb) / 2, 3.6), beyond_trim, bevel=0.015, group="beyond")
+        _crown("beyond", f"beyond{k}", x0, x1, ya, yb, h, m, beyond_trim, beyond_coping, parapet_h=0.5, proj=0.26)
+        # the faces that look at the block get the same wall the near row gets: real openings, sills, lit rooms
+        if faced:
             cols = max(2, int((x1 - x0) / 3.2))
-            for f in range(int(h / 3.2)):
-                for c in range(cols):
-                    xc = x0 + (x1 - x0) * (c + 0.5) / cols
-                    box(f"beyond{k}_w{f}{c}", (1.1, 0.2, 1.5), (xc, y0 - 0.02, 1.9 + f * 3.2), mat_surface("reveal", "#3a3d3f"), bevel=0, group="beyond")
-                    box(f"beyond{k}_s{f}{c}", (1.3, 0.16, 0.08), (xc, y0 - 0.08, 1.1 + f * 3.2), beyond_trim, bevel=0.01, group="beyond")
+            rows = [1.9 + f * 3.2 for f in range(int(h / 3.2))]
+            cards: list[bpy.types.Object] = []
+            _facade_plate("beyond", f"beyond{k}", x0, x1, 0.0, h, ya, +1, rows, cols, m, beyond_trim, dark_glass, beyond_room,
+                          win_w=1.2, win_h=1.5, sill_proj=0.14, lintel=False, sash=None, cards=cards)
+            W.upper_windows[f"beyond{k}"] = cards
 
     # --- street furniture --------------------------------------------------
     _furniture(W, frame, trim)
@@ -809,10 +1030,85 @@ def build(screen_images: dict[str, str] | None = None, cars=True, people_mat=Tru
 
 
 # --------------------------------------------------------------------------
+# The facade system — one wall, built once, used by every row
+# --------------------------------------------------------------------------
+FACADE_T = 0.55  # the brick plate's depth: every upper window's reveal
+BACK_D = 1.10  # the dark interior box that closes the wall behind the openings
+
+
+def _facade_plate(group, tag, x0, x1, z0, z1, yf, inward, rows, cols, body, trim, glassmat, backmat,
+                  win_w=1.30, win_h=1.72, t=FACADE_T, back_d=BACK_D, sill_proj=0.16, lintel=True,
+                  sash=None, cards=None, card_base="#6c645a", bevel=0.012):
+    """One brick wall with real openings, storey by storey.
+
+    The plate is a lattice of spandrel bands and piers `t` deep; the holes between them are the windows.
+    A dark box sits behind the lattice, so every opening looks into a room a reveal's depth back, and the
+    jamb, the head and the sill of that opening are real surfaces that take the sun and throw a shadow
+    across it. `inward` is +1 when the wall faces −Y with the building behind it, −1 when it faces +Y.
+    Returns the window centres; appends each warm interior card to `cards` when a list is given."""
+    w = x1 - x0
+    cx = (x0 + x1) / 2
+    yc = yf + inward * t / 2
+    sp = w / cols
+    sashmat = sash if sash is not None else trim
+    centres = [x0 + sp * (c + 0.5) for c in range(cols)]
+    edges, prev = [], z0
+    for zc in rows:
+        edges.append((prev, zc - win_h / 2))
+        prev = zc + win_h / 2
+    edges.append((prev, z1))
+    for i, (a, b) in enumerate(edges):
+        if b - a > 0.01:
+            box(f"{tag}_span{i}", (w, t, b - a), (cx, yc, (a + b) / 2), body, bevel=bevel, group=group)
+    for i, zc in enumerate(rows):
+        for c in range(cols + 1):
+            pa = x0 if c == 0 else centres[c - 1] + win_w / 2
+            pb = x1 if c == cols else centres[c] - win_w / 2
+            if pb - pa > 0.02:
+                box(f"{tag}_pier{i}_{c}", (pb - pa, t, win_h), ((pa + pb) / 2, yc, zc), body, bevel=bevel, group=group)
+    box(f"{tag}_back", (w, back_d, z1 - z0), (cx, yf + inward * (t + back_d / 2), (z0 + z1) / 2), backmat, bevel=0, group=group)
+    grot = (math.pi / 2 * inward, 0, 0)
+    out = []
+    for i, zc in enumerate(rows):
+        for c, xc in enumerate(centres):
+            yg = yf + inward * (t - 0.11)
+            ys = yf + inward * (t - 0.16)
+            plane(f"{tag}_wglass{i}{c}", (win_w - 0.08, win_h - 0.08), (xc, yg, zc), glassmat, group=group, rot=grot)
+            if sashmat is not None:
+                box(f"{tag}_sashv{i}{c}", (0.055, 0.06, win_h - 0.08), (xc, ys, zc), sashmat, bevel=0.004, group=group)
+                box(f"{tag}_sashh{i}{c}", (win_w - 0.08, 0.06, 0.05), (xc, ys, zc + win_h * 0.17), sashmat, bevel=0.004, group=group)
+            box(f"{tag}_sill{i}{c}", (win_w + 0.30, sill_proj + 0.16, 0.11),
+                (xc, yf + inward * (0.16 - sill_proj) / 2, zc - win_h / 2 - 0.055), trim, bevel=0.015, group=group)
+            if lintel:
+                box(f"{tag}_lintel{i}{c}", (win_w + 0.38, 0.24, 0.14),
+                    (xc, yf + inward * 0.02, zc + win_h / 2 + 0.07), trim, bevel=0.012, group=group)
+            if cards is not None:
+                cm = mat_emissive(f"{tag}_wcard{i}{c}", P.warm, 0.0, base=card_base)
+                cards.append(plane(f"{tag}_wcard{i}{c}", (win_w - 0.1, win_h - 0.1),
+                                   (xc, yf + inward * (t - 0.015), zc), cm, group=group, rot=grot))
+            out.append((xc, zc))
+    return out
+
+
+def _crown(group, tag, x0, x1, y0, y1, top, body, trim, coping, parapet_h=0.55, proj=0.30):
+    """The head of a wall: a bed mould, a cornice that projects far enough to keep a shadow line under it
+    all morning, a parapet standing on the cornice, and a weathered coping over the parapet."""
+    w, d = x1 - x0, y1 - y0
+    cx, cy = (x0 + x1) / 2, (y0 + y1) / 2
+    box(f"{tag}_bedmould", (w + 0.30, d + 0.30, 0.12), (cx, cy, top - 0.52), trim, bevel=0.012, group=group)
+    box(f"{tag}_cornice", (w + 2 * proj, d + 2 * proj, 0.32), (cx, cy, top - 0.16), trim, bevel=0.02, group=group)
+    for (bx, by, bw, bd) in ((cx, y0 + 0.2, w, 0.4), (cx, y1 - 0.2, w, 0.4), (x0 + 0.2, cy, 0.4, d), (x1 - 0.2, cy, 0.4, d)):
+        box(f"{tag}_parapet{bx:.1f}{by:.1f}", (bw, bd, parapet_h), (bx, by, top + parapet_h / 2), body, bevel=0.02, group=group)
+        box(f"{tag}_coping{bx:.1f}{by:.1f}", (bw + 0.22, bd + 0.22, 0.09), (bx, by, top + parapet_h + 0.045), coping, bevel=0.012, group=group)
+
+
+# --------------------------------------------------------------------------
 # A shopfront building
 # --------------------------------------------------------------------------
 def _build_shop(W: World, lot: Lot, i: int, trim, fascia, frame, door, glass, dark_glass, sign, screen_images):
-    body = mat_surface(f"body_{lot.id}", lot.body, rough=0.88, bump=0.25, scale=6, dirt=0.16, courses=0.12 if lot.id in ("pharmacy", "barber", "gym") else 0.0)
+    body = mat_brick(f"body_{lot.id}", lot.body, seed=i * 7 + 3, tone=1.0 + 0.04 * ((i % 3) - 1), rh=0.076 + 0.004 * (i % 3))
+    coping = mat_surface("coping", P.coping, rough=0.9, bump=0.12, scale=14)
+    room = mat_surface("room_dark", P.room, rough=0.95)
     riser = mat_surface("riser", P.riser, rough=0.7, spec=0.5, bump=0.15, scale=10)
     x0, x1, w, cx = lot.x0, lot.x1, lot.w, lot.cx
     y0 = FRONT  # frontage plane
@@ -826,16 +1122,16 @@ def _build_shop(W: World, lot: Lot, i: int, trim, fascia, frame, door, glass, da
     # ground storey: two piers and the body behind the shop (the room is a real box)
     for sx, px in ((-1, x0 + pier / 2), (1, x1 - pier / 2)):
         box(f"{g}_pier{sx}", (pier, lot.depth, GROUND), (px, cy, GROUND / 2), body, bevel=0.03, group=g)
-    room_d = 7.5
+    room_d = 9.0 if lot.interior in ("cafe", "pharmacy") else 7.5
     box(f"{g}_rear", (open_w + 0.02, lot.depth - room_d, GROUND), (cx, y0 + room_d + (lot.depth - room_d) / 2, GROUND / 2), body, bevel=0.03, group=g)
-    # upper storeys as one mass with a string course between floors
-    box(f"{g}_upper", (w, lot.depth, H - GROUND), (cx, cy, GROUND + (H - GROUND) / 2), body, bevel=0.04, group=g)
-    box(f"{g}_string", (w + 0.16, lot.depth + 0.16, 0.16), (cx, cy, GROUND + 0.02), trim, bevel=0.02, group=g)
-    box(f"{g}_cornice", (w + 0.36, lot.depth + 0.36, 0.34), (cx, cy, H - 0.17), trim, bevel=0.03, group=g)
-    box(f"{g}_cornice2", (w + 0.2, lot.depth + 0.2, 0.1), (cx, cy, H - 0.5), trim, bevel=0.01, group=g)
-    # parapet, roof, rooftop plant
-    for (bx, by, bw, bd) in ((cx, y0 + 0.2, w, 0.4), (cx, y1 - 0.2, w, 0.4), (x0 + 0.2, cy, 0.4, lot.depth), (x1 - 0.2, cy, 0.4, lot.depth)):
-        box(f"{g}_parapet{bx}{by}", (bw, bd, 0.55), (bx, by, H + 0.275), body, bevel=0.02, group=g)
+    # the upper storeys: the mass stands back behind the facade plate and the rooms behind its windows
+    set_back = FACADE_T + BACK_D
+    box(f"{g}_upper", (w, lot.depth - set_back, H - GROUND), (cx, y0 + set_back + (lot.depth - set_back) / 2, GROUND + (H - GROUND) / 2), body, bevel=0.04, group=g)
+    # string courses: one on the shopfront line, one at every floor above it, each projecting enough to catch light
+    box(f"{g}_string", (w + 0.30, lot.depth + 0.30, 0.18), (cx, cy, GROUND + 0.03), trim, bevel=0.02, group=g)
+    for k in range(1, lot.storeys):
+        box(f"{g}_string{k}", (w + 0.24, lot.depth + 0.24, 0.13), (cx, cy, GROUND + k * STOREY), trim, bevel=0.015, group=g)
+    _crown(g, g, x0, x1, y0, y1, H, body, trim, coping)
     plane(f"{g}_roof", (w - 0.8, lot.depth - 0.8), (cx, cy, H + 0.02), mat_surface("roofgravel", "#66696a", rough=1.0, bump=0.6, scale=60), group=g)
     hv = mat_surface("hvac", "#8e8d88", rough=0.6, metallic=0.4)
     box(f"{g}_hvac", (1.6, 1.2, 0.9), (cx + w * 0.22, cy + 1.0, H + 0.45), hv, bevel=0.03, group=g)
@@ -851,29 +1147,34 @@ def _build_shop(W: World, lot: Lot, i: int, trim, fascia, frame, door, glass, da
     cylinder(f"{g}_downpipe", 0.06, H - 0.4, (x0 + 0.34, y0 - 0.09, (H - 0.4) / 2 + 0.2), pipe, group=g, verts=8)
     if lot.bulkhead:
         box(f"{g}_bulkhead", (3.0, 3.6, 2.6), (cx - w * 0.2, y1 - 3.0, H + 1.3), body, bevel=0.03, group=g)
-    # upper windows: recessed reveals with pale sills, warm cards behind some
+    # upper windows: real openings through a brick plate, glass set back in the reveal, a dark room behind
     cols = max(2, round(w / 3.1))
     sp = w / cols
-    W.upper_windows[lot.id] = []
+    rows = [GROUND + k * STOREY + STOREY * 0.52 for k in range(lot.storeys)]
+    cards: list[bpy.types.Object] = []
+    _facade_plate(g, g, x0, x1, GROUND, H, y0, +1, rows, cols, body, trim, dark_glass, room,
+                  sash=frame, cards=cards, card_base="#8a8479")
+    W.upper_windows[lot.id] = cards
     for k in range(lot.storeys):
-        zc = GROUND + k * STOREY + STOREY * 0.52
+        zc = rows[k]
         for c in range(cols):
             xc = x0 + sp * (c + 0.5)
-            box(f"{g}_reveal{k}{c}", (1.15, 0.42, 1.7), (xc, y0 + 0.2, zc), mat_surface("reveal", "#3a3d3f", rough=0.9), bevel=0, group=g)
-            wg = plane(f"{g}_wglass{k}{c}", (1.15, 1.7), (xc, y0 + 0.32, zc), dark_glass, group=g, rot=(math.pi / 2, 0, 0))
-            box(f"{g}_sill{k}{c}", (1.35, 0.22, 0.08), (xc, y0 - 0.06, zc - 0.9), trim, bevel=0.01, group=g)
             if (k * 3 + c * 5 + i) % 7 == 2:
-                box(f"{g}_ac{k}{c}", (0.7, 0.5, 0.45), (xc, y0 - 0.22, zc - 0.55), mat_surface("acunit", "#c9c6bd", rough=0.6), bevel=0.02, group=g)
-            card = plane(f"{g}_wcard{k}{c}", (1.1, 1.65), (xc, y0 + 0.28, zc), mat_emissive(f"{g}_wcard{k}{c}", P.warm, 0.0, base="#8a8479" if (k * 3 + c * 5 + i) % 3 == 0 else "#5e574f"), group=g, rot=(math.pi / 2, 0, 0))
-            W.upper_windows[lot.id].append(card)
+                box(f"{g}_ac{k}{c}", (0.7, 0.5, 0.45), (xc, y0 - 0.3, zc - 1.02), mat_surface("acunit", "#c9c6bd", rough=0.6), bevel=0.02, group=g)
             W.tracks[f"win_{lot.id}_{k}_{c}"] = empty(f"track_win_{lot.id}_{k}_{c}", (xc, y0 - 0.05, zc))
-    # the shopfront: stall riser, glass, mullions, transom, fascia with the sign
+    # the shopfront: stall riser, a kick plate, glass with mullions, a transom band, fascia with the sign
     riser_h = 0.55
     box(f"{g}_riser", (open_w, 0.3, riser_h), (cx, y0 + 0.15, riser_h / 2), riser, bevel=0.02, group=g)
+    box(f"{g}_risercap", (open_w + 0.1, 0.42, 0.05), (cx, y0 + 0.09, riser_h + 0.02), trim, bevel=0.008, group=g)
     glass_top = GROUND - 0.85
     glass_h = glass_top - riser_h
-    # a transom rail two thirds of the way up, so the glass has a top light
-    box(f"{g}_transom", (open_w, 0.1, 0.06), (cx, y0 + 0.12, riser_h + glass_h * 0.72), frame, bevel=0.005, group=g)
+    kick = mat_surface("kickplate", "#5c5f61", rough=0.35, metallic=0.55, spec=0.6)
+    box(f"{g}_kick", (open_w, 0.07, 0.17), (cx, y0 + 0.055, riser_h + 0.12), kick, bevel=0.006, group=g)
+    # a transom rail two thirds of the way up, so the glass has a top light of its own
+    tz = riser_h + glass_h * 0.72
+    box(f"{g}_transom", (open_w, 0.16, 0.09), (cx, y0 + 0.07, tz), frame, bevel=0.008, group=g)
+    for tm in range(1, max(2, int(open_w / 1.15))):
+        box(f"{g}_transommull{tm}", (0.05, 0.09, glass_top - tz), (x0 + pier + (open_w) * tm / max(2, int(open_w / 1.15)), y0 + 0.11, (tz + glass_top) / 2), frame, bevel=0.004, group=g)
     door_w = 1.6
     # door on the right third, recessed
     dx = cx + open_w * 0.22 if lot.interior != "pharmacy" else cx - open_w * 0.22
@@ -1097,10 +1398,19 @@ def _build_joes(W: World, lot: Lot, forecourt, trim, fascia, frame, door, glass,
     g = "lot_joes"
     x0, x1, cx = lot.x0, lot.x1, lot.cx
     y0 = FRONT
-    body = mat_surface("body_joes", lot.body, rough=0.88, bump=0.25, scale=6)
+    body = mat_brick("body_joes", lot.body, seed=21, bw=0.44, rh=0.20, bump=0.4, dirt=0.14)  # concrete block, not brick
+    coping = mat_surface("coping", P.coping, rough=0.9, bump=0.12, scale=14)
     # forecourt slab with a shallow apron to the sidewalk; a low kerb to the neighbours
     fc_d = 12.0
-    box(f"{g}_forecourt", (lot.w, fc_d, CURB_H + 0.01), (cx, y0 + fc_d / 2 - 0.5, (CURB_H + 0.01) / 2), forecourt, bevel=0, group=g)
+    fy0, fy1 = y0 - 0.5, y0 + fc_d - 0.5
+    box(f"{g}_forecourt", (lot.w, fc_d, CURB_H + 0.01), (cx, (fy0 + fy1) / 2, (CURB_H + 0.01) / 2), forecourt, bevel=0, group=g)
+    # cast in bays: the same chamfered joint the sidewalk has, at forecourt scale
+    fcols, frows, fgap = 10, 4, 0.024
+    fbw, fbh = lot.w / fcols, (fy1 - (y0 + 0.02)) / frows
+    for c in range(fcols):
+        for r in range(frows):
+            box(f"{g}_bay{c}_{r}", (fbw - fgap, fbh - fgap, 0.07), (x0 + fbw * (c + 0.5), y0 + 0.02 + fbh * (r + 0.5), CURB_H + 0.015 - 0.035),
+                forecourt, bevel=0.014, group=g)
     for sx, px in ((-1, x0 + 0.2), (1, x1 - 0.2)):
         box(f"{g}_kerb{sx}", (0.4, fc_d, 0.42), (px, y0 + fc_d / 2 - 0.5, 0.21), trim, bevel=0.02, group=g)
     # the store, at the rear of the lot
@@ -1114,7 +1424,7 @@ def _build_joes(W: World, lot: Lot, forecourt, trim, fascia, frame, door, glass,
     for sx, px in ((-1, scx - store_w / 2 + pier / 2), (1, scx + store_w / 2 - pier / 2)):
         box(f"{g}_pier{sx}", (pier, store_d, store_h), (px, (sy0 + sy1) / 2, store_h / 2), body, bevel=0.03, group=g)
     box(f"{g}_rear", (open_w + 0.02, store_d - room_d, store_h), (scx, sy0 + room_d + (store_d - room_d) / 2, store_h / 2), body, bevel=0.03, group=g)
-    box(f"{g}_cornice", (store_w + 0.3, store_d + 0.3, 0.3), (scx, (sy0 + sy1) / 2, store_h - 0.15), trim, bevel=0.03, group=g)
+    _crown(g, g, scx - store_w / 2, scx + store_w / 2, sy0, sy1, store_h, body, trim, coping, parapet_h=0.45, proj=0.26)
     plane(f"{g}_roof", (store_w - 0.6, store_d - 0.6), (scx, (sy0 + sy1) / 2, store_h + 0.02), mat_surface("roof", "#5d605f", rough=0.98, bump=0.3, scale=30), group=g)
     box(f"{g}_hvac", (1.8, 1.3, 0.9), (scx + 4, sy0 + 6, store_h + 0.45), mat_surface("hvac", "#8e8d88", rough=0.6, metallic=0.4), bevel=0.03, group=g)
     # the rest of the lot behind the store: a service yard wall and a dumpster, so the lot is deep
@@ -1212,7 +1522,9 @@ def _build_joes(W: World, lot: Lot, forecourt, trim, fascia, frame, door, glass,
     for side, (fx, fy, fw, fd) in {"S": (can_cx, can_cy - can_d / 2 - 0.05, can_w + 0.1, 0.1), "N": (can_cx, can_cy + can_d / 2 + 0.05, can_w + 0.1, 0.1), "E": (can_cx + can_w / 2 + 0.05, can_cy, 0.1, can_d + 0.1), "W": (can_cx - can_w / 2 - 0.05, can_cy, 0.1, can_d + 0.1)}.items():
         box(f"{g}_canopyband{side}", (fw, fd, can_t * 0.55), (fx, fy, can_h + can_t / 2), W.joes_canopy_mat, bevel=0.01, group=g)
         box(f"{g}_canopydrip{side}", (fw + 0.04, fd + 0.04, 0.06), (fx, fy, can_h + can_t * 0.225 - 0.03), mat_surface("canopy_body", "#3f4345"), bevel=0, group=g)
-    text(f"{g}_canopyname", "JOE'S FUEL & GO", 0.32, (can_cx, can_cy - can_d / 2 - 0.05, can_h + can_t / 2 + 0.07), mat_surface("canopy_text", "#3b3f41", rough=0.6), group=g, spacing=1.3)
+    # the name sits on the front face of the fascia band, not inside it, and is sized to read at 1280
+    text(f"{g}_canopyname", "JOE'S FUEL & GO", 0.44, (can_cx, can_cy - can_d / 2 - 0.115, can_h + can_t / 2 + 0.06), mat_surface("canopy_text", "#2c3032", rough=0.6), group=g, spacing=1.34, extrude=0.02)
+    text(f"{g}_canopyname_n", "JOE'S FUEL & GO", 0.44, (can_cx, can_cy + can_d / 2 + 0.115, can_h + can_t / 2 + 0.06), mat_surface("canopy_text", "#2c3032", rough=0.6), group=g, spacing=1.34, extrude=0.02, rot=(math.pi / 2, 0, math.pi))
     stripe = mat_surface("brand_stripe", "#8f3a2f", rough=0.55, spec=0.45)
     for side, (fx, fy, fw, fd) in {"S": (can_cx, can_cy - can_d / 2 - 0.03, can_w, 0.05), "N": (can_cx, can_cy + can_d / 2 + 0.03, can_w, 0.05), "E": (can_cx + can_w / 2 + 0.03, can_cy, 0.05, can_d), "W": (can_cx - can_w / 2 - 0.03, can_cy, 0.05, can_d)}.items():
         box(f"{g}_canopystripe{side}", (fw, fd, 0.13), (fx, fy, can_h + can_t * 0.225 + 0.075), stripe, bevel=0, group=g)
@@ -1267,22 +1579,28 @@ def _build_joes(W: World, lot: Lot, forecourt, trim, fascia, frame, door, glass,
             W.pump_points.append(Vector((icx - 1.6 * isx, py, 0)))
             W.tracks[f"pump_{ix}{iy}"] = empty(f"track_pump_{ix}{iy}", (icx, py - 0.3, CURB_H + 0.16 + 1.45))
         for sx in (-1, 1):
-            plane(f"{g}_stain{ix}{sx}", (2.6, 3.0), (icx + sx * 1.5, can_cy - 0.4, CURB_H + 0.012), mat_surface("stain", "#9d9a92", rough=0.95), group=g)
+            plane(f"{g}_stain{ix}{sx}", (2.6, 3.0), (icx + sx * 1.5, can_cy - 0.4, CURB_H + 0.019), mat_surface("stain", "#9d9a92", rough=0.95), group=g)
         # painted bays either side of the island, and wheel stops
         for sx in (-1, 1):
-            box(f"{g}_bayline{ix}{sx}", (0.1, 6.4, 0.004), (icx + sx * 2.4, can_cy, CURB_H + 0.012), mat_surface("marking", P.marking), bevel=0, group=g)
+            box(f"{g}_bayline{ix}{sx}", (0.1, 6.4, 0.004), (icx + sx * 2.4, can_cy, CURB_H + 0.021), mat_surface("marking", P.marking), bevel=0, group=g)
             box(f"{g}_wheelstop{ix}{sx}", (1.6, 0.16, 0.12), (icx + sx * 1.9, can_cy - 3.4, CURB_H + 0.06), mat_surface("wheelstop", "#c9c3b7", rough=0.8), bevel=0.02, group=g)
     # bollards at the forecourt mouth, and the price sign as a quiet monolith
     for bx in (x0 + 2.0, x1 - 2.0):
         cylinder(f"{g}_bollard{bx}", 0.12, 0.9, (bx, y0 + 1.2, 0.45 + CURB_H), mat_surface("bollard", "#5a5d5f", rough=0.5, metallic=0.3), group=g)
     box(f"{g}_pricesign", (0.5, 0.3, 3.6), (x1 - 1.6, y0 + 3.4, 1.8 + CURB_H), mat_surface("canopy_body", "#3f4345"), bevel=0.02, group=g)
-    box(f"{g}_pricepanel", (1.5, 0.22, 1.2), (x1 - 1.6, y0 + 3.4, 3.5 + CURB_H), mat_surface("pricepanel", "#24272a", rough=0.5, spec=0.5), bevel=0.01, group=g)
-    box(f"{g}_pricestripe", (1.5, 0.23, 0.08), (x1 - 1.6, y0 + 3.4, 4.06 + CURB_H), mat_surface("brand_stripe", "#8f3a2f"), bevel=0, group=g)
-    box(f"{g}_priceplate", (1.5, 0.22, 0.4), (x1 - 1.6, y0 + 3.4, 4.3 + CURB_H), mat_surface("priceplate", "#e6e1d6", rough=0.6), bevel=0.01, group=g)
-    text(f"{g}_pricename", "JOE'S", 0.24, (x1 - 1.6, y0 + 3.4 - 0.115, 4.3 + CURB_H - 0.085), mat_surface("canopy_text", "#3b3f41"), group=g, spacing=1.2, extrude=0.004)
-    digits = mat_emissive("price_digits", "#ffe2b0", 2.6, base="#b89468")
-    for k, line in enumerate(("REGULAR   3.49", "DIESEL    3.99")):
-        text(f"{g}_price{k}", line, 0.19, (x1 - 1.6, y0 + 3.4 - 0.115, 3.72 + CURB_H - k * 0.42), digits, group=g, spacing=1.1, extrude=0.004)
+    psx, psy = x1 - 1.6, y0 + 3.4
+    pw = 2.3
+    box(f"{g}_pricepanel", (pw, 0.22, 1.24), (psx, psy, 3.5 + CURB_H), mat_surface("pricepanel", "#222527", rough=0.5, spec=0.5), bevel=0.01, group=g)
+    box(f"{g}_pricestripe", (pw, 0.23, 0.08), (psx, psy, 4.08 + CURB_H), mat_surface("brand_stripe", "#8f3a2f"), bevel=0, group=g)
+    box(f"{g}_priceplate", (pw, 0.22, 0.44), (psx, psy, 4.34 + CURB_H), mat_surface("priceplate", "#e6e1d6", rough=0.6), bevel=0.01, group=g)
+    text(f"{g}_pricename", "JOE'S", 0.3, (psx, psy - 0.115, 4.34 + CURB_H - 0.01), mat_surface("canopy_text", "#2c3032"), group=g, spacing=1.2, extrude=0.006)
+    # the label small and matt, the number large and only just lit: at 1280 it has to read as a price, not a glow
+    digits = mat_emissive("price_digits", "#ffe2b0", 1.6, base="#c9a678")
+    label = mat_surface("price_label", "#cfc6b6", rough=0.7)
+    for k, (name, price) in enumerate((("REGULAR", "3.49"), ("DIESEL", "3.99"))):
+        zk = 3.78 + CURB_H - k * 0.52
+        text(f"{g}_pricelabel{k}", name, 0.17, (psx - pw / 2 + 0.14, psy - 0.115, zk), label, group=g, spacing=1.1, extrude=0.005, align="LEFT")
+        text(f"{g}_price{k}", price, 0.36, (psx + pw / 2 - 0.14, psy - 0.115, zk), digits, group=g, spacing=1.05, extrude=0.008, align="RIGHT")
     # tracked points: the lot anchor where the 3 lands (forecourt centre), the curb in front of Joe's
     W.tracks["joes_lot"] = empty("track_joes_lot", (can_cx, y0 + 2.6, CURB_H))
     W.tracks["joes_curb_w"] = empty("track_joes_curb_w", (x0, ROAD_HALF, CURB_H))
@@ -1305,12 +1623,15 @@ def _build_near(W: World, k, x0, x1, storeys, col, trim, glass, dark_glass, fasc
     y0 = y1 - depth
     cy = (y0 + y1) / 2
     H = GROUND + storeys * STOREY + (0.9 if storeys == 0 else 0.0)
-    body = mat_surface(f"body_near{k}", col, rough=0.9, bump=0.2, scale=6)
-    box(f"{g}_mass", (w - 0.3, depth, H), (cx, cy, H / 2), body, bevel=0.04, group=g)
-    box(f"{g}_cornice", (w + 0.06, depth + 0.36, 0.34), (cx, cy, H - 0.17), trim, bevel=0.03, group=g)
+    body = mat_brick(f"body_near{k}", col, seed=k * 13 + 5, tone=1.0 + 0.03 * ((k % 3) - 1), rh=0.074 + 0.005 * (k % 2))
+    coping = mat_surface("coping", P.coping, rough=0.9, bump=0.12, scale=14)
+    room = mat_surface("room_dark", P.room, rough=0.95)
+    set_back = FACADE_T + BACK_D
+    box(f"{g}_mass", (w - 0.3, depth - set_back, H), (cx, cy - set_back / 2, H / 2), body, bevel=0.04, group=g)
+    if not storeys:  # a single-storey neighbour still needs a wall to carry its own cornice
+        box(f"{g}_frontwall", (w - 0.3, set_back, H - GROUND), (cx, y1 - set_back / 2, GROUND + (H - GROUND) / 2), body, bevel=0.03, group=g)
     plane(f"{g}_roof", (w - 1.0, depth - 0.8), (cx, cy, H + 0.02), mat_surface("roofgravel", "#66696a", rough=1.0, bump=0.6, scale=60), group=g)
-    for (bx, by, bw, bd) in ((cx, y0 + 0.2, w - 0.3, 0.4), (cx, y1 - 0.2, w - 0.3, 0.4), (x0 + 0.35, cy, 0.4, depth), (x1 - 0.35, cy, 0.4, depth)):
-        box(f"{g}_parapet{bx}{by}", (bw, bd, 0.55), (bx, by, H + 0.275), body, bevel=0.02, group=g)
+    _crown(g, g, x0 + 0.15, x1 - 0.15, y0, y1, H, body, trim, coping)
     box(f"{g}_hvac", (1.5, 1.1, 0.8), (cx - w * 0.2, cy - 1.5, H + 0.4), mat_surface("hvac", "#8e8d88"), bevel=0.03, group=g)
     if k % 2 == 0:
         box(f"{g}_bulkhead", (2.8, 3.2, 2.5), (cx + w * 0.22, cy + 2.0, H + 1.25), body, bevel=0.03, group=g)
@@ -1320,23 +1641,29 @@ def _build_near(W: World, k, x0, x1, storeys, col, trim, glass, dark_glass, fasc
     plane(f"{g}_glass", (open_w, glass_top - 0.55), (cx, y1 - 0.12, 0.55 + (glass_top - 0.55) / 2), glass, group=g, rot=(math.pi / 2, 0, 0))
     box(f"{g}_riser", (open_w, 0.3, 0.55), (cx, y1 - 0.15, 0.275), trim, bevel=0.02, group=g)
     box(f"{g}_fascia", (open_w + 0.1, 0.22, GROUND - glass_top), (cx, y1 - 0.11, glass_top + (GROUND - glass_top) / 2), fascia, bevel=0.01, group=g)
-    # a lit card behind the glass so the near shops are alive too
+    # a shallow shop behind the glass: two returns, a floor, and a lit card against the back — the card used to
+    # stand a metre out on the sidewalk, which is why the near row read as a strip of blown-out white
+    for sx in (-1, 1):
+        box(f"{g}_return{sx}", (0.7, set_back, GROUND), (cx + sx * (open_w + 0.7) / 2, y1 - set_back / 2, GROUND / 2), body, bevel=0.02, group=g)
+    plane(f"{g}_shopfloor", (open_w, set_back), (cx, y1 - set_back / 2, 0.02), mat_surface("interior_floor", P.interior_floor, rough=0.7, spec=0.5), group=g)
     em = mat_emissive(f"{g}_card", P.warm, 0.0, base="#6c645a")
-    plane(f"{g}_card", (open_w - 0.2, glass_top - 0.6), (cx, y1 + 0.9, 0.55 + (glass_top - 0.55) / 2), em, group=g, rot=(math.pi / 2, 0, 0))
+    plane(f"{g}_card", (open_w - 0.2, glass_top - 0.6), (cx, y1 - set_back + 0.05, 0.55 + (glass_top - 0.55) / 2), em, group=g, rot=(math.pi / 2, 0, 0))
     W.interior_emissives[f"near{k}"] = [em]
     cols = max(2, round(w / 3.1))
     sp = w / cols
-    W.upper_windows[f"near{k}"] = []
-    for s in range(storeys):
-        zc = GROUND + s * STOREY + STOREY * 0.52
-        for c in range(cols):
-            xc = x0 + sp * (c + 0.5)
-            for face_y, sgn in ((y1 - 0.14, -1), (y0 + 0.14, 1)):
-                box(f"{g}_reveal{s}{c}{sgn}", (1.15, 0.3, 1.7), (xc, face_y, zc), mat_surface("reveal", "#3a3d3f"), bevel=0, group=g)
-                plane(f"{g}_wglass{s}{c}{sgn}", (1.15, 1.7), (xc, face_y - sgn * 0.06, zc), dark_glass, group=g, rot=(math.pi / 2, 0, 0))
-                box(f"{g}_sill{s}{c}{sgn}", (1.35, 0.22, 0.08), (xc, face_y - sgn * 0.2, zc - 0.9), trim, bevel=0.01, group=g)
-                card = plane(f"{g}_wcard{s}{c}{sgn}", (1.1, 1.65), (xc, face_y - sgn * 0.14 + sgn * 0.3, zc), mat_emissive(f"{g}_wcard{s}{c}{sgn}", P.warm, 0.0, base="#6c645a"), group=g, rot=(math.pi / 2, 0, 0))
-                W.upper_windows[f"near{k}"].append(card)
+    cards: list[bpy.types.Object] = []
+    if storeys:
+        rows = [GROUND + s * STOREY + STOREY * 0.52 for s in range(storeys)]
+        # the street face gets the whole wall; the back, which only ever reads in silhouette, gets sills and reveals
+        _facade_plate(g, g, x0 + 0.15, x1 - 0.15, GROUND, H, y1, -1, rows, cols, body, trim, dark_glass, room,
+                      sash=frame, cards=cards)
+        for s, zc in enumerate(rows):
+            for c in range(cols):
+                xc = x0 + sp * (c + 0.5)
+                plane(f"{g}_backglass{s}{c}", (1.2, 1.7), (xc, y0 - 0.012, zc), dark_glass, group=g, rot=(math.pi / 2, 0, 0))
+                box(f"{g}_backsill{s}{c}", (1.5, 0.34, 0.1), (xc, y0 - 0.09, zc - 0.92), trim, bevel=0.012, group=g)
+                box(f"{g}_backlintel{s}{c}", (1.56, 0.26, 0.13), (xc, y0 - 0.05, zc + 0.92), trim, bevel=0.01, group=g)
+    W.upper_windows[f"near{k}"] = cards
 
 
 # --------------------------------------------------------------------------
@@ -1380,14 +1707,15 @@ def _furniture(W: World, frame, trim):
             o.modifiers["bevel"].segments = 6
 
 
-def car_at(x, y, ci=0, yaw=0.0, name=None, group="cars"):
-    """A parked car: a low beveled body, a smoked cabin, four wheels. Reads as a car, never as a toy."""
+def car_at(x, y, ci=0, yaw=0.0, name=None, group="cars", z=0.0):
+    """A parked car: a low beveled body, a smoked cabin, four wheels. Reads as a car, never as a toy.
+    `z` is the surface it stands on, so its tyres meet the ground and it casts a contact shadow."""
     nm = name or f"car{x}_{y}"
     smoked = mat_surface("cabin", "#1a1d20", rough=0.28, spec=0.55, coat=0.15)
     tyre = mat_surface("tyre", "#141516", rough=0.9)
     paint = mat_surface(f"paint{ci}", P.car[ci % len(P.car)], rough=0.38, metallic=0.0, coat=0.12, spec=0.4)
     root = bpy.data.objects.new(nm, None)
-    root.location = (x, y, 0)
+    root.location = (x, y, z)
     root.rotation_euler = (0, 0, yaw)
     _link(root, group)
     parts = []
@@ -1455,6 +1783,8 @@ def set_state(W: World, name: str, frame: int | None = None, **overrides):
             on = st["joes"]
         if key == "joes_canopy":
             on = st["canopy"]
+        if key.startswith("near"):
+            on = 0.2
         for em in ems:
             p = em.node_tree.nodes["Principled BSDF"]
             p.inputs["Emission Strength"].default_value = 0.0 if on == 0 else (st["emis"] * 1.4 if key == "joes_canopy" else st["emis"]) * on
@@ -1488,7 +1818,7 @@ def set_state(W: World, name: str, frame: int | None = None, **overrides):
         for i, card in enumerate(cards):
             lit = _fac(hash(key) % 1000, i) < st["windows"]
             p = card.data.materials[0].node_tree.nodes["Principled BSDF"]
-            p.inputs["Emission Strength"].default_value = (st["emis"] * (0.5 + 0.35 * _fac(i, 3))) if lit else 0.0
+            p.inputs["Emission Strength"].default_value = (st["emis"] * (0.34 + 0.22 * _fac(i, 3))) if lit else 0.0
             if frame is not None:
                 p.inputs["Emission Strength"].keyframe_insert("default_value", frame=frame)
     # street lamps
@@ -1566,11 +1896,11 @@ def _parking_lot(W: World, x0: float, x1: float, trim):
         box(f"{g}_bay{k}", (0.1, 5.0, 0.004), (bx, y1 - 3.2, 0.008), marking, bevel=0, group=g)
     for k, ci in ((1, 0), (2, 3), (5, 1)):
         bx = x0 + 3.0 + k * 4.4 + 2.2
-        car_at(bx, y1 - 3.4, ci, yaw=math.pi / 2 + (0.03 if k % 2 else -0.03), name=f"lotcar{k}", group=g)
+        car_at(bx, y1 - 3.4, ci, yaw=math.pi / 2 + (0.03 if k % 2 else -0.03), name=f"lotcar{k}", group=g, z=0.005)
     # a second rank deeper in, sparser
     for k, ci in ((3, 2), (6, 0), (8, 4)):
         bx = x0 + 3.0 + k * 4.4 + 2.2
-        car_at(bx, y0 + 6.0, ci, yaw=-math.pi / 2, name=f"lotcar2{k}", group=g)
+        car_at(bx, y0 + 6.0, ci, yaw=-math.pi / 2, name=f"lotcar2{k}", group=g, z=0.005)
     bark = mat_surface("bark", "#4a443c", rough=0.9)
     leaf = mat_surface("leaf", "#4b5a48", rough=0.95)
     for tx in (x0 + 1.5, x1 - 4.0):

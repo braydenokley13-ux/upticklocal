@@ -120,8 +120,32 @@ def hold_keys(obj):
 # --------------------------------------------------------------------------
 # People
 # --------------------------------------------------------------------------
+# a cast with real height variety: adults from a short one to a tall one, picked deterministically
+HEIGHTS = (1.57, 1.62, 1.66, 1.70, 1.73, 1.77, 1.81, 1.87)
+
+
+def ground_z(x: float, y: float) -> float:
+    """Where a foot actually lands: the road, the kerbed sidewalk, Joe's forecourt, or a shop floor.
+    Nobody hovers, so everybody has a contact shadow."""
+    ay = abs(y)
+    if ay < B.ROAD_HALF:
+        return 0.0
+    if ay < B.FRONT:
+        return B.CURB_H
+    if y >= B.FRONT:
+        joes = B.LOTS[2]
+        if joes.x0 < x < joes.x1 and y < 19.6:
+            return B.CURB_H + 0.01
+        return 0.02
+    return 0.005
+
+
+def _cast_height(n: int, given):
+    return given if given is not None else HEIGHTS[int(B._fac(n, 5) * 977) % len(HEIGHTS)]
+
+
 class People:
-    """Amber capsules that walk sidewalks, pause, cross thresholds and go inside."""
+    """Amber figures that walk sidewalks, pause, cross thresholds and go inside."""
 
     def __init__(self, W: B.World):
         self.W = W
@@ -129,28 +153,51 @@ class People:
         self.events: list[dict] = []
         self.objects: list[bpy.types.Object] = []
 
-    def walk(self, path: list[tuple[float, float]], start: int, speed=1.25, pauses: dict[int, int] | None = None, into: str | None = None, name=None, height=1.72, hide_after=True, bob=0.018, start_hidden=True) -> bpy.types.Object:
+    def walk(self, path: list[tuple[float, float]], start: int, speed=1.25, pauses: dict[int, int] | None = None, into: str | None = None, name=None, height=None, hide_after=True, bob=0.018, start_hidden=True) -> bpy.types.Object:
         """Walk through `path` points (x, y) starting at `start`. `pauses` maps point index → frames to wait there.
         `into` names a lot; the last point should be inside the door and a threshold event is recorded when the
-        path crosses the frontage line."""
+        path crosses the frontage line.
+
+        A walker is turned to face the way it is going and leans a little into the walk; it stands up straight
+        while it waits. Its feet stay on whatever surface it is crossing, so Cycles gives it a contact shadow."""
         self.n += 1
         nm = name or f"person{self.n}"
-        p = B.figure(nm, (path[0][0], path[0][1], B.CURB_H), self.W.person_mat, height=height * (0.94 + 0.12 * B._fac(self.n, 5)))
+        h = _cast_height(self.n, height)
+        p = B.figure(nm, (path[0][0], path[0][1], B.CURB_H), self.W.person_mat, height=h)
         self.objects.append(p)
         pauses = pauses or {}
         f = start
+        lean = 0.05 + 0.035 * B._fac(self.n, 9)
+        drop = bob if bob > 0 else 0.0  # the bob only ever sinks, so no foot leaves the ground
+
+        def gz(v):
+            return ground_z(v.x, v.y) - drop
+
         if start_hidden and start > 0:
             p.hide_render = True
             p.keyframe_insert("hide_render", frame=0)
             p.hide_render = False
             p.keyframe_insert("hide_render", frame=start)
-        p.location = (path[0][0], path[0][1], B.CURB_H)
+        a0 = Vector(path[0])
+        p.location = (a0.x, a0.y, gz(a0))
         p.keyframe_insert("location", frame=f)
+        yaw = math.atan2(path[1][1] - path[0][1], path[1][0] - path[0][0]) + math.pi / 2
+        p.rotation_euler = (lean, 0.0, yaw)
+        p.keyframe_insert("rotation_euler", frame=f)
         crossed = False
         for i in range(1, len(path)):
             a, b = Vector(path[i - 1]), Vector(path[i])
             dist = (b - a).length
             dur = max(1, round(dist / speed * FPS))
+            seg = math.atan2(b.y - a.y, b.x - a.x) + math.pi / 2
+            while seg - yaw > math.pi:
+                seg -= 2 * math.pi
+            while seg - yaw < -math.pi:
+                seg += 2 * math.pi
+            yaw = seg
+            turn = max(1, min(6, dur // 4))
+            p.rotation_euler = (lean, 0.0, yaw)
+            p.keyframe_insert("rotation_euler", frame=f + turn)
             # threshold: the frontage line at |y| = FRONT, or a door opening
             if into and not crossed and abs(a.y) < B.FRONT + 0.05 and abs(b.y) > B.FRONT + 0.05 and into != "joes":
                 t = (B.FRONT - abs(a.y)) / max(1e-6, abs(b.y) - abs(a.y))
@@ -160,9 +207,12 @@ class People:
                 self.events.append({"frame": int(round(f + dur * 0.55)), "kind": "threshold", "who": nm, "lot": into})
                 crossed = True
             f += dur
-            p.location = (b.x, b.y, B.CURB_H)
+            p.location = (b.x, b.y, gz(b))
             p.keyframe_insert("location", frame=f)
+            p.keyframe_insert("rotation_euler", frame=f - min(turn, dur - 1) if dur > 1 else f)
             if i in pauses:
+                p.rotation_euler = (0.0, 0.0, yaw)
+                p.keyframe_insert("rotation_euler", frame=f + min(5, pauses[i]))
                 f += pauses[i]
                 p.keyframe_insert("location", frame=f)
         ease(p, linear=True)
@@ -187,10 +237,11 @@ class People:
                     mod.frame_end = f
         return p
 
-    def stand(self, at: tuple[float, float], start: int, end: int, name=None, height=1.72, face=None):
+    def stand(self, at: tuple[float, float], start: int, end: int, name=None, height=None, face=None):
         self.n += 1
         nm = name or f"person{self.n}"
-        p = B.figure(nm, (at[0], at[1], B.CURB_H), self.W.person_mat, height=height * (0.95 + 0.1 * B._fac(self.n, 7)))
+        p = B.figure(nm, (at[0], at[1], ground_z(at[0], at[1])), self.W.person_mat, height=_cast_height(self.n, height))
+        p.rotation_euler = (0.0, 0.0, face if face is not None else B._fac(self.n, 13) * 2 * math.pi)
         self.objects.append(p)
         p.hide_render = True
         p.keyframe_insert("hide_render", frame=0)
@@ -319,7 +370,10 @@ def settings(width=1920, height=1080, samples=64, denoise=True, adaptive=0.1, se
     s.render.image_settings.color_depth = "8"
     s.render.image_settings.compression = 60
     s.render.film_transparent = False
-    s.render.use_motion_blur = False
+    # a real shutter: plates carry the camera's own blur instead of being 156 crisp stills
+    s.render.use_motion_blur = True
+    s.render.motion_blur_shutter = 0.5
+    s.render.motion_blur_position = "CENTER"
     s.view_settings.view_transform = "AgX"
     s.view_settings.look = "AgX - Medium High Contrast"
     s.view_settings.gamma = 1.0
@@ -357,7 +411,8 @@ def _dawn_life(ppl: People, offset=0):
     ppl.walk([(cafe_door[0], cafe_door[1] + 1.0), (cafe_door[0], B.FRONT - 0.6), (cafe_door[0] + 1.0, y + 0.7), (cafe_door[0] + 14.0, y + 0.9)], offset + 96, start_hidden=True)
     # walkers who pass Joe's without turning in (never under the opening camera)
     ppl.walk([(-30.0, y - 0.9), (-6.0, y - 0.8), (24.0, y - 0.7)], offset + 60, speed=1.35)
-    ppl.walk([(-1.0, -y + 0.4), (-24.0, -y + 0.6)], offset + 24, speed=1.3)
+    # far enough west by the settle that it is gone, not a half-figure stuck in the corner of the frame
+    ppl.walk([(-8.0, -y + 0.4), (-34.0, -y + 0.6)], offset - 40, speed=1.3)
     # people already inside: two at the café counter, one in the pharmacy; two seated outside the café
     ppl.stand((cafe.cx - 1.4, B.FRONT + 3.3), 0, 10000)
     ppl.stand((cafe.cx + 1.2, B.FRONT + 2.2), 0, 10000)
@@ -425,7 +480,7 @@ def _hero1_common(W: B.World):
     for name, (px, py) in (("page_tl", (lot.x - pw / 2, py0 + pd)), ("page_tr", (lot.x + pw / 2, py0 + pd)), ("page_br", (lot.x + pw / 2, py0)), ("page_bl", (lot.x - pw / 2, py0))):
         W.tracks[name] = B.empty(f"track_{name}", (px, py, B.CURB_H))
     # one unattended car at Joe's east island: the forecourt is not empty, it is quiet
-    B.car_at(5.1, 13.4, 3, yaw=math.pi / 2, name="car_joes_quiet")
+    B.car_at(5.1, 13.4, 3, yaw=math.pi / 2, name="car_joes_quiet", z=B.CURB_H + 0.02)
     ppl = People(W)
     _dawn_life(ppl, offset=0)
     return walk, ppl
@@ -446,7 +501,8 @@ def shot_hero1a(W: B.World):
     cam = camera(lens=26, fstop=4.0, focus=34.0)
     key_cam(cam, 0, (fcx, fcy, FP_Z), (fcx, fcy + 0.0001, 0.0), lens=26, focus=FP_Z)
     key_cam(cam, 22, (fcx, fcy, FP_Z), (fcx, fcy + 0.0001, 0.0), lens=26, focus=FP_Z)
-    key_cam(cam, 74, (fcx - 4.5, fcy - 11.0, 7.8), (fcx - 1.0, B.FRONT + 2.0, 1.4), lens=27, focus=22.0)
+    # out over the street, not under Joe's canopy: the canopy stays a line along the top instead of a slab
+    key_cam(cam, 74, (fcx - 6.0, fcy - 19.0, 8.6), (fcx + 1.0, B.FRONT - 0.2, 1.2), lens=27, focus=24.0)
     key_cam(cam, 110, E_FINAL["pos"], E_FINAL["target"], lens=E_FINAL["lens"], focus=34.0)
     key_cam(cam, 132, E_DRIFT["pos"], E_DRIFT["target"], lens=E_DRIFT["lens"], focus=34.0)
     key_cam(cam, frames - 1, E_DRIFT["pos"], E_DRIFT["target"], lens=E_DRIFT["lens"], focus=34.0)
@@ -638,7 +694,7 @@ def shot_hero5(W: B.World):
         if o.name in ("lot_joes_door", "lot_joes_doorglass"):
             o.hide_render = True
     # a customer's car at the east pump island
-    B.car_at(5.1, 13.4, 2, yaw=math.pi / 2, name="car_pump")
+    B.car_at(5.1, 13.4, 2, yaw=math.pi / 2, name="car_pump", z=B.CURB_H + 0.02)
     ppl = People(W)
     y = B.ROAD_HALF + 1.9
     dx, dy = door.x, door.y
