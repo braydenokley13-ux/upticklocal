@@ -74,7 +74,7 @@ export const REACH = {
 export const PLAN = {
   title: "Morning Coffee Drop",
   window: "Friday · 7–10 AM",
-  windowShort: "Friday · 7–10",
+  windowShort: "Friday · 7–10 AM · tomorrow",
   offer: "$25+ fill-up → coffee on us",
   offerLong: "$25+ fill-up → free large coffee.",
   reward: "Free large coffee",

@@ -29,30 +29,30 @@ const DAY1 = 20;
 
 const T = {
   caret: 12,
-  type: 50,
-  typed: 96,
-  reset: 118,
-  friday: 132,
-  mornings: 190,
-  slow: 248,
-  context: 300,
-  assemble: 344,
-  plan: 372,
+  type: 44,
+  typed: 90,
+  reset: 112,
+  friday: 126,
+  mornings: 176,
+  slow: 222,
+  context: 270,
+  assemble: 296,
+  plan: 322,
   end: 408,
 };
 
-// visits last Friday, in hours: three inside 07–10, the rest after 10:20
+// visits last Friday, in hours: three inside 07–10, then a day that fills up — a ramp to a wall by mid-afternoon
+const MORNING = [7.68, 8.92, 9.5];
 const VISITS = (() => {
-  const v: number[] = [7.68, 8.92, 9.5];
+  const v: number[] = [];
   let seed = 11;
   const rand = () => {
     seed = (seed * 9301 + 49297) % 233280;
     return seed / 233280;
   };
-  for (let i = 0; i < 46; i++) {
-    const r = rand();
-    const h = r < 0.42 ? 10.35 + rand() * 3.2 : r < 0.78 ? 15.3 + rand() * 3.4 : 13.6 + rand() * 1.8;
-    v.push(h);
+  const density = (h: number) => (h < 10.3 ? 0 : h < 11 ? 5 : h < 13 ? 10 : h < 15 ? 15 : h < 18 ? 19 : 10); // per hour
+  for (let h = 10.3; h < 20; h += 1 / 60) {
+    if (rand() < density(h) / 60) v.push(h + (rand() - 0.5) / 60);
   }
   return v.sort((a, b) => a - b);
 })();
@@ -90,13 +90,15 @@ export const Hero2 = () => {
   const yS = L2 + (L3 - L2) * mS;
   // mornings slides so it begins at 07:00 on the line; its tracking opens until it ends at 10:00
   const morningsX0 = origins[1];
-  const morningsX = morningsX0 + (hx(7) + 10 - morningsX0) * mM;
+  const morningsX = morningsX0 + (hx(7) + 6 - morningsX0) * mM;
   const track = ramp(frame, T.mornings + 6, 22, PLANE);
   const morningsW = widths[1];
-  const targetW = hx(10) - hx(7) - 20;
-  const extra = Math.max(0, (targetW - morningsW) / (words[1].length - 1)) * track;
-  // slow slides under the interval once the visits have landed
-  const slowX = origins[3] + (hx(7) - origins[3]) * ramp(frame, T.slow + 30, 22, PLANE);
+  const targetW = hx(10) - hx(7) - 12;
+  const extra = Math.max(0, (targetW - morningsW) / words[1].length) * track;
+  // slow slides into the hole: centred on the interval, close under the rule
+  const slowMove = ramp(frame, T.slow + 34, 22, PLANE);
+  const slowX = origins[3] + ((hx(7) + hx(10)) / 2 - widths[3] / 2 - origins[3]) * slowMove;
+  const slowY = L3 + (L2 + 118 - L3) * slowMove;
 
   // --- Friday: six Fridays on the word's own baseline ------------------------
   const fridayTrack = ramp(frame, T.friday, 26, PLANE);
@@ -106,8 +108,7 @@ export const Hero2 = () => {
   // --- mornings: the day line, hours, the interval -----------------------------
   const dayDraw = ramp(frame, T.mornings, 26, PLANE);
   const uprights = ramp(frame, T.mornings + 22, 12, OUT);
-  const intervalLabel = ramp(frame, T.mornings + 34, 10, OUT);
-
+  
   // --- slow: visits fall onto the day line ------------------------------------
   const fallStart = T.slow;
 
@@ -119,7 +120,7 @@ export const Hero2 = () => {
 
   // --- assemble: the plan, bare on the page ---------------------------------------
   const planX = LEFT;
-  const planY = 150;
+  const planY = 236;
   const rowsIn = (k: number) => ramp(frame, T.assemble + 16 + k * 6, 16, OUT);
   const titleIn = ramp(frame, T.plan, 16, OUT);
   const approveIn = ramp(frame, T.plan + 12, 14, OUT);
@@ -128,11 +129,8 @@ export const Hero2 = () => {
   const resolve = ramp(frame, T.assemble + 26, 12, PLANE);
 
   const annotations = [
-    { i: 0, x: fridayEnd, y: L1 + 34, lead: `${RELATIONSHIPS.permissioned}`, text: "people said yes to hearing from Joe's" },
-    { i: 1, x: hx(10) + 40, y: L2 - 118, lead: `${RELATIONSHIPS.signals.morningResponders}`, text: "tend to respond in the morning" },
-    { i: 2, x: hx(13), y: L3 - 60, lead: ECONOMICS.coffeeCostLabel, text: "what a large coffee costs Joe" },
-    { i: 3, x: hx(13), y: L3 + 40, lead: ECONOMICS.fuelRule, text: ECONOMICS.fuelRuleTag },
-    { i: 4, x: fridayEnd, y: L1 - 100, lead: "Text, the pump, the counter", text: "and two nearby screens" },
+    { i: 0, x: fridayEnd, y: L1 + 28, lead: `${RELATIONSHIPS.permissioned}`, text: `said yes to hearing from Joe's · ${RELATIONSHIPS.signals.morningResponders} tend to answer in the morning` },
+    { i: 1, x: hx(13.2), y: L2 + 40, lead: ECONOMICS.coffeeCostLabel, text: "what a large coffee costs Joe" },
   ];
 
   return (
@@ -146,11 +144,6 @@ export const Hero2 = () => {
       <div style={{ position: "absolute", right: LEFT, top: 84, opacity: ramp(frame, 0, 12, OUT), textAlign: "right" }}>
         <Mono color={COLOR.inkFaint}>{frame < T.plan ? INTENT.said : "Thursday · 6:46 PM"}</Mono>
       </div>
-      <div style={{ position: "absolute", left: LEFT, bottom: 84, opacity: ramp(frame, 0, 12, OUT) }}>
-        <Mono color={COLOR.inkFaint} size={14}>
-          {frame < T.reset ? "Said in the owner's own words" : frame < T.assemble ? "Reading" : "One plan"}
-        </Mono>
-      </div>
 
       {/* the sentence, typed on the day line */}
       {frame < T.reset ? (
@@ -158,9 +151,9 @@ export const Hero2 = () => {
       ) : (
         <>
           <Word text={words[0]} x={LEFT + (origins[0] - LEFT) * (1 - mF)} y={yF} opacity={wordsOut} />
-          <Word text={words[1]} x={morningsX} y={L2} opacity={wordsOut} spacing={extra} />
+          <Word text={words[1]} x={morningsX} y={L2 - 8} opacity={wordsOut} spacing={extra} />
           <Word text={words[2]} x={origins[2]} y={L2} opacity={areOut} />
-          <Word text={words[3]} x={slowX} y={yS} opacity={wordsOut} />
+          <Word text={words[3]} x={slowX} y={slowMove > 0 ? slowY : yS} opacity={wordsOut} />
         </>
       )}
       {caretOn && frame < T.reset && <div style={{ position: "absolute", left: typedX + 4, top: L2 - WORD_PX * 0.78, width: 3, height: WORD_PX * 0.86, background: caretMint > 0 ? COLOR.mintDeep : COLOR.ink }} />}
@@ -168,7 +161,7 @@ export const Hero2 = () => {
       {/* FRIDAY · six Fridays, on the word's baseline */}
       {frame >= T.friday && (
         <div style={{ position: "absolute", left: 0, top: 0, opacity: readingOut }}>
-          <div style={{ position: "absolute", left: fridayEnd, top: L1, width: (RIGHT - fridayEnd) * fridayTrack, height: 1, background: COLOR.inkHair }} />
+          <div style={{ position: "absolute", left: fridayEnd, top: L1, width: (RIGHT - fridayEnd) * fridayTrack, height: 1, background: "rgba(23,32,31,0.22)" }} />
           {Array.from({ length: 6 }).map((_, w) => {
             const t = (w + 1) / 6;
             const on = Math.min(1, Math.max(0, (fridayTrack * 1.08 - t) * 8));
@@ -179,7 +172,6 @@ export const Hero2 = () => {
                   <div key={d} style={{ position: "absolute", left: fridayEnd + weekW * w + (weekW / 7) * (d + 1), top: L1 - 10, width: 1, height: 10, background: COLOR.inkHair, opacity: Math.min(1, Math.max(0, (fridayTrack * 1.08 - (w + (d + 1) / 7) / 6) * 8)) }} />
                 ))}
                 <div style={{ position: "absolute", left: x, top: L1 - 34 * on, width: 3, height: 34 * on, background: COLOR.mintDeep }} />
-                <div style={{ position: "absolute", left: x - 3, top: L1 - 34 * on - 12, width: 9, height: 9, borderRadius: 5, background: COLOR.mintDeep, opacity: on }} />
               </div>
             );
           })}
@@ -194,7 +186,7 @@ export const Hero2 = () => {
       {/* MORNINGS · the day line, and the interval the word sits on */}
       {frame >= T.mornings && (
         <div style={{ position: "absolute", left: 0, top: 0, opacity: readingOut }}>
-          <div style={{ position: "absolute", left: LEFT, top: L2, width: (RIGHT - LEFT) * dayDraw, height: 1.5, background: "rgba(23,32,31,0.32)" }} />
+          <div style={{ position: "absolute", left: LEFT, top: L2, width: (RIGHT - LEFT) * dayDraw, height: 1, background: "rgba(23,32,31,0.22)" }} />
           {[6, 8, 10, 12, 14, 16, 18, 20].map((h) => {
             const t = (h - DAY0) / (DAY1 - DAY0);
             const o = Math.min(1, Math.max(0, (dayDraw * 1.04 - t) * 10));
@@ -210,31 +202,34 @@ export const Hero2 = () => {
           {[7, 10].map((h) => (
             <div key={h} style={{ position: "absolute", left: hx(h) - 1.5, top: L2 - 34 * uprights, width: 3, height: 34 * uprights, background: COLOR.mintDeep }} />
           ))}
-          <div style={{ position: "absolute", left: hx(7), top: L2 - 150, opacity: intervalLabel }}>
-            <Mono color={COLOR.mintDeep} size={15}>
-              07:00 – 10:00
-            </Mono>
-          </div>
+
         </div>
       )}
 
       {/* SLOW · visits fall onto the day line; three inside the interval */}
       {frame >= T.slow && (
         <div style={{ position: "absolute", left: 0, top: 0, opacity: readingOut }}>
-          {VISITS.map((h, i) => {
-            const start = fallStart + (i < 3 ? i * 10 : 36 + (i - 3) * 1.1);
-            const f = ramp(frame, start, 12, IN);
+          {MORNING.map((h, i) => {
+            const f = ramp(frame, fallStart + i * 9, 12, IN);
             if (f <= 0) return null;
             const x = hx(h);
-            const stack = VISITS.slice(0, i).filter((v) => Math.abs(hx(v) - x) < 6).length;
-            const landY = L2 - 2 - stack * 22 - 22;
-            const y = landY - (1 - f) * 240;
-            const inGap = h >= 7 && h <= 10;
-            return <div key={i} style={{ position: "absolute", left: x - 1.5, top: y, width: 3, height: 22, borderRadius: 1.5, background: COLOR.amber, opacity: 0.4 + 0.6 * f, boxShadow: inGap ? `0 0 14px rgba(226,162,79,0.55)` : undefined }} />;
+            const y = L2 + 4 + (1 - f) * 90;
+            return <div key={`m${i}`} style={{ position: "absolute", left: x - 1.5, top: y, width: 3, height: 26, borderRadius: 1.5, background: COLOR.amber, opacity: 0.5 + 0.5 * f, boxShadow: `0 0 16px rgba(226,162,79,0.5)` }} />;
           })}
-          <div style={{ position: "absolute", left: hx(7), top: L3 + 30, opacity: ramp(frame, T.slow + 56, 12, OUT) }}>
+          {VISITS.map((h, i) => {
+            const start = fallStart + 30 + i * 0.32;
+            const f = ramp(frame, start, 10, IN);
+            if (f <= 0) return null;
+            const x = hx(h);
+            const stack = VISITS.slice(Math.max(0, i - 40), i).filter((v) => Math.abs(hx(v) - x) < 3.2).length;
+            const hgt = 12 + ((i * 7) % 5);
+            const landY = L2 - 2 - hgt - stack * (hgt + 2);
+            const y = landY - (1 - f) * 130;
+            return <div key={i} style={{ position: "absolute", left: x - 0.75, top: y, width: 1.5, height: hgt, background: COLOR.amber, opacity: 0.55 + 0.45 * f }} />;
+          })}
+          <div style={{ position: "absolute", left: hx(7), top: L2 + 150, width: hx(10) - hx(7), textAlign: "center", opacity: ramp(frame, T.slow + 62, 12, OUT) }}>
             <Mono color={COLOR.amberDeep} size={14}>
-              {GAP.visits} visits · last Friday · the gap
+              {GAP.visits} · last Friday
             </Mono>
           </div>
         </div>
@@ -245,7 +240,7 @@ export const Hero2 = () => {
         <div style={{ position: "absolute", left: 0, top: 0, opacity: annOut }}>
           {annotations.map((a) => {
             const v = ann(a.i);
-            const travels = a.i === 2 || a.i === 3;
+            const travels = a.i === 1;
             return (
               <div key={a.i} style={{ position: "absolute", left: a.x, top: a.y - (1 - v) * 10, opacity: v * (travels ? 1 - travel : 1), display: "flex", alignItems: "baseline", gap: 12, whiteSpace: "nowrap" }}>
                 <span style={{ fontFamily: FONT.sans, fontWeight: 300, fontSize: 30, letterSpacing: "-0.02em", color: COLOR.ink }}>{a.lead}</span>
@@ -259,11 +254,12 @@ export const Hero2 = () => {
       {/* ASSEMBLE · one plan, bare on the page */}
       {frame >= T.assemble && (
         <>
-          <div style={{ position: "absolute", left: planX, top: planY - 34, width: 56 * rule, height: 2, background: COLOR.mintDeep }} />
-          <GrowthPlanCard x={planX} y={planY} bare reveal={{ title: titleIn, window: rowsIn(0) * travel, offer: rowsIn(1), fuel: rowsIn(2), audience: rowsIn(3), limit: rowsIn(4) * resolve, approve: approveIn }} />
-          <Traveller t={travel} from={{ x: hx(7) + 12, y: L2 - 150, size: 15, mono: true, color: COLOR.mintDeep }} to={{ x: planX, y: planY + PLAN_ROWS.window + 24, size: 34, mono: false, color: COLOR.ink }} textFrom="07:00 – 10:00" textTo={PLAN_LINES.window} />
-          <Traveller t={travel} from={{ x: annotations[2].x, y: annotations[2].y, size: 30, mono: false, color: COLOR.ink }} to={{ x: planX, y: planY + PLAN_ROWS.limit + 24, size: 34, mono: false, color: COLOR.ink }} textFrom={ECONOMICS.coffeeCostLabel} textTo={resolve < 0.5 ? `${ECONOMICS.coffeeCostLabel} × ${ECONOMICS.limit}` : PLAN_LINES.limit} fade={resolve} />
-          <Traveller t={travel} from={{ x: annotations[3].x, y: annotations[3].y, size: 30, mono: false, color: COLOR.ink }} to={{ x: planX + 200, y: planY + PLAN_ROWS.approve + 24, size: 12, mono: true, color: COLOR.inkFaint }} textFrom={ECONOMICS.fuelRule} textTo={`${ECONOMICS.fuelRule} ${ECONOMICS.fuelRuleTag}`} fade={approveIn} />
+          <div style={{ position: "absolute", left: planX, top: planY + 4, width: 96 * rule, height: 2, background: COLOR.mintDeep }} />
+          <GrowthPlanCard x={planX} y={planY + 30} bare labels={false} titleSize={96} approveStyle="underline" reveal={{ title: titleIn, window: rowsIn(0), offer: rowsIn(1), fuel: rowsIn(2), audience: rowsIn(3), limit: rowsIn(4) * resolve, approve: approveIn }} />
+          <Traveller t={travel} from={{ x: annotations[1].x, y: annotations[1].y, size: 30, mono: false, color: COLOR.ink }} to={{ x: planX, y: planY + 30 + PLAN_ROWS.limit + 14, size: 34, mono: false, color: COLOR.ink }} textFrom={ECONOMICS.coffeeCostLabel} textTo={resolve < 0.5 ? `${ECONOMICS.coffeeCostLabel} × ${ECONOMICS.limit}` : PLAN_LINES.limit} fade={resolve} />
+          <div style={{ position: "absolute", left: planX + 260, top: planY + 30 + PLAN_ROWS.approve + 8, opacity: approveIn, fontFamily: FONT.sans, fontWeight: 300, fontSize: 22, color: COLOR.amberDeep, letterSpacing: "-0.01em" }}>
+            {ECONOMICS.fuelRule.replace(".", "")} — {ECONOMICS.fuelRuleTag.replace(".", "")}
+          </div>
         </>
       )}
     </Frame>
