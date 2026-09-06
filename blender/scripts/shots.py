@@ -397,6 +397,9 @@ def _hold_keys_material(mat):
 # the settle: across the street at first-floor height, Joe's centre-left, the café alive on the right
 E_FINAL = dict(pos=(-2.5, -19.5, 5.2), target=(6.0, 10.5, 2.8), lens=29)
 E_DRIFT = dict(pos=(-1.7, -19.0, 5.05), target=(6.3, 10.5, 2.8), lens=29.6)
+# dusk, from an upper window across the street: the far row's wall of windows, the two screens, the forecourt
+E_DUSK = dict(pos=(-2.0, -23.0, 9.5), target=(0.0, 12.0, 5.0), lens=20)
+E_DUSK_END = dict(pos=(-2.8, -22.6, 9.2), target=(0.4, 12.0, 4.8), lens=20.5)
 # the top-down page frame (26 mm from 10 m): its centre on the sidewalk so the curb lies at 70% of the page
 FP_Z = 10.0
 FP_DY = 1.56
@@ -498,13 +501,13 @@ def shot_hero3a(W: B.World):
     """Distribute. Thursday 6:48 PM. The plan enters the block; texts land in homes (windows), the two screens arm."""
     frames = 144
     B.set_state(W, "dusk", frame=0)
-    cam = camera(lens=26)
-    key_cam(cam, 0, ESTABLISH["pos"], ESTABLISH["target"], lens=26)
-    key_cam(cam, frames - 1, (-2.0, -23.0, 25.0), (2.0, 13.0, 2.5), lens=27.5)
+    cam = camera(lens=22, fstop=4.0, focus=34.0)
+    key_cam(cam, 0, E_DUSK["pos"], E_DUSK["target"], lens=E_DUSK["lens"], focus=34.0)
+    key_cam(cam, frames - 1, E_DUSK_END["pos"], E_DUSK_END["target"], lens=E_DUSK_END["lens"], focus=34.0)
     ease(cam)
     ease(cam.data)
-    # homes: five windows across the block that light amber as the texts land
-    homes = [("cafe", 1), ("restaurant", 3), ("pharmacy", 0), ("barber", 1), ("gym", 5)]
+    # homes: five windows across the block that light amber as the texts land, all inside the dusk frame
+    homes = [("cafe", 1), ("pharmacy", 2), ("cafe", 6), ("pharmacy", 6), ("cafe", 3)]
     home_frames = [66, 74, 82, 91, 101]
     names = ["joes_walk", "joes_lot", "joes_canopy", "door_joes", "door_cafe", "door_pharmacy", "plaque_cafe", "plaque_pharmacy", "pump_01", "pump_10"]
     W.tracks["joes_walk"] = B.empty("track_joes_walk", (W.tracks["joes_lot"].location.x, B.ROAD_HALF + 2.0, B.CURB_H))

@@ -9,8 +9,10 @@
     "bake": "node scripts/bake-frames.mjs",
     "film:dev": "remotion studio film/index.ts",
     "film:render": "scripts/film-render.sh",
-    "film:plates": "scripts/film-render-plates.sh hero1 hero3b hero5 hero3a",
-    "film:tracks": "for s in hero1 hero3a hero3b hero5; do python3 blender/scripts/render.py $s --tracks-only; done"
+    "film:plates": "scripts/film-render-plates.sh hero1a hero3b hero5 hero3a",
+    "film:tracks": "for s in hero1a hero1b hero1c hero3a hero3b hero5; do python3 blender/scripts/render.py $s --tracks-only; done",
+    "film:review": "scripts/film-review.py",
+    "film:lookdev": "python3 blender/scripts/lookdev.py"
   },
   "dependencies": {
     "@fontsource/geist-mono": "^5.3.0",

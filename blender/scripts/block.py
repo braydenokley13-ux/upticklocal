@@ -1243,14 +1243,14 @@ def _build_joes(W: World, lot: Lot, forecourt, trim, fascia, frame, door, glass,
             for sx in (-1, 1):
                 box(f"{g}_boot{ix}{iy}{sx}", (0.12, 0.62, 0.5), (icx + sx * 0.53, py, CURB_H + 0.16 + 1.25), pump_dark, bevel=0.01, group=g)
                 cylinder(f"{g}_hose{ix}{iy}{sx}", 0.02, 0.9, (icx + sx * 0.58, py + 0.1, CURB_H + 0.16 + 0.7), pump_dark, group=g, verts=8)
+            W.pump_points.append(Vector((icx - 1.6 * isx, py, 0)))
+            W.tracks[f"pump_{ix}{iy}"] = empty(f"track_pump_{ix}{iy}", (icx, py - 0.3, CURB_H + 0.16 + 1.45))
         for sx in (-1, 1):
             plane(f"{g}_stain{ix}{sx}", (2.6, 3.0), (icx + sx * 1.5, can_cy - 0.4, CURB_H + 0.012), mat_surface("stain", "#9d9a92", rough=0.95), group=g)
         # painted bays either side of the island, and wheel stops
         for sx in (-1, 1):
             box(f"{g}_bayline{ix}{sx}", (0.1, 6.4, 0.004), (icx + sx * 2.4, can_cy, CURB_H + 0.012), mat_surface("marking", P.marking), bevel=0, group=g)
             box(f"{g}_wheelstop{ix}{sx}", (1.6, 0.16, 0.12), (icx + sx * 1.9, can_cy - 3.4, CURB_H + 0.06), mat_surface("wheelstop", "#c9c3b7", rough=0.8), bevel=0.02, group=g)
-            W.pump_points.append(Vector((icx + 1.6 * isx * -1, py, 0)))
-            W.tracks[f"pump_{ix}{iy}"] = empty(f"track_pump_{ix}{iy}", (icx, py - 0.3, CURB_H + 0.16 + 1.45))
     # bollards at the forecourt mouth, and the price sign as a quiet monolith
     for bx in (x0 + 2.0, x1 - 2.0):
         cylinder(f"{g}_bollard{bx}", 0.12, 0.9, (bx, y0 + 1.2, 0.45 + CURB_H), mat_surface("bollard", "#5a5d5f", rough=0.5, metallic=0.3), group=g)
