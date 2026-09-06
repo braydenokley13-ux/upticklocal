@@ -41,7 +41,6 @@ export default function ContactPanel({ id, tag, title, lead, include, subject }:
           >
             Email {CONTACT_EMAIL}
           </a>
-          <p className="contact__note">Ian White replies to these directly.</p>
         </div>
       </div>
     </section>

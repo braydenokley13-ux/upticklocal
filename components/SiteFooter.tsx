@@ -32,7 +32,6 @@ export default function SiteFooter() {
           <div className="site-footer__contact">
             <p className="mono-tag mono-tag--muted">Talk to us</p>
             <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
-            <p className="site-footer__note">Ian White replies directly.</p>
           </div>
         </div>
         <p className="site-footer__legal">
