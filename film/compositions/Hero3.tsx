@@ -6,7 +6,7 @@ import { PLATES, Plate, quadAt, trackAt, type TrackData } from "../block/plate";
 import { BLOCK, MESSAGE, PLAN, REACH } from "../data/joes";
 import { IN, OUT, PLANE, ramp, sec } from "../motion";
 import { Frame } from "../primitives/Frame";
-import { GrowthPlanCard, PLAN_ROWS, PLAN_W } from "../primitives/GrowthPlan";
+import { GrowthPlanCard, PLAN_ROWS } from "../primitives/GrowthPlan";
 import { OfferSlab, SLAB_H, SLAB_W } from "../primitives/OfferSlab";
 import { ScreenFaceContent } from "../primitives/ScreenContent";
 import { Mono } from "../primitives/Type";
@@ -44,16 +44,16 @@ export const Hero3 = () => {
   const pb = Math.max(0, Math.min(C_FRAMES - 1, frame - C_START));
 
   // ---------------------------------------------------------------- A · approve
-  const PLAN_SCALE = 1.12;
-  const planX = 960 - PLAN_W / 2;
-  const planY = 170;
+  const PLAN_SCALE = 1;
+  const planX = 96;
+  const planY = 150;
   const press = frame >= 10 && frame < 13 ? 1 : 0;
   const fill = ramp(frame, 13, 5, OUT);
   const collapse = ramp(frame, 22, 16, IN); // rows fold into the block
   const push = ramp(frame, 20, 24, PLANE); // camera push onto the block
   const thin = ramp(frame, 40, 12, PLANE); // the block becomes a line
   const darken = ramp(frame, 44, 20, PLANE);
-  const approveCenter = { x: 960 + (-PLAN_W / 2 + 56 + 60) * PLAN_SCALE, y: planY + (PLAN_ROWS.approve + 30) * PLAN_SCALE };
+  const approveCenter = { x: planX + 68, y: planY + PLAN_ROWS.approve + 32 };
   const pushScale = 1 + 2.4 * push;
 
   // ---------------------------------------------------------------- B · distribute
@@ -125,10 +125,11 @@ export const Hero3 = () => {
       {frame < B_START + 30 && (
         <div style={{ position: "absolute", inset: 0, background: COLOR.canvas, opacity: 1 - Math.max(darken, ramp(frame, B_START, 26, PLANE)) }}>
           <div style={{ position: "absolute", inset: 0, transform: `translate(${(960 - approveCenter.x) * push}px, ${(540 - approveCenter.y) * push}px) scale(${pushScale})`, transformOrigin: `${approveCenter.x}px ${approveCenter.y}px` }}>
-            <GrowthPlanCard x={planX} y={planY} scale={PLAN_SCALE} press={press} fill={fill} reveal={{ title: 1 - collapse, window: 1 - collapse, offer: 1 - collapse, fuel: 1 - collapse, audience: 1 - collapse, limit: 1 - collapse, sheet: 1 - collapse, approve: 1 - thin }} />
+            <GrowthPlanCard x={planX} y={planY} bare scale={PLAN_SCALE} press={press} fill={fill} reveal={{ title: 1 - collapse, window: 1 - collapse, offer: 1 - collapse, fuel: 1 - collapse, audience: 1 - collapse, limit: 1 - collapse, sheet: 1 - collapse, approve: 1 - thin }} />
+            <div style={{ position: "absolute", left: planX, top: planY - 34, width: 56, height: 2, background: COLOR.mintDeep, opacity: 1 - collapse }} />
             {/* rows stack as hairlines on the block's upper edge */}
             {[0, 1, 2, 3, 4].map((i) => (
-              <div key={i} style={{ position: "absolute", left: approveCenter.x - 60 * PLAN_SCALE, width: 120 * PLAN_SCALE, top: approveCenter.y - 34 - i * 4, height: 1, background: COLOR.inkHair, opacity: collapse * (1 - thin) }} />
+              <div key={i} style={{ position: "absolute", left: approveCenter.x - 66, width: 132, top: approveCenter.y - 36 - i * 4, height: 1, background: COLOR.inkHair, opacity: collapse * (1 - thin) }} />
             ))}
           </div>
           <div style={{ position: "absolute", left: 96, top: 84, opacity: 1 - push }}>
