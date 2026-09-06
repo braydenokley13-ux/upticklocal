@@ -31,3 +31,6 @@ blender/screens
 
 # Blender plate frame cache (hard links)
 blender/.plate-cache
+
+# Per-shot review stills are cut from the previews by scripts/film-sheet.py; the contact sheets are the record
+public/film-rd/renders/stills

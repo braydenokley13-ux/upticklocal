@@ -50,11 +50,9 @@ export const PLATES = {
   morningWalk: "film-rd/plates/morning_walk.mp4",
   morningDoor: "film-rd/plates/morning_door.mp4",
   rise: "film-rd/plates/rise.mp4",
-  hero1: "film-rd/plates/hero1.mp4",
+  /* Act I's rise, and Act V's block at dusk */
+  hero1a: "film-rd/plates/hero1a.mp4",
   hero3a: "film-rd/plates/hero3a.mp4",
-  hero3b: "film-rd/plates/hero3b.mp4",
-  hero5: "film-rd/plates/hero5.mp4",
-  hero5c: "film-rd/plates/hero5c.mp4",
 } as const;
 
 /**
