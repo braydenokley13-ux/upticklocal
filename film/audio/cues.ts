@@ -11,7 +11,7 @@ import { typed } from "../motion";
  * motivates, with the beds cut where the picture cuts.
  *
  * Frames are absolute film frames. Act starts (see Film.tsx):
- *   I 0 · II–IV 252 · V 660 · VI 860 · VII 1242 · VIII 1458 · IX–XI 1686 · XII 2016 · end 2148
+ *   I 0 · II–IV 252 · V 660 · VI 860 · VII 1242 · VIII 1458 · IX–XI 1746 · XII 2016 · end 2148
  */
 export type Cue = {
   /** file name under public/film-rd/audio, without extension */
@@ -33,7 +33,7 @@ export type Cue = {
   note: string;
 };
 
-export const ACT = { I: 0, II: 252, V: 660, VI: 860, VII: 1242, VIII: 1458, IX: 1686, XII: 2016, END: 2148 } as const;
+export const ACT = { I: 0, II: 252, V: 660, VI: 860, VII: 1242, VIII: 1458, IX: 1746, XII: 2016, END: 2148 } as const;
 
 /** The score under the whole film; false plays the sound design alone with the root chord at the 21. */
 export const SCORE = true;
@@ -64,7 +64,7 @@ export function cues(): Cue[] {
   const H4_LAND = 130; // Hero 4: the last word lands
   const C: Cue[] = [
     // ---- the score --------------------------------------------------------
-    ...(SCORE ? [{ file: "music-bed", at: 0, gain: SCORE_GAIN, note: "the score · D, 76 bpm, timed to the acts" } as Cue] : []),
+    ...(SCORE ? [{ file: "music-bed", at: 0, gain: SCORE_GAIN, env: (f) => 1 - 0.8 * lin(f, ACT.VIII + 180, ACT.VIII + 188) * (1 - lin(f, ACT.VIII + 214, ACT.VIII + 250)), note: "the score · D, 76 bpm, timed to the acts; held under the redeem note" } as Cue] : []),
 
     // ---- I · the gap ------------------------------------------------------
     { file: "room-tone", at: 0, frames: 124, gain: 0.9, fadeIn: 12, fadeOut: 28, loop: true, note: "the page: almost nothing" },
@@ -103,18 +103,29 @@ export function cues(): Cue[] {
     { file: "pad-mint", at: ACT.VII + 76, frames: H4_LAND + 12 - 76, gain: 0.25, fadeIn: 20, fadeOut: 10, loop: true, note: "the sheet rises: very soft" },
     { file: "tick", at: ACT.VII + H4_LAND, gain: 0.9, note: "the row lands as the answer: the clearest small sound in the film" },
 
-    // ---- VIII · offer → pass → redeem now ---------------------------------
+    // ---- VIII · offer → pass → the pocket, the door → redeem now at the counter ----
     { file: "unfold", at: ACT.VIII, gain: 0.6, note: "the plane unfolds to the slab" },
     { file: "press", at: ACT.VIII + 26, gain: 0.5, note: "Save my pass" },
-    { file: "street-morning", at: ACT.VIII + 58, frames: ACT.IX + 200 + 40 - (ACT.VIII + 58), gain: 0.5, fadeIn: 24, fadeOut: 40, env: (f) => (1 - 0.7 * lin(f, 80, 86) * (1 - lin(f, 110, 150))) * (1 + 0.6 * lin(f, 260, 400)), note: "7:41, the forecourt; dips under the redeem note; brightens through the thresholds; falls away under the 21" },
-    { file: "nozzle", at: ACT.VIII + 64, gain: 0.55, note: "the forecourt" },
-    { file: "press", at: ACT.VIII + 84, gain: 0.7, note: "Redeem now" },
-    { file: "press", at: ACT.VIII + 112, gain: 0.7, note: "Redeem (confirm)" },
-    { file: "redeem", at: ACT.VIII + 144, gain: 1, note: "the redemption: the clearest note in the film, alone" },
+    {
+      file: "street-morning",
+      at: ACT.VIII + 58,
+      frames: ACT.IX + 140 + 40 - (ACT.VIII + 58),
+      gain: 0.5,
+      fadeIn: 24,
+      fadeOut: 40,
+      env: (f) => (1 - 0.55 * lin(f, 44, 52) * (1 - lin(f, 226, 232))) * (1 - 0.7 * lin(f, 124, 130) * (1 - lin(f, 154, 194))) * (1 + 0.6 * lin(f, 250, 340)),
+      note: "7:42, the forecourt; behind the glass while we are at the counter; dips under the redeem note; brightens through the thresholds; falls away under the 21",
+    },
+    { file: "nozzle", at: ACT.VIII + 64, gain: 0.55, note: "the forecourt: the car at the pump" },
+    { file: "tap-wood", at: ACT.VIII + 88, gain: 0.8, note: "threshold 1: the first person through the door; the count is set to 1" },
+    { file: "cafe-interior", at: ACT.VIII + 102, frames: ACT.IX - (ACT.VIII + 102), gain: 0.3, fadeIn: 6, fadeOut: 8, startFrom: 16, env: (f) => 1 - 0.6 * lin(f, 80, 86) * (1 - lin(f, 110, 150)), note: "inside Joe's: the store's room, quiet; the coffee machine somewhere; dips under the note" },
+    { file: "press", at: ACT.VIII + 128, gain: 0.7, note: "Redeem now" },
+    { file: "press", at: ACT.VIII + 156, gain: 0.7, note: "Redeem (confirm)" },
+    { file: "redeem", at: ACT.VIII + 188, gain: 1, note: "the redemption: the clearest note in the film, alone" },
 
-    // ---- IX–XI · physical · the build · the proof -------------------------
-    ...[46, 82, 116, 146, 172].map((t, i) => ({ file: "tap-wood", at: ACT.IX + t, gain: 0.8, note: `threshold ${i + 1}: the count steps on the tap, never louder` }) as Cue),
-    ...(SCORE ? [] : [{ file: "chord-root", at: ACT.IX + 200, gain: 0.8, note: "the 21 lands: the street falls away, a root chord holds and runs out" } as Cue]),
+    // ---- IX–XI · the build · the proof ------------------------------------
+    ...[20, 54, 84, 110].map((t, i) => ({ file: "tap-wood", at: ACT.IX + t, gain: 0.8, note: `threshold ${i + 2}: the count steps on the tap, never louder` }) as Cue),
+    ...(SCORE ? [] : [{ file: "chord-root", at: ACT.IX + 140, gain: 0.8, note: "the 21 lands: the street falls away, a root chord holds and runs out" } as Cue]),
 
     // ---- XII · resolve: silence -------------------------------------------
   ];

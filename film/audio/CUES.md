@@ -22,8 +22,8 @@ Act plan used for placement — the film's real timeline, 2148 frames at
 | V | 27.5–35.8 s | Approve pressed at 28.0 s; the block at dusk from 29.8; windows light 32.6–34.0 |
 | VI | 35.8–51.75 s | the text 35.8–40.4; the café 40.4–47.4 (scan at 45.5); the same Offer 47.4–51.75 |
 | VII | 51.75–60.75 s | the question, the 900 ms hole, the sheet, the tick ≈ 57.0 s |
-| VIII | 60.75–70.25 s | offer → pass; Redeem pressed 64.25; Confirm 65.4; **the redeem note at 66.75 s must be alone** |
-| IX–X | 70.25–78.5 s | the return; thresholds at 70.9 / 72.4 / 73.8 / 75.1 / 76.2 s; the street brightening |
+| VIII | 60.75–72.75 s | offer → pass 60.75–63.2; the forecourt 63.2–65.0 (the pass into a pocket, the door at 64.4 s: 1); inside Joe's from 65.0: Redeem pressed 66.1; Confirm 67.25; **the redeem note at 68.6 s must be alone** |
+| IX–X | 72.75–78.5 s | back outside; thresholds at 73.6 / 75.0 / 76.25 / 77.3 s; the street brightening |
 | XI | 78.5–84.0 s | the 21 lands on the page at 78.6; "came through the door." 80.5; "14 returned. 7 were new." 82.0 |
 | XII | 84.0–89.5 s | Uptick Growth at 85.4; the closing line 86.6; footer 88 |
 

@@ -734,4 +734,71 @@ def shot_hero5(W: B.World):
     return {"frames": frames, "cam": cam, "people": ppl, "names": names, "meta": {"state": "morning", "clock_from": "07:42", "clock_to": "09:50", "thresholds": thresholds}, "comp": {"mist": 0.18}}
 
 
-SHOTS.update({"hero1": shot_hero1, "hero1a": shot_hero1a, "hero1b": shot_hero1b, "hero1c": shot_hero1c, "hero3a": shot_hero3a, "hero3b": shot_hero3b, "hero5": shot_hero5})
+
+def shot_hero5c(W: B.World):
+    """Inside Joe's, Friday 7:42. The staff's side of the counter: a customer holds the pass up to us; the door,
+    the forecourt and the street are through the glass behind them. The redemption happens here, in the world."""
+    frames = 186
+    B.set_state(W, "morning", frame=0, elev=12.5, rot=118, exposure=-1.75, joes=1.0, interior_w=1800)
+    B.set_state(W, "morning", frame=frames - 1, elev=13.6, rot=120, exposure=-1.75, joes=1.0, interior_w=1800)
+    lot = next(l for l in B.LOTS if l.id == "joes")
+    scx = lot.cx + 2.0
+    sy0 = B.FRONT + 12.0 - 0.5
+    open_w = 15.0 - 1.4
+    ccx, ccy = scx + open_w * 0.22, sy0 + 2.4
+    door = W.doors["joes"]
+    cam = camera(lens=30, fstop=2.8, focus=2.7)
+    key_cam(cam, 0, (ccx + 2.1, ccy + 1.25, 1.62), (ccx - 0.75, ccy - 1.35, 1.2), lens=30, focus=3.4)
+    key_cam(cam, frames - 1, (ccx + 1.98, ccy + 1.12, 1.59), (ccx - 0.72, ccy - 1.33, 1.19), lens=30, focus=3.25)
+    ease(cam)
+    ease(cam.data)
+    # the door stands open (the glass leaves are out of the frames); the lot's yard wall runs through this room
+    for o in bpy.data.objects:
+        if o.name in ("lot_joes_doorglass-1", "lot_joes_doorglass1", "lot_joes_yardwall", "lot_joes_coffee"):
+            o.hide_render = True
+    # the coffee machine, at this distance: a body, a boiler, two group heads, a drip tray, a cup
+    steel = B.mat_surface("steel", "#b9bcc0", rough=0.25, metallic=0.8)
+    dark = B.mat_surface("machine_dark", "#26282a", rough=0.45, metallic=0.2)
+    mx, my = ccx - 1.45, ccy + 0.04
+    B.box("h5c_machine_body", (0.92, 0.46, 0.42), (mx, my, 1.0 + 0.21), steel, bevel=0.012, group="lot_joes")
+    B.box("h5c_machine_boiler", (0.92, 0.40, 0.10), (mx, my + 0.02, 1.0 + 0.47), dark, bevel=0.01, group="lot_joes")
+    B.box("h5c_machine_panel", (0.86, 0.02, 0.16), (mx, my - 0.24, 1.0 + 0.30), dark, bevel=0.004, group="lot_joes")
+    for gx in (-0.22, 0.22):
+        B.box(f"h5c_machine_group{gx}", (0.12, 0.16, 0.09), (mx + gx, my - 0.27, 1.0 + 0.135), dark, bevel=0.01, group="lot_joes")
+    B.box("h5c_machine_tray", (0.90, 0.16, 0.025), (mx, my - 0.31, 1.0 + 0.0125), dark, bevel=0.004, group="lot_joes")
+    B.box("h5c_cup", (0.085, 0.085, 0.11), (mx + 0.62, my - 0.18, 1.0 + 0.055), B.mat_surface("cup", "#efe9df", rough=0.5), bevel=0.02, group="lot_joes")
+    ppl = People(W)
+    # the customer, at the counter, facing us; a small sway so the figure is alive
+    cx0, cy0 = ccx - 0.07, ccy - 1.02
+    cust = ppl.stand((cx0, cy0), 0, frames + 2, name="customer", height=1.74, face=math.pi)
+    for f, dx, dy, yaw in ((0, 0.0, 0.0, 0.0), (70, 0.014, -0.010, 0.035), (140, -0.012, 0.012, -0.03), (185, 0.005, 0.0, 0.015)):
+        cust.location = (cx0 + dx, cy0 + dy, ground_z(cx0 + dx, cy0 + dy))
+        cust.keyframe_insert("location", frame=f)
+        cust.rotation_euler = (0.0, 0.0, math.pi + yaw)
+        cust.keyframe_insert("rotation_euler", frame=f)
+    ease(cust)
+    # the pass is held up toward us: a point in front of the chest (local -y is the figure's front)
+    phone = B.empty("track_phone", (0.0, 0.0, 0.0))
+    phone.parent = cust
+    phone.location = (0.05, -0.36, 1.24)
+    top = B.empty("track_phone_top", (0.0, 0.0, 0.0))
+    top.parent = cust
+    top.location = (0.05, -0.36, 1.40)
+    W.tracks["phone"] = phone
+    W.tracks["phone_top"] = top
+    W.tracks["counter"] = B.empty("track_counter", (ccx - 0.3, ccy - 0.35, 1.0))
+    W.tracks["coffee"] = B.empty("track_coffee", (ccx - 1.5, ccy - 0.25, 1.6))
+    # life: the car at the east pump with someone fuelling; a walker on the sidewalk; the next customer comes in behind
+    B.car_at(5.1, 13.4, 2, yaw=math.pi / 2, name="car_pump", z=B.CURB_H + 0.02)
+    ppl.stand((6.05, 12.7), 0, frames + 2, name="fuelling", face=-math.pi / 2, height=1.68)
+    y = B.ROAD_HALF + 1.9
+    ppl.walk([(-30.0, y - 0.9), (30.0, y - 0.7)], -46, speed=1.3, start_hidden=False)
+    dx, dy = door.x, door.y
+    nxt = [(14.0, y + 0.2), (8.0, 12.5), (dx, dy - 1.2), (dx + 0.9, dy + 1.9)]
+    before, last = path_frames(nxt, 1.3, {})
+    ppl.walk(nxt, int(round(112 - before - last * 0.55)), speed=1.3, into="joes", name="next", hide_after=False, start_hidden=False)
+    names = ["phone", "phone_top", "counter", "coffee", "door_joes", "pump_00"]
+    thresholds = sorted(e["frame"] for e in ppl.events)
+    return {"frames": frames, "cam": cam, "people": ppl, "names": names, "meta": {"state": "morning", "clock": "07:42", "thresholds": thresholds}, "comp": {"mist": 0.08, "mist_start": 6, "mist_depth": 60}}
+
+SHOTS.update({"hero1": shot_hero1, "hero1a": shot_hero1a, "hero1b": shot_hero1b, "hero1c": shot_hero1c, "hero3a": shot_hero3a, "hero3b": shot_hero3b, "hero5": shot_hero5, "hero5c": shot_hero5c})

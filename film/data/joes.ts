@@ -140,7 +140,7 @@ export const CONVERSE = {
   principle: "Automatic when grounded. Human when uncertain.",
   escalation: "Not in the approved details → goes to Joe.",
   /** The week so far: what the plan answered on its own, and what went to Joe. */
-  week: { handled: 38, toJoe: 2, line: "This week · 38 answered from the plan · 2 went to Joe" },
+  week: { handled: 38, toJoe: 2, line: "This week · 38 handled by the plan · 2 needed Joe" },
 } as const;
 
 /**

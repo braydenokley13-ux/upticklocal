@@ -42,6 +42,7 @@ export const PLATES = {
   hero3a: "film-rd/plates/hero3a.mp4",
   hero3b: "film-rd/plates/hero3b.mp4",
   hero5: "film-rd/plates/hero5.mp4",
+  hero5c: "film-rd/plates/hero5c.mp4",
 } as const;
 
 /**
