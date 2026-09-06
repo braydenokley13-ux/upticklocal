@@ -30,3 +30,9 @@ _Critic round 1, on the first-pass preview. The lead's response follows._
 ## Lead's response (second pass)
 
 All twelve applied. The one design change beyond the list: the flood above the day line is now exactly the 63 morning responders (a stratified sample of a morning-shaped density, none after 11:00), and the old "typical day" traffic is gone — so below the line is what happened last Friday (3), above it is who could come (63), and the axis runs 06:00–16:00 from the same origin as the weeks line, which keeps "mornings" inside 07:00–10:00 at its size. Money is set in ink; amber is people. The plan assembles: Friday walks from its baseline into the first row, the two mint uprights leave the day line and bracket 7–10 AM, $0.62 steps ×30 into the limit; the mint stub under the title is gone; no row rules, Approve plain; the last row lands at 370, Joe's rule at 390, and the settle is 18 frames.
+
+## Round 2 (on the second pass)
+
+**8/10 (+2).** The critic: the reading beat (192–312) is the strongest work in the film; the flood is honest and is now people, not traffic; the plan half-assembles (Friday walks in, $0.62 → × 30 → $18.60 is the best beat in the piece) but the two mint uprights never arrived, "Approve" was set heavier than the rows, and "→" was the film's only arrow. Resolved: 1, 3, 4, 5, 6, 7, 8, 11; partial: 2, 9, 10.
+
+Remaining, applied in the third pass: the uprights land in the plan and stay (2 px hairlines bracketing 7–10 AM); the 63 caption sits above the flood's start under the 104, and the coffee's cost under the visits on the shared origin; Friday is one object with a hard hand-over at arrival; Approve at the rows' weight and size; the arrow is a middot in the fixture (`$25+ fill-up · coffee on us`), so every shot loses it; the reading drops 60 px toward optical centre; Joe's rule at 28 px; the axis holds full strength to its 16:00 tail and the mint uprights stand 52 px over the flood.

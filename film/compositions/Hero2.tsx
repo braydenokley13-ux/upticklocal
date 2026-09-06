@@ -25,8 +25,8 @@ const WORD_PX = 96;
 const WORD_FONT = `200 ${WORD_PX}px 'Geist Film'`;
 const ROW_PX = 40;
 const ROW_FONT = `300 ${ROW_PX}px 'Geist Film'`;
-const L1 = 320; // Friday's baseline: the weeks line
-const L2 = 560; // the day line
+const L1 = 380; // Friday's baseline: the weeks line
+const L2 = 620; // the day line
 const DAY0 = 6;
 const DAY1 = 16;
 
@@ -157,8 +157,8 @@ export const Hero2 = () => {
   const floodTop = L2 - 2 - 14 * 5;
   const annotations = [
     { i: 0, x: AX0, y: L1 + 28, lead: `${RELATIONSHIPS.permissioned}`, text: "relationships said yes to hearing from Joe's", color: COLOR.ink },
-    { i: 1, x: hx(11.2), y: floodTop - 6, lead: `${RELATIONSHIPS.signals.morningResponders}`, text: "tend to answer in the morning", color: COLOR.amberDeep },
-    { i: 2, x: hx(12), y: L2 + 40, lead: ECONOMICS.coffeeCostLabel, text: "what a large coffee costs Joe", color: COLOR.ink },
+    { i: 1, x: hx(7), y: L1 + 64, lead: `${RELATIONSHIPS.signals.morningResponders}`, text: "tend to answer in the morning", color: COLOR.amberDeep },
+    { i: 2, x: AX0, y: L2 + 196, lead: ECONOMICS.coffeeCostLabel, text: "what a large coffee costs Joe", color: COLOR.ink },
   ];
 
   return (
@@ -218,7 +218,7 @@ export const Hero2 = () => {
           {Array.from({ length: (DAY1 - DAY0) * 2 + 1 }).map((_, k) => {
             const h = DAY0 + k / 2;
             const t = (h - DAY0) / (DAY1 - DAY0);
-            const o = Math.min(1, Math.max(0, (dayDraw * 1.04 - t) * 10));
+            const o = Math.min(1, Math.max(0, (dayDraw * 1.12 - t) * 10));
             const major = k % 4 === 0;
             const minor = k % 2 === 1;
             return (
@@ -233,7 +233,7 @@ export const Hero2 = () => {
             );
           })}
           {[7, 10].map((h) => (
-            <div key={h} style={{ position: "absolute", left: hx(h) - 1.5, top: L2 - 34 * uprights, width: 3, height: 34 * uprights, background: COLOR.mintDeep, opacity: 1 - travel }} />
+            <div key={h} style={{ position: "absolute", left: hx(h) - 1.5, top: L2 - 52 * uprights, width: 3, height: 52 * uprights, background: COLOR.mintDeep, opacity: 1 - travel }} />
           ))}
         </div>
       )}
@@ -285,21 +285,21 @@ export const Hero2 = () => {
       {/* ASSEMBLE · one plan, bare on the page, from what was already there */}
       {frame >= T.assemble && (
         <>
-          <GrowthPlanCard x={planX} y={planY + 30} bare labels={false} rules={false} titleSize={88} rowSize={ROW_PX} approveStyle="plain" reveal={{ title: titleIn, window: rowsIn(0) * resolve, offer: rowsIn(1), fuel: rowsIn(2), audience: rowsIn(3), limit: rowsIn(4) * moneyResolve, approve: approveIn }} />
+          <GrowthPlanCard x={planX} y={planY + 30} bare labels={false} rules={false} titleSize={88} rowSize={ROW_PX} approveStyle="plain" reveal={{ title: titleIn, window: resolve >= 1 ? rowsIn(0) : 0, offer: rowsIn(1), fuel: rowsIn(2), audience: rowsIn(3), limit: rowsIn(4) * moneyResolve, approve: approveIn }} />
           {/* Friday walks from its baseline into the first row */}
-          <Traveller t={travel} from={{ x: LEFT, y: L1 - WORD_PX * 0.86, size: WORD_PX, mono: false, color: COLOR.ink, weight: 200 }} to={{ x: planX, y: rowTop("window"), size: ROW_PX, mono: false, color: COLOR.ink, weight: 300 }} textFrom={words[0]} textTo={words[0]} fade={resolve} />
+          <Traveller t={travel} from={{ x: LEFT, y: L1 - WORD_PX * 0.935, size: WORD_PX, mono: false, color: COLOR.ink, weight: 200 }} to={{ x: planX, y: rowTop("window"), size: ROW_PX, mono: false, color: COLOR.ink, weight: 300 }} textFrom={words[0]} textTo={words[0]} fade={resolve >= 1 ? 1 : 0} />
           {/* the two mint uprights leave the day line and bracket 7–10 AM in that row */}
           {[7, 10].map((h, k) => {
             const tx = planX + (k === 0 ? rowW[1] - 6 : rowW[2] + 6);
             const x = hx(h) - 1.5 + (tx - (hx(h) - 1.5)) * travel;
-            const y = L2 - 34 + (rowTop("window") - 2 - (L2 - 34)) * travel;
-            const hgt = 34 + (ROW_PX + 6 - 34) * travel;
-            return <div key={h} style={{ position: "absolute", left: x, top: y, width: 3, height: hgt, background: COLOR.mintDeep, opacity: travel > 0 ? 1 - resolve : 0 }} />;
+            const y = L2 - 52 + (rowTop("window") - 2 - (L2 - 52)) * travel;
+            const hgt = 52 + (ROW_PX + 6 - 52) * travel;
+            return <div key={h} style={{ position: "absolute", left: x, top: y, width: travel < 1 ? 3 : 2, height: hgt, background: COLOR.mintDeep, opacity: travel > 0 ? 1 : 0 }} />;
           })}
           {/* the coffee's cost steps ×30 into the limit */}
           <Traveller t={moneyTravel} from={{ x: annotations[2].x, y: annotations[2].y, size: 30, mono: false, color: COLOR.ink, weight: 300 }} to={{ x: planX, y: rowTop("limit"), size: ROW_PX, mono: false, color: COLOR.ink, weight: 300 }} textFrom={ECONOMICS.coffeeCostLabel} textTo={moneyResolve < 0.5 ? `${ECONOMICS.coffeeCostLabel} × ${ECONOMICS.limit}` : PLAN_LINES.limit} fade={moneyResolve} />
           {/* Joe's rule, on its own line beneath Approve, in his voice */}
-          <div style={{ position: "absolute", left: planX, top: planY + 30 + PLAN_ROWS.approve + 74, opacity: ruleIn, fontFamily: FONT.sans, fontWeight: 300, fontSize: 26, color: COLOR.amberDeep, letterSpacing: "-0.01em" }}>
+          <div style={{ position: "absolute", left: planX, top: planY + 30 + PLAN_ROWS.approve + 74, opacity: ruleIn, fontFamily: FONT.sans, fontWeight: 300, fontSize: 28, color: COLOR.amberDeep, letterSpacing: "-0.01em" }}>
             {ECONOMICS.fuelRule.replace(".", "")} — {ECONOMICS.fuelRuleTag.replace(".", "")}
           </div>
         </>
@@ -333,7 +333,7 @@ function Traveller({ t, from, to, textFrom, textTo, fade = 1 }: { t: number; fro
   const text = t > 0.5 ? textTo : textFrom;
   const arrived = t >= 0.999 ? 1 - fade : 1;
   return (
-    <div style={{ position: "absolute", left: x, top: y, opacity: arrived, whiteSpace: "nowrap", fontFamily: mono ? FONT.mono : FONT.sans, fontSize: size, fontWeight: mono ? 500 : weight, letterSpacing: mono ? "0.16em" : "-0.02em", textTransform: mono ? "uppercase" : undefined, color, lineHeight: mono ? 1.15 : 1 }}>
+    <div style={{ position: "absolute", left: x, top: y, opacity: arrived, whiteSpace: "nowrap", fontFamily: mono ? FONT.mono : FONT.sans, fontSize: size, fontWeight: mono ? 500 : weight, letterSpacing: mono ? "0.16em" : "-0.02em", textTransform: mono ? "uppercase" : undefined, color, lineHeight: 1.15 }}>
       {text}
     </div>
   );

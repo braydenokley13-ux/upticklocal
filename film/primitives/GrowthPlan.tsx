@@ -138,7 +138,7 @@ export function GrowthPlanCard({
       )}
       {!approved && approveStyle === "plain" && (
         <div style={{ position: "absolute", left: pad, top: PLAN_ROWS.approve, ...row(reveal.approve, 18) }}>
-          <div style={{ fontFamily: FONT.sans, fontWeight: 400, fontSize: rowSize + 4, letterSpacing: "-0.02em", color: fill > 0.5 ? COLOR.mintDeep : ink, lineHeight: 1, transform: `scale(${1 - 0.04 * press})`, transformOrigin: "0 100%", display: "inline-block" }}>{PLAN.approve}</div>
+          <div style={{ fontFamily: FONT.sans, fontWeight: 300, fontSize: rowSize, letterSpacing: "-0.02em", color: fill > 0.5 ? COLOR.mintDeep : ink, lineHeight: 1, transform: `scale(${1 - 0.04 * press})`, transformOrigin: "0 100%", display: "inline-block" }}>{PLAN.approve}</div>
         </div>
       )}
       {!approved && approveStyle === "box" && (

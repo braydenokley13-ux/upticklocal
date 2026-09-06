@@ -31,3 +31,9 @@ _Critic round 1, on the first-pass preview. The lead's response follows._
 ## Lead's response (second pass)
 
 All thirteen applied in the composition, with two judgement calls: the sheet keeps a real perspective turn (−12°, not −7°) and grows to 62 % rather than being flattened, because the depth is what separates it from the thread; the flying words reach the sentence's size (36 px, the answer's actual size) in the first third of the flight rather than starting at 52 px, so they visibly leave the fuel line at its own scale and become the type that lands. The lamp now drifts toward the plan as it surfaces and back to the answer as the words land.
+
+## Round 2 (on the second pass)
+
+**8/10 (+3).** The critic: grounded is now proven by one image — the plan's fuel row reads `Fuel: ————` with a mint rule where the words were, "the best idea in the film"; the chat read is dead; nothing reads as a mockup, a card or an arrow. Resolved: 1, 3, 5, 6, 7, 8, 9, 10, 12. The one surviving tug is "slide" in the held tail.
+
+Remaining, applied in the third pass: the sheet gains room for its title and padding on both sides, with the header on its own line; the words leave the row's own baseline (the card's top offset was missing from their source), at one shared size, holding a moment on the row while they take their size; the fuel row lights (a brighter row with a mint glow and a 2 px hairline at 0.75 that stays); the sheet is a touch more opaque and less blurred so the evidence reads; the question yields to 55 % once the answer lands; the closing lines carry more ink; each trail decays from its own word's landing, head-first.
