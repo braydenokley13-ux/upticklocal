@@ -180,8 +180,6 @@ export const RESULT = {
   line: "came through the door.",
   returnedLine: "returned.",
   newLine: "were new.",
-  /** The count steps the film shows on the way to 21. */
-  steps: [1, 4, 9, 14, 21] as const,
 } as const;
 
 if (RESULT.returned + RESULT.newCustomers !== RESULT.total) {
