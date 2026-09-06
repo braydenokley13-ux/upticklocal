@@ -11,7 +11,7 @@ next-env.d.ts
 AGENTS.md
 CLAUDE.md
 
-# Blender plate frame sequences are rebuilt by scripts/film-render-plates.sh; only the encoded plates are kept
+# Blender plate frame sequences are rebuilt by scripts/film-plates.sh; only the encoded plates are kept
 public/film-rd/plates/seq
 blender/assets/*.blend
 blender/assets/*.blend1
