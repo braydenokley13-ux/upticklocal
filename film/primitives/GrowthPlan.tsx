@@ -55,6 +55,7 @@ export function GrowthPlanCard({
   labels = true,
   titleSize = 72,
   approveStyle = "box",
+  rowSize = 34,
   scale = 1,
   style,
   fuelStyle,
@@ -77,8 +78,10 @@ export function GrowthPlanCard({
   /** Mono eyebrow labels on the rows (Window, Offer…). Off for the film's statement form. */
   labels?: boolean;
   titleSize?: number;
-  /** "box": an outlined block. "underline": the word over a mint hairline — no closed shape. */
-  approveStyle?: "box" | "underline";
+  /** "box": an outlined block. "underline": the word over a mint hairline — no closed shape. "plain": the word alone, in ink. */
+  approveStyle?: "box" | "underline" | "plain";
+  /** The rows' type size; 40 for the film's statement form. */
+  rowSize?: number;
   scale?: number;
   style?: CSSProperties;
   fuelStyle?: CSSProperties;
@@ -96,7 +99,7 @@ export function GrowthPlanCard({
           {label}
         </Mono>
       )}
-      <div style={{ fontFamily: FONT.sans, fontWeight: 300, fontSize: 34, letterSpacing: "-0.02em", lineHeight: 1.15, color: ink, whiteSpace: "nowrap", marginTop: labels ? 0 : 14 }}>{value}</div>
+      <div style={{ fontFamily: FONT.sans, fontWeight: 300, fontSize: rowSize, letterSpacing: "-0.02em", lineHeight: 1.15, color: ink, whiteSpace: "nowrap", marginTop: labels ? 0 : 14 }}>{value}</div>
       {rules && <div style={{ position: "absolute", left: 0, right: 0, top: 74, height: 1, background: hair }} />}
     </div>
   );
@@ -131,6 +134,11 @@ export function GrowthPlanCard({
         <div style={{ position: "absolute", left: pad, top: PLAN_ROWS.approve, ...row(reveal.approve, 18) }}>
           <div style={{ fontFamily: FONT.sans, fontWeight: 300, fontSize: 40, letterSpacing: "-0.02em", color: fill > 0.5 ? COLOR.mintDeep : ink, lineHeight: 1, paddingBottom: 12, transform: `scale(${1 - 0.04 * press})`, transformOrigin: "0 100%", display: "inline-block" }}>{PLAN.approve}</div>
           <div style={{ width: 150, height: 2, background: COLOR.mintDeep, opacity: 0.6 + 0.4 * fill }} />
+        </div>
+      )}
+      {!approved && approveStyle === "plain" && (
+        <div style={{ position: "absolute", left: pad, top: PLAN_ROWS.approve, ...row(reveal.approve, 18) }}>
+          <div style={{ fontFamily: FONT.sans, fontWeight: 400, fontSize: rowSize + 4, letterSpacing: "-0.02em", color: fill > 0.5 ? COLOR.mintDeep : ink, lineHeight: 1, transform: `scale(${1 - 0.04 * press})`, transformOrigin: "0 100%", display: "inline-block" }}>{PLAN.approve}</div>
         </div>
       )}
       {!approved && approveStyle === "box" && (
