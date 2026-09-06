@@ -118,7 +118,8 @@ export const Hero2 = () => {
   const extra = Math.max(0, (targetW - morningsW) / words[1].length) * track;
   // slow holds on the typing baseline until its own beat, then drops under the interval as the visits fall
   const slowMove = ramp(frame, T.slow, 22, PLANE);
-  const slowX = origins[3] + ((hx(7) + hx(10)) / 2 - widths[3] / 2 - origins[3]) * slowMove;
+  const slowHold = origins[3] + (hx(10) + 48 - origins[3]) * mM;
+  const slowX = slowHold + ((hx(7) + hx(10)) / 2 - widths[3] / 2 - slowHold) * slowMove;
   const slowY = L2 + 118 * slowMove;
 
   // --- Friday: six Fridays on the word's own baseline ------------------------
@@ -156,7 +157,7 @@ export const Hero2 = () => {
   const floodTop = L2 - 2 - 14 * 5;
   const annotations = [
     { i: 0, x: AX0, y: L1 + 28, lead: `${RELATIONSHIPS.permissioned}`, text: "relationships said yes to hearing from Joe's", color: COLOR.ink },
-    { i: 1, x: hx(7.4), y: floodTop - 44, lead: `${RELATIONSHIPS.signals.morningResponders}`, text: "tend to answer in the morning", color: COLOR.amberDeep },
+    { i: 1, x: hx(11.2), y: floodTop - 6, lead: `${RELATIONSHIPS.signals.morningResponders}`, text: "tend to answer in the morning", color: COLOR.amberDeep },
     { i: 2, x: hx(12), y: L2 + 40, lead: ECONOMICS.coffeeCostLabel, text: "what a large coffee costs Joe", color: COLOR.ink },
   ];
 
@@ -177,7 +178,7 @@ export const Hero2 = () => {
         <div style={{ position: "absolute", left: LEFT, top: L2 - WORD_PX * 0.86, ...wordStyle }}>{sentence.slice(0, chars)}</div>
       ) : (
         <>
-          <Word text={words[0]} x={LEFT + (origins[0] - LEFT) * (1 - mF)} y={yF} opacity={wordsOut * (1 - travel)} />
+          <Word text={words[0]} x={LEFT + (origins[0] - LEFT) * (1 - mF)} y={yF} opacity={travel > 0 ? 0 : wordsOut} />
           <Word text={words[1]} x={morningsX} y={morningsY} opacity={wordsOut} spacing={extra} />
           <Word text={words[2]} x={origins[2]} y={L2} opacity={areOut} />
           <Word text={words[3]} x={slowX} y={slowY} opacity={wordsOut} />
@@ -332,7 +333,7 @@ function Traveller({ t, from, to, textFrom, textTo, fade = 1 }: { t: number; fro
   const text = t > 0.5 ? textTo : textFrom;
   const arrived = t >= 0.999 ? 1 - fade : 1;
   return (
-    <div style={{ position: "absolute", left: x, top: y, opacity: arrived, whiteSpace: "nowrap", fontFamily: mono ? FONT.mono : FONT.sans, fontSize: size, fontWeight: mono ? 500 : weight, letterSpacing: mono ? "0.16em" : "-0.02em", textTransform: mono ? "uppercase" : undefined, color, lineHeight: 1.15 }}>
+    <div style={{ position: "absolute", left: x, top: y, opacity: arrived, whiteSpace: "nowrap", fontFamily: mono ? FONT.mono : FONT.sans, fontSize: size, fontWeight: mono ? 500 : weight, letterSpacing: mono ? "0.16em" : "-0.02em", textTransform: mono ? "uppercase" : undefined, color, lineHeight: mono ? 1.15 : 1 }}>
       {text}
     </div>
   );

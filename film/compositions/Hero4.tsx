@@ -168,7 +168,7 @@ export const Hero4 = () => {
           </div>
           {/* the header stays legible whatever the blur: this is an approved plan, at a time */}
           <div style={{ position: "absolute", left: 0, top: 0, width: BOX.w, height: BOX.h, transform: sheetMatrix, transformOrigin: "0 0", opacity: Math.min(1, sheetOpacity * 1.5), filter: `blur(${Math.max(0.4, sheetBlur * 0.25).toFixed(1)}px)` }}>
-            <div style={{ position: "absolute", left: PLAN_PAD * S, top: 22, fontFamily: FONT.mono, fontSize: 22, letterSpacing: "0.14em", textTransform: "uppercase", color: COLOR.onMarine, whiteSpace: "nowrap" }}>Growth plan · approved · {PLAN.approvedAt}</div>
+            <div style={{ position: "absolute", left: PLAN_PAD * S, top: 22, fontFamily: FONT.mono, fontSize: 18, letterSpacing: "0.1em", textTransform: "uppercase", color: COLOR.onMarine, whiteSpace: "nowrap" }}>Growth plan · approved · {PLAN.approvedAt}</div>
           </div>
         </>
       )}
@@ -190,7 +190,7 @@ export const Hero4 = () => {
       <div style={{ position: "absolute", left: ANSWER.x, top: ANSWER.y, clipPath: `inset(0 ${(1 - open) * 100}% 0 0)`, opacity: open > 0 ? 1 : 0 }}>
         <div style={{ ...paper, background: "#eef3f2", color: COLOR.ink, padding: `${PAD}px ${PAD}px ${PAD - 8}px`, display: "inline-block", position: "relative", overflow: "hidden" }}>
           <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: 4, background: COLOR.mint }} />
-          <div style={{ fontFamily: FONT.sans, fontSize: ANSWER_PX, fontWeight: 400, letterSpacing: "-0.02em", lineHeight: 1.3, whiteSpace: "pre" }}>
+          <div style={{ fontFamily: FONT.sans, fontSize: ANSWER_PX, fontWeight: 400, letterSpacing: 0, lineHeight: 1.3, whiteSpace: "pre" }}>
             <span style={{ opacity: tissue }}>{lead}</span>
             <span style={{ opacity: allLanded ? 1 : 0 }}>{w1}</span>
             <span style={{ opacity: tissue }}>, </span>
@@ -234,7 +234,7 @@ export const Hero4 = () => {
               ))}
             </svg>
             {!allLanded && (
-              <div style={{ position: "absolute", left: p.x, top: p.y, transform: "translate(-50%, -55%)", fontFamily: FONT.sans, fontSize: size, fontWeight: t < 0.35 ? 300 : 400, letterSpacing: "-0.02em", color: t > 0.92 ? COLOR.ink : COLOR.onMarine, whiteSpace: "nowrap", opacity: 0.85 + 0.15 * t, filter: blur > 0.3 ? `blur(${blur.toFixed(1)}px)` : undefined }}>
+              <div style={{ position: "absolute", left: p.x, top: p.y, transform: "translate(-50%, -55%)", fontFamily: FONT.sans, fontSize: size, fontWeight: t < 0.35 ? 300 : 400, letterSpacing: 0, color: t > 0.92 ? COLOR.ink : COLOR.onMarine, whiteSpace: "nowrap", opacity: 0.85 + 0.15 * t, filter: blur > 0.3 ? `blur(${blur.toFixed(1)}px)` : undefined }}>
                 {word}
               </div>
             )}
