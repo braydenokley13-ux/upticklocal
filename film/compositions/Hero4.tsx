@@ -87,7 +87,7 @@ export const Hero4 = ({ thread = "text", historyAt = 0 }: { thread?: "text" | "o
   const w2 = v[1];
   const w3 = v[2].replace("and ", "");
   const lead = CONVERSE.answerParts.lead;
-  const a = useTextWidths([lead, `${lead}${w1}`, `${lead}${w1}, `, `${lead}${w1}, ${w2}`, `${lead}${w1}, ${w2}, and `, `${lead}${w1}, ${w2}, and ${w3}`], ANSWER_FONT);
+  const a = useTextWidths([lead, `${lead}${w1}`, `${lead}${w1}, `, `${lead}${w1}, ${w2}`, `${lead}${w1}, ${w2}, and `, `${lead}${w1}, ${w2}, and ${w3}`], ANSWER_FONT, "0");
   const s = useTextWidths(["Fuel: ", "Fuel: Regular", "Fuel: Regular, ", "Fuel: Regular, premium", "Fuel: Regular, premium or ", "Fuel: Regular, premium or diesel"], SHEET_FONT);
   if (!a || !s) return <Frame bg="#040c10" />;
 
