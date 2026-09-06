@@ -35,7 +35,7 @@ All under `public/film-rd/final/` from one command, `scripts/film-master.sh` (st
 | F | `contact/` | the final contact sheet: one frame every two seconds, nine to a sheet |
 | G | this file · `film/HANDOFF.md` · `film/review/` | the report, the website/app handoff, the critics' record |
 
-**Resolution.** The master is 1920×1080. The Blender plates render at 1280×720 (18 samples with OpenImageDenoise, adaptive threshold 0.1, motion blur at shutter 0.5) on four CPU cores at 50–55 s a frame — 679 plate frames in all, about ten machine-hours. Eighteen samples with the denoiser was measured against twenty-eight on the heaviest shot and is visually indistinguishable, which is what set the budget.
+**Resolution.** The master is 1920×1080. The Blender plates render at 1280×720 (18 samples with OpenImageDenoise, adaptive threshold 0.1, motion blur at shutter 0.5) on four CPU cores at 42–55 s a frame — 667 plate frames in all, about nine machine-hours. Two measurements set that budget. Eighteen samples with the denoiser was compared against twenty-eight on the heaviest shot and is visually indistinguishable. And the same frame was rendered twice, once at 1280×720 and once natively at 1920×1080, and the crops compared at the finest detail in the film — the price sign's REGULAR / DIESEL rows and the brick courses beside them: the native frame is marginally cleaner, and it cost 3.7× the time. A 1.5× upscale is the cheap half of that trade.
 
 At 3840×2160 those plates would be a 3× upscale sitting under vector typography, which is not a 4K film. The honest master is therefore 1080p, and the project is built to render 4K without a re-cut: `SCALE=2 scripts/film-master.sh` renders every Remotion layer at 3840×2160, and the plates come from `RES=2560x1440 SAMPLES=64 scripts/film-plates.sh` on a GPU box — roughly 8× this machine's time per frame. Nothing in the timeline, the typography or the compositing is authored in pixels that would have to change.
 
@@ -57,13 +57,13 @@ Every hero shot went through a critic who had not built it (`film/review/CRITIC.
 
 One procedural neighbourhood (`blender/scripts/block.py`) built deterministically from constants, keyed per shot (`shots.py`, `scenes.py`), rendered with Cycles on CPU with OpenImageDenoise (`render.py`: resumable image sequences, a hard-linked frame cache, and per-frame 2D tracks exported beside every plate so the editorial layer sits on physical things — `blender/exports/<shot>.json`).
 
-Six world passes built the look: brick with world-space coursing; facades as plates with real openings, piers, sills and lintels; cornices that throw a shadow line; cast sidewalk slabs with joints, a patched slab and gullies; figures with height and yaw variety, a lean, and contact shadows from the sun; a three-box sedan; a 2.3 m price panel and the canopy name on the fascia; renderer motion blur at shutter 0.5. Four lighting states, plus warm practicals over each counter — the light the close shots are actually lit by. Joe's store got an aisle cut through its three shelf runs on the door's axis, because a store with shelving opposite its entrance gives a camera at the back of the room no floor and no legs to look at.
+Seven world passes built the look: brick with world-space coursing; facades as plates with real openings, piers, sills and lintels; cornices that throw a shadow line; cast sidewalk slabs with joints, a patched slab and gullies; a three-box sedan; a 2.3 m price panel and the canopy name on the fascia; renderer motion blur at shutter 0.5. The seventh pass was the people. They had been a capsule with a ball on top — an architect's scale figure in intent, a chess pawn on screen, and the cheapest tell a rendered street can have. They now have two legs, a torso broad at the shoulder and narrow at the waist, a short neck and an ovoid head, every proportion a fraction of the figure's own height so a short figure is a short person; they keep the height and yaw variety, the lean into a walk and the contact shadow; and their emission drops from 1.3 to 0.35 so they take the block's sun and shadow instead of glowing like plastic. Legs are what make a forty-pixel silhouette human, and that one change is the difference between a miniature and a diagram. Four lighting states, plus warm practicals over each counter — the light the close shots are actually lit by. Joe's store got an aisle cut through its three shelf runs on the door's axis, because a store with shelving opposite its entrance gives a camera at the back of the room no floor and no legs to look at.
 
-**Thirteen plates, 679 frames, all at 1280×720:**
+**Thirteen plates, 667 frames, all at 1280×720:**
 
 | plate | frames | act | the camera |
 | --- | ---: | --- | --- |
-| `hero1a` | 156 | I | straight down on the sidewalk, lifting on an oblique path to a street-height settle across Main St |
+| `hero1a` | 144 | I | straight down on the sidewalk, lifting on an oblique path to a street-height settle across Main St |
 | `hero3a` | 144 | V | an upper window across the street at dusk, a slow drift |
 | `cafe` | 26 | VI | 50 mm on the café counter, the panel square to us |
 | `scan` | 46 | VI | 88 mm, a focus pull that lands on the handset held to the panel |
@@ -103,7 +103,7 @@ Blender owns the physical world; Remotion owns the timeline, the typography, the
 python3 film/audio/synth.py             # the sound material (WAV, git-ignored)
 scripts/film-audio-encode.sh            # → the .ogg cues the edit plays
 scripts/bake-screens.sh                 # the handset's UI → PNG sequences Blender emits from
-scripts/film-plates.sh                  # the eleven physical plates at 1280×720/18 + tracks (resumable)
+scripts/film-plates.sh                  # the thirteen physical plates at 1280×720/18 + tracks (resumable)
 npm run film:dev                        # Remotion Studio on film/index.ts
 scripts/film-render.sh Hero1 Hero2 …    # previews, stills and contact sheets per shot
 scripts/film-review.py Film --every 48 --per-sheet 9   # the critic's sheets from any preview
