@@ -156,7 +156,9 @@ def dress_joes(W):
     B.box("jd_counter_top", (3.5, 0.78, 0.045), (cx, cy, tz + 0.02), m["top"], bevel=0.006, group=g)
     B.box("jd_till_base", (0.40, 0.34, 0.10), (cx - 1.05, cy + 0.06, tz + 0.09), m["alu_dark"], bevel=0.008, group=g)
     B.box("jd_till_screen", (0.34, 0.03, 0.24), (cx - 1.05, cy + 0.16, tz + 0.26), m["lid"], bevel=0.004, group=g, rot=(math.radians(-14), 0, 0))
-    B.box("jd_mat", (1.30, 0.34, 0.010), (cx - 0.15, cy - 0.52, tz + 0.045), m["rubber"], bevel=0.003, group=g)
+    # the change mat sits to the till side, not under the lens: at 75 mm it was a black void
+    # across the bottom of the counter shot, and the shot's foreground is meant to be laminate
+    B.box("jd_mat", (0.86, 0.30, 0.010), (cx + 0.66, cy - 0.44, tz + 0.045), m["rubber"], bevel=0.003, group=g)
     B.box("jd_stand", (0.13, 0.09, 0.20), (cx + 1.05, cy + 0.08, tz + 0.14), m["alu_dark"], bevel=0.006, group=g)
     fl = bpy.data.lights.new("jd_counter_fill", "AREA")
     fl.shape = "RECTANGLE"
@@ -249,26 +251,32 @@ def grip(W, name, parent, scale=1.0):
     # The pitch is a little under a finger's width so they touch: separated tubes read as four
     # sausages, and at 95 mm the hand is the second-largest thing in the frame. Each tip carries
     # a nail, because the pad is against the glass and the nail is the side facing the lens.
-    nail = B.mat_surface("dv_nail", "#c6a695", rough=0.24, spec=0.6, coat=0.4)
-    for i, (z, reach, r) in enumerate(((0.0268, 0.0016, 0.0090), (0.0110, 0.0028, 0.0095), (-0.0048, 0.0024, 0.0092), (-0.0206, 0.0013, 0.0082))):
+    # the nail is a sheen, not a colour: a paler cap on each fingertip reads as a painted toy
+    nail = B.mat_surface("dv_nail", "#a68a79", rough=0.26, spec=0.5, coat=0.6)
+    # Four fingers, only two of which really crest the glass: an even rank of four reads as a
+    # rank of four, and a hand does not do that. The index rides the edge, the middle comes
+    # furthest over, the ring follows it, the little finger stays on the rim.
+    for i, (z, reach, r) in enumerate(((0.0300, -0.0026, 0.0092), (0.0142, 0.0034, 0.0098), (-0.0018, 0.0022, 0.0094), (-0.0170, -0.0032, 0.0080))):
         z *= s
         reach *= s
         rr = r * s
-        tip = (-hw + reach, -hd - 0.007 * s, z + 0.003 * s)
+        tipx = -hw + reach
+        crestx = min(-hw + 0.004 * s, tipx - 0.003 * s)
+        tip = (tipx, -hd - 0.007 * s, z + 0.003 * s)
         path = [
             (0.014 * s, hd + 0.030 * s, z - 0.004 * s),
             (-0.014 * s, hd + 0.028 * s, z - 0.002 * s),
             (-hw - 0.007 * s, hd + 0.017 * s, z),
-            (-hw - 0.010 * s, 0.0, z + 0.002 * s),
-            (-hw + 0.004 * s, -hd - 0.006 * s, z + 0.003 * s),
+            (-hw - 0.011 * s, 0.0, z + 0.002 * s),
+            (crestx, -hd - 0.006 * s, z + 0.003 * s),
             tip,
         ]
-        fg = BD.tube(f"{name}_f{i}", path, [rr * 1.16, rr * 1.02, rr * 1.10, rr * 0.93, rr * 1.02, rr * 0.86], m["skin"], group="device")
+        fg = BD.tube(f"{name}_f{i}", path, [rr * 1.16, rr * 1.02, rr * 1.10, rr * 0.95, rr * 1.02, rr * 0.88], m["skin"], group="device")
         fg.parent = parent
         parts[f"f{i}"] = fg
-        nl = BD.ellipsoid(f"{name}_n{i}", (rr * 0.74, rr * 0.16, rr * 0.62), nail, group="device")
+        nl = BD.ellipsoid(f"{name}_n{i}", (rr * 0.66, rr * 0.11, rr * 0.40), nail, group="device")
         nl.parent = parent
-        nl.location = (tip[0] - rr * 0.30, tip[1] - rr * 0.80, tip[2])
+        nl.location = (tip[0] - rr * 0.36, tip[1] - rr * 0.88, tip[2])
         parts[f"n{i}"] = nl
 
     # the thumb up the far edge, its pad on the glass. It hangs off a pivot at its own knuckle
@@ -350,8 +358,10 @@ def held_phone(W, name, loc, yaw=math.pi, tilt=-0.22, screen="device-pass", scal
     fa_root.parent = root
     fa_root.location = (0.010 * scale, DV.PHONE["d"] / 2 * scale + 0.030 * scale, -0.072 * scale)
     fa_root.rotation_euler = (math.radians(56), 0.0, math.radians(-6))
-    cuff = BD.tube(f"{name}_cuff", [(0.0, 0.0, -0.300 * scale), (0.0, 0.0, -0.196 * scale)],
-                   [0.056 * scale, 0.050 * scale], m["cloth"], group="device")
+    # the sleeve runs most of the way to the wrist: a bare tube of skin from wrist to elbow
+    # reads as a prosthetic, and at 75 mm the forearm is half the frame
+    cuff = BD.tube(f"{name}_cuff", [(0.0, 0.0, -0.334 * scale), (0.0, 0.0, -0.132 * scale)],
+                   [0.061 * scale, 0.0485 * scale], m["cloth"], group="device")
     cuff.parent = fa_root
 
     return root, {"forearm": fa_root, "phone": ph_root, "screen": ph["screen"], **gp, **{f"p_{k}": v for k, v in ph.items()}}
@@ -401,32 +411,39 @@ def track_screen(W, key, parts):
 def shot_approach(W: B.World):
     """A · exterior Joe's, 7:42. A customer crosses the forecourt toward the door. No UI.
 
-    lens      street 50 mm, f/4        height 1.58 m
-    fore      the west pump island, dark, right of frame
-    subject   a person walking the lane between the islands
-    back      the store front and the lit doorway
-    focus     the door, so the walker resolves as they arrive
+    lens      street 50 mm, f/2.8      height 1.34 m
+    fore      the customer themself, a metre from the lens and far outside focus: a dark mass
+              that walks out of the frame's foreground and into its subject
+    subject   the doorway they are walking to
+    back      the store front and the canopy over it
+    focus     the door, 14.5 m out. Nothing near the lens is sharp and nothing needs to be.
+    start/end f/2.8 throughout
     move      locked. The subject moves; the camera does not.
+
+    A locked wide of an empty forecourt with a figure in the middle of it is a rendering of a
+    petrol station. The same camera with the person a metre in front of it is a shot: they
+    resolve out of their own blur as they arrive, and the doorway is what the frame is for.
     """
     m = look(W)
     B.set_state(W, "morning")
     frames = 34
-    fig, parts = BD.figure("ap_walker", (-3.4, 6.2, 0.0), m["cloth"], height=1.76, yaw=math.radians(4))
-    for f, y in ((0, 6.2), (frames - 1, 15.4)):
-        fig.location = (-3.4 + (y - 6.2) * 0.10, y, 0.0)
+    fig, parts = BD.figure("ap_walker", (-1.55, 6.55, 0.0), m["cloth"], height=1.78, yaw=math.radians(2))
+    for f, y in ((0, 6.55), (frames - 1, 17.20)):
+        fig.location = (-1.55 - (y - 6.55) * 0.029, y, 0.0)
         fig.keyframe_insert("location", frame=f)
     for fc in _fc(fig):
         for kp in fc.keyframe_points:
             kp.interpolation = "LINEAR"
-    BD.gait(parts, frames, speed=1.05, height=1.76)
+    BD.gait(parts, frames, speed=1.05, height=1.78)
     track(W, "walker", B.empty("ap_t", (0, 0, 1.0)))
     W.tracks["walker"].parent = fig
     W.tracks["walker"].location = (0, 0, 1.0)
 
-    cam = CAM.Cam("street", subject="a person walking the lane between the pump islands",
-                  foreground="the west island, dark, right of frame", background="the store front and the lit doorway",
+    cam = CAM.Cam("street", fstop=2.8, subject="the doorway the customer is walking to",
+                  foreground="the customer themself, a metre from the lens and far outside focus",
+                  background="the store front and the canopy over it",
                   motivation="locked")
-    cam.lock((-2.6, 2.4, 1.58), (-1.9, 19.0, 1.62), frames, focus=(-1.72, 19.75, 1.5), label="the lane")
+    cam.lock((-1.15, 5.40, 1.34), (-1.80, 19.90, 1.52), frames, focus=(-1.72, 20.10, 1.45), label="in the lane, behind them")
     CAM.ease_camera(cam.obj)
     return dict(frames=frames, cam=cam.obj, names=["walker", "door_joes"], people=None,
                 meta=dict(state="morning", clock="Friday · 7:42 AM", cross=27, spec=cam.spec()),
@@ -513,7 +530,7 @@ def shot_counter(W: B.World):
 
     # the customer: a real body, placed so the frame keeps a shoulder and loses the rest
     # placed on the axis the phone rig's own forearm runs down, so the arm belongs to the body
-    torso, tp = BD.figure("ct_cust", (cx - 0.37, cy - 1.08, 0.0), m["cloth2"], height=1.76, yaw=math.radians(160))
+    torso, tp = BD.figure("ct_cust", (cx - 0.37, cy - 1.08, 0.0), m["cloth"], height=1.76, yaw=math.radians(160))
     tp["arm_l"].hide_render = True  # the reaching arm is the phone rig's own forearm, not a second one
     # a second customer, further back, waiting: the store is not empty
     q, qp = BD.figure("ct_queue", (cx - 1.04, cy - 1.75, 0.0), m["cloth"], height=1.71, yaw=math.radians(172))
@@ -685,7 +702,8 @@ def shot_scan(W: B.World):
     fore      the back of the customer's phone, low in frame
     subject   the panel, then the phone
     back      the café's front windows, blown
-    focus     the panel, pulled to the phone across the turn
+    focus     the panel, pulled to the phone and landed by the turn, not still travelling
+              through it: at f/2.4 and 90 mm nothing between the two is sharp
     move      the camera stands where the owner stands and does not travel; it reframes with the
               handset it is following, and the lens goes long as the handset comes back to them.
     """
@@ -701,7 +719,7 @@ def shot_scan(W: B.World):
 
     # the phone starts with its back to us, aimed at the panel; it turns over and comes back to its owner
     ph_root, ph = held_phone(W, "sc_phone", (px, py, pz), yaw=math.radians(-42), tilt=math.radians(-8),
-                             screen="device-offer", first=0, strength=4.2)
+                             screen="device-offer", first=0, strength=2.1)
     # yaw 8° rakes the glass ~44° off the lens; yaw 52° turns it square to us at the end
     for f, yaw, tilt, loc in ((0, 8, -6, (px, py, pz - 0.015)), (16, 8, -6, (px, py, pz)),
                               (30, 30, -13, (px + 0.06, py - 0.04, pz + 0.02)), (frames - 1, 52, -20, (px + 0.11, py - 0.08, pz + 0.04))):
@@ -720,6 +738,7 @@ def shot_scan(W: B.World):
                   motivation="we follow the offer from the panel that published it to the handset that received it")
     cam.key(0, eye, (ux - 0.02, uy, uz + 0.02), lens=75.0, focus=(ux, uy, uz), label="on the panel")
     cam.key(16, eye, (ux - 0.02, uy, uz + 0.02), lens=75.0, focus=(ux, uy, uz), label="hold; the code is taken")
+    cam.key(30, eye, (px + 0.05, py - 0.03, pz + 0.02), lens=88.0, focus=(px + 0.06, py - 0.04, pz + 0.02), label="the pull lands on the handset")
     cam.key(frames - 1, eye, (px + 0.11, py - 0.08, pz + 0.04), lens=95.0, focus=(px + 0.11, py - 0.08, pz + 0.04), label="the handset is the frame")
     CAM.ease_camera(cam.obj)
     return dict(frames=frames, cam=cam.obj, names=["phone", "screen_c", "glass_tl", "glass_tr", "glass_br", "glass_bl"], people=None,
@@ -787,9 +806,11 @@ def shot_morning_walk(W: B.World):
     m = look(W)
     B.set_state(W, "morning", elev=31.0, exposure=-2.85)
     frames = 30
+    # a 30-frame beat holds about two metres of walking. The old routes ran nineteen metres
+    # through it, which is not a walk, it is a smear.
     _crowd(W, "mw", [
-        ([(15.4, 6.6), (6.0, 6.9), (-0.4, 9.4), (-1.5, 16.0)], 1.45, 0, math.radians(-96)),
-        ([(18.6, 7.4), (8.2, 7.6), (0.4, 10.2), (-1.0, 15.2)], 1.32, 5, math.radians(-96)),
+        ([(4.6, 9.4), (2.7, 10.5)], 1.50, 0, math.radians(-120)),
+        ([(6.4, 8.4), (4.6, 9.5)], 1.38, 4, math.radians(-120)),
     ], frames, [m["cloth2"], m["cloth"]])
     cam = CAM.Cam("block", subject="two people walking the frontage toward Joe's",
                   foreground="the curb, running out of frame right", background="the café's awning, the cars, the lot",

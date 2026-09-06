@@ -1,6 +1,6 @@
 import { AbsoluteFill } from "remotion";
 import { useCurrentFrame } from "remotion";
-import { PLATES, Plate } from "../../block/plate";
+import { PLATES, PlateCut } from "../../block/plate";
 import { Grain } from "../../primitives/Grain";
 import { IN, OUT, ramp } from "../../motion";
 import { COLOR } from "../../tokens";
@@ -24,13 +24,13 @@ import { COLOR } from "../../tokens";
  * cuts away between the action and its result.
  */
 
-/** frames of each plate we actually use, and where the cut falls */
+/** the head of each plate we skip, how long each shot runs, and therefore where the cuts fall */
 export const SHOTS8 = [
-  { src: PLATES.approach, in: 4, len: 26 },
-  { src: PLATES.threshold, in: 2, len: 24 },
-  { src: PLATES.counter, in: 4, len: 24 },
-  { src: PLATES.device, in: 6, len: 72 },
-  { src: PLATES.coffee, in: 0, len: 26 },
+  { src: PLATES.approach, head: 4, len: 26 },
+  { src: PLATES.threshold, head: 2, len: 24 },
+  { src: PLATES.counter, head: 4, len: 24 },
+  { src: PLATES.device, head: 6, len: 72 },
+  { src: PLATES.coffee, head: 0, len: 26 },
 ] as const;
 
 export const CUTS = SHOTS8.reduce<number[]>((acc, s) => [...acc, (acc[acc.length - 1] ?? 0) + s.len], [0]);
@@ -45,7 +45,7 @@ export const Act8Redeem = () => {
   return (
     <AbsoluteFill style={{ background: COLOR.marineDeep }}>
       {SHOTS8.map((s, i) => (
-        <Plate key={s.src} src={s.src} from={CUTS[i] - s.in} frames={s.len + s.in} />
+        <PlateCut key={s.src} src={s.src} at={CUTS[i]} len={s.len} head={s.head} />
       ))}
       {/* the crossing, held for a beat: the doorway's brightness falls away as we go in */}
       <div style={{ position: "absolute", inset: 0, background: "#000", opacity: 1 - settle, pointerEvents: "none" }} />

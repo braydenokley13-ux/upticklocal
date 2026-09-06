@@ -71,6 +71,22 @@ export function Plate({ src, from, frames, opacity = 1, scale = 1, style }: { sr
   );
 }
 
+/**
+ * One cut in an edit: the plate is on screen for `len` frames starting at `at`, and the frame
+ * it opens on is the plate's own frame `head`.
+ *
+ * The difference matters. Placing the plate `head` frames earlier so it "starts before the cut"
+ * does not skip its head — it moves the cut, and shortens the shot before it by exactly that
+ * many frames. This puts the head back where it belongs: inside the shot.
+ */
+export function PlateCut({ src, at, len, head = 0, opacity = 1, style }: { src: string; at: number; len: number; head?: number; opacity?: number; style?: React.CSSProperties }) {
+  return (
+    <Sequence from={at} durationInFrames={len} layout="none">
+      <Plate src={src} from={-head} frames={head + len} opacity={opacity} style={style} />
+    </Sequence>
+  );
+}
+
 /** Frame within a plate that starts at `from`; clamped so it never runs off the end. */
 export function usePlateFrame(from: number, frames: number): number {
   const f = useCurrentFrame();

@@ -1,6 +1,6 @@
 import { AbsoluteFill, useCurrentFrame } from "remotion";
 import trackRise from "../../../blender/exports/rise.json";
-import { PLATES, Plate, trackAt, type TrackData } from "../../block/plate";
+import { PLATES, PlateCut, trackAt, type TrackData } from "../../block/plate";
 import { RESULT } from "../../data/joes";
 import { IN, OUT, PLANE, ramp } from "../../motion";
 import { Grain } from "../../primitives/Grain";
@@ -23,10 +23,10 @@ import { COLOR, HEIGHT, WIDTH } from "../../tokens";
 const TR = trackRise as unknown as TrackData;
 
 export const SHOTS9 = [
-  { src: PLATES.morningPump, in: 3, len: 24 },
-  { src: PLATES.morningWalk, in: 2, len: 26 },
-  { src: PLATES.morningDoor, in: 2, len: 22 },
-  { src: PLATES.rise, in: 0, len: 40 },
+  { src: PLATES.morningPump, head: 3, len: 24 },
+  { src: PLATES.morningWalk, head: 2, len: 26 },
+  { src: PLATES.morningDoor, head: 2, len: 22 },
+  { src: PLATES.rise, head: 0, len: 40 },
 ] as const;
 
 export const CUTS9 = SHOTS9.reduce<number[]>((acc, s) => [...acc, (acc[acc.length - 1] ?? 0) + s.len], [0]);
@@ -57,7 +57,7 @@ export const Act9Return = () => {
   return (
     <AbsoluteFill style={{ background: COLOR.marineDeep }}>
       {SHOTS9.map((s, i) => (
-        <Plate key={s.src} src={s.src} from={CUTS9[i] - s.in} frames={s.len + s.in} />
+        <PlateCut key={s.src} src={s.src} at={CUTS9[i]} len={s.len} head={s.head} />
       ))}
       {/* the morning goes over the set and takes it: the page arrives as light, not as a cut */}
       <div style={{ position: "absolute", inset: 0, background: COLOR.canvas, opacity: wash }} />
