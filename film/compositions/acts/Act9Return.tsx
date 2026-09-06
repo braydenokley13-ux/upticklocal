@@ -50,6 +50,10 @@ export const Act9Return = () => {
   const r = trackAt(TR, "base_r", riseFrame);
   const ruleY = l.y + (r.y - l.y) * 0.5;
 
+  // The residue is not drawn over the physical world. It is picked out of the rise shot, where
+  // the line under it is the store's own base line and the track is live; before that shot the
+  // track would put it at an arbitrary height across three unrelated cameras.
+  const residue = ramp(frame, RISE_AT + 10, 14, OUT);
   const numeral = ramp(frame, PROOF + 6, 14, OUT);
   const said = ramp(frame, PROOF + 26, 14, OUT);
   const split = ramp(frame, PROOF + 54, 16, OUT);
@@ -63,19 +67,21 @@ export const Act9Return = () => {
       <div style={{ position: "absolute", inset: 0, background: COLOR.canvas, opacity: wash }} />
 
       {/* the residue: the line the store stands on, which the page keeps */}
-      <div
-        style={{
-          position: "absolute",
-          left: 0,
-          top: ruleY,
-          width: WIDTH,
-          height: 1,
-          background: COLOR.ink,
-          opacity: 0.16 + 0.84 * Math.max(0, Math.min(1, (wash - 0.35) / 0.5)),
-          transform: `scaleX(${0.34 + 0.66 * Math.max(0, Math.min(1, wash * 1.4))})`,
-          transformOrigin: "50% 50%",
-        }}
-      />
+      {frame >= RISE_AT && (
+        <div
+          style={{
+            position: "absolute",
+            left: 0,
+            top: ruleY,
+            width: WIDTH,
+            height: 1,
+            background: COLOR.ink,
+            opacity: 0.18 * residue + 0.82 * Math.max(0, Math.min(1, (wash - 0.35) / 0.5)),
+            transform: `scaleX(${0.34 + 0.66 * Math.max(0, Math.min(1, wash * 1.4))})`,
+            transformOrigin: "50% 50%",
+          }}
+        />
+      )}
 
       {/* the proof, standing on it */}
       <div style={{ position: "absolute", left: 96, top: ruleY, transform: "translateY(-100%)", paddingBottom: 22, opacity: numeral }}>
