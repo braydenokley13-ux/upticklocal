@@ -40,3 +40,26 @@ Composite pass, applied after the hi-res review: 4 (cut the cream on one frame; 
 World pass 5, batched for the next plate render if Hero 1's visual system is approved: 1 (a dead stop by plate frame 132 and a hold), 5 (no figure in the live lane; the foreground walker cropped or gone), 8 (a slotted grate), 11 (figure height and yaw variety, contact shadows come free with the sun), 12 (catenary hoses and nozzles), 14 (a smaller sun disc for a harder canopy shadow), 2 and 9 where geometry and a haze volume are cheap. Rejected: rebuilding the sedan and the whole facade system before the film's visual system is approved.
 
 Production: 16 (native 1920, renderer shutter, one grain pass over type and plate).
+
+## Round 6 · gate review, on the 1280×720 plate (pass-4 world + concrete, mid key, name plate)
+
+**6.5/10 (+0.5) · APPROVE WITH CONDITIONS.** The critic: resolution bought the café interior (counters, tables, a fridge behind the glass — "full next door, empty at Joe's" lands harder), the new mid key (the canopy line established by f150, the printed 3 inside the frame) and warmer, mottled concrete; everything else it exposed. Passes the client's gate (the match cut 96→106, the pavement beat, the casting) but by no more than last round. Three rejected categories still visible: the facades at 196–251 (flat windows at zero depth on one untextured plane — a model-viewer demo, worse at 1280), the canopy roof slab banding the top quarter at 155–172, and the pavement 3 shrinking from full-height numeral (f184) to caption glyph (f196) — "literally the shrinking number the client rejected". The visual system (page → tracked surface, ink on lit pavement, amber as people, street-height settle) is approved as the template for the other four shots on five conditions: rebuild the facade system once before any further hero renders; put the dead stop and hold into the shared camera rig; the mark must gain weight, not lose it; a figure library with height/yaw variants and contact shadows; production at native resolution with renderer shutter and one grain pass.
+
+Delta on the 16: 3 improved (mid key), 7 improved (stain, slab variation; no aggregate, chamfer or seam yet), 16 partly (the JOE'S plate; the sign still reads "DIET", no legible canopy name, no motion blur); the rest unchanged, items 4, 6, 10, 13, 15 deliberately not yet applied.
+
+Remaining, ranked:
+
+1. [COMPOSITE] [P1] 184–196 — the 3 vanishes instead of standing up — thicken to paint weight across 150–184, hold at pavement scale through 196, assemble the caption beside it.
+2. [PLATE] [P1] 196–251 — facades: flat windows at zero depth, one untextured brick plane, cornice with no shadow line — recess, glaze, texture before any other hero renders.
+3. [PLATE] [P1] 220–251 — still moving on the last frame — dead stop by 228, hold to 251. (Pass 5, in the source, not yet rendered.)
+4. [COMPOSITE] [P1] 96–120 — the cream leaves as a ~1 s dissolve — cut it on one frame under an exposure ramp.
+5. [PLATE] [P2] 155–172 — the canopy roof slab bands the top quarter — keep the lift outside the forecourt.
+6. [PLATE] [P2] 106–160 — joints need a chamfer that catches sun, one patched slab, a tar seam; slot the drain; make the diagonal the canopy's hard shadow.
+7. [PRODUCTION] [P2] 172–251 — relabel "DIET"; a legible name on the canopy fascia; enable shutter.
+8. [PLATE] [P2] 196–251 — figure variants, yaw, contact shadows; crop or delete the 220 corner figure.
+
+Keep: the match cut at 96→106; the pavement beat 106–130 on the stained concrete; the mid-lift key and the casting.
+
+### Lead's response
+
+The composite items (1, 4, and the earlier 6, 10, 13, 15) go into Hero 1 A now: the printed 3 never shrinks — it thickens to paint weight on the pavement and *stays there* as the mark, with the caption assembled beside it on the sidewalk; the cream cuts on one frame under the plate's own exposure ramp; the header loses its second line; the sentence leaves earlier. The plate items (2, 3, 5, 6, 7, 8) are world pass 6 — the facade system, the concrete joints, the sign, the figure library, the shutter, the mid key clear of the canopy — built and look-dev'd in a copy of the Blender scripts while the R&D plates render, then applied before the final plates. The R&D plates for Heroes 3 and 5 (960×540, pass 5) are for assembling and criticising the cut, not for the master.

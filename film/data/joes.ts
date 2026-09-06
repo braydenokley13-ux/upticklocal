@@ -132,25 +132,39 @@ export const OFFER = {
 /** The conversation. Grounded questions are answered from approved details. */
 export const CONVERSE = {
   question: "Does diesel count?",
-  askedAt: "Thu 6:52 PM",
+  askedAt: "Fri 7:09 AM",
   silenceMs: 900,
   answer: "Yes — regular, premium, and diesel fill-ups qualify.",
   answerParts: { lead: "Yes — ", values: ["regular", "premium", "and diesel"], tail: " fill-ups qualify." },
   provenance: "From Joe's approved offer details",
   principle: "Automatic when grounded. Human when uncertain.",
   escalation: "Not in the approved details → goes to Joe.",
+  /** The week so far: what the plan answered on its own, and what went to Joe. */
+  week: { handled: 38, toJoe: 2, line: "This week · 38 answered from the plan · 2 went to Joe" },
 } as const;
 
-/** The pass and its redemption at Joe's counter. */
+/**
+ * The pass and its redemption. The customer opens it at Joe's, staff glance
+ * at it, the customer taps Redeem now, confirms once, and the pass becomes a
+ * live redeemed state: the merchant, the current time, one detail that could
+ * only exist now. No PIN, no scanner, no second phone, no POS.
+ */
 export const PASS = {
   id: "JF·0417",
   title: "Free large coffee",
-  instruction: "Show this screen to staff.",
+  instruction: "Show this at the counter, then tap Redeem now.",
   merchant: BUSINESS.name,
+  window: "Friday · 7–10 AM · one per customer",
+  redeemNow: "Redeem now",
+  confirm: "Confirm — this can't be undone",
+  confirmYes: "Redeem",
+  confirmNo: "Not yet",
+  /** The live state's clock starts here and runs in real seconds. */
   redeemedAt: "Fri · 7:42 AM",
+  redeemedClock: { h: 7, m: 42, s: 8 },
   redeemedLine: "Redeemed.",
-  redeemedDetail: "One large coffee. Enjoy the morning.",
-  confirmed: "Confirmed by staff",
+  redeemedDetail: "One large coffee · Pump 3 · regular",
+  live: "Live · this screen updates every second",
   ordinal: "1 of 30",
 } as const;
 

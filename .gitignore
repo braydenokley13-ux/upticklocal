@@ -18,3 +18,6 @@ blender/assets/*.blend1
 
 # Python bytecode from the Blender scripts
 __pycache__/
+
+# Synthesised sound stems are rebuilt by `python3 film/audio/synth.py`; only the compressed cues used by the edit are kept
+public/film-rd/audio/*.wav

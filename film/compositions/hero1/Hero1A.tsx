@@ -7,7 +7,7 @@ import { IN, OUT, PLANE, ramp, sec } from "../../motion";
 import { Frame } from "../../primitives/Frame";
 import { Grain } from "../../primitives/Grain";
 import { Line, Mono, Numeral, Words } from "../../primitives/Type";
-import { COLOR, FONT, HEIGHT, WIDTH } from "../../tokens";
+import { COLOR, HEIGHT, WIDTH } from "../../tokens";
 import { LEFT, PAGE_END_SEC, SettledBlock, Vignette } from "./common";
 
 const T = tracks as unknown as TrackData;
@@ -49,7 +49,7 @@ export const Hero1A = () => {
   const headIn = ramp(frame, sec(0.1), sec(0.5), OUT);
   const numeralIn = ramp(frame, sec(0.6), sec(0.7), OUT);
   const ruleIn = ramp(frame, sec(1.2), sec(0.8), OUT);
-  const wordsAt = frame < sec(1.7) ? -1 : Math.min(GAP.sentence.split(" ").length - 1, Math.floor((frame - sec(1.7)) / 3));
+  const wordsAt = frame < sec(1.3) ? -1 : Math.min(GAP.sentence.split(" ").length - 1, Math.floor((frame - sec(1.3)) / 3));
 
   // the page's four corners on the ground, tracked: at plate frame 0 this is the frame itself
   const fp = quadAt(T, "fp", pf);
@@ -63,16 +63,18 @@ export const Hero1A = () => {
   const pageMatrix = onPlate ? homographyMatrix3d(WIDTH, HEIGHT, ground) : "none";
   const [markX, markY] = H ? applyHomography(H, MARK_UV[0], MARK_UV[1]) : MARK_UV;
   const land = { x: markX, y: markY, depth: 0 };
+  // the printed 3's right edge on the pavement: the caption assembles beside it
+  const [edgeX, edgeY] = H ? applyHomography(H, NUM_X + NUM_SIZE * 0.58, NUM_CY) : [NUM_X + NUM_SIZE * 0.58, NUM_CY];
+  const beside = { x: edgeX, y: edgeY, depth: 0 };
 
-  // the cream lifts off the concrete; the sentence goes first, the rule hands over to the curb as the camera lifts
-  const paper = onPlate ? 1 - ramp(frame, PAGE_END, 18, PLANE) : 1;
+  // the cream cuts off the concrete on one frame under the plate's own exposure ramp; the sentence goes first, the rule hands over to the curb as the camera lifts
+  const paper = onPlate ? 1 - ramp(frame, PAGE_END, 3, PLANE) : 1;
   const sentenceOut = ramp(frame, PAGE_END + 12, 20, IN);
   const ruleOut = ramp(frame, PAGE_END + HOLD + 30, 30, IN);
-  // the printed 3 darkens with the morning, then stands up as the mark
-  const lift = ramp(frame, PAGE_END + LIFT_END - 20, 14, PLANE);
-  const snap = 1 + 0.1 * Math.sin(Math.PI * lift); // the mark commits with a small overshoot, like a stamp
+  // the printed 3 darkens with the morning and gains weight: it is the mark, and it never leaves the pavement
   const risen = ramp(frame, PAGE_END + HOLD, LIFT_END - HOLD, PLANE);
   const paint = ramp(frame, PAGE_END + HOLD + 4, 28, PLANE);
+  const settleWeight = ramp(frame, PAGE_END + LIFT_END - 30, 30, PLANE);
   const speed = ramp(frame, PAGE_END + HOLD + 8, 44, PLANE);
   const blur = 3.2 * Math.sin(Math.PI * speed);
 
@@ -80,11 +82,11 @@ export const Hero1A = () => {
     <Frame>
       <Plate src="film-rd/plates/hero1a.mp4" from={PAGE_END} frames={PLATE_FRAMES} style={{ filter: blur > 0.05 ? `blur(${blur.toFixed(2)}px)` : undefined }} />
       <div style={{ position: "absolute", inset: 0, background: COLOR.canvas, opacity: paper }} />
-      <div style={{ position: "absolute", inset: 0, background: COLOR.canvas, mixBlendMode: "multiply", opacity: onPlate ? 0.55 * (1 - ramp(frame, PAGE_END + 10, 40, PLANE)) : 0 }} />
-      {/* the page, printed on the pavement */}
-      <div style={{ position: "absolute", left: 0, top: 0, width: WIDTH, height: HEIGHT, transform: pageMatrix, transformOrigin: "0 0", filter: blur > 0.05 ? `blur(${blur.toFixed(2)}px)` : undefined }}>
-        <div style={{ position: "absolute", left: NUM_X, top: NUM_CY, transform: "translate(0, -50%)", opacity: numeralIn * (1 - lift) }}>
-          <Numeral value={GAP.visits} size={NUM_SIZE} color={COLOR.ink} weight={200} style={{ WebkitTextStroke: paint > 0.01 ? `${(14 * paint).toFixed(1)}px ${COLOR.ink}` : undefined }} />
+      <div style={{ position: "absolute", inset: 0, background: COLOR.canvas, mixBlendMode: "multiply", opacity: onPlate ? 0.35 * (1 - ramp(frame, PAGE_END + 4, 24, PLANE)) : 0 }} />
+      {/* the page, printed on the pavement: ink multiplied into the concrete */}
+      <div style={{ position: "absolute", left: 0, top: 0, width: WIDTH, height: HEIGHT, transform: pageMatrix, transformOrigin: "0 0", filter: blur > 0.05 ? `blur(${blur.toFixed(2)}px)` : undefined, mixBlendMode: onPlate ? "multiply" : undefined }}>
+        <div style={{ position: "absolute", left: NUM_X, top: NUM_CY, transform: "translate(0, -50%)", opacity: numeralIn }}>
+          <Numeral value={GAP.visits} size={NUM_SIZE} color={COLOR.ink} weight={200} style={{ WebkitTextStroke: paint > 0.01 ? `${(14 * paint + 8 * settleWeight).toFixed(1)}px ${COLOR.ink}` : undefined }} />
         </div>
         <div style={{ position: "absolute", left: SENT_X, top: SENT_Y, width: 1000, opacity: 1 - sentenceOut }}>
           <Line size={40} color={COLOR.inkSoft}>
@@ -98,22 +100,15 @@ export const Hero1A = () => {
         <Mono color={COLOR.inkFaint}>
           {BUSINESS.name} · {BUSINESS.address}
         </Mono>
-        <Mono color={COLOR.inkFaint} style={{ marginTop: 14 }}>
-          {GAP.when} · {GAP.window}
-        </Mono>
       </div>
       <div style={{ position: "absolute", left: LEFT, bottom: 84, opacity: onPlate ? 0 : headIn * 0.9 }}>
         <Mono color={COLOR.inkFaint} size={16}>
           Illustrative · example business
         </Mono>
       </div>
-      {/* the mark: the 3 standing up where it lay */}
-      <div style={{ position: "absolute", left: land.x, top: land.y, transform: `translate(-50%, -50%) scale(${(0.7 + 0.3 * lift) * snap})`, opacity: lift, fontFamily: FONT.sans, fontWeight: 500, fontSize: 44, color: COLOR.ink, lineHeight: 1, textShadow: "0 0 14px rgba(243,240,233,0.85)" }}>
-        {GAP.visits}
-      </div>
       <Vignette opacity={risen * 0.7} />
-      <Grain opacity={0.08 * (1 - paper)} />
-      <SettledBlock frame={frame} settleAt={SETTLE} land={land} plateFrame={pf} T={T} />
+      <Grain opacity={0.08 * (1 - paper) + 0.035 * paper} />
+      <SettledBlock frame={frame} settleAt={SETTLE} land={beside} plateFrame={pf} T={T} />
     </Frame>
   );
 };

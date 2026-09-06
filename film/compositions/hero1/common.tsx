@@ -75,14 +75,14 @@ export function SettledBlock({ frame, settleAt, land, plateFrame, T }: { frame: 
         </Mono>
       </div>
       {/* the mark's caption on the sunlit pavement beside it */}
-      <div style={{ position: "absolute", left: land.x + 36, top: land.y - 14, opacity: label }}>
-        <Mono color={COLOR.ink} size={24} style={{ textShadow: "0 0 14px rgba(243,240,233,0.85), 0 0 4px rgba(243,240,233,0.9)" }}>
+      <div style={{ position: "absolute", left: land.x + 28, top: land.y - 13, opacity: label }}>
+        <Mono color={COLOR.ink} size={26} style={{ textShadow: "0 0 14px rgba(243,240,233,0.85), 0 0 4px rgba(243,240,233,0.9)" }}>
           {BUSINESS.short} · {GAP.window}
         </Mono>
       </div>
       {/* the line sits on the road, the one dark band across the bottom of the frame */}
       <div style={{ position: "absolute", left: LEFT, bottom: 196, opacity: line }}>
-        <Line size={34} color={COLOR.onMarine} weight={400} style={{ textShadow: "0 1px 14px rgba(0,0,0,0.7)" }}>
+        <Line size={34} color={COLOR.onMarine} weight={400} style={{ textShadow: "0 1px 14px rgba(0,0,0,0.7)", opacity: 0.92 }}>
           Same street. Same morning.
         </Line>
       </div>

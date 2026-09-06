@@ -1,6 +1,6 @@
 import { useCurrentFrame } from "remotion";
 import { homographyMatrix3d, type Quad } from "../block/homography";
-import { CONVERSE, MESSAGE, PLAN } from "../data/joes";
+import { CONVERSE, MESSAGE, OFFER, PLAN } from "../data/joes";
 import { IN, OUT, PLANE, ramp } from "../motion";
 import { Frame } from "../primitives/Frame";
 import { GrowthPlanCard, PLAN_H, PLAN_PAD, PLAN_ROWS, PLAN_W } from "../primitives/GrowthPlan";
@@ -80,7 +80,7 @@ function flight(from: { x: number; y: number }, to: { x: number; y: number }, t:
   };
 }
 
-export const Hero4 = () => {
+export const Hero4 = ({ thread = "text", historyAt = 0 }: { thread?: "text" | "offer"; historyAt?: number }) => {
   const frame = useCurrentFrame();
   const v = CONVERSE.answerParts.values;
   const w1 = v[0];
@@ -92,7 +92,7 @@ export const Hero4 = () => {
   if (!a || !s) return <Frame bg="#040c10" />;
 
   // --- the thread ---------------------------------------------------------
-  const historyIn = ramp(frame, T.history, 14, OUT);
+  const historyIn = ramp(frame, T.history + historyAt, 14, OUT);
   const questionIn = ramp(frame, T.question, 12, PLANE);
   const silence = frame >= T.silence[0] && frame < T.silence[1] ? (frame - T.silence[0]) / (T.silence[1] - T.silence[0]) : frame >= T.silence[1] ? 1 : 0;
 
@@ -175,8 +175,8 @@ export const Hero4 = () => {
       {/* Joe's message, earlier: a sheet of paper, not a bubble */}
       <div style={{ position: "absolute", left: COL_X, top: 236, opacity: historyIn, transform: `translateY(${(1 - historyIn) * 10}px)` }}>
         <div style={{ ...paper, background: "#edeae3", color: COLOR.ink, padding: "26px 34px", display: "inline-block", maxWidth: 640 }}>
-          <div style={{ fontFamily: FONT.sans, fontSize: 34, fontWeight: 400, letterSpacing: "-0.02em", lineHeight: 1.3 }}>{MESSAGE.text.body}</div>
-          <div style={{ fontFamily: FONT.sans, fontSize: 24, fontWeight: 400, letterSpacing: "-0.01em", lineHeight: 1.3, color: COLOR.inkSoft, marginTop: 8 }}>{MESSAGE.text.detail.replace(/ · /g, ", ").replace("First", "first")}.</div>
+          <div style={{ fontFamily: FONT.sans, fontSize: 34, fontWeight: 400, letterSpacing: "-0.02em", lineHeight: 1.3 }}>{thread === "offer" ? OFFER.headline : MESSAGE.text.body}</div>
+          <div style={{ fontFamily: FONT.sans, fontSize: 24, fontWeight: 400, letterSpacing: "-0.01em", lineHeight: 1.3, color: COLOR.inkSoft, marginTop: 8 }}>{thread === "offer" ? OFFER.line : MESSAGE.text.detail.replace(/ · /g, ", ").replace("First", "first") + "."}</div>
         </div>
       </div>
 
@@ -247,6 +247,12 @@ export const Hero4 = () => {
       {/* the rule, plainly, stacked under the answer */}
       <div style={{ position: "absolute", left: ANSWER.x, bottom: 150, opacity: line1 * 0.85, fontFamily: FONT.sans, fontSize: 28, color: COLOR.onMarine, letterSpacing: "-0.01em" }}>Already in what Joe approved, so Uptick answered.</div>
       <div style={{ position: "absolute", left: ANSWER.x, bottom: 108, opacity: line2 * 0.55, fontFamily: FONT.sans, fontSize: 24, color: COLOR.onMarine, letterSpacing: "-0.01em" }}>Anything else goes to Joe.</div>
+      {/* the account, near the provenance and never after the result */}
+      <div style={{ position: "absolute", left: ANSWER.x, bottom: 66, opacity: ramp(frame, T.line2 + 12, 14, OUT) * 0.8 }}>
+        <Mono color={COLOR.onMarineFaint} size={14}>
+          {CONVERSE.week.line}
+        </Mono>
+      </div>
       <span style={{ display: "none" }}>
         <Mono>{PLAN.title}</Mono>
       </span>
