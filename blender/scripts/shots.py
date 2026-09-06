@@ -19,6 +19,7 @@ from bpy_extras.object_utils import world_to_camera_view
 from mathutils import Vector
 
 import block as B
+import scenes as SC
 
 FPS = 24
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -835,4 +836,9 @@ def shot_hero5c(W: B.World):
     thresholds = sorted(e["frame"] for e in ppl.events)
     return {"frames": frames, "cam": cam, "people": ppl, "names": names, "meta": {"state": "morning", "clock": "07:42", "thresholds": thresholds}, "comp": {"mist": 0.08, "mist_start": 6, "mist_depth": 60}}
 
+SHOTS.update({
+    # The physical acts, rebuilt: one camera grammar, real objects, no floating software.
+    "approach": SC.shot_approach, "threshold": SC.shot_threshold, "counter": SC.shot_counter,
+    "device": SC.shot_device, "coffee": SC.shot_coffee,
+})
 SHOTS.update({"hero1": shot_hero1, "hero1a": shot_hero1a, "hero1b": shot_hero1b, "hero1c": shot_hero1c, "hero3a": shot_hero3a, "hero3b": shot_hero3b, "hero5": shot_hero5, "hero5c": shot_hero5c})
