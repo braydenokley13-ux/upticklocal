@@ -76,7 +76,7 @@ export function SettledBlock({ frame, settleAt, land, plateFrame, T }: { frame: 
       {/* the mark's caption and its dot on the pavement */}
       <div style={{ position: "absolute", left: land.x + 30, top: land.y - 12, opacity: label }}>
         <Mono color={COLOR.onMarineSoft} size={20}>
-          {GAP.window} · {GAP.visits}
+          {BUSINESS.short} · {GAP.window}
         </Mono>
       </div>
       <div style={{ position: "absolute", left: land.x - 5, top: land.y + 30, width: 10, height: 10, borderRadius: 5, background: COLOR.onMarine, opacity: label, boxShadow: "0 0 10px rgba(0,0,0,0.5)" }} />
