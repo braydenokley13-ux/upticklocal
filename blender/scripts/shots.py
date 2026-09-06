@@ -19,6 +19,7 @@ from bpy_extras.object_utils import world_to_camera_view
 from mathutils import Vector
 
 import block as B
+import camera as CAM
 import scenes as SC
 
 FPS = 24
@@ -453,9 +454,6 @@ def _hold_keys_material(mat):
 # the settle: across the street at first-floor height, Joe's centre-left, the café alive on the right
 E_FINAL = dict(pos=(-2.5, -19.5, 5.2), target=(6.0, 10.5, 2.8), lens=29)
 E_DRIFT = dict(pos=(-1.7, -19.0, 5.05), target=(6.3, 10.5, 2.8), lens=29.6)
-# dusk, from an upper window across the street: the far row's wall of windows, the two screens, the forecourt
-E_DUSK = dict(pos=(-4.5, -23.0, 9.5), target=(-3.0, 12.0, 5.0), lens=20)
-E_DUSK_END = dict(pos=(-5.3, -22.6, 9.2), target=(-2.6, 12.0, 4.8), lens=20.5)
 # the top-down page frame (26 mm from 10 m): its centre on the sidewalk so the curb lies at 70% of the page
 FP_Z = 10.0
 FP_DY = 1.56
@@ -499,22 +497,29 @@ def shot_hero1a(W: B.World):
     walk, ppl = _hero1_common(W)
     lot = W.tracks["joes_lot"].location
     fcx, fcy = lot.x + 1.5, B.ROAD_HALF + FP_DY
-    cam = camera(lens=26, fstop=4.0, focus=34.0)
-    key_cam(cam, 0, (fcx, fcy, FP_Z), (fcx, fcy + 0.0001, 0.0), lens=26, focus=FP_Z)
-    key_cam(cam, 22, (fcx, fcy, FP_Z), (fcx, fcy + 0.0001, 0.0), lens=26, focus=FP_Z)
+    cam = CAM.Cam("page", fstop=4.0,
+                  subject="the sidewalk in front of Joe's, and then the block that sidewalk belongs to",
+                  foreground="nothing while we are over the ground — the near row's bench and low wall arrive as we cross the street",
+                  background="the far row and the morning behind it",
+                  motivation="the page is printed on this pavement, so the camera lifts off the ground it printed and lets the block rise into the frame")
+    cam.key(0, (fcx, fcy, FP_Z), (fcx, fcy + 0.0001, 0.0), lens=26, focus=FP_Z, label="straight down, the page")
+    cam.key(22, (fcx, fcy, FP_Z), (fcx, fcy + 0.0001, 0.0), lens=26, focus=FP_Z, label="straight down, the page")
     # out over the street, not under Joe's canopy: the canopy stays a line along the top instead of a slab
-    key_cam(cam, 74, (fcx - 6.0, fcy - 19.0, 8.6), (fcx + 1.0, B.FRONT - 0.2, 1.2), lens=27, focus=24.0)
-    key_cam(cam, 110, E_FINAL["pos"], E_FINAL["target"], lens=E_FINAL["lens"], focus=34.0)
-    key_cam(cam, 132, E_DRIFT["pos"], E_DRIFT["target"], lens=E_DRIFT["lens"], focus=34.0)
-    key_cam(cam, frames - 1, E_DRIFT["pos"], E_DRIFT["target"], lens=E_DRIFT["lens"], focus=34.0)
-    ease(cam)
-    ease(cam.data)
+    cam.key(74, (fcx - 6.0, fcy - 19.0, 8.6), (fcx + 1.0, B.FRONT - 0.2, 1.2), lens=27, focus=24.0, label="out over the street")
+    cam.key(110, E_FINAL["pos"], E_FINAL["target"], lens=E_FINAL["lens"], focus=34.0, label="across Main St")
+    cam.key(132, E_DRIFT["pos"], E_DRIFT["target"], lens=E_DRIFT["lens"], focus=34.0, label="settled")
+    cam.key(frames - 1, E_DRIFT["pos"], E_DRIFT["target"], lens=E_DRIFT["lens"], focus=34.0, label="settled")
+    # the film's own bezier, not the camera module's, because this move was cut to the music
+    ease(cam.obj)
+    ease(cam.obj.data)
     # the editorial light carries in: paper-white while the camera holds, settling to the morning as it lifts
     base = B.STATES["dawn"]["exposure"]
     _exposure(0, base + 3.0)
     _exposure(14, base + 2.8)
     _exposure(52, base)
-    return {"frames": frames, "cam": cam, "people": ppl, "names": HERO1_TRACKS, "meta": {"variant": "A", "hold": 22, "tilt": [22, 110], "clock": "Friday · 07:12"}, "comp": {"mist": 0.45, "mist_color": (0.74, 0.66, 0.56), "mist_start": 30, "mist_depth": 140}}
+    return {"frames": frames, "cam": cam.obj, "people": ppl, "names": HERO1_TRACKS,
+            "meta": {"variant": "A", "hold": 22, "tilt": [22, 110], "clock": "Friday · 07:12", "spec": cam.spec()},
+            "comp": {"mist": 0.45, "mist_color": (0.74, 0.66, 0.56), "mist_start": 30, "mist_depth": 140}}
 
 
 def shot_hero1b(W: B.World):
@@ -556,44 +561,83 @@ def shot_hero1(W: B.World):
 
 
 def shot_hero3a(W: B.World):
-    """Distribute. Thursday 6:48 PM. The plan enters the block; texts land in homes (windows), the two screens arm."""
+    """ACT V · Thursday, 6:48 PM. The plan reaches the block, and the block answers.
+
+    lens      block 40 mm at f/2.8    height 1.62 m — standing in the lot opposite Joe's
+    fore      the lot's own asphalt and its low wall, running across below the road
+    subject   Joe's forecourt: the canopy, the near island, the store behind them
+    back      the cafe two doors east, and the flats above its shopfront
+    focus     the near pump island, 31.2 m
+    move      locked. Someone watching a street from a parking lot does not drift.
+
+    This beat used to be a 20 mm elevation of the whole block from nine metres up:
+    no foreground, no ground a person could be standing on, and five windows scattered
+    over sixty metres of frontage where each was eight pixels wide and three of them
+    were jammed into the last tenth of the frame. That is a drawing of a network, which
+    is the one thing this act must not be. So it is played from the ground instead.
+    Joe's own forecourt comes on when the plan lands on it, and then, three times, a
+    window lights in the flats above the cafe. One window standing for a hundred and
+    four is a better claim than five dots standing for nothing.
+    """
     frames = 144
     # Joe's is dark until the plan lands on its lot; then the canopy, the sign and the entrance light: delivered
     B.set_state(W, "dusk", frame=0, joes=0.0, canopy=0.0)
     B.set_state(W, "dusk", frame=38, joes=0.0, canopy=0.0)
     B.set_state(W, "dusk", frame=52)
-    cam = camera(lens=22, fstop=4.0, focus=34.0)
-    key_cam(cam, 0, E_DUSK["pos"], E_DUSK["target"], lens=E_DUSK["lens"], focus=34.0)
-    key_cam(cam, frames - 1, E_DUSK_END["pos"], E_DUSK_END["target"], lens=E_DUSK_END["lens"], focus=34.0)
-    ease(cam)
-    ease(cam.data)
-    # homes: five windows across the block that light amber as the texts land, all inside the dusk frame
-    homes = [("cafe", 1), ("pharmacy", 2), ("cafe", 6), ("pharmacy", 6), ("cafe", 3)]
-    home_frames = [66, 74, 82, 91, 101]
-    names = ["joes_walk", "joes_lot", "joes_canopy", "door_joes", "door_cafe", "door_pharmacy", "plaque_cafe", "plaque_pharmacy", "pump_01", "pump_10"]
-    W.tracks["joes_walk"] = B.empty("track_joes_walk", (W.tracks["joes_lot"].location.x, B.ROAD_HALF + 2.0, B.CURB_H))
+
+    # the two cars nosed into the near bays sit exactly on the horizon from standing height, so they
+    # cross the frame as two pale slabs in front of the forecourt rather than reading as foreground.
+    # A wide lens cannot blur anything at seven metres, so they go: the bays they stand in are empty
+    # at a quarter to seven, which is the most ordinary thing on this street.
+    for nm in ("lotcar1", "lotcar2"):
+        for o in bpy.data.objects:
+            if o.name == nm or o.name.startswith(nm + "_"):
+                o.hide_render = True
+
+    # people carry a little emission so they hold their amber in shade. At dusk, with the sky
+    # three stops down, that same emission turns them into lit dolls standing in a dark street,
+    # so it comes most of the way off and the canopy lights them instead.
+    B.mat_emission(W.person_mat, 0.14)
+
+    cam = CAM.Cam("block", fstop=2.8,
+                  subject="Joe's forecourt: the canopy, the near island, the store behind them",
+                  foreground="the lot's own asphalt and its low wall, running across below the road",
+                  background="the cafe two doors east, and the flats above its shopfront",
+                  motivation="locked")
+    cam.lock((-16.5, -18.0, 1.62), (2.5, 9.0, 3.0), frames, focus=(-6.2, 11.5, 1.74), label="the lot opposite")
+    CAM.ease_camera(cam.obj)
+
+    # the flats above the cafe: three windows in the same building, coming on one after another.
+    # They are chosen because they are legible in this frame, not because they are spread across it.
+    homes = [("cafe", 0), ("cafe", 5), ("cafe", 4)]
+    home_frames = [66, 84, 101]
+    names = ["joes_lot", "joes_canopy", "joes_curb_w", "joes_curb_e", "door_joes", "pump_01", "pump_10"]
     for i, ((lot, idx), f) in enumerate(zip(homes, home_frames)):
         B.set_window(W, lot, idx, 0.0, frame=f - 1)
         B.set_window(W, lot, idx, 1.0, frame=f + 5, strength=16.0)
-        cards = W.upper_windows[lot]
-        card = cards[idx]
+        card = W.upper_windows[lot][idx]
         nm = f"home_{i}"
         W.tracks[nm] = B.empty(f"track_{nm}", (card.location.x, card.location.y - 0.35, card.location.z))
         names.append(nm)
-    # screens arm once the signal reaches them
+    # the two Uptick screens wake for tomorrow morning. Only the cafe's is in this frame, at the
+    # far right, and it stays a lit object in the world: Act VI is the one that walks up to it.
     for key, f in (("pharmacy", 112), ("cafe", 118)):
         B.set_plaque(W, key, 0.0, frame=f - 1)
         B.set_plaque(W, key, 1.0, frame=f + 3)
         B.set_screen(W, key, 0.0, frame=f - 1)
         B.set_screen(W, key, 1.0, frame=f + 3)
+
+    # life, at the scale this lens gives it: a car on the east island with someone standing at the
+    # pump, one person along Joe's frontage, one going into the cafe while the flats light above it
+    B.car_at(4.9, 13.0, 1, yaw=math.pi / 2, name="car_joes_dusk", z=B.CURB_H + 0.02)
     ppl = People(W)
-    y = B.ROAD_HALF + 1.9
-    ppl.walk([(47.0, y), (-47.0, y + 0.4)], 0, speed=1.2)
-    ppl.walk([(-30.0, -y + 0.5), (20.0, -y + 0.3)], 24, speed=1.25)
-    cafe = B.LOTS[3]
-    ppl.stand((cafe.cx - 1.4, B.FRONT + 3.3), 0, 10000)
-    ppl.stand((cafe.cx + 1.6, B.FRONT + 4.6), 0, 10000)
-    return {"frames": frames, "cam": cam, "people": ppl, "names": names, "meta": {"state": "dusk", "homes": home_frames, "arm": {"pharmacy": 112, "cafe": 118}, "clock": "Thursday · 6:48 PM"}, "comp": {"mist": 0.3, "mist_color": (0.16, 0.22, 0.32)}}
+    ppl.stand((3.7, 12.3), 0, 10000)
+    ppl.walk([(-15.0, 6.4), (-5.0, 6.4)], 6, speed=1.05)
+    ppl.walk([(19.4, 6.5), (23.6, 7.9)], 58, speed=0.95, into="cafe")
+    return {"frames": frames, "cam": cam.obj, "people": ppl, "names": names,
+            "meta": {"state": "dusk", "homes": home_frames, "arm": {"pharmacy": 112, "cafe": 118},
+                     "clock": "Thursday · 6:48 PM", "spec": cam.spec()},
+            "comp": {"mist": 0.26, "mist_color": (0.16, 0.22, 0.32)}}
 
 
 def shot_hero3b(W: B.World):

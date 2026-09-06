@@ -28,7 +28,7 @@ export const A_END = 50;
 const B_START = A_END;
 const B_FRAMES = TA.frames; // 144
 export const ACT5_FRAMES = B_START + B_FRAMES;
-const HOMES = (TA.meta.homes as number[]) ?? [66, 74, 82, 91, 101];
+const HOMES = (TA.meta.homes as number[]) ?? [66, 84, 101];
 
 /**
  * A light inside the plate, not a dot on top of it: a soft bloom in screen blend, so it
@@ -50,7 +50,6 @@ const Glow = ({ x, y, r, rgb, t, core = 16 }: { x: number; y: number; r: number;
       }}
     />
   );
-const ARM = (TA.meta.arm as Record<string, number>) ?? { pharmacy: 112, cafe: 118 };
 
 export const Act5Approve = () => {
   const frame = useCurrentFrame();
@@ -69,14 +68,22 @@ export const Act5Approve = () => {
   // ---------------------------------------------------------------- B · delivered
   const bIn = ramp(frame, B_START - 6, 26, PLANE);
   const lot = trackAt(TA, "joes_lot", pa);
-  const pumpL = trackAt(TA, "pump_10", pa);
-  const doorJ = trackAt(TA, "door_joes", pa);
+  const pumpW = trackAt(TA, "pump_01", pa);
+  const pumpE = trackAt(TA, "pump_10", pa);
+  // the ground this line has to lie on: Joe's own curb, which in this frame runs a couple of
+  // degrees off level. Taking the angle from two tracked points on it is the difference between
+  // light lying on the forecourt and a bar hanging in front of it.
+  const curbW = trackAt(TA, "joes_curb_w", pa);
+  const curbE = trackAt(TA, "joes_curb_e", pa);
+  const groundDeg = (Math.atan2(curbE.y - curbW.y, curbE.x - curbW.x) * 180) / Math.PI;
   const drop = ramp(frame, B_START + 2, 24, PLANE);
-  // once landed, the line takes Joe's frontage, pump island to door, and stays: the plan is live at a place
+  // once landed, the line takes the width of the forecourt the canopy covers, and stays: the plan is live at a place
   const span = ramp(frame, B_START + 26, 26, PLANE);
-  const frontW = Math.max(60, Math.abs(doorJ.x - pumpL.x) + 40);
+  const frontW = Math.max(60, Math.abs(pumpE.x - pumpW.x) + 90);
   const lineX = APPROVE_AT.x + 75 + (lot.x - APPROVE_AT.x - 75) * drop;
   const lineY = APPROVE_AT.y + 14 + (lot.y - APPROVE_AT.y - 14) * drop;
+  // the line only takes the ground's angle once it has landed on the ground
+  const tilt = groundDeg * drop;
   const delivered = ramp(frame, B_START + 40, 30, PLANE); // the point thins as the signal is delivered
   // Two lines, in the order the block answers: Joe's own frontage, then the homes.
   // The two Uptick screens come on at the end without a caption — Act VI names them.
@@ -120,12 +127,12 @@ export const Act5Approve = () => {
                 width: frontW + 180,
                 height: 92,
                 mixBlendMode: "screen",
-                transform: `scaleX(${0.35 + 0.65 * span})`,
+                transform: `rotate(${tilt}deg) scaleX(${0.35 + 0.65 * span})`,
                 background: `radial-gradient(ellipse at center, rgba(94,214,178,${0.38 * span}) 0%, rgba(94,214,178,${0.15 * span}) 34%, rgba(94,214,178,0) 70%)`,
               }}
             />
           )}
-          <div style={{ position: "absolute", left: lineX, top: lineY, width: 150 * lineIn * (1 - drop) + 10 + (frontW - 10) * span, height: 3 + 2 * drop - 2.2 * span, background: COLOR.mint, transform: "translate(-50%, -50%)", borderRadius: 2, opacity: 1 - 0.55 * delivered * span, boxShadow: `0 0 ${14 + 10 * drop - 12 * span}px ${2 + 2 * drop - 3 * span}px rgba(94,214,178,${0.5 - 0.35 * span})` }} />
+          <div style={{ position: "absolute", left: lineX, top: lineY, width: 150 * lineIn * (1 - drop) + 10 + (frontW - 10) * span, height: 3 + 2 * drop - 2.2 * span, background: COLOR.mint, transform: `translate(-50%, -50%) rotate(${tilt}deg)`, borderRadius: 2, opacity: 1 - 0.55 * delivered * span, boxShadow: `0 0 ${14 + 10 * drop - 12 * span}px ${2 + 2 * drop - 3 * span}px rgba(94,214,178,${0.5 - 0.35 * span})` }} />
         </>
       )}
 
@@ -138,10 +145,6 @@ export const Act5Approve = () => {
             const p = trackAt(TA, `home_${i}`, pa);
             return <Glow key={i} x={p.x} y={p.y} r={32} rgb="232,172,92" core={9} t={0.85 * ramp(frame, B_START + f, 16, OUT)} />;
           })}
-          {/* the two Uptick screens two doors either side, waking for tomorrow morning.
-              No caption: Act VI walks up to one of them. */}
-          <Glow x={trackAt(TA, "plaque_pharmacy", pa).x} y={trackAt(TA, "plaque_pharmacy", pa).y} r={30} rgb="238,236,226" core={9} t={0.55 * ramp(frame, B_START + ARM.pharmacy, 12, OUT)} />
-          <Glow x={trackAt(TA, "plaque_cafe", pa).x} y={trackAt(TA, "plaque_cafe", pa).y} r={30} rgb="238,236,226" core={9} t={0.55 * ramp(frame, B_START + ARM.cafe, 12, OUT)} />
           <Meta>
             <div style={{ position: "absolute", left: 96, top: 84, opacity: headerIn }}>
               <Mono color={COLOR.onMarineSoft}>

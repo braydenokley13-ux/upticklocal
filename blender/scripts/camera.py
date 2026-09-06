@@ -37,6 +37,11 @@ FAMILIES = {
     "street": dict(lens=50.0, fstop=4.0, height=1.58, note="a person crossing a real distance"),
     "human": dict(lens=75.0, fstop=2.8, height=1.42, note="the counter, the shoulder, the exchange"),
     "device": dict(lens=95.0, fstop=2.2, height=1.10, note="the phone, the cup, the thing in the hand"),
+    # The one exception, and it is a compositing requirement rather than a taste: the film opens
+    # looking straight down at the sidewalk, and the editorial page is printed on exactly the
+    # ground that frame covers. The lens and the height together decide that footprint, so the
+    # page decides the lens. It is declared here rather than hidden inside the shot.
+    "page": dict(lens=26.0, fstop=4.0, height=10.0, note="the frame that is a page: the footprint the editorial layer prints on"),
 }
 
 SENSOR = 36.0
@@ -97,7 +102,13 @@ class Cam:
         if lens is not None:
             self.obj.data.lens = lens
         self.obj.data.keyframe_insert("lens", frame=frame)
-        d = self.focus_on(focus if focus is not None else target)
+        if isinstance(focus, (int, float)):
+            # some shots are framed by a distance rather than by a point in the world — a camera
+            # that is lifting off the ground it is focused on has no single object to hold
+            d = max(0.02, float(focus))
+            self.obj.data.dof.focus_distance = d
+        else:
+            d = self.focus_on(focus if focus is not None else target)
         self.obj.data.dof.keyframe_insert("focus_distance", frame=frame)
         self.moves.append(dict(frame=frame, pos=tuple(round(v, 3) for v in pos), focus=round(d, 3), label=label))
         return self

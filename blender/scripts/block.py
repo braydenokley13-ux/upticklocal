@@ -441,6 +441,12 @@ def mat_emissive(name: str, hexstr: str, strength: float, base: str | None = Non
     return m
 
 
+
+def mat_emission(mat: bpy.types.Material, strength: float) -> None:
+    """Re-set an emissive material's strength for one shot. Emission that reads as warmth at
+    nine in the morning reads as a lit toy at a quarter to seven, so it is a per-shot decision."""
+    mat.node_tree.nodes["Principled BSDF"].inputs["Emission Strength"].default_value = strength
+
 def mat_screen(name: str, image_path: str | None, hexstr="#0b1c22", strength=1.0) -> bpy.types.Material:
     """A display panel: emissive image (or colour), glossy face. Animate Emission Strength to switch it on."""
     m, p, nt = _new_mat(name)
