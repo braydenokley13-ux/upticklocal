@@ -24,8 +24,8 @@ export const ACTS: Act[] = [
   { id: "V", name: "Thought becomes action", frames: ACT5_FRAMES, component: Act5Approve, note: "Approve → one line → the block at dusk, delivered where Joe already has a way in" },
   { id: "VI", name: "Two ways in", frames: ACT6_FRAMES, component: Act6TwoWays, note: "a text Thursday evening · the café screen Friday 7:04 → the same Offer" },
   { id: "VII", name: "The relationship is useful", frames: 216, component: Hero4Offer, note: "Does diesel count? → the approved plan answers · 38 handled, 2 went to Joe" },
-  { id: "VIII", name: "Offer → Pass → Redeem now", frames: ACT8_FRAMES, component: Act8Redeem, note: "the same slab; staff see it; two taps; the block becomes the live redeemed state" },
-  { id: "IX–XI", name: "Physical · the build · the proof", frames: ACT9_FRAMES, component: Act9Return, note: "the pass goes into a pocket; 1 · 4 · 9 · 14 · 21; the page returns with the door's warmth" },
+  { id: "VIII", name: "Offer → Pass → Redeem now", frames: ACT8_FRAMES, component: Act8Redeem, note: "the same slab; into a pocket, through the door; held up at the counter; two taps; the block becomes the live redeemed state" },
+  { id: "IX–XI", name: "The build · the proof", frames: ACT9_FRAMES, component: Act9Return, note: "the same forecourt, the count standing; 4 · 9 · 14 · 21; the page returns with the door's warmth" },
   { id: "XII", name: "Resolve", frames: ACT12_FRAMES, component: Act12Resolve, note: "Uptick Growth · Tell Uptick what you want more of." },
 ];
 

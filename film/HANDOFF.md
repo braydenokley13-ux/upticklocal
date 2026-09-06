@@ -11,7 +11,7 @@ _Preparation only. Nothing here changes the site; it maps what the film proved o
 | Meaning becomes space | Acts III–IV: the weeks line, the honest 06:00–16:00 axis, 63 people above it, 3 below | `/growth/demo` reading step; the owner app's "what Uptick understood" view |
 | Persist → transform, never cut-to-a-card | the plan becomes a line, the line lights the block; the Offer folds to a plane and unfolds to the Pass | page transitions between offer → pass → redeemed on the customer pass page |
 | Mint marks the event, amber is people | mint: the last key, uprights, the delivered line, the tick, the redeemed dot; amber: figures, the 63, the door's residue | `--mint` only on state changes (redeemed, delivered, approved); `--amber` only for counts of people |
-| No dashboards, no PIN, no scanner, no POS | Act VIII: staff see the pass; two taps; the state is unmistakable | the pass page and the merchant view show one object, not a panel |
+| No dashboards, no PIN, no scanner, no POS | Act VIII: the pass is held up at the counter from the staff's own side; two taps; the state is unmistakable | the pass page and the merchant view show one object, not a panel |
 
 ## Primitives to port (from `film/primitives` and `film/data`)
 
