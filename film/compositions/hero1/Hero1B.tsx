@@ -28,9 +28,6 @@ export const Hero1B = () => {
   const frame = useCurrentFrame();
   const pf = Math.max(0, Math.min(PLATE_FRAMES - 1, frame - PAGE_END));
   const lot0 = trackAt(T, "joes_lot", 0);
-  const curb0w = trackAt(T, "joes_curb_w", 0);
-  const curb0e = trackAt(T, "joes_curb_e", 0);
-  const curbY0 = (curb0w.y + curb0e.y) / 2;
 
   const headIn = ramp(frame, sec(0.1), sec(0.5), OUT);
   const numeralIn = ramp(frame, sec(0.6), sec(0.7), OUT);
@@ -47,7 +44,8 @@ export const Hero1B = () => {
 
   // on the page the 3 sits where the lot will be seen from above; it stamps down to a mark on the lot, then rides the descent
   const bigX = lot0.x;
-  const bigY = lot0.y - 60;
+  const bigY = lot0.y - 120;
+  const pageRuleY = bigY + 330; // under the numeral on the page; it travels to the curb at the stamp
   const size = 720 - (720 - 36) * stamp;
   const x = bigX + (lot.x - bigX) * stamp;
   const y = bigY + (lot.y - bigY) * stamp;
@@ -60,7 +58,7 @@ export const Hero1B = () => {
   const rulePageX = bigX - 20;
   const rulePageW = 560;
   const ruleX = rulePageX + (curbW.x - rulePageX) * stamp;
-  const ruleY = curbY0 + (curbW.y - curbY0) * stamp;
+  const ruleY = pageRuleY + (curbW.y - pageRuleY) * stamp;
   const ruleW = rulePageW + (curbLen - rulePageW) * stamp;
   const ruleRot = curbAngle * stamp;
 
@@ -72,7 +70,7 @@ export const Hero1B = () => {
         <PageHeader opacity={1} />
       </div>
       <Rule x={ruleX} y={ruleY} w={ruleW} rotate={ruleRot} opacity={ruleAlpha} color={stamp < 0.6 ? COLOR.inkHair : "rgba(241,237,229,0.55)"} thickness={stamp < 0.6 ? 1.5 : 2} />
-      <Sentence x={bigX - 20} y={curbY0 + 28} frame={frame} start={sec(1.7)} opacity={1 - ramp(frame, PAGE_END + 6, 20, IN)} />
+      <Sentence x={bigX - 20} y={pageRuleY + 28} frame={frame} start={sec(1.7)} opacity={1 - ramp(frame, PAGE_END + 6, 20, IN)} />
       <BigNumeral x={x} y={y} size={size} opacity={numeralIn} color={markColor} weight={stamp > 0.6 ? 500 : 200} />
       <Vignette opacity={descent} />
       <SettledBlock frame={frame} settleAt={SETTLE} land={walk} plateFrame={pf} T={T} />
