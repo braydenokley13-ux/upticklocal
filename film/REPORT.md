@@ -124,4 +124,4 @@ _Filled from the critic's pass on the assembled film (`film/review/fullcut-revie
 
 ## What the site takes
 
-`film/HANDOFF.md`: the grammar the film froze, the primitives to port (`OfferSlab`, `PassSlab`, `GrowthPlanCard`, `ScreenFaceContent`, `Touch`, the type voices, the fixture), the page mapping for `/growth`, `/growth/demo` and the owner app, and what not to port. Preparation only; nothing on the site changed.
+`film/HANDOFF.md`: the grammar the film froze, the primitives to port (`PhoneOffer`, `PhonePass`, `GrowthPlanCard`, `ScreenFaceContent`, `Touch`, the type voices, the fixture), the page mapping for `/growth`, `/growth/demo` and the owner app, and what not to port. Preparation only; nothing on the site changed.
