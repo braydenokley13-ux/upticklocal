@@ -65,6 +65,8 @@ const COUNTER_FRAMES = T.end - T.counter; // 186 = the plate
  */
 const HELD_SCALE = 0.7;
 const HELD_OFFSET = { x: 136, y: 72 };
+/** The plate frame on which the hand is up and holding: the slab's scale is relative to the phone's size there. */
+const HELD_FRAME = 18;
 
 const clamp = (v: number, a: number, b: number) => Math.max(a, Math.min(b, v));
 
@@ -104,16 +106,16 @@ export const Act8Redeem = () => {
   const pc = clamp(frame - T.counter, 0, TI.frames - 1);
   const phone = trackAt(TI, "phone", pc);
   const phoneTop = trackAt(TI, "phone_top", pc);
-  const phone0 = trackAt(TI, "phone", 0);
-  const phoneTop0 = trackAt(TI, "phone_top", 0);
+  const phone0 = trackAt(TI, "phone", HELD_FRAME);
+  const phoneTop0 = trackAt(TI, "phone_top", HELD_FRAME);
   const depthScale = (phone.y - phoneTop.y) / Math.max(1, phone0.y - phoneTop0.y);
-  const out = ramp(frame, T.counter + 2, 16, PLANE); // the pass comes out of the pocket, up into the hand
+  const out = ramp(frame, T.counter + 2, 16, PLANE); // the hand comes up from the hip (the track carries it); the pass opens as it rises
   const held = HELD_SCALE * depthScale;
   const s = held * (0.08 + 0.92 * out);
   const slabW = SLAB_W * s;
   const slabH = SLAB_H * s;
   const slabX = phone.x + HELD_OFFSET.x * s - slabW / 2;
-  const slabY = phone.y + HELD_OFFSET.y * s - slabH / 2 + (1 - out) * 220;
+  const slabY = phone.y + HELD_OFFSET.y * s - slabH / 2 + (1 - out) * 30;
   const pressTouch = ramp(frame, T.press, 12, OUT);
   const press = frame >= T.press && frame < T.press + 3 ? 1 : 0;
   const confirm = ramp(frame, T.confirm, 12, OUT);

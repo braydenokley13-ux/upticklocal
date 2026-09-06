@@ -777,13 +777,38 @@ def shot_hero5c(W: B.World):
         cust.rotation_euler = (0.0, 0.0, math.pi + yaw)
         cust.keyframe_insert("rotation_euler", frame=f)
     ease(cust)
-    # the pass is held up toward us: a point in front of the chest (local -y is the figure's front)
+    # the hand: it comes up from the hip with the phone over the first 18 frames and holds the pass up toward us
+    # (local -y is the figure's front; local +x is the figure's right, which is screen-right from this camera).
+    # The pass in the composite rises with this hand, so the slab grows out of a phone that is held, not hung.
+    hand = B.empty("h5c_hand", (0.0, 0.0, 0.0))
+    hand.parent = cust
+    elbow = (0.19, -0.04, 1.08)
+    poses = ((0, (0.20, -0.14, 0.72)), (18, (0.05, -0.36, 1.24)), (frames - 1, (0.05, -0.36, 1.24)))
+    for f, at in poses:
+        hand.location = at
+        hand.keyframe_insert("location", frame=f)
+    ease(hand)
+    forearm = B.cylinder("h5c_forearm", 0.042, 1.0, (0.0, 0.0, 0.0), W.person_mat, group="people", verts=16)
+    forearm.parent = cust
+    for f, at in poses:
+        d = (at[0] - elbow[0], at[1] - elbow[1], at[2] - elbow[2])
+        length = math.sqrt(d[0] ** 2 + d[1] ** 2 + d[2] ** 2)
+        forearm.location = ((elbow[0] + at[0]) / 2, (elbow[1] + at[1]) / 2, (elbow[2] + at[2]) / 2)
+        forearm.rotation_euler = (0.0, math.atan2(math.sqrt(d[0] ** 2 + d[1] ** 2), d[2]), math.atan2(d[1], d[0]))
+        forearm.scale = (1.0, 1.0, length)
+        forearm.keyframe_insert("location", frame=f)
+        forearm.keyframe_insert("rotation_euler", frame=f)
+        forearm.keyframe_insert("scale", frame=f)
+    ease(forearm)
+    phone_mat = B.mat_surface("h5c_phone", "#141618", rough=0.28, metallic=0.15, spec=0.6)
+    phone_obj = B.box("h5c_phone", (0.074, 0.008, 0.152), (0.0, 0.0, 0.0), phone_mat, bevel=0.004, group="people")
+    phone_obj.parent = hand
+    phone_obj.location = (0.0, -0.02, 0.085)
+    phone_obj.rotation_euler = (-0.14, 0.0, 0.0)
     phone = B.empty("track_phone", (0.0, 0.0, 0.0))
-    phone.parent = cust
-    phone.location = (0.05, -0.36, 1.24)
-    top = B.empty("track_phone_top", (0.0, 0.0, 0.0))
-    top.parent = cust
-    top.location = (0.05, -0.36, 1.40)
+    phone.parent = hand
+    top = B.empty("track_phone_top", (0.0, 0.0, 0.16))
+    top.parent = hand
     W.tracks["phone"] = phone
     W.tracks["phone_top"] = top
     W.tracks["counter"] = B.empty("track_counter", (ccx - 0.3, ccy - 0.35, 1.0))
