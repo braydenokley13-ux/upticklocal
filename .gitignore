@@ -15,3 +15,6 @@ CLAUDE.md
 public/film-rd/plates/seq
 blender/assets/*.blend
 blender/assets/*.blend1
+
+# Python bytecode from the Blender scripts
+__pycache__/

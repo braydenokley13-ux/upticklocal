@@ -6,7 +6,8 @@
  */
 export type Quad = [[number, number], [number, number], [number, number], [number, number]];
 
-export function homographyMatrix3d(w: number, h: number, to: Quad): string {
+/** The eight coefficients of the homography that maps the w×h rectangle onto `to`. */
+export function homography(w: number, h: number, to: Quad): number[] {
   const src: [number, number][] = [
     [0, 0],
     [w, 0],
@@ -23,8 +24,18 @@ export function homographyMatrix3d(w: number, h: number, to: Quad): string {
     A.push([0, 0, 0, x, y, 1, -v * x, -v * y]);
     b.push(v);
   }
-  const s = solve(A, b);
-  const [a, bb, c, d, e, f, g, hh] = s;
+  return solve(A, b);
+}
+
+/** Where a point of the rectangle lands under the homography. */
+export function applyHomography(H: number[], x: number, y: number): [number, number] {
+  const [a, b, c, d, e, f, g, h] = H;
+  const w = g * x + h * y + 1;
+  return [(a * x + b * y + c) / w, (d * x + e * y + f) / w];
+}
+
+export function homographyMatrix3d(w: number, h: number, to: Quad): string {
+  const [a, bb, c, d, e, f, g, hh] = homography(w, h, to);
   // CSS matrix3d is column-major; the 3×3 homography maps (x, y, 1) → (u, v, w).
   const m = [a, d, 0, g, bb, e, 0, hh, 0, 0, 1, 0, c, f, 0, 1];
   return `matrix3d(${m.map((v) => (Math.abs(v) < 1e-9 ? 0 : +v.toFixed(7))).join(",")})`;

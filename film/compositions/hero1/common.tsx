@@ -68,25 +68,26 @@ export function SettledBlock({ frame, settleAt, land, plateFrame, T }: { frame: 
   void plateFrame;
   return (
     <>
+      {/* the street's header sits on the pale morning sky: ink */}
       <div style={{ position: "absolute", left: LEFT, top: 84, opacity: settled }}>
-        <Mono color={COLOR.onMarineSoft}>
+        <Mono color={COLOR.inkSoft}>
           {JOES.BLOCK.street} · {clock}
         </Mono>
       </div>
-      {/* the mark's caption and its dot on the pavement */}
+      {/* the mark's caption on the sunlit pavement beside it */}
       <div style={{ position: "absolute", left: land.x + 30, top: land.y - 12, opacity: label }}>
-        <Mono color={COLOR.onMarineSoft} size={20}>
+        <Mono color={COLOR.ink} size={20}>
           {BUSINESS.short} · {GAP.window}
         </Mono>
       </div>
-      <div style={{ position: "absolute", left: land.x - 5, top: land.y + 30, width: 10, height: 10, borderRadius: 5, background: COLOR.onMarine, opacity: label, boxShadow: "0 0 10px rgba(0,0,0,0.5)" }} />
-      <div style={{ position: "absolute", left: LEFT, bottom: 84, opacity: line }}>
-        <Line size={34} color={COLOR.onMarine} weight={400} style={{ textShadow: "0 1px 14px rgba(0,0,0,0.65)" }}>
+      {/* the line sits on the road, the one dark band across the bottom of the frame */}
+      <div style={{ position: "absolute", left: LEFT, bottom: 196, opacity: line }}>
+        <Line size={34} color={COLOR.onMarine} weight={400} style={{ textShadow: "0 1px 14px rgba(0,0,0,0.7)" }}>
           Same street. Same morning.
         </Line>
       </div>
       <div style={{ position: "absolute", right: LEFT, bottom: 92, opacity: settled * 0.8 }}>
-        <Mono color={COLOR.onMarineFaint} size={16}>
+        <Mono color={COLOR.inkFaint} size={16}>
           Illustrative · example business
         </Mono>
       </div>

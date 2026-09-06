@@ -135,7 +135,7 @@ class People:
         path crosses the frontage line."""
         self.n += 1
         nm = name or f"person{self.n}"
-        p = B.capsule(nm, 0.21, height, (path[0][0], path[0][1], B.CURB_H), self.W.person_mat)
+        p = B.figure(nm, (path[0][0], path[0][1], B.CURB_H), self.W.person_mat, height=height)
         self.objects.append(p)
         pauses = pauses or {}
         f = start
@@ -190,7 +190,7 @@ class People:
     def stand(self, at: tuple[float, float], start: int, end: int, name=None, height=1.72, face=None):
         self.n += 1
         nm = name or f"person{self.n}"
-        p = B.capsule(nm, 0.21, height, (at[0], at[1], B.CURB_H), self.W.person_mat)
+        p = B.figure(nm, (at[0], at[1], B.CURB_H), self.W.person_mat, height=height)
         self.objects.append(p)
         p.hide_render = True
         p.keyframe_insert("hide_render", frame=0)
@@ -364,7 +364,12 @@ def _dawn_life(ppl: People, offset=0):
     ppl.stand((ph.cx + 0.6, B.FRONT + 2.9), 0, 10000)
     ppl.stand((cafe.x0 + 2.6 - 0.55, B.FRONT - 1.5), 0, 10000, height=1.25)
     ppl.stand((cafe.x0 + 4.4 + 0.55, B.FRONT - 1.5), 0, 10000, height=1.25)
+    # a short queue out of the café door, along the frontage
+    for k in range(3):
+        ppl.stand((cafe_door[0] - 1.1 - k * 0.75, B.FRONT - 0.9 - (k % 2) * 0.15), 0, 10000)
     ppl.walk([(cafe.cx - 12.0, y + 0.2), (cafe.cx - 3.0, y + 0.4)], offset + 10, speed=1.2)
+    # someone crosses the road toward the café in the last seconds, past Joe's empty mouth
+    ppl.walk([(2.0, -y + 0.5), (8.0, -1.0), (14.0, y - 0.6), (cafe_door[0] - 3.0, y - 0.3)], offset + 96, speed=1.45)
     # someone reaching the restaurant end, and a person at the barber door
     rest = B.LOTS[5]
     ppl.walk([(rest.cx - 4, y + 0.5), (rest.cx + (rest.w - 1.4) * 0.22, y), (rest.cx + (rest.w - 1.4) * 0.22, B.FRONT + 2.4)], offset + 40, into="restaurant")
@@ -389,17 +394,27 @@ def _hold_keys_material(mat):
                 kp.interpolation = "CONSTANT"
 
 
-E_FINAL = dict(pos=(-9.0, -21.0, 10.5), target=(0.5, 12.5, 2.5), lens=27)
-E_DRIFT = dict(pos=(-8.2, -20.6, 10.3), target=(0.8, 12.5, 2.5), lens=27.5)
-HERO1_TRACKS = ["joes_walk", "joes_lot", "joes_curb_w", "joes_curb_e", "joes_frontage_w", "joes_frontage_e", "door_joes", "joes_canopy", "door_cafe", "door_pharmacy", "page_tl", "page_tr", "page_br", "page_bl"]
+# the settle: across the street at first-floor height, Joe's centre-left, the café alive on the right
+E_FINAL = dict(pos=(-2.5, -19.5, 5.2), target=(6.0, 10.5, 2.8), lens=29)
+E_DRIFT = dict(pos=(-1.7, -19.0, 5.05), target=(6.3, 10.5, 2.8), lens=29.6)
+# the top-down page frame (26 mm from 10 m): its centre on the sidewalk so the curb lies at 70% of the page
+FP_Z = 10.0
+FP_DY = 1.56
+HERO1_TRACKS = ["joes_walk", "joes_lot", "joes_curb_w", "joes_curb_e", "joes_frontage_w", "joes_frontage_e", "door_joes", "joes_canopy", "door_cafe", "door_pharmacy", "page_tl", "page_tr", "page_br", "page_bl", "fp_tl", "fp_tr", "fp_br", "fp_bl"]
 
 
 def _hero1_common(W: B.World):
     """Shared by the Hero 1 variants: dawn, the block at work, Joe's quiet, a page rectangle on the ground for the editorial layer."""
     B.set_state(W, "dawn")
     lot = W.tracks["joes_lot"].location
-    walk = (lot.x, B.ROAD_HALF + 3.0, B.CURB_H)
+    walk = (lot.x, B.ROAD_HALF - 1.3, 0.0)
     W.tracks["joes_walk"] = B.empty("track_joes_walk", walk)
+    # the top-down frame's footprint on the ground (26 mm lens from 10 m): the page maps onto exactly this
+    fcx, fcy, fz = lot.x + 1.5, B.ROAD_HALF + FP_DY, FP_Z
+    hw = (fz - B.CURB_H) * 18.0 / 26.0  # the sidewalk's top, not the road
+    hh = hw * 9 / 16
+    for name, (px, py) in (("fp_tl", (fcx - hw, fcy + hh)), ("fp_tr", (fcx + hw, fcy + hh)), ("fp_br", (fcx + hw, fcy - hh)), ("fp_bl", (fcx - hw, fcy - hh))):
+        W.tracks[name] = B.empty(f"track_{name}", (px, py, B.CURB_H))
     # the page's footprint on the ground: a 16:9 rectangle over Joe's lot, its bottom edge in the road just past the curb
     pw, pd = 30.0, 30.0 * 9 / 16
     py0 = B.ROAD_HALF - 1.5
@@ -422,18 +437,22 @@ def shot_hero1a(W: B.World):
     """A · the page is the pavement. Straight down on the sidewalk in front of Joe's; the camera lifts and the block rises."""
     frames = 144
     walk, ppl = _hero1_common(W)
-    cam = camera(lens=26, fstop=2.0, focus=34.0)
-    key_cam(cam, 0, (walk[0] + 1.5, B.ROAD_HALF + 2.4, 10.0), (walk[0] + 1.5, B.ROAD_HALF + 2.4001, 0.0), lens=26, focus=10.0)
-    key_cam(cam, 30, (walk[0] + 1.0, B.ROAD_HALF - 6.0, 8.5), (walk[0] + 0.5, B.FRONT + 10.0, 2.0), lens=26, focus=22.0)
-    key_cam(cam, 78, E_FINAL["pos"], E_FINAL["target"], lens=E_FINAL["lens"], focus=34.0)
+    lot = W.tracks["joes_lot"].location
+    fcx, fcy = lot.x + 1.5, B.ROAD_HALF + FP_DY
+    cam = camera(lens=26, fstop=4.0, focus=34.0)
+    key_cam(cam, 0, (fcx, fcy, FP_Z), (fcx, fcy + 0.0001, 0.0), lens=26, focus=FP_Z)
+    key_cam(cam, 22, (fcx, fcy, FP_Z), (fcx, fcy + 0.0001, 0.0), lens=26, focus=FP_Z)
+    key_cam(cam, 62, (fcx - 1.2, fcy - 12.0, 7.4), (fcx - 0.4, B.FRONT + 6.0, 2.4), lens=27, focus=24.0)
+    key_cam(cam, 100, E_FINAL["pos"], E_FINAL["target"], lens=E_FINAL["lens"], focus=34.0)
     key_cam(cam, frames - 1, E_DRIFT["pos"], E_DRIFT["target"], lens=E_DRIFT["lens"], focus=34.0)
     ease(cam)
     ease(cam.data)
-    # the editorial light carries in: paper-white, settling to the morning
+    # the editorial light carries in: paper-white while the camera holds, settling to the morning as it lifts
     base = B.STATES["dawn"]["exposure"]
-    _exposure(0, base + 2.6)
-    _exposure(38, base)
-    return {"frames": frames, "cam": cam, "people": ppl, "names": HERO1_TRACKS, "meta": {"variant": "A", "tilt": [0, 78], "clock": "Friday · 07:12"}, "comp": {"mist": 0.5, "mist_start": 30, "mist_depth": 140}}
+    _exposure(0, base + 3.0)
+    _exposure(14, base + 2.8)
+    _exposure(48, base)
+    return {"frames": frames, "cam": cam, "people": ppl, "names": HERO1_TRACKS, "meta": {"variant": "A", "hold": 22, "tilt": [22, 100], "clock": "Friday · 07:12"}, "comp": {"mist": 0.45, "mist_color": (0.74, 0.66, 0.56), "mist_start": 30, "mist_depth": 140}}
 
 
 def shot_hero1b(W: B.World):
@@ -441,7 +460,7 @@ def shot_hero1b(W: B.World):
     frames = 144
     walk, ppl = _hero1_common(W)
     lot = W.tracks["joes_lot"].location
-    cam = camera(lens=26, fstop=2.0, focus=70.0)
+    cam = camera(lens=26, fstop=4.0, focus=70.0)
     key_cam(cam, 0, (lot.x + 2.0, B.FRONT - 1.0, 70.0), (lot.x + 2.0, B.FRONT - 0.9999, 0.0), lens=26, focus=70.0)
     key_cam(cam, 18, (lot.x + 2.0, B.FRONT - 1.0, 70.0), (lot.x + 2.0, B.FRONT - 0.9999, 0.0), lens=26, focus=70.0)
     key_cam(cam, 96, E_FINAL["pos"], E_FINAL["target"], lens=E_FINAL["lens"], focus=34.0)
@@ -459,8 +478,8 @@ def shot_hero1c(W: B.World):
     """C · the page tilts into the street. A slow push only; the editorial page becomes the ground plane in the composite."""
     frames = 120
     walk, ppl = _hero1_common(W)
-    cam = camera(lens=26, fstop=2.0, focus=36.0)
-    key_cam(cam, 0, (-12.0, -25.0, 13.0), (0.5, 12.5, 2.5), lens=26, focus=38.0)
+    cam = camera(lens=26, fstop=4.0, focus=36.0)
+    key_cam(cam, 0, (-11.0, -22.5, 7.0), (1.0, 10.5, 3.0), lens=27, focus=36.0)
     key_cam(cam, frames - 1, E_FINAL["pos"], E_FINAL["target"], lens=E_FINAL["lens"], focus=34.0)
     ease(cam)
     ease(cam.data)

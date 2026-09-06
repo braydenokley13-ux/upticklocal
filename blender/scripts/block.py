@@ -228,7 +228,7 @@ def mat_concrete(name: str, hexstr: str, score=True, score_scale=(1.5, 1.5)) -> 
         brick.inputs["Mortar Smooth"].default_value = 0.4
         brick.inputs["Color1"].default_value = (1, 1, 1, 1)
         brick.inputs["Color2"].default_value = (0.955, 0.955, 0.95, 1)
-        brick.inputs["Mortar"].default_value = (0.9, 0.9, 0.9, 1)
+        brick.inputs["Mortar"].default_value = (0.94, 0.94, 0.94, 1)
         brick.inputs["Bias"].default_value = 0.0
         nt.links.new(mp.outputs["Vector"], brick.inputs["Vector"])
         mul = nt.nodes.new("ShaderNodeMix")
@@ -441,6 +441,57 @@ def capsule(name: str, r, h, loc, mat, group="people", segs=16, rings=6) -> bpy.
     return _link(obj, group)
 
 
+def figure(name: str, loc, mat, height=1.72, group="people", segs=16, rings=6) -> bpy.types.Object:
+    """A person as an architect's scale figure: a slim capsule body, a neck, a head. One mesh, origin at the feet."""
+    mesh = bpy.data.meshes.new(name)
+    vs, fs = [], []
+
+    def ring_rows(rows, close_bottom=False, close_top=False):
+        base = len(vs)
+        for rr, z in rows:
+            for i in range(segs):
+                a = 2 * math.pi * i / segs
+                vs.append((rr * math.cos(a), rr * math.sin(a), z))
+        n = len(rows)
+        for j in range(n - 1):
+            for i in range(segs):
+                i2 = (i + 1) % segs
+                fs.append((base + j * segs + i, base + j * segs + i2, base + (j + 1) * segs + i2, base + (j + 1) * segs + i))
+
+    # body: a capsule to the shoulders, a shade narrower at the top
+    r = 0.19
+    top = height - 0.33
+    body = max(0.0, top - 2 * r)
+    rows = []
+    for k in range(rings, 0, -1):
+        a = k / rings * math.pi / 2
+        rows.append((r * math.cos(a), r - r * math.sin(a)))
+    rows.append((r, r))
+    rows.append((r * 0.92, r + body))
+    for k in range(1, rings + 1):
+        a = k / rings * math.pi / 2
+        rows.append((r * 0.92 * math.cos(a), r + body + r * 0.92 * math.sin(a)))
+    ring_rows(rows)
+    # neck
+    ring_rows([(0.055, top - 0.02), (0.055, height - 0.2)])
+    # head: a sphere whose top is the height
+    hr = 0.115
+    hz = height - hr
+    rows = []
+    for k in range(-rings, rings + 1):
+        a = k / rings * math.pi / 2
+        rows.append((max(0.004, hr * math.cos(a)), hz + hr * math.sin(a)))
+    ring_rows(rows)
+    mesh.from_pydata(vs, [], fs)
+    mesh.update()
+    for poly in mesh.polygons:
+        poly.use_smooth = True
+    obj = bpy.data.objects.new(name, mesh)
+    obj.location = loc
+    mesh.materials.append(mat)
+    return _link(obj, group)
+
+
 _FONTS: dict[str, bpy.types.VectorFont] = {}
 
 
@@ -478,16 +529,16 @@ def empty(name: str, loc, group="track") -> bpy.types.Object:
 # --------------------------------------------------------------------------
 @dataclass
 class Palette:
-    body: list[str] = field(default_factory=lambda: ["#6a6d6e", "#7b7975", "#5f6365", "#8a867f", "#71706b", "#656a6c"])
-    trim: str = "#9a968e"  # sills, cornices, pale stone
+    body: list[str] = field(default_factory=lambda: ["#6e4b41", "#cbc3b4", "#8c7d6a", "#b7b1a5", "#5e6b64", "#3f4345"])
+    trim: str = "#8e8a82"  # sills, cornices, pale stone
     riser: str = "#6c6862"  # stall risers: darker stone
     gutter: str = "#8e8b84"
     fascia: str = "#262a2c"
     fascia_pale: str = "#e9e4da"
     awning: list[str] = field(default_factory=lambda: ["#3a3f3e", "#2f3b37", "#45403a"])
     sign: str = "#efeae0"
-    walk: str = "#a8a49b"
-    forecourt: str = "#b5b1a8"
+    walk: str = "#9c988f"
+    forecourt: str = "#a39f96"
     curb: str = "#8f8c85"
     marking: str = "#6f6c65"
     door: str = "#2a2d2f"
@@ -537,12 +588,12 @@ class Lot:
 
 
 LOTS = [
-    Lot("gym", "GYM", -46.5, -31.0, 16, 3, P.body[2], sign="GYM", interior="gym", bulkhead=True),
+    Lot("gym", "FORM", -46.5, -31.0, 16, 3, P.body[2], sign="FORM", interior="gym", bulkhead=True),
     Lot("pharmacy", "PHARMACY", -31.0, -18.0, 14, 2, P.body[3], sign="PHARMACY", interior="pharmacy", screen=True),
     Lot("joes", "JOE'S FUEL & GO", -18.0, 16.0, 16, 1, P.body[1], interior="joes", you=True),
-    Lot("cafe", "CAFÉ", 16.0, 27.5, 14, 2, P.body[0], sign="CAFÉ", awning=P.awning[1], interior="cafe", screen=True),
+    Lot("cafe", "ALDER", 16.0, 27.5, 14, 2, P.body[0], sign="ALDER", awning="#5a3a2e", interior="cafe", screen=True),
     Lot("barber", "BARBER", 27.5, 35.0, 14, 2, P.body[4], sign="BARBER", awning=P.awning[2], interior="barber"),
-    Lot("restaurant", "RESTAURANT", 35.0, 46.5, 15, 3, P.body[5], sign="RESTAURANT", awning=P.awning[0], interior="restaurant", bulkhead=True),
+    Lot("restaurant", "OSTERIA", 35.0, 46.5, 15, 3, P.body[5], sign="OSTERIA", awning="#3a3f3e", interior="restaurant", bulkhead=True),
 ]
 
 
@@ -585,7 +636,7 @@ def build(screen_images: dict[str, str] | None = None, cars=True, people_mat=Tru
             bpy.data.collections.remove(c)
 
     asphalt = mat_asphalt()
-    walk = mat_concrete("walk", P.walk, score_scale=(3.0, 3.0))
+    walk = mat_concrete("walk", P.walk, score_scale=(3.6, 3.6))
     forecourt = mat_concrete("forecourt", P.forecourt, score=True, score_scale=(4.5, 4.5))
     curb = mat_surface("curb", P.curb, rough=0.9)
     marking = mat_surface("marking", P.marking, rough=0.85)
@@ -594,9 +645,9 @@ def build(screen_images: dict[str, str] | None = None, cars=True, people_mat=Tru
     frame = mat_surface("frame", P.frame, rough=0.45, metallic=0.3)
     door = mat_surface("door", P.door, rough=0.5, metallic=0.2)
     glass = mat_glass()
-    dark_glass = mat_glass("upperglass", tint="#5a6a70", alpha_tint=0.55, rough=0.04)
+    dark_glass = mat_glass("upperglass", tint="#9db2b8", alpha_tint=0.5, rough=0.06)
     sign = mat_emissive("sign", P.sign, 0.35, base="#e2ddd2")
-    W.person_mat = mat_emissive("person", P.amber, 2.4, base="#d89a4a")
+    W.person_mat = mat_emissive("person", "#f0a64a", 1.3, base="#e2a24f")
     W.person_mat.node_tree.nodes["Principled BSDF"].inputs["Roughness"].default_value = 0.55
     W.lamp_mat = mat_emissive("lamphead", P.lamp, 0.0, base="#cfc8b8")
 
@@ -1038,7 +1089,7 @@ def _build_joes(W: World, lot: Lot, forecourt, trim, fascia, frame, door, glass,
     W.tracks["door_joes"] = empty("track_door_joes", (dx, sy0 + 0.05, 0.0))
     box(f"{g}_fascia", (open_w + 0.1, 0.22, store_h - glass_top), (scx, sy0 + 0.11, glass_top + (store_h - glass_top) / 2), fascia, bevel=0.01, group=g)
     W.joes_sign_mat = mat_emissive("joes_sign", P.sign, 0.0, base="#d9d4c9")
-    text(f"{g}_sign", "JOE'S FUEL & GO", 0.4, (scx, sy0 - 0.01, glass_top + (store_h - glass_top) / 2 - 0.02), W.joes_sign_mat, group=g, spacing=1.25)
+    box(f"{g}_signplate", (2.2, 0.03, 0.34), (scx, sy0 - 0.005, glass_top + (store_h - glass_top) / 2), W.joes_sign_mat, bevel=0.004, group=g)
     box(f"{g}_icebox", (1.2, 0.8, 1.7), (scx + open_w / 2 - 1.0, sy0 - 0.5, 0.85), mat_surface("icebox", "#dcd8cf", rough=0.5), bevel=0.02, group=g)
     # interior
     floor = mat_surface("interior_floor_joes", "#a39b8e", rough=0.6, spec=0.55)
@@ -1100,7 +1151,10 @@ def _build_joes(W: World, lot: Lot, forecourt, trim, fascia, frame, door, glass,
     box(f"{g}_canopy", (can_w, can_d, can_t), (can_cx, can_cy, can_h + can_t / 2), mat_surface("canopy_body", "#3f4345", rough=0.6, metallic=0.2), bevel=0.04, group=g)
     for side, (fx, fy, fw, fd) in {"S": (can_cx, can_cy - can_d / 2 - 0.02, can_w, 0.04), "N": (can_cx, can_cy + can_d / 2 + 0.02, can_w, 0.04), "E": (can_cx + can_w / 2 + 0.02, can_cy, 0.04, can_d), "W": (can_cx - can_w / 2 - 0.02, can_cy, 0.04, can_d)}.items():
         box(f"{g}_canopyband{side}", (fw, fd, can_t * 0.55), (fx, fy, can_h + can_t / 2), W.joes_canopy_mat, bevel=0, group=g)
-    text(f"{g}_canopyname", "JOE'S FUEL & GO", 0.34, (can_cx, can_cy - can_d / 2 - 0.05, can_h + can_t / 2 - 0.02), mat_surface("canopy_text", "#3b3f41", rough=0.6), group=g, spacing=1.3)
+    text(f"{g}_canopyname", "JOE'S FUEL & GO", 0.26, (can_cx, can_cy - can_d / 2 - 0.05, can_h + can_t / 2 + 0.06), mat_surface("canopy_text", "#3b3f41", rough=0.6), group=g, spacing=1.3)
+    stripe = mat_surface("brand_stripe", "#8f3a2f", rough=0.55, spec=0.45)
+    for side, (fx, fy, fw, fd) in {"S": (can_cx, can_cy - can_d / 2 - 0.03, can_w, 0.05), "N": (can_cx, can_cy + can_d / 2 + 0.03, can_w, 0.05), "E": (can_cx + can_w / 2 + 0.03, can_cy, 0.05, can_d), "W": (can_cx - can_w / 2 - 0.03, can_cy, 0.05, can_d)}.items():
+        box(f"{g}_canopystripe{side}", (fw, fd, 0.13), (fx, fy, can_h + can_t * 0.225 + 0.075), stripe, bevel=0, group=g)
     plane(f"{g}_canopysoffit", (can_w - 0.4, can_d - 0.4), (can_cx, can_cy, can_h - 0.005), mat_surface("soffit", "#e9e5dc", rough=0.9), group=g, rot=(math.pi, 0, 0))
     W.canopy_strip = mat_emissive("canopy_strip", "#f6f1e6", 0.0, base="#8d8a83")
     for side, (fx, fy, fw, fd) in {"S": (can_cx, can_cy - can_d / 2 - 0.05, can_w, 0.03), "N": (can_cx, can_cy + can_d / 2 + 0.05, can_w, 0.03), "E": (can_cx + can_w / 2 + 0.05, can_cy, 0.03, can_d), "W": (can_cx - can_w / 2 - 0.05, can_cy, 0.03, can_d)}.items():
@@ -1130,7 +1184,7 @@ def _build_joes(W: World, lot: Lot, forecourt, trim, fascia, frame, door, glass,
             box(f"{g}_col{sx}{sy}", (0.55, 0.55, can_h), (can_cx + sx * (can_w / 2 - 0.9), can_cy + sy * (can_d / 2 - 1.5), can_h / 2), col, bevel=0.02, group=g)
             box(f"{g}_colbase{sx}{sy}", (1.1, 1.1, 0.25), (can_cx + sx * (can_w / 2 - 0.9), can_cy + sy * (can_d / 2 - 1.5), 0.125 + CURB_H), trim, bevel=0.02, group=g)
     # two pump islands, two dispensers each
-    pump = mat_surface("pump", "#d7d3ca", rough=0.5)
+    pump = mat_surface("pump", "#bdbab2", rough=0.45, spec=0.5)
     pump_dark = mat_surface("pump_dark", "#2a2d2f", rough=0.4, metallic=0.3)
     W.pump_points = []
     for ix, isx in enumerate((-1, 1)):
@@ -1140,12 +1194,16 @@ def _build_joes(W: World, lot: Lot, forecourt, trim, fascia, frame, door, glass,
             box(f"{g}_pump{ix}{iy}", (0.95, 0.55, 1.95), (icx, py, CURB_H + 0.16 + 0.975), pump, bevel=0.02, group=g)
             box(f"{g}_pumpface{ix}{iy}", (0.7, 0.58, 0.55), (icx, py, CURB_H + 0.16 + 1.45), pump_dark, bevel=0.01, group=g)
             box(f"{g}_pumptop{ix}{iy}", (1.05, 0.65, 0.12), (icx, py, CURB_H + 0.16 + 1.95), pump_dark, bevel=0.01, group=g)
+            box(f"{g}_pumpbase{ix}{iy}", (0.99, 0.59, 0.7), (icx, py, CURB_H + 0.16 + 0.35), pump_dark, bevel=0.01, group=g)
+            box(f"{g}_pumpstripe{ix}{iy}", (0.99, 0.59, 0.07), (icx, py, CURB_H + 0.16 + 0.75), mat_surface("brand_stripe", "#8f3a2f"), bevel=0, group=g)
             box(f"{g}_pumpsign{ix}{iy}", (0.8, 0.12, 0.34), (icx, py, CURB_H + 0.16 + 2.2), mat_surface("pumpsign", "#e9e4da", rough=0.5), bevel=0.01, group=g)
             box(f"{g}_pumpscreen{ix}{iy}", (0.34, 0.02, 0.24), (icx, py - 0.29, CURB_H + 0.16 + 1.5), mat_screen(f"pumpscreen{ix}{iy}", None, hexstr="#0e1c22", strength=0.0), bevel=0, group=g)
             box(f"{g}_pumpscreen{ix}{iy}b", (0.34, 0.02, 0.24), (icx, py + 0.29, CURB_H + 0.16 + 1.5), mat_screen(f"pumpscreen{ix}{iy}b", None, hexstr="#0e1c22", strength=0.0), bevel=0, group=g)
             for sx in (-1, 1):
                 box(f"{g}_boot{ix}{iy}{sx}", (0.12, 0.62, 0.5), (icx + sx * 0.53, py, CURB_H + 0.16 + 1.25), pump_dark, bevel=0.01, group=g)
                 cylinder(f"{g}_hose{ix}{iy}{sx}", 0.02, 0.9, (icx + sx * 0.58, py + 0.1, CURB_H + 0.16 + 0.7), pump_dark, group=g, verts=8)
+        for sx in (-1, 1):
+            plane(f"{g}_stain{ix}{sx}", (2.6, 3.0), (icx + sx * 1.5, can_cy - 0.4, CURB_H + 0.012), mat_surface("stain", "#9d9a92", rough=0.95), group=g)
         # painted bays either side of the island, and wheel stops
         for sx in (-1, 1):
             box(f"{g}_bayline{ix}{sx}", (0.1, 6.4, 0.004), (icx + sx * 2.4, can_cy, CURB_H + 0.012), mat_surface("marking", P.marking), bevel=0, group=g)
@@ -1156,8 +1214,11 @@ def _build_joes(W: World, lot: Lot, forecourt, trim, fascia, frame, door, glass,
     for bx in (x0 + 2.0, x1 - 2.0):
         cylinder(f"{g}_bollard{bx}", 0.12, 0.9, (bx, y0 + 1.2, 0.45 + CURB_H), mat_surface("bollard", "#5a5d5f", rough=0.5, metallic=0.3), group=g)
     box(f"{g}_pricesign", (0.5, 0.3, 3.6), (x1 - 1.6, y0 + 3.4, 1.8 + CURB_H), mat_surface("canopy_body", "#3f4345"), bevel=0.02, group=g)
-    box(f"{g}_pricepanel", (1.5, 0.22, 1.2), (x1 - 1.6, y0 + 3.4, 3.5 + CURB_H), mat_emissive("pricepanel", "#efeae0", 0.0, base="#d9d4c9"), bevel=0.01, group=g)
-    W.interior_emissives.setdefault("joes_canopy", []).append(bpy.data.materials["pricepanel"])
+    box(f"{g}_pricepanel", (1.5, 0.22, 1.2), (x1 - 1.6, y0 + 3.4, 3.5 + CURB_H), mat_surface("pricepanel", "#24272a", rough=0.5, spec=0.5), bevel=0.01, group=g)
+    box(f"{g}_pricestripe", (1.5, 0.23, 0.08), (x1 - 1.6, y0 + 3.4, 4.06 + CURB_H), mat_surface("brand_stripe", "#8f3a2f"), bevel=0, group=g)
+    digits = mat_emissive("price_digits", "#ffe2b0", 2.6, base="#b89468")
+    for k, line in enumerate(("REGULAR   3.49", "DIESEL    3.99")):
+        text(f"{g}_price{k}", line, 0.19, (x1 - 1.6, y0 + 3.4 - 0.115, 3.72 + CURB_H - k * 0.42), digits, group=g, spacing=1.1, extrude=0.004)
     # tracked points: the lot anchor where the 3 lands (forecourt centre), the curb in front of Joe's
     W.tracks["joes_lot"] = empty("track_joes_lot", (can_cx, y0 + 2.6, CURB_H))
     W.tracks["joes_curb_w"] = empty("track_joes_curb_w", (x0, ROAD_HALF, CURB_H))
@@ -1221,7 +1282,7 @@ def _furniture(W: World, frame, trim):
     g = "furniture"
     post = mat_surface("post", "#2f3335", rough=0.45, metallic=0.4)
     for s in (-1, 1):
-        for x in (-42, -24, -13, 17.5, 41):
+        for x in (-42, -26, -12, 30, 44):
             z = 0.0
             y = s * (ROAD_HALF + 0.75)
             cylinder(f"lamp{s}{x}", 0.06, 6.0, (x, y, 3.0 + CURB_H), post, group=g, verts=12)
@@ -1258,7 +1319,7 @@ def _furniture(W: World, frame, trim):
 def car_at(x, y, ci=0, yaw=0.0, name=None, group="cars"):
     """A parked car: a low beveled body, a smoked cabin, four wheels. Reads as a car, never as a toy."""
     nm = name or f"car{x}_{y}"
-    smoked = mat_glass("carglass", tint="#4a5558", alpha_tint=0.5, rough=0.02)
+    smoked = mat_glass("carglass", tint="#2c3436", alpha_tint=0.35, rough=0.2)
     tyre = mat_surface("tyre", "#141516", rough=0.9)
     paint = mat_surface(f"paint{ci}", P.car[ci % len(P.car)], rough=0.5, metallic=0.0, coat=0.0, spec=0.3)
     root = bpy.data.objects.new(nm, None)
@@ -1291,7 +1352,7 @@ def _cars(glass):
 STATES = {
     # sun elevation (deg); rotation (deg clockwise from north: 90 = east); exposure; interior watts; emissive strength;
     # lamps on; Joe's on; upper-window density; canopy on
-    "dawn": dict(elev=9.0, rot=112, exposure=-1.8, interior_w=2200, emis=16.0, lamps=0.3, joes=0.0, windows=0.35, canopy=0.0),
+    "dawn": dict(elev=9.0, rot=112, exposure=-2.25, sun=0.62, interior_w=3800, emis=26.0, lamps=0.25, joes=0.4, windows=0.35, canopy=0.35),
     "morning": dict(elev=18.0, rot=128, exposure=-3.1, interior_w=2600, emis=20.0, lamps=0.0, joes=1.0, windows=0.2, canopy=0.7),
     "dusk": dict(elev=-3.5, rot=296, exposure=0.9, interior_w=520, emis=5.0, lamps=1.0, joes=0.0, windows=0.55, canopy=0.0),
     "night": dict(elev=-9.0, rot=310, exposure=1.8, interior_w=420, emis=4.0, lamps=1.0, joes=0.0, windows=0.6, canopy=0.0),
@@ -1311,7 +1372,7 @@ def set_state(W: World, name: str, frame: int | None = None, **overrides):
     el = math.radians(st["elev"])
     sky.sun_elevation = el
     sky.sun_rotation = math.radians(st["rot"])
-    sky.sun_intensity = 1.0
+    sky.sun_intensity = st.get("sun", 1.0)
     scene.view_settings.exposure = st["exposure"]
     # interiors
     for key, lights in W.interior_lights.items():
@@ -1355,7 +1416,7 @@ def set_state(W: World, name: str, frame: int | None = None, **overrides):
             p.inputs["Emission Strength"].keyframe_insert("default_value", frame=frame)
     if W.joes_canopy_mat:
         p = W.joes_canopy_mat.node_tree.nodes["Principled BSDF"]
-        p.inputs["Emission Strength"].default_value = st["emis"] * 0.3 * st["canopy"]
+        p.inputs["Emission Strength"].default_value = st["emis"] * 0.05 * st["canopy"]
         if frame is not None:
             p.inputs["Emission Strength"].keyframe_insert("default_value", frame=frame)
     # upper windows: a deterministic scatter, denser at dusk
@@ -1373,7 +1434,7 @@ def set_state(W: World, name: str, frame: int | None = None, **overrides):
             lo.data.keyframe_insert("energy", frame=frame)
     if W.lamp_mat:
         p = W.lamp_mat.node_tree.nodes["Principled BSDF"]
-        p.inputs["Emission Strength"].default_value = st["emis"] * 1.2 * st["lamps"]
+        p.inputs["Emission Strength"].default_value = st["emis"] * 0.5 * st["lamps"]
         if frame is not None:
             p.inputs["Emission Strength"].keyframe_insert("default_value", frame=frame)
     if frame is not None:
@@ -1439,11 +1500,11 @@ def _parking_lot(W: World, x0: float, x1: float, trim):
     for k in range(9):
         bx = x0 + 3.0 + k * 4.4
         box(f"{g}_bay{k}", (0.1, 5.0, 0.004), (bx, y1 - 3.2, 0.008), marking, bevel=0, group=g)
-    for k, ci in ((1, 0), (2, 3), (5, 1), (7, 4)):
+    for k, ci in ((1, 0), (2, 3), (5, 1)):
         bx = x0 + 3.0 + k * 4.4 + 2.2
         car_at(bx, y1 - 3.4, ci, yaw=math.pi / 2 + (0.03 if k % 2 else -0.03), name=f"lotcar{k}", group=g)
     # a second rank deeper in, sparser
-    for k, ci in ((3, 2), (6, 0)):
+    for k, ci in ((3, 2), (6, 0), (8, 4)):
         bx = x0 + 3.0 + k * 4.4 + 2.2
         car_at(bx, y0 + 6.0, ci, yaw=-math.pi / 2, name=f"lotcar2{k}", group=g)
     bark = mat_surface("bark", "#4a443c", rough=0.9)

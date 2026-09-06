@@ -5,6 +5,7 @@ import { Plate, quadAt, trackAt, type TrackData } from "../../block/plate";
 import { GAP } from "../../data/joes";
 import { IN, OUT, PLANE, ramp, sec } from "../../motion";
 import { Frame } from "../../primitives/Frame";
+import { Grain } from "../../primitives/Grain";
 import { Line, Mono, Numeral, Words } from "../../primitives/Type";
 import { COLOR, FONT, HEIGHT, WIDTH } from "../../tokens";
 import { BUSINESS } from "../../data/joes";
@@ -89,10 +90,11 @@ export const Hero1C = () => {
         </div>
       </div>
       {/* the 3, upright again, as the mark on the pavement */}
-      <div style={{ position: "absolute", left: land.x, top: land.y, transform: `translate(-50%, -50%) scale(${0.6 + 0.4 * lift})`, opacity: lift, fontFamily: FONT.sans, fontWeight: 500, fontSize: 36, color: COLOR.onMarine, lineHeight: 1 }}>
+      <div style={{ position: "absolute", left: land.x, top: land.y, transform: `translate(-50%, -50%) scale(${0.6 + 0.4 * lift})`, opacity: lift, fontFamily: FONT.sans, fontWeight: 500, fontSize: 36, color: COLOR.ink, lineHeight: 1 }}>
         {GAP.visits}
       </div>
       <Vignette opacity={plateIn} />
+      <Grain opacity={0.08 * plateIn} />
       <SettledBlock frame={frame} settleAt={SETTLE} land={land} plateFrame={pf} T={T} />
     </Frame>
   );

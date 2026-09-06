@@ -3,6 +3,7 @@ import tracks from "../../../blender/exports/hero1b.json";
 import { Plate, trackAt, type TrackData } from "../../block/plate";
 import { IN, OUT, PLANE, ramp, sec } from "../../motion";
 import { Frame } from "../../primitives/Frame";
+import { Grain } from "../../primitives/Grain";
 import { Rule } from "../../primitives/Type";
 import { COLOR } from "../../tokens";
 import { BigNumeral, PAGE_END_SEC, PageHeader, Sentence, SettledBlock, Vignette } from "./common";
@@ -49,7 +50,7 @@ export const Hero1B = () => {
   const size = 720 - (720 - 36) * stamp;
   const x = bigX + (lot.x - bigX) * stamp;
   const y = bigY + (lot.y - bigY) * stamp;
-  const markColor = stamp < 0.6 ? COLOR.ink : COLOR.onMarine;
+  const markColor = COLOR.ink; // the mark lies on sunlit pavement: ink, like paint
 
   // the hairline under the number becomes the far curb, seen from above, then from the street
   const curbAngle = Math.atan2(curbE.y - curbW.y, curbE.x - curbW.x);
@@ -73,6 +74,7 @@ export const Hero1B = () => {
       <Sentence x={bigX - 20} y={pageRuleY + 28} frame={frame} start={sec(1.7)} opacity={1 - ramp(frame, PAGE_END + 6, 20, IN)} />
       <BigNumeral x={x} y={y} size={size} opacity={numeralIn} color={markColor} weight={stamp > 0.6 ? 500 : 200} />
       <Vignette opacity={descent} />
+      <Grain opacity={0.08 * handover} />
       <SettledBlock frame={frame} settleAt={SETTLE} land={walk} plateFrame={pf} T={T} />
     </Frame>
   );
