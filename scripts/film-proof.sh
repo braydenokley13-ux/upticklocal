@@ -15,5 +15,6 @@ name=$1; a=$2; b=$3; every=${4:-6}
 OUT=film/review/proof
 mkdir -p "$OUT"
 echo "== proof $name · film frames $a–$b ($(python3 -c "print(f'{($b-$a+1)/24:.2f}')") s)"
-nice npx remotion render film/index.ts Film "$OUT/$name.mp4" --frames="$a-$b" --codec=h264 --crf=16 --log=error
+# one worker, and well back in the queue: the plate render is the critical path and this must not slow it
+nice -n 15 npx remotion render film/index.ts Film "$OUT/$name.mp4" --frames="$a-$b" --codec=h264 --crf=16 --concurrency=1 --log=error
 python3 scripts/film-review.py "$name" --mp4 "$OUT/$name.mp4" --every "$every" --per-sheet 9 --out "$OUT/$name"
