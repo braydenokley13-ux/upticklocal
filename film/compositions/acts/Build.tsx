@@ -62,6 +62,7 @@ export function DoorMark({ x, y, t }: { x: number; y: number; t: number }) {
 export function WorldHeader({ left, right, opacity, live = true }: { left: string; right: string; opacity: number; live?: boolean }) {
   return (
     <>
+      <div style={{ position: "absolute", left: 0, right: 0, top: 0, height: 210, pointerEvents: "none", opacity, background: "linear-gradient(to bottom, rgba(4,12,16,0.42), rgba(4,12,16,0.16) 55%, rgba(4,12,16,0))" }} />
       <div style={{ position: "absolute", left: 96, top: 84, opacity }}>
         <Mono color={COLOR.onMarineSoft}>{left}</Mono>
       </div>
