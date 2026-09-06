@@ -15,7 +15,7 @@ type Manifest = Record<string, { video?: string; stills?: string[]; contact?: st
  * is the thing being looked at.
  */
 export default function Stage() {
-  const [shotId, setShotId] = useState<(typeof SHOTS)[number]["id"]>("Hero1");
+  const [shotId, setShotId] = useState<string>("Hero1");
   const shot = useMemo(() => SHOTS.find((s) => s.id === shotId)!, [shotId]);
   const total = shotFrames(shot);
   const ref = useRef<PlayerRef>(null);
@@ -94,7 +94,7 @@ export default function Stage() {
         <nav className="lab__shots" aria-label="Hero shots">
           {SHOTS.map((s) => (
             <button key={s.id} type="button" className={`lab__shot${s.id === shotId ? " is-active" : ""}`} onClick={() => { setShotId(s.id); setFrame(0); }}>
-              <span className="lab__shotn">0{s.index}</span>
+              <span className="lab__shotn">0{s.index}{s.variant ? ` · ${s.variant}` : ""}</span>
               <span className="lab__shotname">{s.name}</span>
             </button>
           ))}

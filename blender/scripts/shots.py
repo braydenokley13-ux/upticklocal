@@ -358,10 +358,13 @@ def _dawn_life(ppl: People, offset=0):
     # walkers who pass Joe's without turning in (never under the opening camera)
     ppl.walk([(-30.0, y - 0.9), (-6.0, y - 0.8), (24.0, y - 0.7)], offset + 60, speed=1.35)
     ppl.walk([(28.0, -y + 0.4), (-20.0, -y + 0.6)], offset + 76, speed=1.25)
-    # people already inside: two at the café counter, one in the pharmacy
+    # people already inside: two at the café counter, one in the pharmacy; two seated outside the café
     ppl.stand((cafe.cx - 1.4, B.FRONT + 3.3), 0, 10000)
     ppl.stand((cafe.cx + 1.2, B.FRONT + 2.2), 0, 10000)
     ppl.stand((ph.cx + 0.6, B.FRONT + 2.9), 0, 10000)
+    ppl.stand((cafe.x0 + 2.6 - 0.55, B.FRONT - 1.5), 0, 10000, height=1.25)
+    ppl.stand((cafe.x0 + 4.4 + 0.55, B.FRONT - 1.5), 0, 10000, height=1.25)
+    ppl.walk([(cafe.cx - 12.0, y + 0.2), (cafe.cx - 3.0, y + 0.4)], offset + 10, speed=1.2)
     # someone reaching the restaurant end, and a person at the barber door
     rest = B.LOTS[5]
     ppl.walk([(rest.cx - 4, y + 0.5), (rest.cx + (rest.w - 1.4) * 0.22, y), (rest.cx + (rest.w - 1.4) * 0.22, B.FRONT + 2.4)], offset + 40, into="restaurant")
@@ -386,25 +389,89 @@ def _hold_keys_material(mat):
                 kp.interpolation = "CONSTANT"
 
 
-def shot_hero1(W: B.World):
-    """3 → the physical block. 168 frames. Frame 0 is the page: straight down onto the sidewalk in front of Joe's."""
-    frames = 168
+E_FINAL = dict(pos=(-9.0, -21.0, 10.5), target=(0.5, 12.5, 2.5), lens=27)
+E_DRIFT = dict(pos=(-8.2, -20.6, 10.3), target=(0.8, 12.5, 2.5), lens=27.5)
+HERO1_TRACKS = ["joes_walk", "joes_lot", "joes_curb_w", "joes_curb_e", "joes_frontage_w", "joes_frontage_e", "door_joes", "joes_canopy", "door_cafe", "door_pharmacy", "page_tl", "page_tr", "page_br", "page_bl"]
+
+
+def _hero1_common(W: B.World):
+    """Shared by the Hero 1 variants: dawn, the block at work, Joe's quiet, a page rectangle on the ground for the editorial layer."""
     B.set_state(W, "dawn")
     lot = W.tracks["joes_lot"].location
     walk = (lot.x, B.ROAD_HALF + 3.0, B.CURB_H)
     W.tracks["joes_walk"] = B.empty("track_joes_walk", walk)
-    cam = camera(lens=26)
-    key_cam(cam, 0, (walk[0] + 1.5, B.ROAD_HALF + 2.4, 10.0), (walk[0] + 1.5, B.ROAD_HALF + 2.4001, 0.0), lens=26)
-    # the lift: up and back over the sidewalk, already looking at the frontage, so the block rises into view
-    key_cam(cam, 32, (walk[0] + 1.0, B.ROAD_HALF - 3.5, 16.5), (walk[0] + 0.5, B.FRONT + 6.0, 0.8), lens=26)
-    key_cam(cam, 72, ESTABLISH["pos"], ESTABLISH["target"], lens=26)
-    key_cam(cam, frames - 1, (-1.5, -24.5, 25.5), (2.5, 13.0, 2.5), lens=26)
-    ease(cam)
-    ease(cam.data)
+    # the page's footprint on the ground: a 16:9 rectangle over Joe's lot, its bottom edge in the road just past the curb
+    pw, pd = 30.0, 30.0 * 9 / 16
+    py0 = B.ROAD_HALF - 1.5
+    for name, (px, py) in (("page_tl", (lot.x - pw / 2, py0 + pd)), ("page_tr", (lot.x + pw / 2, py0 + pd)), ("page_br", (lot.x + pw / 2, py0)), ("page_bl", (lot.x - pw / 2, py0))):
+        W.tracks[name] = B.empty(f"track_{name}", (px, py, B.CURB_H))
+    # one unattended car at Joe's east island: the forecourt is not empty, it is quiet
+    B.car_at(5.1, 13.4, 3, yaw=math.pi / 2, name="car_joes_quiet")
     ppl = People(W)
     _dawn_life(ppl, offset=0)
-    names = ["joes_walk", "joes_curb_w", "joes_curb_e", "door_joes", "door_cafe", "door_pharmacy", "joes_canopy", "joes_frontage_w", "joes_frontage_e"]
-    return {"frames": frames, "cam": cam, "people": ppl, "names": names, "meta": {"state": "dawn", "tilt": [0, 72], "settle": [72, frames], "clock": "Friday · 07:12"}}
+    return walk, ppl
+
+
+def _exposure(frame, value):
+    s = bpy.context.scene
+    s.view_settings.exposure = value
+    s.view_settings.keyframe_insert("exposure", frame=frame)
+
+
+def shot_hero1a(W: B.World):
+    """A · the page is the pavement. Straight down on the sidewalk in front of Joe's; the camera lifts and the block rises."""
+    frames = 144
+    walk, ppl = _hero1_common(W)
+    cam = camera(lens=26, fstop=2.0, focus=34.0)
+    key_cam(cam, 0, (walk[0] + 1.5, B.ROAD_HALF + 2.4, 10.0), (walk[0] + 1.5, B.ROAD_HALF + 2.4001, 0.0), lens=26, focus=10.0)
+    key_cam(cam, 30, (walk[0] + 1.0, B.ROAD_HALF - 6.0, 8.5), (walk[0] + 0.5, B.FRONT + 10.0, 2.0), lens=26, focus=22.0)
+    key_cam(cam, 78, E_FINAL["pos"], E_FINAL["target"], lens=E_FINAL["lens"], focus=34.0)
+    key_cam(cam, frames - 1, E_DRIFT["pos"], E_DRIFT["target"], lens=E_DRIFT["lens"], focus=34.0)
+    ease(cam)
+    ease(cam.data)
+    # the editorial light carries in: paper-white, settling to the morning
+    base = B.STATES["dawn"]["exposure"]
+    _exposure(0, base + 2.6)
+    _exposure(38, base)
+    return {"frames": frames, "cam": cam, "people": ppl, "names": HERO1_TRACKS, "meta": {"variant": "A", "tilt": [0, 78], "clock": "Friday · 07:12"}, "comp": {"mist": 0.5, "mist_start": 30, "mist_depth": 140}}
+
+
+def shot_hero1b(W: B.World):
+    """B · the descent. The block as a plan from 70 m, paper-white; the 3 stamps onto Joe's lot; a crane-down settles into the street."""
+    frames = 144
+    walk, ppl = _hero1_common(W)
+    lot = W.tracks["joes_lot"].location
+    cam = camera(lens=26, fstop=2.0, focus=70.0)
+    key_cam(cam, 0, (lot.x + 2.0, B.FRONT - 1.0, 70.0), (lot.x + 2.0, B.FRONT - 0.9999, 0.0), lens=26, focus=70.0)
+    key_cam(cam, 18, (lot.x + 2.0, B.FRONT - 1.0, 70.0), (lot.x + 2.0, B.FRONT - 0.9999, 0.0), lens=26, focus=70.0)
+    key_cam(cam, 96, E_FINAL["pos"], E_FINAL["target"], lens=E_FINAL["lens"], focus=34.0)
+    key_cam(cam, frames - 1, E_DRIFT["pos"], E_DRIFT["target"], lens=E_DRIFT["lens"], focus=34.0)
+    ease(cam)
+    ease(cam.data)
+    base = B.STATES["dawn"]["exposure"]
+    _exposure(0, base + 3.2)
+    _exposure(18, base + 3.2)
+    _exposure(60, base)
+    return {"frames": frames, "cam": cam, "people": ppl, "names": HERO1_TRACKS, "meta": {"variant": "B", "descent": [18, 96], "clock": "Friday · 07:12"}, "comp": {"mist": 0.5, "mist_start": 30, "mist_depth": 140}}
+
+
+def shot_hero1c(W: B.World):
+    """C · the page tilts into the street. A slow push only; the editorial page becomes the ground plane in the composite."""
+    frames = 120
+    walk, ppl = _hero1_common(W)
+    cam = camera(lens=26, fstop=2.0, focus=36.0)
+    key_cam(cam, 0, (-12.0, -25.0, 13.0), (0.5, 12.5, 2.5), lens=26, focus=38.0)
+    key_cam(cam, frames - 1, E_FINAL["pos"], E_FINAL["target"], lens=E_FINAL["lens"], focus=34.0)
+    ease(cam)
+    ease(cam.data)
+    base = B.STATES["dawn"]["exposure"]
+    _exposure(0, base + 2.4)
+    _exposure(34, base)
+    return {"frames": frames, "cam": cam, "people": ppl, "names": HERO1_TRACKS, "meta": {"variant": "C", "clock": "Friday · 07:12"}, "comp": {"mist": 0.5, "mist_start": 30, "mist_depth": 140}}
+
+
+def shot_hero1(W: B.World):
+    return shot_hero1a(W)
 
 
 def shot_hero3a(W: B.World):
@@ -580,4 +647,4 @@ def shot_hero5(W: B.World):
     return {"frames": frames, "cam": cam, "people": ppl, "names": names, "meta": {"state": "morning", "clock_from": "07:42", "clock_to": "09:50", "thresholds": thresholds}, "comp": {"mist": 0.18}}
 
 
-SHOTS.update({"hero1": shot_hero1, "hero3a": shot_hero3a, "hero3b": shot_hero3b, "hero5": shot_hero5})
+SHOTS.update({"hero1": shot_hero1, "hero1a": shot_hero1a, "hero1b": shot_hero1b, "hero1c": shot_hero1c, "hero3a": shot_hero3a, "hero3b": shot_hero3b, "hero5": shot_hero5})

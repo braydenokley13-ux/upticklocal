@@ -6,7 +6,9 @@ import { FPS } from "./tokens";
  * shot's duration and name never drift between the two.
  */
 export type ShotDef = {
-  id: "Hero1" | "Hero2" | "Hero3" | "Hero4" | "Hero5";
+  id: string;
+  /** Variants of one gate share an index; the lab groups them. */
+  variant?: string;
   index: number;
   name: string;
   line: string;
