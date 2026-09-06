@@ -32,9 +32,11 @@ ORDER=(
   morning_walk:27
   morning_door:23
   rise:39
-  # the two long plates the acts either end of the film sit on
-  hero1a:143
+  # the two long plates the acts either end of the film sit on. hero3a goes first: it was
+  # re-authored after the others and has only been seen as stills, so it is the one that
+  # still has to be judged in motion.
   hero3a:143
+  hero1a:143
 )
 
 want=("$@")

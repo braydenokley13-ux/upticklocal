@@ -1,3 +1,4 @@
+import heroDusk from "../../blender/exports/hero3a.json";
 import { INTENT } from "../data/joes";
 import { typed } from "../motion";
 
@@ -91,7 +92,11 @@ export function cues(): Cue[] {
     { file: "press", at: ACT.V + 12, gain: 0.8, note: "Approve. One click, nothing after it" },
     { file: "street-dawn", at: ACT.V + 44, frames: ACT.VI - (ACT.V + 44), gain: 0.5, fadeIn: 34, fadeOut: 6, loop: true, startFrom: 20, note: "the block at dusk" },
     { file: "pad-mint", at: ACT.V + 52, frames: ACT.VI + 76 - (ACT.V + 52), gain: 0.7, fadeIn: 24, fadeOut: 12, loop: true, env: (f) => 1 - 0.6 * lin(f, 108, 186), note: "the signal enters the block; thins as the screens arm; out at the café cut" },
-    ...[66, 74, 82, 91, 101].map((h, i) => ({ file: "tap-wood", at: ACT.V + 50 + h, gain: 0.7, note: `window ${i + 1} lights` }) as Cue),
+    // read from the plate, not retyped: the windows that light are the shot's, and when the shot
+    // was re-framed from five scattered ones to three in the same building this followed it
+    ...((heroDusk as { meta: { homes: number[] } }).meta.homes ?? [66, 84, 101]).map(
+      (h, i) => ({ file: "tap-wood", at: ACT.V + 50 + h, gain: 0.7, note: `window ${i + 1} lights` }) as Cue,
+    ),
 
     // ---- VI · two ways in -------------------------------------------------
     { file: "kitchen-evening", at: ACT.VI, frames: 76, gain: 0.5, fadeIn: 12, fadeOut: 4, note: "Thursday 6:48 PM at home" },
