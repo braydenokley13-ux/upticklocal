@@ -68,6 +68,23 @@ What the gate review still wanted, and what was done with it: the macro pavement
 
 Hero 1 A is the opening. Carry three things into every other shot: the world at pass 4 with the dawn state and the street-height settle camera; the rule that the editorial layer is printed onto a tracked physical surface (a homography from four tracked corners) rather than dissolved over it; and the settle grammar (ink marks and captions on lit pavement, the line on the road, the dateline top-left). Rejected variants B and C stay in the lab as evidence, with B's stamp and C's plane-into-ground kept as primitives. Before assembling the film, render the surviving plates at 1920×1080 and give the concrete, the sky and the figures one more look-dev pass at that resolution.
 
+### Hero 2 · Friday mornings are slow → understanding → plan
+
+_(first pass under review; see below)_
+
+### Hero 4 · Does diesel count? → provenance → answer
+
+_(first pass under review; see below)_
+
+### Hero 3 and Hero 5 · prepared, not rendered
+
+Camera and architecture only, pending Hero 1's hi-res review; no plates rendered on the pass-4 world.
+
+- **Hero 3 A (press → the block at dusk).** The camera is re-keyed from the old 25 m crane to the settle's grammar: an upper window across the street (9.5 m, 20 mm, a slow drift), so the homes the texts land in are windows in a wall, not roofs on a map. The five homes are chosen inside that frame (café ×3, pharmacy ×2), the two screens arm at their plaques, and every tracked point (homes, plaques, doors, pumps, Joe's lot) is verified inside the frame from the exported tracks. Interaction: the plan card presses in the app layer; the press becomes a mint signal that branches from Joe's lot to the homes (amber windows lighting on the threshold frames) and to the two plaques; the reach ledger counts.
+- **Hero 3 B/C (the café).** Eye-height dolly from the street through the door to the counter screen (unchanged); the screen quad is tracked so the offer lifts off the physical panel into the OfferSlab by homography. The person in the queue turns to the screen on the notice frame.
+- **Hero 5 (return → 21).** The forecourt from the near curb at 4.6 m, 35 mm, the store door open all morning; five customers cross the threshold on tracked frames (30, 66, 100, 130, 156) as the light advances from 07:42 to 09:50. Interaction: the pass sweeps, a mint point drops to the door, the count steps on each threshold, the page returns with amber residue, 21.
+- **Tracks** for all three are exported against the pass-4 world; the compositions typecheck against them. A block-level fix landed on the way (pump tracks were one per island, not one per pump).
+
 ## Block status
 
 One procedural neighbourhood in `blender/scripts/block.py`, built from constants (road half-width 4.5 m, 3.7 m sidewalks, 0.13 m curbs, six lots on the far side, a parking lot and a low row on the near side, a staggered second row behind, masses beyond the cross streets). Every shot builds it fresh, deterministically, in about half a second, then keys a camera, a lighting state and the people. Four lighting states (dawn, morning, dusk, night); Hero 1 uses dawn. What is in it after pass 4: the far row with distinct materials (brick, pale render, tan, stone, green-grey, charcoal), coursing and dirt gradients, stall risers, transoms, mullions, recessed doors, awnings, planters, bistro tables, an A-board, plaques, upper windows with reveals and sills and a deterministic scatter of lit cards, parapets, roof gravel, HVAC, vents, skylights, downpipes; Joe's with a forecourt, two pump islands (two-tone pumps with the brand stripe, hoses, boots, screens), a canopy with a painted fascia, stripe and drip edge, lit soffit panels, a store with a double door, an entrance light, a coffee station, gondolas and a cooler, a security light, bollards, wheel stops, stain patches, a price sign with lit lines; sidewalks with score lines, gutters, drains, manholes, a crosswalk, lane markings; lamps, a bench, a bike rack, a bin, trees; satin cars with solid cabins; and scale figures (capsule, neck, head) in matte amber that walk paths, pause, cross thresholds and go inside, with threshold events exported alongside per-frame 2D tracks so composited objects sit on physical things.

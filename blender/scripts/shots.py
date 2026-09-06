@@ -398,8 +398,8 @@ def _hold_keys_material(mat):
 E_FINAL = dict(pos=(-2.5, -19.5, 5.2), target=(6.0, 10.5, 2.8), lens=29)
 E_DRIFT = dict(pos=(-1.7, -19.0, 5.05), target=(6.3, 10.5, 2.8), lens=29.6)
 # dusk, from an upper window across the street: the far row's wall of windows, the two screens, the forecourt
-E_DUSK = dict(pos=(-2.0, -23.0, 9.5), target=(0.0, 12.0, 5.0), lens=20)
-E_DUSK_END = dict(pos=(-2.8, -22.6, 9.2), target=(0.4, 12.0, 4.8), lens=20.5)
+E_DUSK = dict(pos=(-4.5, -23.0, 9.5), target=(-3.0, 12.0, 5.0), lens=20)
+E_DUSK_END = dict(pos=(-5.3, -22.6, 9.2), target=(-2.6, 12.0, 4.8), lens=20.5)
 # the top-down page frame (26 mm from 10 m): its centre on the sidewalk so the curb lies at 70% of the page
 FP_Z = 10.0
 FP_DY = 1.56
