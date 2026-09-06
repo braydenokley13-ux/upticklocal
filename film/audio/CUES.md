@@ -20,7 +20,7 @@ Act plan used for placement — the film's real timeline, **1646 frames at
 | I | 0–9.00 s | the page until 3.00 s; the lift off the concrete 3.00–7.08 s; the settle, and the line on the road at 8.33 |
 | II–IV | 9.00–22.58 s | typing (first keystroke 9.67 s); *Friday* 12.42, *mornings* 13.83, *slow* 15.33; the 63 land 16.58; the annotations 17.50; the plan assembles 18.83 and is whole at 20.83; Approve appears 21.67 |
 | V | 22.58–30.67 s | Approve pressed at 23.08 s; the block at dusk from 24.67; windows light 27.42–28.88 |
-| VI | 30.67–40.33 s | the text 30.67–33.83; the café panel 33.83–35.67; the scan 35.67, the glass opens out 36.00; the same Offer full-frame from 37.17, saved 39.33 |
+| VI | 30.67–40.33 s | the text 30.67–33.83; the café panel 33.83–35.67; the scan 35.67, the glass opens out 36.00; the same Offer full-frame from 38.00, saved 39.33 |
 | VII | 40.33–48.33 s | the question 41.50; it sends at 41.92; **the 830 ms hole 42.00–42.83**; the sheet rises 42.83; the three words leave 43.67; the answer lands 45.08; "38 handled · 2 needed Joe" 46.83–47.50 |
 | VIII | 48.33–55.08 s | the forecourt 48.33–49.21; the door 49.25–50.13; the counter 50.17–51.04; the pass 51.08–54.04 (**Redeem now** pressed 51.92, redeemed 52.08–52.75); the coffee crosses 54.08–55.04. **The redeem note at 52.08 s must be alone** |
 | IX–XI | 55.08–63.67 s | the pump 55.08–56.04; the frontage 56.08–57.13; the door later 57.17–58.04; the lane 58.08–59.71; the morning washes the set away 58.92; the 21 lands 59.83; "came through the door." 60.67; "14 returned. 7 were new." 61.83 |
