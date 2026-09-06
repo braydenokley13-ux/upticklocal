@@ -1428,7 +1428,9 @@ def _build_joes(W: World, lot: Lot, forecourt, trim, fascia, frame, door, glass,
     plane(f"{g}_roof", (store_w - 0.6, store_d - 0.6), (scx, (sy0 + sy1) / 2, store_h + 0.02), mat_surface("roof", "#5d605f", rough=0.98, bump=0.3, scale=30), group=g)
     box(f"{g}_hvac", (1.8, 1.3, 0.9), (scx + 4, sy0 + 6, store_h + 0.45), mat_surface("hvac", "#8e8d88", rough=0.6, metallic=0.4), bevel=0.03, group=g)
     # the rest of the lot behind the store: a service yard wall and a dumpster, so the lot is deep
-    box(f"{g}_yardwall", (lot.w, 0.3, 2.4), (cx, y0 + lot.depth - 0.15, 1.2), body, bevel=0.02, group=g)
+    # behind the STORE, not at the lot's nominal depth: Joe's building is deeper than the lot
+    # line, and a wall at 24 m stood inside the room the counter shots are filmed in.
+    box(f"{g}_yardwall", (lot.w, 0.3, 2.4), (cx, max(y0 + lot.depth - 0.15, sy1 + 1.6), 1.2), body, bevel=0.02, group=g)
     # store front: riser, glass wall, door, fascia with the name, an ice box by the door
     riser_h = 0.55
     glass_top = store_h - 0.95

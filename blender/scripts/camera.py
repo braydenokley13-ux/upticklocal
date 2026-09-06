@@ -92,9 +92,11 @@ class Cam:
         self.look(pos, target, roll)
         self.obj.keyframe_insert("location", frame=frame)
         self.obj.keyframe_insert("rotation_euler", frame=frame)
+        # the lens is always keyed: one stop that names a focal length and one that does not
+        # used to leave the whole shot on the last value set, which is a silent lens change.
         if lens is not None:
             self.obj.data.lens = lens
-            self.obj.data.keyframe_insert("lens", frame=frame)
+        self.obj.data.keyframe_insert("lens", frame=frame)
         d = self.focus_on(focus if focus is not None else target)
         self.obj.data.dof.keyframe_insert("focus_distance", frame=frame)
         self.moves.append(dict(frame=frame, pos=tuple(round(v, 3) for v in pos), focus=round(d, 3), label=label))

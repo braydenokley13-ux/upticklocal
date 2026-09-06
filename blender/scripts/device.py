@@ -201,13 +201,15 @@ def coffee(name: str, loc, mat_cup, mat_lid, mat_sleeve, group="block", scale=1.
         (0.0442 * s, 0.096 * s),
     ], mat_sleeve, group, cap=False)
     sleeve.parent = root
+    # a real lid is nearly flat with a raised sip lip, not a dome: a dome reads as a cartoon
     lid = loft_cup(f"{name}_lid", [
-        (0.0468 * s, 0.128 * s),
-        (0.0470 * s, 0.136 * s),
-        (0.0452 * s, 0.140 * s),
-        (0.0388 * s, 0.150 * s),
-        (0.0250 * s, 0.158 * s),
-        (0.0125 * s, 0.161 * s),
+        (0.0468 * s, 0.1280 * s),
+        (0.0474 * s, 0.1345 * s),
+        (0.0466 * s, 0.1390 * s),
+        (0.0430 * s, 0.1428 * s),
+        (0.0330 * s, 0.1466 * s),
+        (0.0180 * s, 0.1488 * s),
+        (0.0062 * s, 0.1497 * s),
     ], mat_lid, group)
     lid.parent = root
     return root, {"cup": cup, "sleeve": sleeve, "lid": lid}

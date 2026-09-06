@@ -58,7 +58,7 @@ def look(W):
         paper=B.mat_surface("dv_paper", "#efeadf", rough=0.62),
         board=B.mat_surface("dv_board", "#b39b7c", rough=0.78),
         lid=B.mat_surface("dv_lid", "#22262a", rough=0.42),
-        skin=B.mat_surface("dv_skin", "#c19277", rough=0.62, spec=0.22),
+        skin=B.mat_surface("dv_skin", "#a8836c", rough=0.74, spec=0.11),
         cloth=B.mat_surface("dv_cloth", "#3d4448", rough=0.80),
         cloth2=B.mat_surface("dv_cloth2", "#6c6156", rough=0.80),
         wood=B.mat_surface("dv_wood", "#6b5744", rough=0.46),
@@ -71,7 +71,7 @@ def look(W):
 # --------------------------------------------------------------------------
 # Joe's counter, dressed
 # --------------------------------------------------------------------------
-JOES = dict(counter_x=3.99, counter_y=22.10, top_z=0.95, door=(-1.72, 19.75), back_y=27.15)
+JOES = dict(counter_x=3.99, counter_y=22.10, top_z=0.95, door=(-1.72, 20.30), back_y=27.15)
 
 
 def dress_joes(W):
@@ -104,12 +104,48 @@ def dress_joes(W):
     for i, s in enumerate((0, 1)):
         B.cylinder(f"jd_cups{i}", 0.048, 0.34, (bx - 0.44 - i * 0.13, 26.5, 0.94), m["paper"], group=g)
 
+    # a warm strip over the back bar: at f/2.8 the deep background of the counter shots is
+    # this light, not the wall behind it
+    bt = bpy.data.lights.new("jd_bar_prac", "AREA")
+    bt.shape = "RECTANGLE"
+    bt.size, bt.size_y = 4.4, 0.14
+    bt.energy = 120.0
+    bt.color = B.srgb(B.P.warm)[:3]
+    bo = bpy.data.objects.new("jd_bar_prac", bt)
+    bo.location = (cx - 0.2, 26.30, 2.05)
+    bo.rotation_euler = (math.radians(-64), 0, 0)
+    B._link(bo, g)
+
     # the counter's own top, a till, and a mat in front of it
     B.box("jd_counter_top", (3.5, 0.78, 0.045), (cx, cy, tz + 0.02), m["top"], bevel=0.006, group=g)
     B.box("jd_till_base", (0.40, 0.34, 0.10), (cx - 1.05, cy + 0.06, tz + 0.09), m["alu_dark"], bevel=0.008, group=g)
     B.box("jd_till_screen", (0.34, 0.03, 0.24), (cx - 1.05, cy + 0.16, tz + 0.26), m["lid"], bevel=0.004, group=g, rot=(math.radians(-14), 0, 0))
     B.box("jd_mat", (1.30, 0.34, 0.010), (cx - 0.15, cy - 0.52, tz + 0.045), m["rubber"], bevel=0.003, group=g)
     B.box("jd_stand", (0.13, 0.09, 0.20), (cx + 1.05, cy + 0.08, tz + 0.14), m["alu_dark"], bevel=0.006, group=g)
+    fl = bpy.data.lights.new("jd_counter_fill", "AREA")
+    fl.shape = "RECTANGLE"
+    fl.size, fl.size_y = 3.2, 1.2
+    fl.energy = 26.0
+    fl.color = B.srgb(B.P.warm)[:3]
+    fo = bpy.data.objects.new("jd_counter_fill", fl)
+    fo.location = (cx - 0.1, cy - 0.55, 2.30)
+    fo.rotation_euler = (0.0, 0.0, 0.0)
+    B._link(fo, g)
+
+    # Joe's own unit, live behind the counter: a practical, and the reason the pass exists
+    B.set_screen(W, "joes", 1.0, image=os.path.join(HERE, "..", "assets", "screens", "joes-own.png"))
+
+    # two pendants over the customer's side of the room: at f/2.2 these are the only shapes in
+    # the background of the device shot, so they are what stops it being a grey mush
+    for i, x in enumerate((cx - 2.6, cx - 0.4)):
+        sh = B.cylinder(f"jd_pend{i}", 0.085, 0.14, (x, cy - 1.9, 2.42), m["alu_dark"], group=g)
+        gl = B.cylinder(f"jd_pend_gl{i}", 0.072, 0.02, (x, cy - 1.9, 2.42), B.mat_emissive(f"jd_pend_em{i}", B.P.lamp, 26.0), group=g)
+        pl = bpy.data.lights.new(f"jd_pend_l{i}", "POINT")
+        pl.energy, pl.shadow_soft_size = 34.0, 0.07
+        pl.color = B.srgb(B.P.lamp)[:3]
+        po = bpy.data.objects.new(f"jd_pend_l{i}", pl)
+        po.location = (x, cy - 1.9, 2.36)
+        B._link(po, g)
 
     # two practicals over the counter: the light the close shots are lit by
     for i, x in enumerate((cx - 1.4, cx + 1.2)):
@@ -147,6 +183,8 @@ def dress_cafe(W):
     ob.location = (20.2, 11.4, 2.75)
     ob.rotation_euler = (math.radians(-12), 0, 0)
     B._link(ob, g)
+    # the panel is a lit object in the room, not a dark slab: this is the whole point of the café
+    B.set_screen(W, "cafe", 1.0, image=os.path.join(HERE, "..", "assets", "screens", "cafe-joes.png"))
 
 
 # --------------------------------------------------------------------------
@@ -172,7 +210,7 @@ def grip(W, name, parent, scale=1.0):
     parts["palm"] = palm
 
     # four fingers over the near edge, longest in the middle, tips just onto the glass
-    for i, (z, reach, r) in enumerate(((0.0305, 0.005, 0.0078), (0.0115, 0.0075, 0.0082), (-0.0075, 0.007, 0.0079), (-0.0265, 0.005, 0.0070))):
+    for i, (z, reach, r) in enumerate(((0.0290, 0.0028, 0.0084), (0.0115, 0.0042, 0.0088), (-0.0060, 0.0038, 0.0085), (-0.0235, 0.0026, 0.0076))):
         z *= s
         reach *= s
         rr = r * s
@@ -207,6 +245,41 @@ def grip(W, name, parent, scale=1.0):
     return parts
 
 
+def cup_grip(W, name, parent, scale=1.0):
+    """A hand carrying a cup, built in the cup's own frame.
+
+    Same principle as `grip`: a posed rig reads as a mitt, so each finger is a swept tube whose
+    path starts behind the cup, crosses its shoulder and ends with the pad against the sleeve.
+    The hand is on the far side, so the cup occludes most of it and what is left is a wrist and
+    four knuckles — which is all a hand needs to be at this distance."""
+    m = look(W)
+    s = scale
+    parts = {}
+    root = B.empty(f"{name}_root", (0, 0, 0), group="device")
+    root.parent = parent
+    palm = BD.ellipsoid(f"{name}_palm", (0.033 * s, 0.021 * s, 0.046 * s), m["skin"], group="device")
+    palm.location = (0.012 * s, 0.084 * s, 0.082 * s)
+    palm.parent = root
+    parts["palm"] = palm
+    for i, (z, r) in enumerate(((0.104, 0.0079), (0.086, 0.0083), (0.068, 0.0080), (0.050, 0.0071))):
+        path = [(0.006 * s, 0.086 * s, z * s), (0.028 * s, 0.074 * s, z * s), (0.046 * s, 0.052 * s, (z - 0.002) * s),
+                (0.052 * s, 0.022 * s, (z - 0.003) * s), (0.046 * s, 0.000 * s, (z - 0.004) * s)]
+        fg = BD.tube(f"{name}_f{i}", path, [r * 1.18 * s, r * 1.10 * s, r * s, r * 0.92 * s, r * 0.76 * s], m["skin"], group="device")
+        fg.parent = root
+        parts[f"f{i}"] = fg
+    th = BD.tube(f"{name}_thumb", [(0.008 * s, 0.082 * s, 0.062 * s), (-0.024 * s, 0.070 * s, 0.072 * s),
+                                   (-0.044 * s, 0.044 * s, 0.080 * s), (-0.048 * s, 0.016 * s, 0.084 * s)],
+                 [0.0122 * s, 0.0116 * s, 0.0104 * s, 0.0086 * s], m["skin"], group="device")
+    th.parent = root
+    parts["thumb"] = th
+    fa_root, _ = BD.forearm(f"{name}_a", m["skin"], group="device", scale=scale)
+    fa_root.parent = root
+    fa_root.location = (0.022 * s, 0.104 * s, 0.062 * s)
+    fa_root.rotation_euler = (math.radians(116), 0.0, math.radians(10))
+    parts["forearm"] = fa_root
+    return root, parts
+
+
 def held_phone(W, name, loc, yaw=math.pi, tilt=-0.22, screen="device-pass", scale=1.0, first=0, strength=2.4):
     """A phone in a hand, authored from the phone outward.
 
@@ -232,6 +305,9 @@ def held_phone(W, name, loc, yaw=math.pi, tilt=-0.22, screen="device-pass", scal
     fa_root.parent = root
     fa_root.location = (0.010 * scale, DV.PHONE["d"] / 2 * scale + 0.030 * scale, -0.072 * scale)
     fa_root.rotation_euler = (math.radians(56), 0.0, math.radians(-6))
+    cuff = BD.tube(f"{name}_cuff", [(0.0, 0.0, -0.300 * scale), (0.0, 0.0, -0.196 * scale)],
+                   [0.056 * scale, 0.050 * scale], m["cloth"], group="device")
+    cuff.parent = fa_root
 
     return root, {"forearm": fa_root, "phone": ph_root, "screen": ph["screen"], **gp, **{f"p_{k}": v for k, v in ph.items()}}
 
@@ -259,6 +335,15 @@ def press_thumb(pivot, t0, *, swing=-0.492, dip=0.0042, hold=7, ease=4):
 def track(W, key, obj):
     W.tracks[key] = obj
     return obj
+
+
+def track_screen(W, key, parts):
+    """Register a held phone's four screen corners as a tracked quad.
+
+    The crossing out of the physical world is a scale into the glass we have been looking at,
+    so Remotion needs the screen's actual homography, not a centre point."""
+    for c in ("tl", "tr", "br", "bl"):
+        W.tracks[f"{key}_{c}"] = parts[f"p_{c}"]
 
 
 # ==========================================================================
@@ -303,7 +388,7 @@ def shot_threshold(W: B.World):
     """B · from inside the store, looking out. The customer crosses the threshold into the room.
 
     lens      street 50 mm, f/4        height 1.52 m
-    fore      the end of the counter, dark, left of frame
+    fore      the room's dark jamb, closing the sides; the floor running out of the bottom
     subject   the doorway and the person entering it
     back      the forecourt, blown two stops brighter than the room
     focus     the threshold itself
@@ -311,11 +396,11 @@ def shot_threshold(W: B.World):
     """
     m = look(W)
     dress_joes(W)
-    B.set_state(W, "morning")
+    B.set_state(W, "morning", exposure=-2.78, interior_w=2450)
     frames = 30
-    fig, parts = BD.figure("th_walker", (-1.9, 17.4, 0.0), m["cloth"], height=1.76, yaw=math.radians(9))
-    for f, y in ((0, 17.4), (frames - 1, 21.1)):
-        fig.location = (-1.9 + (y - 17.4) * 0.16, y, 0.0)
+    fig, parts = BD.figure("th_walker", (-1.95, 19.2, 0.0), m["cloth2"], height=1.76, yaw=math.radians(16))
+    for f, y in ((0, 19.2), (frames - 1, 21.5)):
+        fig.location = (-1.95 + (y - 19.2) * 0.283, y, 0.0)
         fig.keyframe_insert("location", frame=f)
     for fc in _fc(fig):
         for kp in fc.keyframe_points:
@@ -326,9 +411,9 @@ def shot_threshold(W: B.World):
     W.tracks["walker"].location = (0, 0, 1.0)
 
     cam = CAM.Cam("street", subject="the doorway, and the person who comes through it",
-                  foreground="the end of the counter, dark, left of frame", background="the forecourt, two stops brighter than the room",
+                  foreground="the room's own dark, closing the frame", background="the forecourt, two stops brighter than the room",
                   motivation="locked", fstop=3.5)
-    cam.lock((1.55, 23.6, 1.52), (-1.72, 19.2, 1.46), frames, focus=(-1.72, 19.75, 1.4), label="inside, at the counter's end")
+    cam.lock((1.05, 22.60, 1.46), (-1.72, 20.30, 1.30), frames, focus=(-1.60, 21.10, 1.20), label="inside, on the open floor")
     CAM.ease_camera(cam.obj)
     return dict(frames=frames, cam=cam.obj, names=["walker", "door_joes"], people=None,
                 meta=dict(state="morning", clock="Friday · 7:42 AM", cross=17, spec=cam.spec()),
@@ -339,11 +424,14 @@ def shot_counter(W: B.World):
     """C · the staff's own side. A hand comes up holding a phone; nobody reaches for it.
 
     lens      human 75 mm, f/2.8       height 1.55 m (standing behind the counter)
-    fore      the till's shoulder, soft, right of frame
+    fore      the counter's own laminate, running out of the bottom of frame
     subject   the customer's forearm and phone, raised across the counter
     back      the store's doorway, soft
     focus     the phone's face
     move      locked.
+
+    The customer is cropped: a shoulder at the frame's edge and the arm that comes out of it.
+    Nothing here is a whole figure standing in the middle of a shot.
     """
     m = look(W)
     dress_joes(W)
@@ -351,24 +439,30 @@ def shot_counter(W: B.World):
     frames = 32
     cx, cy = JOES["counter_x"], JOES["counter_y"]
 
-    # the customer: cropped by the counter, a shoulder and an arm, no whole mannequin
-    torso, _ = BD.figure("ct_cust", (cx - 0.30, cy - 0.92, 0.0), m["cloth2"], height=1.74, yaw=math.radians(184), legs=False, arms=False)
-    ph_root, ph = held_phone(W, "ct_phone", (cx - 0.34, cy - 0.66, 1.02), yaw=math.radians(186), tilt=math.radians(-17), screen="device-pass", first=0)
-    for f, z, pitch in ((0, 0.86, -34), (10, 1.16, -18), (frames - 1, 1.21, -15)):
-        ph_root.location = (cx - 0.34, cy - 0.66, z)
-        ph_root.rotation_euler = (math.radians(pitch), 0.0, math.radians(186))
+    # the customer: a real body, placed so the frame keeps a shoulder and loses the rest
+    # placed on the axis the phone rig's own forearm runs down, so the arm belongs to the body
+    torso, tp = BD.figure("ct_cust", (cx - 0.37, cy - 1.08, 0.0), m["cloth2"], height=1.76, yaw=math.radians(160))
+    tp["arm_l"].hide_render = True  # the reaching arm is the phone rig's own forearm, not a second one
+    # a second customer, further back, waiting: the store is not empty
+    q, qp = BD.figure("ct_queue", (cx - 1.04, cy - 1.75, 0.0), m["cloth"], height=1.71, yaw=math.radians(172))
+    BD.gait(qp, frames, speed=0.14, height=1.71)
+    ph_root, ph = held_phone(W, "ct_phone", (cx - 0.52, cy - 0.62, 1.02), yaw=math.radians(198), tilt=math.radians(-17), screen="device-pass", first=0, strength=3.4)
+    for f, z, pitch in ((0, 0.90, -36), (11, 1.19, -20), (frames - 1, 1.23, -17)):
+        ph_root.location = (cx - 0.52, cy - 0.62, z)
+        ph_root.rotation_euler = (math.radians(pitch), 0.0, math.radians(198))
         ph_root.keyframe_insert("location", frame=f)
         ph_root.keyframe_insert("rotation_euler", frame=f)
     CAM.ease_camera(ph_root)
     track(W, "phone", B.empty("ct_pt", (0, 0, 0)))
     W.tracks["phone"].parent = ph["phone"]
+    track_screen(W, "glass", ph)
 
     cam = CAM.Cam("human", subject="the customer's forearm and phone, raised across the counter",
-                  foreground="the till's shoulder, soft, right of frame", background="the store's doorway, soft",
+                  foreground="the counter's own laminate, running out of the bottom of frame", background="the store's doorway, soft",
                   motivation="locked")
-    cam.lock((cx + 0.42, cy + 0.92, 1.55), (cx - 0.30, cy - 0.70, 1.24), frames, focus=(cx - 0.34, cy - 0.66, 1.22), label="behind the counter")
+    cam.lock((cx + 0.46, cy + 0.86, 1.58), (cx - 0.46, cy - 0.50, 1.22), frames, focus=(cx - 0.52, cy - 0.62, 1.21), label="behind the counter, where the till is worked")
     CAM.ease_camera(cam.obj)
-    return dict(frames=frames, cam=cam.obj, names=["phone"], people=None,
+    return dict(frames=frames, cam=cam.obj, names=["phone", "glass_tl", "glass_tr", "glass_br", "glass_bl"], people=None,
                 meta=dict(state="morning", clock="Friday · 7:42 AM", spec=cam.spec()),
                 comp=dict(mist=0.10, glare=0.14))
 
@@ -402,12 +496,13 @@ def shot_device(W: B.World):
     press_thumb(ph["thumb_pivot"], 25)
     track(W, "phone", B.empty("dv_pt", (0, 0, 0)))
     W.tracks["phone"].parent = ph["phone"]
+    track_screen(W, "glass", ph)
 
     cam = CAM.Cam("device", subject="the handset's face", foreground="the counter's edge, out of focus along the bottom",
                   background="the front glass and the bright forecourt, far out of focus", motivation="locked")
     cam.lock((px - 0.014, py + 0.715, pz + 0.082), (px, py - 0.004, pz), frames, focus=(px, py + 0.004, pz), label="on the glass")
     CAM.ease_camera(cam.obj)
-    return dict(frames=frames, cam=cam.obj, names=["phone"], people=None,
+    return dict(frames=frames, cam=cam.obj, names=["phone", "glass_tl", "glass_tr", "glass_br", "glass_bl"], people=None,
                 meta=dict(state="morning", clock="Friday · 7:42 AM", press=26, redeemed=46, spec=cam.spec()),
                 comp=dict(mist=0.06, glare=0.20))
 
@@ -415,11 +510,11 @@ def shot_device(W: B.World):
 def shot_coffee(W: B.World):
     """F · the reward, as an object. A large coffee crosses the counter to the customer.
 
-    lens      human 85 mm, f/2.8       height 1.16 m — the height of the counter, not of a person
+    lens      human 65 mm, f/2.8       height 1.17 m — just above the counter, not the height of a person
     fore      the counter's laminate, running away under the cup
-    subject   the cup, moving left to right across the frame
-    back      the brewer and the shelves, soft
-    focus     the cup, followed by a small focus pull as it comes forward
+    subject   the cup, entering from the right and settling in front of the customer
+    back      the brewer and the back bar, soft
+    focus     the cup, with a small pull as it comes forward
     move      locked; the cup does the moving.
     """
     m = look(W)
@@ -427,27 +522,34 @@ def shot_coffee(W: B.World):
     B.set_state(W, "morning")
     frames = 30
     cx, cy, tz = JOES["counter_x"], JOES["counter_y"], 1.00
-    cup, _ = DV.coffee("cf_cup", (cx + 0.62, cy + 0.20, tz), m["paper"], m["lid"], m["board"])
-    for f, x, y in ((0, cx + 0.62, cy + 0.20), (frames - 1, cx - 0.34, cy - 0.24)):
+    x0, y0 = cx + 0.44, cy + 0.24
+    x1, y1 = cx - 0.21, cy - 0.18
+    cup, _ = DV.coffee("cf_cup", (x0, y0, tz), m["paper"], m["lid"], m["board"])
+    for f, x, y in ((0, x0, y0), (frames - 1, x1, y1)):
         cup.location = (x, y, tz)
         cup.keyframe_insert("location", frame=f)
-    CAM.ease_camera(cup.obj if hasattr(cup, "obj") else cup)
-    # the staff's hand, guiding it, and leaving
-    hd, _ = BD.hand("cf_hand", m["skin"], group="device", closed=0.42)
-    hd.parent = cup
-    hd.location = (0.055, 0.075, 0.052)
-    hd.rotation_euler = (math.radians(112), 0.0, math.radians(-46))
-    for f, o in ((0, 0.0), (18, 0.0), (frames - 1, 0.30)):
-        hd.location = (0.055, 0.075 + o, 0.052 + o * 0.5)
+    CAM.ease_camera(cup)
+    # the staff's hand: it carries the cup in, sets it down and goes. By the time the cup
+    # settles the hand is out of frame, so the last thing we hold on is the drink itself.
+    hd, _ = cup_grip(W, "cf_hand", cup)
+    for f, o in ((0, 0.0), (6, 0.0), (19, 1.0), (frames - 1, 1.0)):
+        hd.location = (0.020 * o, 0.300 * o, 0.030 * o)
+        hd.rotation_euler = (math.radians(10 * o), 0.0, 0.0)
         hd.keyframe_insert("location", frame=f)
+        hd.keyframe_insert("rotation_euler", frame=f)
+    CAM.ease_camera(hd)
     track(W, "cup", B.empty("cf_t", (0, 0, 0.10)))
     W.tracks["cup"].parent = cup
 
-    cam = CAM.Cam("human", lens=85.0, subject="the cup crossing the counter",
-                  foreground="the counter's laminate, running away under the cup", background="the brewer and the shelves, soft",
+    cam = CAM.Cam("human", lens=65.0, subject="the cup crossing the counter",
+                  foreground="the counter's laminate, running away under the cup", background="the brewer and the back bar, soft",
                   motivation="locked")
-    cam.key(0, (cx - 0.55, cy - 1.02, 1.16), (cx + 0.30, cy + 0.02, tz + 0.09), focus=(cx + 0.55, cy + 0.16, tz + 0.09), label="the cup is set down")
-    cam.key(frames - 1, (cx - 0.55, cy - 1.02, 1.16), (cx + 0.30, cy + 0.02, tz + 0.09), focus=(cx - 0.30, cy - 0.20, tz + 0.09), label="focus follows it forward")
+    # the eye is on the line from where the cup lands to the brewer, so the thing behind the
+    # cup is the machine that made it and the bar's own warm strip, not the back wall
+    eye = (cx - 0.46, cy - 1.18, 1.17)
+    aim = (cx - 0.16, cy - 0.10, tz + 0.06)
+    cam.key(0, eye, aim, focus=(x0, y0, tz + 0.07), label="the cup comes in from the right")
+    cam.key(frames - 1, eye, aim, focus=(x1, y1, tz + 0.07), label="focus follows it forward")
     CAM.ease_camera(cam.obj)
     return dict(frames=frames, cam=cam.obj, names=["cup"], people=None,
                 meta=dict(state="morning", clock="Friday · 7:42 AM", spec=cam.spec()),
@@ -459,3 +561,224 @@ def _fc(obj):
     if not ad or not ad.action:
         return []
     return CAM._fcurves(ad.action)
+
+
+# ==========================================================================
+# ACT VI · the café: a physical panel, and the crossing into the relationship
+# ==========================================================================
+CAFE = dict(unit=(21.28, 10.68, 1.19), counter=(19.93, 10.80), door=(23.97, 8.25))
+
+
+def shot_cafe(W: B.World):
+    """The café at 7:04, and the Uptick screen on the end of its counter.
+
+    lens      human 75 mm, f/2.8      height 1.50 m — someone standing where you queue
+    fore      the corner of a table, soft, left of frame
+    subject   the panel on the counter, with Joe's morning on it
+    back      the back bar and the light off the front windows
+    focus     the panel
+    move      locked.
+    """
+    m = look(W)
+    dress_cafe(W)
+    B.set_state(W, "morning")
+    frames = 26
+    ux, uy, uz = CAFE["unit"]
+    fig, parts = BD.figure("cf_stand", (20.90, 11.62, 0.0), m["cloth2"], height=1.74, yaw=math.radians(196))
+    BD.gait(parts, frames, speed=0.20, height=1.74)
+    q, qp = BD.figure("cf_queue", (22.05, 9.05, 0.0), m["cloth"], height=1.70, yaw=math.radians(122))
+    BD.gait(qp, frames, speed=0.12, height=1.70)
+    track(W, "screen_c", B.empty("cf_sc", (ux, uy, uz)))
+
+    cam = CAM.Cam("human", subject="the Uptick panel on the end of the café's counter",
+                  foreground="the corner of a table, soft, left of frame", background="the back bar, and the light off the front windows",
+                  motivation="locked")
+    cam.lock((23.15, 8.95, 1.50), (ux - 0.10, uy + 0.02, uz), frames, focus=(ux, uy, uz), label="where you queue")
+    CAM.ease_camera(cam.obj)
+    return dict(frames=frames, cam=cam.obj, names=["screen_c", "screen_cafe_tl", "screen_cafe_tr", "screen_cafe_br", "screen_cafe_bl"], people=None,
+                meta=dict(state="morning", clock="Friday · 7:04 AM", spec=cam.spec()),
+                comp=dict(mist=0.14, glare=0.16))
+
+
+def shot_scan(W: B.World):
+    """The crossing from the street into the relationship, authored rather than dissolved.
+
+    A stranger holds their own phone up to the panel. We stand at their shoulder, so the glass
+    is raked hard away from us and the café's screen reads past it. The code is taken; the phone
+    comes down and levels toward its owner, which turns the glass square to us, and the offer is
+    on it. Remotion takes the frame from here — by then the handset is the frame, so the crossing
+    into the relationship is a scale into a screen we have been looking at, not a fade.
+
+    lens      human 75 mm → device 95 mm, f/2.4     height 1.48 m
+    fore      the back of the customer's phone, low in frame
+    subject   the panel, then the phone
+    back      the café's front windows, blown
+    focus     the panel, pulled to the phone across the turn
+    move      the camera stands where the owner stands and does not travel; it reframes with the
+              handset it is following, and the lens goes long as the handset comes back to them.
+    """
+    m = look(W)
+    dress_cafe(W)
+    B.set_state(W, "morning")
+    frames = 46
+    ux, uy, uz = CAFE["unit"]
+    eye = (22.80, 9.10, 1.48)
+    # far enough from the lens to be a whole handset in a landscape frame, and off the
+    # camera-to-panel line so it does not cover the thing it is reading
+    px, py, pz = 22.05, 9.68, 1.27
+
+    # the phone starts with its back to us, aimed at the panel; it turns over and comes back to its owner
+    ph_root, ph = held_phone(W, "sc_phone", (px, py, pz), yaw=math.radians(-42), tilt=math.radians(-8),
+                             screen="device-offer", first=0, strength=4.2)
+    # yaw 8° rakes the glass ~44° off the lens; yaw 52° turns it square to us at the end
+    for f, yaw, tilt, loc in ((0, 8, -6, (px, py, pz - 0.015)), (16, 8, -6, (px, py, pz)),
+                              (30, 30, -13, (px + 0.06, py - 0.04, pz + 0.02)), (frames - 1, 52, -20, (px + 0.11, py - 0.08, pz + 0.04))):
+        ph_root.location = loc
+        ph_root.rotation_euler = (math.radians(tilt), 0.0, math.radians(yaw))
+        ph_root.keyframe_insert("location", frame=f)
+        ph_root.keyframe_insert("rotation_euler", frame=f)
+    CAM.ease_camera(ph_root)
+    track(W, "phone", B.empty("sc_pt", (0, 0, 0)))
+    W.tracks["phone"].parent = ph["phone"]
+    track_screen(W, "glass", ph)
+    track(W, "screen_c", B.empty("sc_sc", (ux, uy, uz)))
+
+    cam = CAM.Cam("human", lens=75.0, fstop=2.4, subject="the panel, and then the phone that takes it",
+                  foreground="the back of the customer's phone, low left", background="the café's front windows, blown",
+                  motivation="we follow the offer from the panel that published it to the handset that received it")
+    cam.key(0, eye, (ux - 0.02, uy, uz + 0.02), lens=75.0, focus=(ux, uy, uz), label="on the panel")
+    cam.key(16, eye, (ux - 0.02, uy, uz + 0.02), lens=75.0, focus=(ux, uy, uz), label="hold; the code is taken")
+    cam.key(frames - 1, eye, (px + 0.11, py - 0.08, pz + 0.04), lens=95.0, focus=(px + 0.11, py - 0.08, pz + 0.04), label="the handset is the frame")
+    CAM.ease_camera(cam.obj)
+    return dict(frames=frames, cam=cam.obj, names=["phone", "screen_c", "glass_tl", "glass_tr", "glass_br", "glass_bl"], people=None,
+                meta=dict(state="morning", clock="Friday · 7:04 AM", scan=18, turn=22, spec=cam.spec()),
+                comp=dict(mist=0.12, glare=0.18))
+
+
+# ==========================================================================
+# ACTS IX–XI · the morning builds, as physical life
+# ==========================================================================
+def _crowd(W, name, routes, frames, mats, heights=None):
+    out = []
+    for i, (pts, speed, delay, yaw) in enumerate(routes):
+        h = (heights or [1.74, 1.68, 1.80, 1.72, 1.76])[i % 5]
+        fig, parts = BD.figure(f"{name}{i}", pts[0] + (0.0,), mats[i % len(mats)], height=h, yaw=yaw)
+        total = 0.0
+        legs = [((pts[k + 1][0] - pts[k][0]) ** 2 + (pts[k + 1][1] - pts[k][1]) ** 2) ** 0.5 for k in range(len(pts) - 1)]
+        for k, p in enumerate(pts):
+            f = delay + int(total / max(0.01, speed) * 24)
+            fig.location = (p[0], p[1], 0.0)
+            fig.keyframe_insert("location", frame=max(0, min(frames - 1, f)))
+            if k < len(legs):
+                total += legs[k]
+        for fc in _fc(fig):
+            for kp in fc.keyframe_points:
+                kp.interpolation = "LINEAR"
+        BD.gait(parts, frames, speed=speed / 1.4, phase=i * 0.37, height=h)
+        out.append(fig)
+    return out
+
+
+def shot_morning_pump(W: B.World):
+    """Beat: someone finishes at the pump and walks in. Under the canopy, 8:05.
+
+    lens      street 50 mm, f/4       height 1.55 m
+    fore      the near pump's shoulder, dark, left
+    subject   a person leaving a car and crossing to the store
+    back      the store front, its door lit
+    focus     the crossing, two thirds back
+    move      locked.
+    """
+    m = look(W)
+    B.set_state(W, "morning", elev=24.0, exposure=-3.0)
+    frames = 28
+    _crowd(W, "mp", [([(2.9, 12.2), (1.2, 15.6), (-1.2, 18.6)], 1.35, 0, math.radians(-28))], frames, [m["cloth"], m["cloth2"]])
+    cam = CAM.Cam("street", subject="a person leaving the pump and crossing to the store",
+                  foreground="the near pump's shoulder, dark, left of frame", background="the store front, its door lit",
+                  motivation="locked")
+    cam.lock((4.9, 9.4, 1.55), (-0.6, 17.6, 1.42), frames, focus=(0.2, 16.4, 1.4), label="beside the east island")
+    CAM.ease_camera(cam.obj)
+    return dict(frames=frames, cam=cam.obj, names=["door_joes"], people=None,
+                meta=dict(state="morning", clock="Friday · 8:05 AM", spec=cam.spec()), comp=dict(mist=0.28, glare=0.12))
+
+
+def shot_morning_walk(W: B.World):
+    """Beat: two people come along the frontage from the café end. 8:26.
+
+    lens      block 40 mm, f/5.6      height 1.60 m
+    fore      the curb, running out of frame right
+    subject   two people walking the sidewalk toward Joe's
+    back      the block: the café's awning, the parked cars, the lot
+    focus     the sidewalk at the middle distance
+    move      locked.
+    """
+    m = look(W)
+    B.set_state(W, "morning", elev=31.0, exposure=-2.85)
+    frames = 30
+    _crowd(W, "mw", [
+        ([(15.4, 6.6), (6.0, 6.9), (-0.4, 9.4), (-1.5, 16.0)], 1.45, 0, math.radians(-96)),
+        ([(18.6, 7.4), (8.2, 7.6), (0.4, 10.2), (-1.0, 15.2)], 1.32, 5, math.radians(-96)),
+    ], frames, [m["cloth2"], m["cloth"]])
+    cam = CAM.Cam("block", subject="two people walking the frontage toward Joe's",
+                  foreground="the curb, running out of frame right", background="the café's awning, the cars, the lot",
+                  motivation="locked")
+    cam.lock((-9.6, 3.2, 1.60), (3.0, 11.0, 1.55), frames, focus=(2.0, 9.6, 1.5), label="across the road")
+    CAM.ease_camera(cam.obj)
+    return dict(frames=frames, cam=cam.obj, names=["door_joes"], people=None,
+                meta=dict(state="morning", clock="Friday · 8:26 AM", spec=cam.spec()), comp=dict(mist=0.36, glare=0.10))
+
+
+def shot_morning_door(W: B.World):
+    """Beat: the door, later. The light has moved; the room behind it is busier. 9:12.
+
+    lens      human 75 mm, f/2.8      height 1.48 m
+    fore      nothing; the door is close
+    subject   the doorway, and a person going through it
+    back      the store's interior, warm
+    focus     the threshold
+    move      locked.
+    """
+    m = look(W)
+    dress_joes(W)
+    B.set_state(W, "morning", elev=41.0, exposure=-2.7)
+    frames = 26
+    _crowd(W, "md", [([(-2.35, 18.55), (-1.88, 19.45), (-1.70, 20.35)], 1.7, 0, math.radians(-14))], frames, [m["cloth"]])
+    cam = CAM.Cam("human", subject="the doorway, and a person going through it",
+                  foreground="none; the door is close", background="the store's interior, warm",
+                  motivation="locked")
+    cam.lock((0.95, 13.60, 1.52), (-1.72, 20.30, 1.38), frames, focus=(-1.72, 20.30, 1.38), label="out on the forecourt, clear of the island")
+    CAM.ease_camera(cam.obj)
+    return dict(frames=frames, cam=cam.obj, names=["door_joes"], people=None,
+                meta=dict(state="morning", clock="Friday · 9:12 AM", spec=cam.spec()), comp=dict(mist=0.22, glare=0.14))
+
+
+def shot_rise(W: B.World):
+    """The crossing back to the page. The same lane the first customer walked up, later, with
+    the morning gone high — and the line where the store meets its forecourt running level
+    across the frame. That line is the residue: it straightens into the rule under the 21.
+
+    lens      street 50 mm, f/5.6     height 1.58 m rising to 2.30 m
+    fore      the lane's asphalt
+    subject   the store front, square on, its base line level
+    back      the sky over the parapet
+    focus     the store front
+    move      a slow rise, motivated by the morning going over: the geometry simplifies as we
+              climb until only the base line and the doorway are left to see.
+    """
+    m = look(W)
+    B.set_state(W, "morning", elev=46.0, exposure=-2.55)
+    frames = 40
+    _crowd(W, "rs", [
+        ([(-4.2, 9.0), (-2.6, 14.0), (-1.8, 18.8)], 1.25, 0, math.radians(-10)),
+        ([(1.6, 8.2), (0.2, 13.0), (-1.3, 18.4)], 1.10, 9, math.radians(-22)),
+    ], frames, [m["cloth"], m["cloth2"]])
+    for key, x in (("base_l", -12.0), ("base_r", 9.0)):
+        track(W, key, B.empty(f"rs_{key}", (x, 19.70, 0.02)))
+    cam = CAM.Cam("street", fstop=5.6, subject="the store front, square on, its base line level",
+                  foreground="the lane's asphalt", background="the sky over the parapet",
+                  motivation="the morning goes over; we climb until only the base line and the doorway are left")
+    cam.key(0, (-1.72, 2.6, 1.58), (-1.72, 19.70, 1.44), focus=(-1.72, 19.70, 1.4), label="in the lane")
+    cam.key(frames - 1, (-1.72, 2.2, 2.30), (-1.72, 19.70, 1.62), focus=(-1.72, 19.70, 1.5), label="up, and level")
+    CAM.ease_camera(cam.obj)
+    return dict(frames=frames, cam=cam.obj, names=["door_joes", "base_l", "base_r"], people=None,
+                meta=dict(state="morning", clock="Friday · 9:40 AM", spec=cam.spec()), comp=dict(mist=0.30, glare=0.10))

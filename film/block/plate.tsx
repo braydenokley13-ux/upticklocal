@@ -38,6 +38,18 @@ export function quadAt(data: TrackData, prefix: string, plateFrame: number): [Pt
 }
 
 export const PLATES = {
+  /* the physical acts, rebuilt: one authored camera each, the product emitting from a real panel */
+  approach: "film-rd/plates/approach.mp4",
+  threshold: "film-rd/plates/threshold.mp4",
+  counter: "film-rd/plates/counter.mp4",
+  device: "film-rd/plates/device.mp4",
+  coffee: "film-rd/plates/coffee.mp4",
+  cafe: "film-rd/plates/cafe.mp4",
+  scan: "film-rd/plates/scan.mp4",
+  morningPump: "film-rd/plates/morning_pump.mp4",
+  morningWalk: "film-rd/plates/morning_walk.mp4",
+  morningDoor: "film-rd/plates/morning_door.mp4",
+  rise: "film-rd/plates/rise.mp4",
   hero1: "film-rd/plates/hero1.mp4",
   hero3a: "film-rd/plates/hero3a.mp4",
   hero3b: "film-rd/plates/hero3b.mp4",

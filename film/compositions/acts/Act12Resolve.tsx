@@ -2,8 +2,10 @@ import { useCurrentFrame } from "remotion";
 import { IN, OUT, ramp } from "../../motion";
 import { Frame } from "../../primitives/Frame";
 import { Mono } from "../../primitives/Type";
-import { COLOR, FONT, HEIGHT } from "../../tokens";
-import { PROOF_RESIDUE_AT, ProofSettled } from "./Act9Return";
+import { RESULT } from "../../data/joes";
+import { Line, Numeral } from "../../primitives/Type";
+import { COLOR, FONT, HEIGHT, WIDTH } from "../../tokens";
+import { residueY } from "./Act9Return";
 
 /**
  * ACT XII · RESOLVE
@@ -21,10 +23,24 @@ export const Act12Resolve = () => {
   const nameIn = ramp(frame, 34, 18, OUT);
   const lineIn = ramp(frame, 62, 18, OUT);
   const footIn = ramp(frame, 96, 14, OUT);
-  const residueAt = PROOF_RESIDUE_AT();
+  const y = residueY();
   return (
     <Frame>
-      <ProofSettled opacity={out} residue={0.25 * out} residueAt={residueAt} />
+      {/* the proof goes, and the line the store stood on stays a moment longer */}
+      <div style={{ position: "absolute", left: 96, top: y, transform: "translateY(-100%)", paddingBottom: 22, opacity: out }}>
+        <Numeral value={RESULT.total} size={520} color={COLOR.ink} weight={200} />
+      </div>
+      <div style={{ position: "absolute", left: 104, top: y + 38, opacity: out }}>
+        <Line size={46} color={COLOR.ink}>
+          {RESULT.line}
+        </Line>
+      </div>
+      <div style={{ position: "absolute", left: 104, top: y + 122, opacity: out }}>
+        <Line size={30} color={COLOR.inkSoft}>
+          {`${RESULT.returned} ${RESULT.returnedLine} ${RESULT.newCustomers} ${RESULT.newLine}`}
+        </Line>
+      </div>
+      <div style={{ position: "absolute", left: 0, top: y, width: WIDTH, height: 1, background: COLOR.ink, opacity: 0.14 + 0.5 * out }} />
       <div style={{ position: "absolute", left: 96, top: 0.42 * HEIGHT, transform: `translate(0, -50%) translateY(${(1 - nameIn) * 10}px)`, opacity: nameIn, display: "flex", alignItems: "center", gap: 28 }}>
         <span style={{ width: 16, height: 16, borderRadius: 8, background: COLOR.mint, display: "inline-block", flex: "none" }} />
         <div style={{ fontFamily: FONT.sans, fontWeight: 300, fontSize: 96, letterSpacing: "-0.035em", lineHeight: 1, color: COLOR.ink, whiteSpace: "nowrap" }}>Uptick Growth</div>
