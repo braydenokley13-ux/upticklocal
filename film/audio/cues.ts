@@ -91,7 +91,7 @@ export function cues(): Cue[] {
     { file: "notify", at: ACT.VI + 10, gain: 0.7, note: "a text arrives" },
     { file: "press", at: ACT.VI + 60, gain: 0.45, note: "Open offer" },
     { file: "cafe-interior", at: ACT.VI + 110, frames: ACT.VI + 382 - (ACT.VI + 110), gain: 1, fadeOut: 40, env: (f) => 1 - 0.6 * lin(f, 160, 176), note: "cut to the café; the grinder stops at 3 s; sits back under the same Offer" },
-    { file: "scan", at: ACT.VI + 232, gain: 0.8, note: "the scan: one short clean sound" },
+    { file: "scan", at: ACT.VI + 232, gain: 0.8, note: "the scan happens off-picture, in the stranger's own hand: one short clean sound, and the screen's content lifts eight frames later" },
     { file: "unfold", at: ACT.VI + 240, gain: 0.7, note: "the screen content lifts into the Offer" },
     { file: "press", at: ACT.VI + 278 + 62, gain: 0.45, note: "Yes" },
     { file: "unfold", at: ACT.VI + 278 + 84, gain: 0.5, note: "the Offer folds to a plane" },

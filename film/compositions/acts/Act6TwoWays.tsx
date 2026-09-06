@@ -1,7 +1,7 @@
 import { useCurrentFrame } from "remotion";
 import tracksB from "../../../blender/exports/hero3b.json";
 import { homographyMatrix3d, lerpQuad, rectQuad, type Quad } from "../../block/homography";
-import { PLATES, Plate, quadAt, trackAt, type TrackData } from "../../block/plate";
+import { PLATES, Plate, quadAt, type TrackData } from "../../block/plate";
 import { MESSAGE, OFFER, RELATIONSHIPS } from "../../data/joes";
 import { IN, OUT, PLANE, ramp } from "../../motion";
 import { Frame } from "../../primitives/Frame";
@@ -10,7 +10,7 @@ import { OfferSlab, SLAB_H, SLAB_W } from "../../primitives/OfferSlab";
 import { ScreenFaceContent } from "../../primitives/ScreenContent";
 import { Touch } from "../../primitives/Touch";
 import { Mono } from "../../primitives/Type";
-import { COLOR, FONT, HEIGHT, WIDTH } from "../../tokens";
+import { COLOR, FONT } from "../../tokens";
 
 const TB = tracksB as unknown as TrackData;
 
@@ -69,9 +69,7 @@ export const Act6TwoWays = () => {
     [quad[2].x, quad[2].y],
     [quad[3].x, quad[3].y],
   ];
-  const person = trackAt(TB, "person_cafe", pb);
   const arriveFlash = frame >= P2_START + ARRIVE ? Math.max(0, 1 - (frame - (P2_START + ARRIVE)) / 10) : 0;
-  const scanLine = ramp(frame, P2_START + SCAN, 5, OUT) * (1 - ramp(frame, P2_START + SCAN + 9, 6, IN));
   const lift = ramp(frame, P2_START + SCAN + 8, 32, PLANE);
   const toSlab = ramp(frame, P2_START + SCAN + 24, 22, PLANE);
   const slabRect = rectQuad(CENTRE.x, CENTRE.y, SLAB_W, SLAB_H);
@@ -156,6 +154,7 @@ export const Act6TwoWays = () => {
             <div style={{ position: "absolute", inset: 0, background: COLOR.marine, opacity: 1 - worldDim }} />
           </div>
           {frame < P3_START && <Grain opacity={0.06 * (1 - lift)} />}
+          <div style={{ position: "absolute", left: 0, right: 0, top: 0, height: 210, pointerEvents: "none", opacity: cIn * (1 - lift), background: "linear-gradient(to bottom, rgba(4,12,16,0.46), rgba(4,12,16,0.18) 55%, rgba(4,12,16,0))" }} />
           <div style={{ position: "absolute", left: 96, top: 84, opacity: cIn * (1 - lift) }}>
             <Mono color={COLOR.onMarineSoft}>Café · 122 Main St · {String(TB.meta.clock ?? "Friday · 7:04 AM")}</Mono>
           </div>
@@ -165,14 +164,10 @@ export const Act6TwoWays = () => {
           {arriveFlash > 0 && (
             <div style={{ position: "absolute", left: 0, top: 0, width: 1600, height: 900, transform: homographyMatrix3d(1600, 900, screenQuad), transformOrigin: "0 0", background: COLOR.mint, opacity: 0.35 * arriveFlash, mixBlendMode: "screen" }} />
           )}
-          {scanLine > 0 && (
-            <svg width={WIDTH} height={HEIGHT} style={{ position: "absolute", inset: 0 }}>
-              <line x1={person.x} y1={person.y} x2={person.x + (quad[2].x - person.x) * scanLine} y2={person.y + (quad[2].y - person.y) * scanLine} stroke={COLOR.mint} strokeWidth={1.5} opacity={0.9} />
-            </svg>
-          )}
           {lift > 0 && frame < P3_START && <div style={{ position: "absolute", left: 0, top: 0, width: 1600, height: 900, transform: homographyMatrix3d(1600, 900, screenQuad), transformOrigin: "0 0", background: "#0b1c22", opacity: Math.min(1, lift * 2) * (1 - wash) }} />}
+          <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: 220, pointerEvents: "none", opacity: ramp(frame, P2_START + NOTICE, 12, OUT) * (1 - lift), background: "linear-gradient(to top, rgba(4,12,16,0.52), rgba(4,12,16,0))" }} />
           <div style={{ position: "absolute", left: 96, bottom: 84, opacity: ramp(frame, P2_START + NOTICE, 12, OUT) * (1 - lift) }}>
-            <Mono color={COLOR.onMarineFaint} size={14}>
+            <Mono color={COLOR.onMarineSoft} size={14}>
               New relationship · someone who has never been to Joe's
             </Mono>
           </div>
