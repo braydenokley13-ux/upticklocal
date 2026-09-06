@@ -259,3 +259,6 @@ export const Hero4 = ({ thread = "text", historyAt = 0 }: { thread?: "text" | "o
     </Frame>
   );
 };
+
+/** The film's Hero 4: the café stranger's question, read from the Offer thread. */
+export const Hero4Offer = () => <Hero4 thread="offer" historyAt={-14} />;

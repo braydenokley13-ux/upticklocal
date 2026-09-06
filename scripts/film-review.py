@@ -32,9 +32,10 @@ def main():
     ap.add_argument("--every", type=int, default=None)
     ap.add_argument("--out", default=None)
     ap.add_argument("--per-sheet", type=int, default=4, choices=(4, 6, 9))
+    ap.add_argument("--mp4", default=None, help="an explicit video (default: public/film-rd/renders/<Id>.mp4)")
     a = ap.parse_args()
 
-    mp4 = os.path.join(ROOT, "public", "film-rd", "renders", f"{a.id}.mp4")
+    mp4 = a.mp4 or os.path.join(ROOT, "public", "film-rd", "renders", f"{a.id}.mp4")
     if not os.path.exists(mp4):
         sys.exit(f"no preview at {mp4}; render it first (scripts/film-render.sh {a.id})")
     out = a.out or os.path.join(ROOT, "film", "review", "frames", a.id)

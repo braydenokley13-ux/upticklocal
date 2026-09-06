@@ -683,7 +683,7 @@ def _key_click(seed_name, body_f, click_lo, click_hi, tau_body, lev,
     thock = sine(150.0, n) * env_ad(n, 0.0006, 0.012)
     x = body * 0.8 + click * click_amt + thock * 0.30
     x *= env_ad(n, 0.0004, dur * 0.42, curve=1.3)
-    return fade(peak_norm(x, lev), 0.0002, 0.004)
+    return fade(peak_norm(x, lev), 0.0, 0.004)
 
 
 def make_keys():
@@ -705,7 +705,7 @@ def make_tick(freq=2200.0, level=-14.0, dur=0.030, seed="tick"):
     n = n_samples(dur)
     x = sine(freq, n) * env_ad(n, 0.0015, dur * 0.26)
     x += 0.10 * sine(freq * 2.0, n) * env_ad(n, 0.0012, dur * 0.14)
-    return fade(peak_norm(x, level), 0.0004, 0.004)
+    return fade(peak_norm(x, level), 0.0, 0.004)
 
 
 def make_tap_wood():
@@ -725,7 +725,7 @@ def make_tap_wood():
     trans /= np.max(np.abs(trans))
     x = body + 0.34 * trans
     x *= env_ad(n, 0.0006, 0.055, curve=1.15)
-    return fade(peak_norm(x, -17.0), 0.0003, 0.006)
+    return fade(peak_norm(x, -17.0), 0.0, 0.006)
 
 
 def make_press():
@@ -744,7 +744,7 @@ def make_press():
     air /= np.max(np.abs(air))
     x = body + 0.30 * click + 0.18 * air
     x *= env_ad(n, 0.0005, 0.034, curve=1.2)
-    return fade(peak_norm(x, -16.0), 0.0003, 0.005)
+    return fade(peak_norm(x, -16.0), 0.0, 0.005)
 
 
 def make_notify():
@@ -758,7 +758,7 @@ def make_notify():
         seg *= 0.5 - 0.5 * np.cos(np.pi * np.clip(
             np.linspace(0, 1, m) * 12.0, 0, 1))   # extra-soft attack
         x[n_samples(i * 0.095):n_samples(i * 0.095) + m] += seg
-    return fade(peak_norm(x, -18.0), 0.001, 0.01)
+    return fade(peak_norm(x, -18.0), 0.0, 0.01)
 
 
 def make_send():
@@ -785,7 +785,7 @@ def make_scan():
     ph = 2.0 * np.pi * np.cumsum(f) / SR
     env = np.sin(np.pi * np.linspace(0, 1, n)) ** 0.8
     x = np.sin(ph) * env + 0.08 * np.sin(2 * ph) * env
-    return fade(peak_norm(x, -17.0), 0.002, 0.008)
+    return fade(peak_norm(x, -17.0), 0.0, 0.008)
 
 
 def make_redeem():
@@ -798,13 +798,13 @@ def make_redeem():
     for f, w in ((NOTE["D4"], 1.0), (NOTE["A4"], 0.72)):
         for k, sign in ((1, 1), (3, -1), (5, 1), (7, -1), (9, 1)):
             a = sign / float(k * k)
-            tau = 0.30 / (1.0 + 0.55 * math.log2(k))     # highs decay first
+            tau = 0.44 / (1.0 + 0.55 * math.log2(k))     # highs decay first
             x += w * a * sine(f * k, n) * env_ad(n, 0.020, tau)
     # a soft sub to give it a floor
-    x += 0.22 * sine(NOTE["D3"], n) * env_ad(n, 0.025, 0.34)
+    x += 0.22 * sine(NOTE["D3"], n) * env_ad(n, 0.025, 0.46)
     # 900 ms overall decay to silence
-    x *= np.clip(1.0 - t_axis(n) / 0.92, 0.0, 1.0) ** 1.6
-    return fade(peak_norm(x, -15.0), 0.001, 0.02)
+    x *= np.clip(1.0 - t_axis(n) / 0.92, 0.0, 1.0) ** 1.3
+    return fade(peak_norm(x, -15.0), 0.0, 0.02)
 
 
 def make_unfold():
@@ -846,7 +846,7 @@ def make_nozzle():
         lowth = sine(190.0, m) * env_ad(m, 0.0004, 0.010) * 0.25
         j = n_samples(t0)
         x[j:j + m] += lev * (y + lowth)
-    return fade(peak_norm(x, -18.0), 0.0003, 0.01)
+    return fade(peak_norm(x, -18.0), 0.0, 0.01)
 
 
 def make_grain():
@@ -873,7 +873,7 @@ def make_grain():
         i = n_samples(t0)
         k = min(m, n - i)
         x[i:i + k] += lev * g[:k]
-    return fade(peak_norm(x, -20.0), 0.001, 0.02)
+    return fade(peak_norm(x, -20.0), 0.0, 0.02)
 
 
 # ==========================================================================
@@ -892,9 +892,12 @@ def make_pad_mint():
     base = NOTE["A3"]
 
     # partial, relative amplitude, detune in cents, pan
+    # The detuned twin of each partial is deliberately quieter than its
+    # partner: two equal detuned sines null each other every beat period and
+    # the "sustained" tone turns into a wobble.  Unequal pair = chorus.
     parts = [
-        (1.0, 1.00, 0.0, -0.25), (1.0, 0.85, +5.0, 0.30),
-        (2.0, 0.34, -3.5, 0.42), (2.0, 0.30, +4.0, -0.38),
+        (1.0, 1.00, 0.0, -0.25), (1.0, 0.50, +9.0, 0.30),
+        (2.0, 0.34, -3.5, 0.42), (2.0, 0.17, +7.0, -0.38),
         (3.0, 0.14, +2.5, -0.15), (4.0, 0.075, -2.0, 0.20),
         (5.0, 0.030, +3.0, 0.05), (6.0, 0.016, -4.0, -0.45),
     ]
@@ -902,13 +905,14 @@ def make_pad_mint():
     for (mult, amp, cents, pp) in parts:
         f = snap(base * mult * (2.0 ** (cents / 1200.0)), dur)
         v = sine(f, n, amp=amp)
-        # each partial breathes at its own slow, loop-locked rate
-        lfo = snap(0.25 * (1.0 + 0.5 * (mult - 1.0) / 5.0), dur)
-        v *= 1.0 + 0.16 * np.sin(2 * np.pi * lfo * t_axis(n) + mult)
+        # each partial breathes at its own slow, loop-locked rate; shallow,
+        # and never faster than the shimmer, so 0.25 Hz stays the tone's pulse
+        lfo = snap(0.25 if mult % 2 else 0.1667, dur)
+        v *= 1.0 + 0.07 * np.sin(2 * np.pi * lfo * t_axis(n) + mult)
         out += pan(v, pp)
 
     # the shimmer: a 0.25 Hz breath over the whole tone
-    out *= 1.0 + 0.10 * sine(snap(0.25, dur), n)
+    out *= 1.0 + 0.14 * sine(snap(0.25, dur), n)
     out = fft_filter(out, hi=2600, order=2)      # soft, no edge
     out = fft_filter(out, lo=60, order=1)
     return peak_norm(out, -24.0)
@@ -1037,13 +1041,20 @@ def make_music_bed():
 
     # ---- the quarter-note pulse (76 bpm) --------------------------------
     def pulse_click(level):
+        """A quiet filtered click.
+
+        Its band sits above the pad's 620 Hz low-pass, so the pulse stays
+        legible at -30 dBFS without ever getting louder -- the pad simply is
+        not there to mask it.
+        """
         m = n_samples(0.05)
         rr = np.random.default_rng(MASTER_SEED + 4242)
-        c = fft_filter(white(m, rr), lo=250, hi=1400, order=2)
-        c *= env_ad(m, 0.0008, 0.010)
+        c = fft_filter(white(m, rr), lo=650, hi=1900, order=2)
+        c = resonant(c, 1050.0, q=2.4)
+        c *= env_ad(m, 0.0006, 0.008)
         c /= np.max(np.abs(c))
-        c += 0.5 * sine(320.0, m) * env_ad(m, 0.0012, 0.012)
-        return fade(peak_norm(c, level), 0.0005, 0.008)
+        c += 0.35 * sine(330.0, m) * env_ad(m, 0.0012, 0.011)   # a little body
+        return fade(peak_norm(c, level), 0.0, 0.008)
 
     def beats_between(t0, t1):
         b0 = int(math.ceil(t0 / BEAT))

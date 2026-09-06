@@ -2,7 +2,7 @@ import type { ComponentType } from "react";
 import { Sequence } from "remotion";
 import { HERO1A_FRAMES, Hero1A } from "./hero1/Hero1A";
 import { Hero2, HERO2_TIMELINE } from "./Hero2";
-import { Hero4 } from "./Hero4";
+import { Hero4Offer } from "./Hero4";
 import { ACT5_FRAMES, Act5Approve } from "./acts/Act5Approve";
 import { ACT6_FRAMES, Act6TwoWays } from "./acts/Act6TwoWays";
 import { ACT8_FRAMES, Act8Redeem } from "./acts/Act8Redeem";
@@ -16,7 +16,6 @@ import { ACT12_FRAMES, Act12Resolve } from "./acts/Act12Resolve";
  */
 export type Act = { id: string; name: string; frames: number; component: ComponentType; note: string };
 
-const Hero4Offer = () => <Hero4 thread="offer" historyAt={-14} />;
 
 export const ACTS: Act[] = [
   { id: "I", name: "The gap", frames: HERO1A_FRAMES, component: Hero1A, note: "3 → the sidewalk in front of Joe's, Friday 07:12" },
