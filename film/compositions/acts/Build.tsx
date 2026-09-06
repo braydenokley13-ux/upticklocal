@@ -30,6 +30,7 @@ export function BuildCount({ frame, thresholds, top = COUNT.top, size = COUNT.si
   if (stepIndex === 0) return null;
   return (
     <>
+      {grow === 0 && <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: 720, pointerEvents: "none", background: "linear-gradient(to right, rgba(4,12,16,0.5), rgba(4,12,16,0.28) 42%, rgba(4,12,16,0))" }} />}
       <div style={{ position: "absolute", left: COUNT.x, top }}>
         {reset < 1 && prev > 0 && grow === 0 && (
           <div style={{ position: "absolute", left: 0, top: 0, opacity: 1 - reset }}>

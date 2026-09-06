@@ -691,9 +691,12 @@ def shot_hero5(W: B.World):
     B.set_state(W, "morning", frame=0, elev=12.0, rot=116, exposure=-2.7)
     B.set_state(W, "morning", frame=frames - 1, elev=27.0, rot=140, exposure=-3.5)
     door = W.doors["joes"]
-    cam = camera(lens=35, fstop=5.6, focus=20.0)
-    key_cam(cam, 0, (-11.0, 3.0, 4.6), (door.x - 0.5, door.y - 3.0, 1.4), lens=35, focus=22.0)
-    key_cam(cam, frames - 1, (-9.6, 5.4, 4.3), (door.x - 0.4, door.y - 3.0, 1.3), lens=38, focus=19.0)
+    # The lane between the two pump islands (x -6.2 and 2.2) runs straight at the door: we stand in it, at
+    # eye height, and drift in under the canopy across the morning. The islands flank the frame, the canopy
+    # cuts the top, and a person at the door is a third of the frame high — a person, not a marker.
+    cam = camera(lens=40, fstop=4.5, focus=14.2)
+    key_cam(cam, 0, (-0.55, 7.0, 1.74), (door.x - 1.55, door.y + 0.05, 2.0), lens=40, focus=13.2)
+    key_cam(cam, frames - 1, (-0.75, 8.4, 1.71), (door.x - 1.5, door.y + 0.05, 1.96), lens=42, focus=11.9)
     ease(cam)
     ease(cam.data)
     # the store door stands open all morning

@@ -116,14 +116,14 @@ export const Act9Return = () => {
       {/* a person at the door, each time */}
       {grow === 0 && <DoorMark x={door.x} y={door.y} t={doorMark} />}
 
-      {/* the count, re-set by hand */}
-      <BuildCount frame={frame} thresholds={THRESHOLDS} top={countTop} size={countSize} grow={grow} ink={ink} />
-
       {/* the page returns, with the door's warmth still on it */}
       <div style={{ position: "absolute", inset: 0, background: COLOR.canvas, opacity: toPage, pointerEvents: "none" }} />
       {toPage > 0 && (
         <div style={{ position: "absolute", inset: 0, pointerEvents: "none", opacity: toPage * residue, background: `radial-gradient(ellipse 560px 380px at ${doorEnd.x}px ${doorEnd.y}px, rgba(226,162,79,0.34) 0%, rgba(226,162,79,0.12) 40%, rgba(226,162,79,0) 70%)` }} />
       )}
+
+      {/* the count, re-set by hand; it crosses the page's arrival and becomes the proof's numeral, so it sits above it */}
+      <BuildCount frame={frame} thresholds={THRESHOLDS} top={countTop} size={countSize} grow={grow} ink={ink} />
       {frame >= RESULT_START && (
         <>
           <div style={{ position: "absolute", left: 96, top: 84, opacity: headerPage }}>
