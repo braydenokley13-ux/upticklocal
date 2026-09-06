@@ -4,6 +4,7 @@ import { BUSINESS, GAP, JOES } from "../../data/joes";
 import { OUT, ramp } from "../../motion";
 import { Line, Mono, Numeral, Words } from "../../primitives/Type";
 import { COLOR, HEIGHT, WIDTH } from "../../tokens";
+import { Meta } from "../../review/Meta";
 
 /**
  * What every Hero 1 variant shares: the editorial page (one number, one
@@ -28,11 +29,13 @@ export function PageHeader({ opacity, layout }: { opacity: number; layout?: Page
           {GAP.when} · {GAP.window}
         </Mono>
       </div>
-      <div style={{ position: "absolute", left: LEFT, bottom: 84, opacity: opacity * 0.9 }}>
-        <Mono color={COLOR.inkFaint} size={16}>
-          Illustrative · example business
-        </Mono>
-      </div>
+      <Meta>
+        <div style={{ position: "absolute", left: LEFT, bottom: 84, opacity: opacity * 0.9 }}>
+          <Mono color={COLOR.inkFaint} size={16}>
+            Illustrative · example business
+          </Mono>
+        </div>
+      </Meta>
       {layout === "low" && null}
     </>
   );
@@ -68,12 +71,14 @@ export function SettledBlock({ frame, settleAt, land, plateFrame, T }: { frame: 
   void plateFrame;
   return (
     <>
-      {/* the street's header sits on the pale morning sky: ink */}
-      <div style={{ position: "absolute", left: LEFT, top: 84, opacity: settled }}>
-        <Mono color={COLOR.inkSoft}>
-          {JOES.BLOCK.street} · {clock}
-        </Mono>
-      </div>
+      {/* the street's header: a review label on a live frame, so it goes with the mode */}
+      <Meta>
+        <div style={{ position: "absolute", left: LEFT, top: 84, opacity: settled }}>
+          <Mono color={COLOR.inkSoft}>
+            {JOES.BLOCK.street} · {clock}
+          </Mono>
+        </div>
+      </Meta>
       {/* the mark's caption on the sunlit pavement beside it */}
       <div style={{ position: "absolute", left: land.x + 28, top: land.y - 13, opacity: label }}>
         <Mono color={COLOR.ink} size={26} style={{ textShadow: "0 0 14px rgba(243,240,233,0.85), 0 0 4px rgba(243,240,233,0.9)" }}>
@@ -86,11 +91,13 @@ export function SettledBlock({ frame, settleAt, land, plateFrame, T }: { frame: 
           Same street. Same morning.
         </Line>
       </div>
-      <div style={{ position: "absolute", right: LEFT, bottom: 92, opacity: settled * 0.8 }}>
-        <Mono color={COLOR.inkFaint} size={16}>
-          Illustrative · example business
-        </Mono>
-      </div>
+      <Meta>
+        <div style={{ position: "absolute", right: LEFT, bottom: 92, opacity: settled * 0.8 }}>
+          <Mono color={COLOR.inkFaint} size={16}>
+            Illustrative · example business
+          </Mono>
+        </div>
+      </Meta>
     </>
   );
 }

@@ -53,7 +53,7 @@ const T = {
 
 export const ACT6_FRAMES = T.end;
 
-const CAFE_LEN = T.scanAt - T.cafeAt; // 28
+const CAFE_LEN = Math.min(T.scanAt - T.cafeAt, TC.frames); // the plate is 26; the window holds its last frame
 const SCAN_LEN = TS.frames; // 46
 
 /** World 3: the handset is the frame. No device chrome — the screen is the object. */

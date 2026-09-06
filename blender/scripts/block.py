@@ -1507,12 +1507,21 @@ def _build_joes(W: World, lot: Lot, forecourt, trim, fascia, frame, door, glass,
     box(f"{g}_ctop", (3.46, 0.78, 0.05), (ccx, ccy, 0.975), ctop, bevel=0.01, group=g)
     # coffee station: the reason the offer works
     box(f"{g}_coffee", (1.4, 0.5, 0.6), (ccx - 1.5, ccy + 0.02, 1.3), mat_surface("steel", "#b9bcc0", rough=0.25, metallic=0.8), bevel=0.015, group=g)
+    # the shelf runs, broken by a cross-aisle on the door's axis. Real stores put an aisle
+    # opposite the entrance; without it the door is a hole in a wall of shelving and the shot
+    # from the back of the room has no floor and no legs in it.
+    gx0, gx1 = scx - open_w * 0.12 - open_w * 0.275, scx - open_w * 0.12 + open_w * 0.275
+    runs = ((gx0, dx - 0.9), (dx + 0.9, gx1))
     for k in range(3):
         sy = sy0 + 3.6 + k * 1.25
-        box(f"{g}_gondola{k}", (open_w * 0.55, 0.5, 1.5), (scx - open_w * 0.12, sy, 0.75), shelf, bevel=0.01, group=g)
-        for j in range(7):
-            gm = mat_surface(f"goods{j % 4}", P.goods[j % 4], rough=0.7)
-            box(f"{g}_goods{k}{j}", (open_w * 0.55 / 7 - 0.1, 0.56, 0.2), (scx - open_w * 0.12 - open_w * 0.275 + open_w * 0.55 * (j + 0.5) / 7, sy, 1.05 + (j % 2) * 0.32), gm, bevel=0.005, group=g)
+        for r, (rx0, rx1) in enumerate(runs):
+            rw = rx1 - rx0
+            box(f"{g}_gondola{k}_{r}", (rw, 0.5, 1.5), ((rx0 + rx1) / 2, sy, 0.75), shelf, bevel=0.01, group=g)
+            n = max(2, round(rw / 1.07))
+            for j in range(n):
+                i = k * 3 + j + r
+                gm = mat_surface(f"goods{i % 4}", P.goods[i % 4], rough=0.7)
+                box(f"{g}_goods{k}_{r}{j}", (rw / n - 0.1, 0.56, 0.2), (rx0 + rw * (j + 0.5) / n, sy, 1.05 + (j % 2) * 0.32), gm, bevel=0.005, group=g)
     box(f"{g}_cooler", (0.35, 4.0, 2.1), (scx + open_w / 2 - 0.3, sy0 + room_d - 2.6, 1.05), mat_glass("coolerglass", tint="#dfe6e6", alpha_tint=0.85), bevel=0, group=g)
     _uptick_unit(W, "joes", (ccx + 1.2, ccy - 0.1, 1.0), yaw=math.radians(-70), screen_image=screen_images.get("joes"), group=g)
 

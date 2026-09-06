@@ -9,6 +9,7 @@ import { Grain } from "../../primitives/Grain";
 import { Line, Mono, Numeral, Words } from "../../primitives/Type";
 import { COLOR, HEIGHT, WIDTH } from "../../tokens";
 import { LEFT, PAGE_END_SEC, SettledBlock, Vignette } from "./common";
+import { Meta } from "../../review/Meta";
 
 const T = tracks as unknown as TrackData;
 
@@ -101,11 +102,13 @@ export const Hero1A = () => {
           {BUSINESS.name} · {BUSINESS.address}
         </Mono>
       </div>
-      <div style={{ position: "absolute", left: LEFT, bottom: 84, opacity: onPlate ? 0 : headIn * 0.9 }}>
-        <Mono color={COLOR.inkFaint} size={16}>
-          Illustrative · example business
-        </Mono>
-      </div>
+      <Meta>
+        <div style={{ position: "absolute", left: LEFT, bottom: 84, opacity: onPlate ? 0 : headIn * 0.9 }}>
+          <Mono color={COLOR.inkFaint} size={16}>
+            Illustrative · example business
+          </Mono>
+        </div>
+      </Meta>
       <Vignette opacity={risen * 0.7} />
       <Grain opacity={0.08 * (1 - paper) + 0.035 * paper} />
       <SettledBlock frame={frame} settleAt={SETTLE} land={beside} plateFrame={pf} T={T} />

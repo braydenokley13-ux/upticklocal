@@ -3,6 +3,7 @@ import { GrowthPlanCard, PLAN_ROWS, type PlanReveal } from "../../primitives/Gro
 import { Mono } from "../../primitives/Type";
 import { COLOR, FONT } from "../../tokens";
 import { useTextWidths } from "../../typography/measure";
+import { Meta } from "../../review/Meta";
 
 /**
  * The plan exactly as Hero 2 leaves it on the page: bare, one weight, the
@@ -47,12 +48,14 @@ export function PlanAtRest({
   if (!rowW) return null;
   return (
     <>
-      <div style={{ position: "absolute", left: HEADER_X, top: 84, opacity: header }}>
-        <Mono color={COLOR.inkFaint}>Joe's Fuel &amp; Go · 118 Main St</Mono>
-      </div>
-      <div style={{ position: "absolute", right: HEADER_X, top: 84, opacity: header, textAlign: "right" }}>
-        <Mono color={COLOR.inkFaint}>{headerRight}</Mono>
-      </div>
+      <Meta>
+        <div style={{ position: "absolute", left: HEADER_X, top: 84, opacity: header }}>
+          <Mono color={COLOR.inkFaint}>Joe's Fuel &amp; Go · 118 Main St</Mono>
+        </div>
+        <div style={{ position: "absolute", right: HEADER_X, top: 84, opacity: header, textAlign: "right" }}>
+          <Mono color={COLOR.inkFaint}>{headerRight}</Mono>
+        </div>
+      </Meta>
       <GrowthPlanCard x={PLAN_X} y={PLAN_Y} bare labels={false} rules={false} titleSize={TITLE_PX} rowSize={ROW_PX} approveStyle="plain" press={press} fill={fill} reveal={reveal} />
       {[rowW[0] - 6, rowW[1] + 6].map((dx, k) => (
         <div key={k} style={{ position: "absolute", left: PLAN_X + dx, top: planRowTop("window") - 2, width: 2, height: ROW_PX + 6, background: COLOR.mintDeep, opacity: uprights * (reveal.window ?? 1) }} />

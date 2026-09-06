@@ -9,6 +9,7 @@ import { Touch } from "../../primitives/Touch";
 import { Mono } from "../../primitives/Type";
 import { COLOR, HEIGHT, WIDTH } from "../../tokens";
 import { APPROVE_AT, PlanAtRest } from "./PlanAtRest";
+import { Meta } from "../../review/Meta";
 
 const TA = tracksA as unknown as TrackData;
 
@@ -97,11 +98,13 @@ export const Act5Approve = () => {
             const p = trackAt(TA, `home_${i}`, pa);
             return <div key={i} style={{ position: "absolute", left: p.x - 4, top: p.y - 4, width: 8, height: 8, borderRadius: 4, background: COLOR.amber, opacity: 0.9 * t, boxShadow: `0 0 16px 4px rgba(226,162,79,${0.45 * t})` }} />;
           })}
-          <div style={{ position: "absolute", left: 96, top: 84, opacity: headerIn }}>
-            <Mono color={COLOR.onMarineSoft}>
-              {BLOCK.street} · {String(TA.meta.clock ?? "Thursday · 6:48 PM")}
-            </Mono>
-          </div>
+          <Meta>
+            <div style={{ position: "absolute", left: 96, top: 84, opacity: headerIn }}>
+              <Mono color={COLOR.onMarineSoft}>
+                {BLOCK.street} · {String(TA.meta.clock ?? "Thursday · 6:48 PM")}
+              </Mono>
+            </div>
+          </Meta>
           <div style={{ position: "absolute", right: 96, top: 84, opacity: headerIn, display: "flex", alignItems: "center", gap: 12 }}>
             <span style={{ width: 8, height: 8, borderRadius: 4, background: COLOR.mint, display: "inline-block" }} />
             <Mono color={COLOR.onMarineSoft}>{PLAN.title} · active</Mono>

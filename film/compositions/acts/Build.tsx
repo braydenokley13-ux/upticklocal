@@ -2,6 +2,7 @@ import { RESULT } from "../../data/joes";
 import { OUT, ramp } from "../../motion";
 import { Line, Mono, Numeral } from "../../primitives/Type";
 import { COLOR } from "../../tokens";
+import { Meta } from "../../review/Meta";
 
 /**
  * THE BUILD · shared by Acts VIII and IX
@@ -58,10 +59,16 @@ export function DoorMark({ x, y, t }: { x: number; y: number; t: number }) {
   return <div style={{ position: "absolute", left: x - 5, top: y - 5, width: 10, height: 10, borderRadius: 5, background: COLOR.amber, opacity: t, boxShadow: `0 0 18px 5px rgba(226,162,79,${0.45 * t})` }} />;
 }
 
-/** The world's header: the street and the clock on the left, the plan live on the right. */
+/**
+ * The world's header: the street and the clock on the left, the plan live on the right.
+ *
+ * This is scaffolding. The film says what time it is with the light and the clock face
+ * in the frame, so in film mode the header — and the scrim that exists to carry it —
+ * are not drawn at all.
+ */
 export function WorldHeader({ left, right, opacity, live = true }: { left: string; right: string; opacity: number; live?: boolean }) {
   return (
-    <>
+    <Meta>
       <div style={{ position: "absolute", left: 0, right: 0, top: 0, height: 210, pointerEvents: "none", opacity, background: "linear-gradient(to bottom, rgba(4,12,16,0.42), rgba(4,12,16,0.16) 55%, rgba(4,12,16,0))" }} />
       <div style={{ position: "absolute", left: 96, top: 84, opacity }}>
         <Mono color={COLOR.onMarineSoft}>{left}</Mono>
@@ -70,6 +77,6 @@ export function WorldHeader({ left, right, opacity, live = true }: { left: strin
         {live && <span style={{ width: 8, height: 8, borderRadius: 4, background: COLOR.mint, display: "inline-block" }} />}
         <Mono color={COLOR.onMarineSoft}>{right}</Mono>
       </div>
-    </>
+    </Meta>
   );
 }

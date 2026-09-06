@@ -38,6 +38,42 @@ def seq(name: str):
 # --------------------------------------------------------------------------
 # Materials the physical acts add to the block's language
 # --------------------------------------------------------------------------
+def skin_mat(name: str):
+    """Skin, not orange plastic.
+
+    A flat diffuse tube at 0.6 roughness under a warm practical reads as a moulded toy, and the
+    hand is the second-largest object in the redemption. So: a little subsurface so light carries
+    through the finger edges, a low specular so the practicals do not put a hard rim on every
+    tube, and a fine noise on the roughness so the highlight breaks up the way skin does."""
+    if name in B._MATS:
+        return B._MATS[name]
+    m, p, nt = B._new_mat(name)
+    p.inputs["Base Color"].default_value = B.srgb("#9d8272")
+    p.inputs["Roughness"].default_value = 0.72
+    p.inputs["Specular IOR Level"].default_value = 0.13
+    p.inputs["Subsurface Weight"].default_value = 0.22
+    try:
+        p.inputs["Subsurface Radius"].default_value = (0.016, 0.007, 0.004)
+        p.inputs["Subsurface Scale"].default_value = 0.012
+    except KeyError:
+        pass
+    noise = nt.nodes.new("ShaderNodeTexNoise")
+    noise.inputs["Scale"].default_value = 220.0
+    noise.inputs["Detail"].default_value = 4.0
+    rmp = nt.nodes.new("ShaderNodeMapRange")
+    rmp.inputs["To Min"].default_value = 0.62
+    rmp.inputs["To Max"].default_value = 0.86
+    nt.links.new(noise.outputs["Fac"], rmp.inputs["Value"])
+    nt.links.new(rmp.outputs["Result"], p.inputs["Roughness"])
+    bump = nt.nodes.new("ShaderNodeBump")
+    bump.inputs["Strength"].default_value = 0.10
+    bump.inputs["Distance"].default_value = 0.0008
+    nt.links.new(noise.outputs["Fac"], bump.inputs["Height"])
+    nt.links.new(bump.outputs["Normal"], p.inputs["Normal"])
+    B._MATS[name] = m
+    return m
+
+
 def look(W):
     """One material set, defined once and used by every physical shot.
 
@@ -58,7 +94,7 @@ def look(W):
         paper=B.mat_surface("dv_paper", "#efeadf", rough=0.62),
         board=B.mat_surface("dv_board", "#b39b7c", rough=0.78),
         lid=B.mat_surface("dv_lid", "#22262a", rough=0.42),
-        skin=B.mat_surface("dv_skin", "#a8836c", rough=0.74, spec=0.11),
+        skin=skin_mat("dv_skin"),
         cloth=B.mat_surface("dv_cloth", "#3d4448", rough=0.80),
         cloth2=B.mat_surface("dv_cloth2", "#6c6156", rough=0.80),
         wood=B.mat_surface("dv_wood", "#6b5744", rough=0.46),
@@ -209,22 +245,31 @@ def grip(W, name, parent, scale=1.0):
     palm.rotation_euler = (0.0, 0.0, math.radians(-5))
     parts["palm"] = palm
 
-    # four fingers over the near edge, longest in the middle, tips just onto the glass
-    for i, (z, reach, r) in enumerate(((0.0290, 0.0028, 0.0084), (0.0115, 0.0042, 0.0088), (-0.0060, 0.0038, 0.0085), (-0.0235, 0.0026, 0.0076))):
+    # Four fingers over the near edge, longest in the middle, tips just onto the glass.
+    # The pitch is a little under a finger's width so they touch: separated tubes read as four
+    # sausages, and at 95 mm the hand is the second-largest thing in the frame. Each tip carries
+    # a nail, because the pad is against the glass and the nail is the side facing the lens.
+    nail = B.mat_surface("dv_nail", "#c6a695", rough=0.24, spec=0.6, coat=0.4)
+    for i, (z, reach, r) in enumerate(((0.0268, 0.0016, 0.0090), (0.0110, 0.0028, 0.0095), (-0.0048, 0.0024, 0.0092), (-0.0206, 0.0013, 0.0082))):
         z *= s
         reach *= s
         rr = r * s
+        tip = (-hw + reach, -hd - 0.007 * s, z + 0.003 * s)
         path = [
             (0.014 * s, hd + 0.030 * s, z - 0.004 * s),
             (-0.014 * s, hd + 0.028 * s, z - 0.002 * s),
             (-hw - 0.007 * s, hd + 0.017 * s, z),
             (-hw - 0.010 * s, 0.0, z + 0.002 * s),
             (-hw + 0.004 * s, -hd - 0.006 * s, z + 0.003 * s),
-            (-hw + reach, -hd - 0.007 * s, z + 0.003 * s),
+            tip,
         ]
-        fg = BD.tube(f"{name}_f{i}", path, [rr * 1.14, rr * 1.10, rr, rr, rr * 0.94, rr * 0.80], m["skin"], group="device")
+        fg = BD.tube(f"{name}_f{i}", path, [rr * 1.16, rr * 1.02, rr * 1.10, rr * 0.93, rr * 1.02, rr * 0.86], m["skin"], group="device")
         fg.parent = parent
         parts[f"f{i}"] = fg
+        nl = BD.ellipsoid(f"{name}_n{i}", (rr * 0.74, rr * 0.16, rr * 0.62), nail, group="device")
+        nl.parent = parent
+        nl.location = (tip[0] - rr * 0.30, tip[1] - rr * 0.80, tip[2])
+        parts[f"n{i}"] = nl
 
     # the thumb up the far edge, its pad on the glass. It hangs off a pivot at its own knuckle
     # so it can swing onto the button: the hand that holds the pass is the hand that redeems it.
@@ -238,7 +283,7 @@ def grip(W, name, parent, scale=1.0):
         (hw - 0.001 * s - base[0], -hd - 0.005 * s - base[1], 0.038 * s),
         (hw - 0.011 * s - base[0], -hd - 0.006 * s - base[1], 0.044 * s),
     ]
-    th = BD.tube(f"{name}_thumb", path, [0.0122 * s, 0.0118 * s, 0.0110 * s, 0.0100 * s, 0.0086 * s], m["skin"], group="device")
+    th = BD.tube(f"{name}_thumb", path, [0.0118 * s, 0.0112 * s, 0.0102 * s, 0.0092 * s, 0.0079 * s], m["skin"], group="device")
     th.parent = pivot
     parts["thumb_pivot"] = pivot
     parts["thumb"] = th
@@ -312,16 +357,20 @@ def held_phone(W, name, loc, yaw=math.pi, tilt=-0.22, screen="device-pass", scal
     return root, {"forearm": fa_root, "phone": ph_root, "screen": ph["screen"], **gp, **{f"p_{k}": v for k, v in ph.items()}}
 
 
-def press_thumb(pivot, t0, *, swing=-0.492, dip=0.0042, hold=7, ease=4):
+def press_thumb(pivot, t0, *, swing=-0.492, dip=0.0042, hold=7, ease=4, park=0.30):
     """The press. The thumb the pass is already held with swings onto the block, dips against
     the glass, and comes back to the edge. `swing` is the angle that puts its pad on the button
-    for a handset held in the standard grip; `dip` is how far the finger actually presses in."""
+    for a handset held in the standard grip; `dip` is how far the finger actually presses in.
+
+    `park` is where the thumb lives when it is not pressing: on the phone's rim, not lying
+    across the glass. A thumb parked on the face covers a quarter of the screen and makes the
+    redeemed state look obstructed, and after the tap the point is that the tap is over."""
     for f, (a, y) in (
-        (max(0, t0 - ease - 5), (0.0, 0.0)),
+        (max(0, t0 - ease - 5), (park, 0.0)),
         (t0, (swing, 0.0)),
         (t0 + 3, (swing, -dip)),
         (t0 + 3 + hold, (swing, -dip)),
-        (t0 + 3 + hold + 9, (0.0, 0.0)),
+        (t0 + 3 + hold + 9, (park, 0.0)),
     ):
         pivot.rotation_euler = (0.0, a, 0.0)
         pivot.location = (pivot.location.x, pivot.location.y + 0.0, pivot.location.z)
@@ -385,39 +434,62 @@ def shot_approach(W: B.World):
 
 
 def shot_threshold(W: B.World):
-    """B · from inside the store, looking out. The customer crosses the threshold into the room.
+    """B · inside the store, down the aisle opposite the door. The morning walks in.
 
-    lens      street 50 mm, f/4        height 1.52 m
-    fore      the room's dark jamb, closing the sides; the floor running out of the bottom
-    subject   the doorway and the person entering it
-    back      the forecourt, blown two stops brighter than the room
-    focus     the threshold itself
+    lens      block 40 mm, f/4.0       height 1.52 m (standing in the aisle opposite the door)
+    fore      the two shelf runs the aisle passes between, dark, closing left and right
+    subject   the doorway at the end of the aisle, and the figure that comes through it
+    back      the forecourt, two stops brighter than the room it lets into
+    focus     the threshold, 4.8 m out; the shelf runs fall off toward the lens
+    start/end f/4.0 throughout — the stop never moves
     move      locked. The event is the crossing; a moving camera would steal it.
+
+    The room is lit two thirds down so the doorway is the brightest thing in it, and the
+    figure is read against that light: a body in a doorway, not a face. The near leaf
+    swings ahead of them, so the door is a thing that moves rather than a hole in a wall.
     """
     m = look(W)
     dress_joes(W)
-    B.set_state(W, "morning", exposure=-2.78, interior_w=2450)
-    frames = 30
-    fig, parts = BD.figure("th_walker", (-1.95, 19.2, 0.0), m["cloth2"], height=1.76, yaw=math.radians(16))
-    for f, y in ((0, 19.2), (frames - 1, 21.5)):
-        fig.location = (-1.95 + (y - 19.2) * 0.283, y, 0.0)
+    B.set_state(W, "morning", exposure=-2.55, interior_w=980)
+    frames = 40
+
+    # the near leaf, hinged on its own stile, swings in ahead of the person
+    leaf = B.empty("th_leaf", (-0.52, 20.30, 0.0))
+    bpy.context.view_layer.update()
+    for n in ("lot_joes_doorglass1", "lot_joes_doorframe1", "lot_joes_doorbar1"):
+        o = bpy.data.objects.get(n)
+        if o is not None:
+            o.parent = leaf
+            o.matrix_parent_inverse = leaf.matrix_world.inverted()
+    for f, a in ((0, 0.0), (7, -3.0), (19, -62.0), (32, -64.0), (frames - 1, -48.0)):
+        leaf.rotation_euler = (0.0, 0.0, math.radians(a))
+        leaf.keyframe_insert("rotation_euler", frame=f)
+
+    path = ((0, -2.10, 19.20), (18, -1.52, 20.42), (frames - 1, -0.44, 21.62))
+    fig, parts = BD.figure("th_walker", (path[0][1], path[0][2], 0.0), m["cloth"], height=1.78, yaw=math.radians(26))
+    for f, x, y in path:
+        fig.location = (x, y, 0.0)
         fig.keyframe_insert("location", frame=f)
+    for f, yaw in ((0, 26.0), (18, 30.0), (frames - 1, 46.0)):
+        fig.rotation_euler = (0.0, 0.0, math.radians(yaw))
+        fig.keyframe_insert("rotation_euler", frame=f)
     for fc in _fc(fig):
         for kp in fc.keyframe_points:
             kp.interpolation = "LINEAR"
-    BD.gait(parts, frames, speed=1.0, height=1.76)
+    BD.gait(parts, frames, speed=1.05, height=1.78)
     track(W, "walker", B.empty("th_t", (0, 0, 1.0)))
     W.tracks["walker"].parent = fig
     W.tracks["walker"].location = (0, 0, 1.0)
 
-    cam = CAM.Cam("street", subject="the doorway, and the person who comes through it",
-                  foreground="the room's own dark, closing the frame", background="the forecourt, two stops brighter than the room",
-                  motivation="locked", fstop=3.5)
-    cam.lock((1.05, 22.60, 1.46), (-1.72, 20.30, 1.30), frames, focus=(-1.60, 21.10, 1.20), label="inside, on the open floor")
+    cam = CAM.Cam("block", subject="the doorway, and the person who comes through it",
+                  foreground="the two shelf runs the aisle passes between, dark, closing left and right",
+                  background="the forecourt, two stops brighter than the room",
+                  motivation="locked", fstop=4.0)
+    cam.lock((-1.18, 25.20, 1.52), (-1.72, 20.45, 1.02), frames, focus=(-1.60, 20.70, 1.10), label="in the aisle opposite the door")
     CAM.ease_camera(cam.obj)
     return dict(frames=frames, cam=cam.obj, names=["walker", "door_joes"], people=None,
-                meta=dict(state="morning", clock="Friday · 7:42 AM", cross=17, spec=cam.spec()),
-                comp=dict(mist=0.16, glare=0.16))
+                meta=dict(state="morning", clock="Friday · 7:42 AM", cross=19, spec=cam.spec()),
+                comp=dict(mist=0.20, glare=0.20))
 
 
 def shot_counter(W: B.World):
@@ -532,9 +604,9 @@ def shot_coffee(W: B.World):
     # the staff's hand: it carries the cup in, sets it down and goes. By the time the cup
     # settles the hand is out of frame, so the last thing we hold on is the drink itself.
     hd, _ = cup_grip(W, "cf_hand", cup)
-    for f, o in ((0, 0.0), (6, 0.0), (19, 1.0), (frames - 1, 1.0)):
-        hd.location = (0.020 * o, 0.300 * o, 0.030 * o)
-        hd.rotation_euler = (math.radians(10 * o), 0.0, 0.0)
+    for f, o in ((0, 0.0), (5, 0.0), (18, 1.0), (frames - 1, 1.0)):
+        hd.location = (0.175 * o, 0.680 * o, 0.075 * o)
+        hd.rotation_euler = (math.radians(14 * o), 0.0, 0.0)
         hd.keyframe_insert("location", frame=f)
         hd.keyframe_insert("rotation_euler", frame=f)
     CAM.ease_camera(hd)
