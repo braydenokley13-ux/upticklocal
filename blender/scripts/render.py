@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import argparse
 import os
+import shutil
 import sys
 import time
 
@@ -40,6 +41,13 @@ def main():
     a = ap.parse_args()
 
     w, h = (int(v) for v in a.res.lower().split("x"))
+    # Cycles runs on four CPU cores here: a 1280x720/24spp frame of the block costs about two minutes, and
+    # the film's plates are ~870 frames. PLATE_RES_CAP (default 960x540) clamps what a render chain asks
+    # for down to what the machine can finish in a night. It only ever lowers a request, never raises one.
+    cw, ch = (int(v) for v in os.environ.get("PLATE_RES_CAP", "960x540").lower().split("x"))
+    if a.seq and w * h > cw * ch:
+        print(f"plate cap: {w}x{h} -> {cw}x{ch}")
+        w, h = cw, ch
     S.settings(width=w, height=h, samples=a.samples)
     screens = {}
     if a.screens:
@@ -80,6 +88,24 @@ def main():
         outdir = os.path.abspath(a.out or f"/tmp/{a.shot}")
         os.makedirs(outdir, exist_ok=True)
         f0, f1 = 0, shot["frames"] - 1
+        # A finished plate is kept in blender/.plate-cache/<shot> as hard links. A chain that asks again for
+        # a shot already rendered at a resolution we accepted gets those frames back instead of paying for
+        # them a second time. Clear a shot's cache directory whenever the shot itself changes.
+        cache = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".plate-cache", a.shot)
+        if os.path.isdir(cache) and not a.range:
+            have = sorted(f for f in os.listdir(cache) if f.endswith(".png"))
+            if len(have) >= shot["frames"]:
+                linked = 0
+                for f in have:
+                    dst = os.path.join(outdir, f)
+                    if not os.path.exists(dst):
+                        try:
+                            os.link(os.path.join(cache, f), dst)
+                        except OSError:
+                            shutil.copyfile(os.path.join(cache, f), dst)
+                        linked += 1
+                print(f"plate cache: {a.shot} restored from blender/.plate-cache ({linked} linked, {len(have)} frames)")
+                return
         if a.range:
             f0, f1 = (int(v) for v in a.range.split(":"))
         for f in range(f0, f1 + 1):

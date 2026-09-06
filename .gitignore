@@ -21,3 +21,6 @@ __pycache__/
 
 # Synthesised sound stems are rebuilt by `python3 film/audio/synth.py`; only the compressed cues used by the edit are kept
 public/film-rd/audio/*.wav
+
+# Finished plate frames, hard-linked so a re-run of a chain does not pay for them twice
+blender/.plate-cache
