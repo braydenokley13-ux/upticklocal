@@ -400,7 +400,7 @@ E_DRIFT = dict(pos=(-1.7, -19.0, 5.05), target=(6.3, 10.5, 2.8), lens=29.6)
 # the top-down page frame (26 mm from 10 m): its centre on the sidewalk so the curb lies at 70% of the page
 FP_Z = 10.0
 FP_DY = 1.56
-HERO1_TRACKS = ["joes_walk", "joes_lot", "joes_curb_w", "joes_curb_e", "joes_frontage_w", "joes_frontage_e", "door_joes", "joes_canopy", "door_cafe", "door_pharmacy", "page_tl", "page_tr", "page_br", "page_bl", "fp_tl", "fp_tr", "fp_br", "fp_bl"]
+HERO1_TRACKS = ["joes_walk", "joes_lot", "joes_apron", "joes_curb_w", "joes_curb_e", "joes_frontage_w", "joes_frontage_e", "door_joes", "joes_canopy", "door_cafe", "door_pharmacy", "page_tl", "page_tr", "page_br", "page_bl", "fp_tl", "fp_tr", "fp_br", "fp_bl"]
 
 
 def _hero1_common(W: B.World):
@@ -409,6 +409,7 @@ def _hero1_common(W: B.World):
     lot = W.tracks["joes_lot"].location
     walk = (lot.x, B.ROAD_HALF - 1.3, 0.0)
     W.tracks["joes_walk"] = B.empty("track_joes_walk", walk)
+    W.tracks["joes_apron"] = B.empty("track_joes_apron", (lot.x, B.FRONT + 0.9, B.CURB_H))
     # the top-down frame's footprint on the ground (26 mm lens from 10 m): the page maps onto exactly this
     fcx, fcy, fz = lot.x + 1.5, B.ROAD_HALF + FP_DY, FP_Z
     hw = (fz - B.CURB_H) * 18.0 / 26.0  # the sidewalk's top, not the road

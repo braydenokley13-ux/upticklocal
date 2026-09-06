@@ -28,7 +28,7 @@ export const HERO1B_FRAMES = PAGE_END + PLATE_FRAMES;
 export const Hero1B = () => {
   const frame = useCurrentFrame();
   const pf = Math.max(0, Math.min(PLATE_FRAMES - 1, frame - PAGE_END));
-  const lot0 = trackAt(T, "joes_lot", 0);
+  const lot0 = trackAt(T, "joes_apron", 0);
 
   const headIn = ramp(frame, sec(0.1), sec(0.5), OUT);
   const numeralIn = ramp(frame, sec(0.6), sec(0.7), OUT);
@@ -38,10 +38,9 @@ export const Hero1B = () => {
   const handover = ramp(frame, PAGE_END - 2, 8, PLANE);
   const stamp = ramp(frame, PAGE_END + 10, 28, PLANE);
   const descent = ramp(frame, PAGE_END + DESCENT[0], DESCENT[1] - DESCENT[0], PLANE);
-  const lot = trackAt(T, "joes_lot", pf);
+  const lot = trackAt(T, "joes_apron", pf);
   const curbW = trackAt(T, "joes_curb_w", pf);
   const curbE = trackAt(T, "joes_curb_e", pf);
-  const walk = trackAt(T, "joes_walk", pf);
 
   // on the page the 3 sits where the lot will be seen from above; it stamps down to a mark on the lot, then rides the descent
   const bigX = lot0.x;
@@ -75,7 +74,7 @@ export const Hero1B = () => {
       <BigNumeral x={x} y={y} size={size} opacity={numeralIn} color={markColor} weight={stamp > 0.6 ? 500 : 200} />
       <Vignette opacity={descent} />
       <Grain opacity={0.08 * handover} />
-      <SettledBlock frame={frame} settleAt={SETTLE} land={walk} plateFrame={pf} T={T} />
+      <SettledBlock frame={frame} settleAt={SETTLE} land={lot} plateFrame={pf} T={T} />
     </Frame>
   );
 };
