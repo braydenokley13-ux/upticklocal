@@ -216,6 +216,40 @@ def mat_concrete(name: str, hexstr: str, score=True, score_scale=(1.5, 1.5)) -> 
     ramp.color_ramp.elements[1].color = tuple(min(1, c * 1.06) for c in base[:3]) + (1,)
     nt.links.new(grain.outputs["Fac"], ramp.inputs["Fac"])
     color_out = ramp.outputs["Color"]
+    # broad stains (metres) and a fine aggregate speckle, both multiplied in
+    stain = nt.nodes.new("ShaderNodeTexNoise")
+    stain.inputs["Scale"].default_value = 0.35
+    stain.inputs["Detail"].default_value = 4.0
+    stain.inputs["Roughness"].default_value = 0.75
+    sramp = nt.nodes.new("ShaderNodeValToRGB")
+    sramp.color_ramp.elements[0].position = 0.35
+    sramp.color_ramp.elements[0].color = (0.74, 0.73, 0.71, 1)
+    sramp.color_ramp.elements[1].position = 0.62
+    sramp.color_ramp.elements[1].color = (1.03, 1.03, 1.02, 1)
+    nt.links.new(stain.outputs["Fac"], sramp.inputs["Fac"])
+    smul = nt.nodes.new("ShaderNodeMix")
+    smul.data_type = "RGBA"
+    smul.blend_type = "MULTIPLY"
+    smul.inputs["Factor"].default_value = 1.0
+    nt.links.new(color_out, smul.inputs[6])
+    nt.links.new(sramp.outputs["Color"], smul.inputs[7])
+    color_out = smul.outputs[2]
+    agg = nt.nodes.new("ShaderNodeTexVoronoi")
+    agg.inputs["Scale"].default_value = 90.0
+    agg.inputs["Randomness"].default_value = 1.0
+    aramp = nt.nodes.new("ShaderNodeValToRGB")
+    aramp.color_ramp.elements[0].position = 0.0
+    aramp.color_ramp.elements[0].color = (0.9, 0.9, 0.9, 1)
+    aramp.color_ramp.elements[1].position = 0.25
+    aramp.color_ramp.elements[1].color = (1, 1, 1, 1)
+    nt.links.new(agg.outputs["Distance"], aramp.inputs["Fac"])
+    amul = nt.nodes.new("ShaderNodeMix")
+    amul.data_type = "RGBA"
+    amul.blend_type = "MULTIPLY"
+    amul.inputs["Factor"].default_value = 1.0
+    nt.links.new(color_out, amul.inputs[6])
+    nt.links.new(aramp.outputs["Color"], amul.inputs[7])
+    color_out = amul.outputs[2]
     if score:
         tc = nt.nodes.new("ShaderNodeTexCoord")
         mp = nt.nodes.new("ShaderNodeMapping")
@@ -1158,7 +1192,7 @@ def _build_joes(W: World, lot: Lot, forecourt, trim, fascia, frame, door, glass,
     for side, (fx, fy, fw, fd) in {"S": (can_cx, can_cy - can_d / 2 - 0.05, can_w + 0.1, 0.1), "N": (can_cx, can_cy + can_d / 2 + 0.05, can_w + 0.1, 0.1), "E": (can_cx + can_w / 2 + 0.05, can_cy, 0.1, can_d + 0.1), "W": (can_cx - can_w / 2 - 0.05, can_cy, 0.1, can_d + 0.1)}.items():
         box(f"{g}_canopyband{side}", (fw, fd, can_t * 0.55), (fx, fy, can_h + can_t / 2), W.joes_canopy_mat, bevel=0.01, group=g)
         box(f"{g}_canopydrip{side}", (fw + 0.04, fd + 0.04, 0.06), (fx, fy, can_h + can_t * 0.225 - 0.03), mat_surface("canopy_body", "#3f4345"), bevel=0, group=g)
-    text(f"{g}_canopyname", "JOE'S FUEL & GO", 0.26, (can_cx, can_cy - can_d / 2 - 0.05, can_h + can_t / 2 + 0.06), mat_surface("canopy_text", "#3b3f41", rough=0.6), group=g, spacing=1.3)
+    text(f"{g}_canopyname", "JOE'S FUEL & GO", 0.32, (can_cx, can_cy - can_d / 2 - 0.05, can_h + can_t / 2 + 0.07), mat_surface("canopy_text", "#3b3f41", rough=0.6), group=g, spacing=1.3)
     stripe = mat_surface("brand_stripe", "#8f3a2f", rough=0.55, spec=0.45)
     for side, (fx, fy, fw, fd) in {"S": (can_cx, can_cy - can_d / 2 - 0.03, can_w, 0.05), "N": (can_cx, can_cy + can_d / 2 + 0.03, can_w, 0.05), "E": (can_cx + can_w / 2 + 0.03, can_cy, 0.05, can_d), "W": (can_cx - can_w / 2 - 0.03, can_cy, 0.05, can_d)}.items():
         box(f"{g}_canopystripe{side}", (fw, fd, 0.13), (fx, fy, can_h + can_t * 0.225 + 0.075), stripe, bevel=0, group=g)
@@ -1223,6 +1257,8 @@ def _build_joes(W: World, lot: Lot, forecourt, trim, fascia, frame, door, glass,
     box(f"{g}_pricesign", (0.5, 0.3, 3.6), (x1 - 1.6, y0 + 3.4, 1.8 + CURB_H), mat_surface("canopy_body", "#3f4345"), bevel=0.02, group=g)
     box(f"{g}_pricepanel", (1.5, 0.22, 1.2), (x1 - 1.6, y0 + 3.4, 3.5 + CURB_H), mat_surface("pricepanel", "#24272a", rough=0.5, spec=0.5), bevel=0.01, group=g)
     box(f"{g}_pricestripe", (1.5, 0.23, 0.08), (x1 - 1.6, y0 + 3.4, 4.06 + CURB_H), mat_surface("brand_stripe", "#8f3a2f"), bevel=0, group=g)
+    box(f"{g}_priceplate", (1.5, 0.22, 0.4), (x1 - 1.6, y0 + 3.4, 4.3 + CURB_H), mat_surface("priceplate", "#e6e1d6", rough=0.6), bevel=0.01, group=g)
+    text(f"{g}_pricename", "JOE'S", 0.24, (x1 - 1.6, y0 + 3.4 - 0.115, 4.3 + CURB_H - 0.085), mat_surface("canopy_text", "#3b3f41"), group=g, spacing=1.2, extrude=0.004)
     digits = mat_emissive("price_digits", "#ffe2b0", 2.6, base="#b89468")
     for k, line in enumerate(("REGULAR   3.49", "DIESEL    3.99")):
         text(f"{g}_price{k}", line, 0.19, (x1 - 1.6, y0 + 3.4 - 0.115, 3.72 + CURB_H - k * 0.42), digits, group=g, spacing=1.1, extrude=0.004)

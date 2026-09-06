@@ -56,7 +56,17 @@ The first pass (a cream page fading to a high beige archviz plate with a shrinki
 
 **Verdict on A (chosen).** 6/10 then 7/10 from the critic across two rounds, against 3/10 for the first pass. The cut is invisible: the cream lifts and the concrete is already under the number, the hairline is the curb, the dark band is the road. The camera performs the brief's journey (still frame → lift → reveal → settle) as one real move, and the printed 3 on the pavement is the film's first physical image. What the critic still saw, and what the third pass answers: the forecourt moment mid-lift exposed the CG (now an oblique path over a longer lift, with a speed blur at the crane's fastest moment, on the pass-4 world); the thin printed 3 foreshortened into a scrawl (it now takes paint weight as the camera lifts, the same glyph); the back row read as boxes (pass 4); the mark and caption needed more presence at the settle (larger, with a stamp overshoot and a paper halo).
 
-_(A v3 result below)_
+**A, third pass: 7/10 from the critic, and it passes the gate.** The verdict in their words: materially more cinematic, physical and legible than the 3/10 pass, no contest; the wide street and canopy frames clear the low-poly and previs bar; the storm drain landing on the hairline the instant cream becomes concrete is "the single cleanest number-becomes-place moment in the piece"; the printed 3 now has real weight and reads as pavement signage; and the address on the page becoming the street's dateline does real work for "same street, same morning." Ready as the template for the other four shots' world and transition language.
+
+What the gate review still wanted, and what was done with it: the macro pavement read as polished lobby floor rather than sidewalk (broad stains and an aggregate speckle are now in the concrete, in the 1280×720 render); the crane's fastest half-second dropped the printed 3 to the frame edge (the mid key now looks further down and the mark stays inside the frame, peak 844 px of 1080, in the 1280×720 render); nothing in the world itself said "Joe's" at R&D resolution (the canopy name is larger and the price sign carries a name plate); the café queue was evenly spaced (now uneven, one turned); the closing line was suspected of pulsing (it is one monotonic fade, verified in the code).
+
+| Hero 1 A | Score | What works | What bothers | Keep? |
+| --- | --- | --- | --- | --- |
+| The page is the pavement | 7/10 (critic), 7/10 (lead) | An invisible cut; the hairline is the curb with a drain on it; one continuous crane from the pavement to the street; the printed 3 as paint; the settle with the café alive and Joe's quiet | The concrete and the mid-lift are still the clean-CG moments; the sky is a gradient; the figures are pins from above; it is R&D resolution | Yes, as the film's opening and as the template |
+
+## Recommendation
+
+Hero 1 A is the opening. Carry three things into every other shot: the world at pass 4 with the dawn state and the street-height settle camera; the rule that the editorial layer is printed onto a tracked physical surface (a homography from four tracked corners) rather than dissolved over it; and the settle grammar (ink marks and captions on lit pavement, the line on the road, the dateline top-left). Rejected variants B and C stay in the lab as evidence, with B's stamp and C's plane-into-ground kept as primitives. Before assembling the film, render the surviving plates at 1920×1080 and give the concrete, the sky and the figures one more look-dev pass at that resolution.
 
 ## Block status
 
@@ -82,6 +92,3 @@ What it is not: it is not photoreal and is not meant to be. It is an abstract-ph
 
 `GrowthPlanCard` (one plan, per-row reveal, press and fill states), `OfferSlab` / `PassSlab`, `ScreenContent` (the counter unit's states), the type voices (`Numeral`, `Line`, `Mono`, `Voice`, `Words`, `Rule`), the motion grammar in `film/motion` (the plane bezier, ramps and windows at 76 bpm), the fixture in `film/data/joes.ts`, and the homography helpers for sitting DOM on tracked surfaces. None of them import anything from the app, so they can move into shared components without dragging Remotion along.
 
-## Recommendation
-
-_(after the Hero 1 A v3 review)_

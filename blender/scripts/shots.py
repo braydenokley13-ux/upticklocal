@@ -365,8 +365,8 @@ def _dawn_life(ppl: People, offset=0):
     ppl.stand((cafe.x0 + 2.6 - 0.55, B.FRONT - 1.5), 0, 10000, height=1.25)
     ppl.stand((cafe.x0 + 4.4 + 0.55, B.FRONT - 1.5), 0, 10000, height=1.25)
     # a short queue out of the café door, along the frontage
-    for k in range(3):
-        ppl.stand((cafe_door[0] - 1.1 - k * 0.75, B.FRONT - 0.9 - (k % 2) * 0.15), 0, 10000)
+    for k, (dx, dy) in enumerate(((0.0, 0.0), (0.62, -0.22), (1.55, 0.08))):
+        ppl.stand((cafe_door[0] - 1.1 - dx, B.FRONT - 0.9 - dy), 0, 10000, height=1.72 - 0.05 * k)
     ppl.walk([(cafe.cx - 12.0, y + 0.2), (cafe.cx - 3.0, y + 0.4)], offset + 10, speed=1.2)
     # someone crosses the road toward the café in the last seconds, past Joe's empty mouth
     ppl.walk([(6.0, -y + 0.5), (10.0, -0.5), (13.5, y - 0.6), (cafe_door[0] - 3.0, y - 0.3)], offset - 60, speed=1.45)
@@ -443,7 +443,7 @@ def shot_hero1a(W: B.World):
     cam = camera(lens=26, fstop=4.0, focus=34.0)
     key_cam(cam, 0, (fcx, fcy, FP_Z), (fcx, fcy + 0.0001, 0.0), lens=26, focus=FP_Z)
     key_cam(cam, 22, (fcx, fcy, FP_Z), (fcx, fcy + 0.0001, 0.0), lens=26, focus=FP_Z)
-    key_cam(cam, 74, (fcx - 4.5, fcy - 11.0, 7.2), (fcx - 1.0, B.FRONT + 5.0, 2.6), lens=27, focus=24.0)
+    key_cam(cam, 74, (fcx - 4.5, fcy - 11.0, 7.8), (fcx - 1.0, B.FRONT + 2.0, 1.4), lens=27, focus=22.0)
     key_cam(cam, 110, E_FINAL["pos"], E_FINAL["target"], lens=E_FINAL["lens"], focus=34.0)
     key_cam(cam, frames - 1, E_DRIFT["pos"], E_DRIFT["target"], lens=E_DRIFT["lens"], focus=34.0)
     ease(cam)
