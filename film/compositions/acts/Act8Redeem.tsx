@@ -56,8 +56,15 @@ const FIRST_CROSSING = ((TO.meta.thresholds as number[]) ?? [30])[0];
 export const FIRST_THRESHOLD = T.street + FIRST_CROSSING; // 88
 export const CENTRE = { x: 960 - SLAB_W / 2, y: 540 - SLAB_H / 2 };
 const COUNTER_FRAMES = T.end - T.counter; // 186 = the plate
-/** The slab, held up at the counter, relative to the phone track's own scale on the first frame. */
-const HELD_SCALE = 0.84;
+/**
+ * The slab, held up at the counter, relative to the phone track's own scale
+ * on the first frame. The phone point is the hand; the slab sits to the right
+ * of it and a little below, in slab-scale px, so the customer's head and
+ * shoulder stay in view beside the pass: staff look at a person holding a
+ * phone, not at a card hanging in the room.
+ */
+const HELD_SCALE = 0.7;
+const HELD_OFFSET = { x: 136, y: 72 };
 
 const clamp = (v: number, a: number, b: number) => Math.max(a, Math.min(b, v));
 
@@ -105,8 +112,8 @@ export const Act8Redeem = () => {
   const s = held * (0.08 + 0.92 * out);
   const slabW = SLAB_W * s;
   const slabH = SLAB_H * s;
-  const slabX = phone.x - slabW / 2;
-  const slabY = phone.y - slabH * 0.55 + (1 - out) * 220;
+  const slabX = phone.x + HELD_OFFSET.x * s - slabW / 2;
+  const slabY = phone.y + HELD_OFFSET.y * s - slabH / 2 + (1 - out) * 220;
   const pressTouch = ramp(frame, T.press, 12, OUT);
   const press = frame >= T.press && frame < T.press + 3 ? 1 : 0;
   const confirm = ramp(frame, T.confirm, 12, OUT);
@@ -149,7 +156,7 @@ export const Act8Redeem = () => {
       )}
       {frame >= T.street + 12 && (
         <WorldHeader
-          left={inside ? `${BUSINESS.name} · counter · Friday · ${PASS.redeemedAt.replace("Fri · ", "")}` : `${BLOCK.street} · Friday · 07:42`}
+          left={inside ? `${BUSINESS.short} · counter · Friday · ${PASS.redeemedAt.replace("Fri · ", "")}` : `${BLOCK.street} · Friday · 07:42`}
           right={inside ? `Pass · ${PASS.id}` : `${PLAN.title} · live`}
           live={!inside}
           opacity={headerIn}
@@ -208,14 +215,15 @@ export const Act8Redeem = () => {
       {/* the count, through the door, from the first crossing on */}
       {frame >= FIRST_THRESHOLD && <BuildCount frame={frame} thresholds={[FIRST_THRESHOLD]} caption={captionIn} />}
 
-      {/* what is and isn't happening */}
+      {/* what is and isn't happening: on a lower-third scrim, since the counter top is light and the till's base is dark */}
+      {after > 0 && <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: 260, background: "linear-gradient(to top, rgba(4,12,16,0.62), rgba(4,12,16,0))", opacity: after }} />}
       <div style={{ position: "absolute", left: 96, bottom: 84, opacity: after }}>
-        <Mono color={COLOR.onMarineFaint} size={16}>
+        <Mono color={COLOR.onMarineSoft} size={16}>
           No PIN · No scanner · No second phone · No till
         </Mono>
       </div>
       <div style={{ position: "absolute", right: 96, bottom: 84, opacity: after, textAlign: "right" }}>
-        <Mono color={COLOR.onMarineFaint} size={16}>
+        <Mono color={COLOR.onMarineSoft} size={16}>
           Recorded · {PASS.ordinal} · {PASS.redeemedAt.replace("Fri · ", "")}
         </Mono>
       </div>
