@@ -357,7 +357,7 @@ def _dawn_life(ppl: People, offset=0):
     ppl.walk([(cafe_door[0], cafe_door[1] + 1.0), (cafe_door[0], B.FRONT - 0.6), (cafe_door[0] + 1.0, y + 0.7), (cafe_door[0] + 14.0, y + 0.9)], offset + 96, start_hidden=True)
     # walkers who pass Joe's without turning in (never under the opening camera)
     ppl.walk([(-30.0, y - 0.9), (-6.0, y - 0.8), (24.0, y - 0.7)], offset + 60, speed=1.35)
-    ppl.walk([(28.0, -y + 0.4), (-20.0, -y + 0.6)], offset + 76, speed=1.25)
+    ppl.walk([(-1.0, -y + 0.4), (-24.0, -y + 0.6)], offset + 40, speed=1.25)
     # people already inside: two at the café counter, one in the pharmacy; two seated outside the café
     ppl.stand((cafe.cx - 1.4, B.FRONT + 3.3), 0, 10000)
     ppl.stand((cafe.cx + 1.2, B.FRONT + 2.2), 0, 10000)
@@ -369,7 +369,7 @@ def _dawn_life(ppl: People, offset=0):
         ppl.stand((cafe_door[0] - 1.1 - k * 0.75, B.FRONT - 0.9 - (k % 2) * 0.15), 0, 10000)
     ppl.walk([(cafe.cx - 12.0, y + 0.2), (cafe.cx - 3.0, y + 0.4)], offset + 10, speed=1.2)
     # someone crosses the road toward the café in the last seconds, past Joe's empty mouth
-    ppl.walk([(2.0, -y + 0.5), (8.0, -1.0), (14.0, y - 0.6), (cafe_door[0] - 3.0, y - 0.3)], offset + 96, speed=1.45)
+    ppl.walk([(6.0, -y + 0.5), (10.0, -0.5), (13.5, y - 0.6), (cafe_door[0] - 3.0, y - 0.3)], offset - 60, speed=1.45)
     # someone reaching the restaurant end, and a person at the barber door
     rest = B.LOTS[5]
     ppl.walk([(rest.cx - 4, y + 0.5), (rest.cx + (rest.w - 1.4) * 0.22, y), (rest.cx + (rest.w - 1.4) * 0.22, B.FRONT + 2.4)], offset + 40, into="restaurant")

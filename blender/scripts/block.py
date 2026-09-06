@@ -459,7 +459,7 @@ def figure(name: str, loc, mat, height=1.72, group="people", segs=16, rings=6) -
                 fs.append((base + j * segs + i, base + j * segs + i2, base + (j + 1) * segs + i2, base + (j + 1) * segs + i))
 
     # body: a capsule to the shoulders, a shade narrower at the top
-    r = 0.19
+    r = 0.17
     top = height - 0.33
     body = max(0.0, top - 2 * r)
     rows = []
@@ -467,10 +467,10 @@ def figure(name: str, loc, mat, height=1.72, group="people", segs=16, rings=6) -
         a = k / rings * math.pi / 2
         rows.append((r * math.cos(a), r - r * math.sin(a)))
     rows.append((r, r))
-    rows.append((r * 0.92, r + body))
+    rows.append((r * 0.88, r + body))
     for k in range(1, rings + 1):
         a = k / rings * math.pi / 2
-        rows.append((r * 0.92 * math.cos(a), r + body + r * 0.92 * math.sin(a)))
+        rows.append((r * 0.88 * math.cos(a), r + body + r * 0.88 * math.sin(a)))
     ring_rows(rows)
     # neck
     ring_rows([(0.055, top - 0.02), (0.055, height - 0.2)])
@@ -662,7 +662,7 @@ def build(screen_images: dict[str, str] | None = None, cars=True, people_mat=Tru
         box(f"curb{s}", (BLOCK_X1 - BLOCK_X0, 0.24, CURB_H + 0.005), (0, s * (ROAD_HALF + 0.12), CURB_H / 2 + 0.0025), curb, bevel=0.035, group="ground")
         box(f"gutter{s}", (BLOCK_X1 - BLOCK_X0, 0.42, 0.012), (0, s * (ROAD_HALF - 0.21), 0.006), gutter, bevel=0, group="ground")
         # storm drains at the curb, a few along the block
-        for gx in (-33.0, -8.5, 19.0, 44.0):
+        for gx in (-33.0, 3.2, 19.0, 44.0):
             box(f"drain{s}{gx}", (0.9, 0.3, 0.03), (gx, s * (ROAD_HALF - 0.18), 0.012), iron, bevel=0.004, group="ground")
     for mx, my in ((-20.0, 1.6), (14.0, -2.2), (38.0, 1.2)):
         cylinder(f"manhole{mx}", 0.42, 0.02, (mx, my, 0.008), iron, group="ground", verts=32)
@@ -696,7 +696,9 @@ def build(screen_images: dict[str, str] | None = None, cars=True, people_mat=Tru
 
     # --- beyond the cross streets: quieter masses, so the block is a block --
     beyond = mat_surface("beyond", "#5f6365", rough=0.95, bump=0.2, scale=4)
-    beyond2 = mat_surface("beyond2", "#6d6a64", rough=0.95, bump=0.2, scale=4)
+    beyond2 = mat_surface("beyond2", "#7a6d62", rough=0.95, bump=0.2, scale=4, courses=0.1)
+    beyond3 = mat_surface("beyond3", "#a29a8d", rough=0.95, bump=0.2, scale=4)
+    beyond_trim = mat_surface("beyond_trim", "#8e8a82", rough=0.9)
     masses = [
         (BLOCK_X0 - CROSS_W - 40, BLOCK_X0 - CROSS_W, FRONT, FRONT + 18, 9.5),
         (BLOCK_X0 - CROSS_W - 40, BLOCK_X0 - CROSS_W, -FRONT - 16, -FRONT, 8.0),
@@ -709,13 +711,15 @@ def build(screen_images: dict[str, str] | None = None, cars=True, people_mat=Tru
     while x < BLOCK_X1 + 30:
         w = 11 + (k * 7) % 9
         h = 8.5 + ((k * 5) % 4) * 2.2
-        masses.append((x, x + w, FRONT + 24, FRONT + 24 + 14 + (k % 3) * 3, h))
+        masses.append((x, x + w, FRONT + 24 + (k % 3) * 1.1, FRONT + 24 + 14 + (k % 3) * 3, h))
         x += w + 0.4
         k += 1
     masses.append((BLOCK_X0 - 30, BLOCK_X1 + 30, -FRONT - 30, -FRONT - 50, 9.0))
     for k, (x0, x1, y0, y1, h) in enumerate(masses):
-        m = beyond if k % 2 == 0 else beyond2
+        m = (beyond, beyond2, beyond3)[k % 3]
         box(f"beyond{k}", (x1 - x0, abs(y1 - y0), h), ((x0 + x1) / 2, (y0 + y1) / 2, h / 2), m, bevel=0.05, group="beyond")
+        box(f"beyond{k}_cap", (x1 - x0 + 0.3, abs(y1 - y0) + 0.3, 0.32), ((x0 + x1) / 2, (y0 + y1) / 2, h - 0.16), beyond_trim, bevel=0.03, group="beyond")
+        box(f"beyond{k}_course", (x1 - x0 + 0.16, abs(y1 - y0) + 0.16, 0.14), ((x0 + x1) / 2, (y0 + y1) / 2, 3.6), beyond_trim, bevel=0.01, group="beyond")
         # window rhythm on the faces that look at the block
         if y0 >= FRONT + 20:
             cols = max(2, int((x1 - x0) / 3.2))
@@ -723,6 +727,7 @@ def build(screen_images: dict[str, str] | None = None, cars=True, people_mat=Tru
                 for c in range(cols):
                     xc = x0 + (x1 - x0) * (c + 0.5) / cols
                     box(f"beyond{k}_w{f}{c}", (1.1, 0.2, 1.5), (xc, y0 - 0.02, 1.9 + f * 3.2), mat_surface("reveal", "#3a3d3f"), bevel=0, group="beyond")
+                    box(f"beyond{k}_s{f}{c}", (1.3, 0.16, 0.08), (xc, y0 - 0.08, 1.1 + f * 3.2), beyond_trim, bevel=0.01, group="beyond")
 
     # --- street furniture --------------------------------------------------
     _furniture(W, frame, trim)
@@ -739,6 +744,7 @@ def build(screen_images: dict[str, str] | None = None, cars=True, people_mat=Tru
     sky.sun_size = math.radians(0.9)
     sky.altitude = 40
     sky.air_density = 1.2
+    sky.aerosol_density = 2.2
     sky.ozone_density = 1.6
     bg = nt.nodes["Background"]
     nt.links.new(sky.outputs[0], bg.inputs[0])
@@ -1149,8 +1155,9 @@ def _build_joes(W: World, lot: Lot, forecourt, trim, fascia, frame, door, glass,
     can_cx, can_cy = cx - 1.0, y0 + 5.2
     W.joes_canopy_mat = mat_emissive("canopy_fascia", "#f0ebe1", 0.0, base="#e3ded3")
     box(f"{g}_canopy", (can_w, can_d, can_t), (can_cx, can_cy, can_h + can_t / 2), mat_surface("canopy_body", "#3f4345", rough=0.6, metallic=0.2), bevel=0.04, group=g)
-    for side, (fx, fy, fw, fd) in {"S": (can_cx, can_cy - can_d / 2 - 0.02, can_w, 0.04), "N": (can_cx, can_cy + can_d / 2 + 0.02, can_w, 0.04), "E": (can_cx + can_w / 2 + 0.02, can_cy, 0.04, can_d), "W": (can_cx - can_w / 2 - 0.02, can_cy, 0.04, can_d)}.items():
-        box(f"{g}_canopyband{side}", (fw, fd, can_t * 0.55), (fx, fy, can_h + can_t / 2), W.joes_canopy_mat, bevel=0, group=g)
+    for side, (fx, fy, fw, fd) in {"S": (can_cx, can_cy - can_d / 2 - 0.05, can_w + 0.1, 0.1), "N": (can_cx, can_cy + can_d / 2 + 0.05, can_w + 0.1, 0.1), "E": (can_cx + can_w / 2 + 0.05, can_cy, 0.1, can_d + 0.1), "W": (can_cx - can_w / 2 - 0.05, can_cy, 0.1, can_d + 0.1)}.items():
+        box(f"{g}_canopyband{side}", (fw, fd, can_t * 0.55), (fx, fy, can_h + can_t / 2), W.joes_canopy_mat, bevel=0.01, group=g)
+        box(f"{g}_canopydrip{side}", (fw + 0.04, fd + 0.04, 0.06), (fx, fy, can_h + can_t * 0.225 - 0.03), mat_surface("canopy_body", "#3f4345"), bevel=0, group=g)
     text(f"{g}_canopyname", "JOE'S FUEL & GO", 0.26, (can_cx, can_cy - can_d / 2 - 0.05, can_h + can_t / 2 + 0.06), mat_surface("canopy_text", "#3b3f41", rough=0.6), group=g, spacing=1.3)
     stripe = mat_surface("brand_stripe", "#8f3a2f", rough=0.55, spec=0.45)
     for side, (fx, fy, fw, fd) in {"S": (can_cx, can_cy - can_d / 2 - 0.03, can_w, 0.05), "N": (can_cx, can_cy + can_d / 2 + 0.03, can_w, 0.05), "E": (can_cx + can_w / 2 + 0.03, can_cy, 0.05, can_d), "W": (can_cx - can_w / 2 - 0.03, can_cy, 0.05, can_d)}.items():
@@ -1319,9 +1326,9 @@ def _furniture(W: World, frame, trim):
 def car_at(x, y, ci=0, yaw=0.0, name=None, group="cars"):
     """A parked car: a low beveled body, a smoked cabin, four wheels. Reads as a car, never as a toy."""
     nm = name or f"car{x}_{y}"
-    smoked = mat_glass("carglass", tint="#2c3436", alpha_tint=0.35, rough=0.2)
+    smoked = mat_surface("cabin", "#1a1d20", rough=0.28, spec=0.55, coat=0.15)
     tyre = mat_surface("tyre", "#141516", rough=0.9)
-    paint = mat_surface(f"paint{ci}", P.car[ci % len(P.car)], rough=0.5, metallic=0.0, coat=0.0, spec=0.3)
+    paint = mat_surface(f"paint{ci}", P.car[ci % len(P.car)], rough=0.38, metallic=0.0, coat=0.12, spec=0.4)
     root = bpy.data.objects.new(nm, None)
     root.location = (x, y, 0)
     root.rotation_euler = (0, 0, yaw)
