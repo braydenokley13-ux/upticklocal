@@ -24,7 +24,12 @@ FF() { npx remotion ffmpeg -y -loglevel error "$@"; }
 
 if has master; then
   echo "== master"
-  npx remotion render Film "$OUT/uptick-growth-master-1080p.mp4" --codec=h264 --crf=15 --image-format=png --scale="$SCALE" --log=error
+  npx remotion render Film "$OUT/uptick-growth-master-raw.mp4" --codec=h264 --crf=15 --image-format=png --scale="$SCALE" --log=error
+  # the cues are mastered quiet on purpose (film/audio/CUES.md); the mix is lifted once, here, so its true peak sits at -1 dBTP with the dynamics untouched
+  GAIN=$(python3 scripts/film-peak.py "$OUT/uptick-growth-master-raw.mp4" -1.0)
+  echo "mix gain ${GAIN} dB"
+  FF -i "$OUT/uptick-growth-master-raw.mp4" -c:v copy -af "volume=${GAIN}dB" -c:a aac -b:a 256k "$OUT/uptick-growth-master-1080p.mp4"
+  rm -f "$OUT/uptick-growth-master-raw.mp4"
 fi
 if has web; then
   echo "== web"

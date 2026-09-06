@@ -8,6 +8,7 @@ import { ACT6_FRAMES, Act6TwoWays } from "./acts/Act6TwoWays";
 import { ACT8_FRAMES, Act8Redeem } from "./acts/Act8Redeem";
 import { ACT9_FRAMES, Act9Return } from "./acts/Act9Return";
 import { ACT12_FRAMES, Act12Resolve } from "./acts/Act12Resolve";
+import { Sound } from "./Sound";
 
 /**
  * UPTICK GROWTH · the film. Twelve acts on one timeline; every act begins
@@ -52,6 +53,7 @@ export const Film = () => {
           </Sequence>
         );
       })}
+      <Sound />
     </>
   );
 };

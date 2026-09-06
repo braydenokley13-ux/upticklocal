@@ -960,46 +960,57 @@ def _pad_chord(freqs, n, seed, spread=0.38):
 
 
 def make_music_bed():
-    """96 s, stereo, 76 bpm, in D.
+    """90 s, stereo, 76 bpm, in D.  Cut to the film's real timeline
+    (2148 frames at 24 fps = 89.5 s), act boundaries as delivered by the edit.
 
-    0-10   near-silence; a sub-bass D1 swell enters at 6 s
-    10-28  soft D pad; quarter-note pulse from 14 s
-    28-44  pad lifts to A (voiced as Asus2 so it never fights the arpeggio);
-           slow sine arpeggio D-F#-A-D from 32 s
-    44-56  the dip -- pad only, no pulse (the provenance passage)
-    56-74  the build -- pulse returns, a second arpeggio a fifth up, a rising
-           filter on the pad, bass on beats 1 and 3 (D2-A1-B1-G1)
-    74-80  the resolve -- one warm D major root chord decaying over 6 s
-    80-96  silence but for a faint air
+    0-4.0       near-silence -- the page
+    4.0-10.5    a sub-bass D1 swell -- the lift off the concrete, the settle
+    10.5-14.5   the D pad enters -- the typing
+    14.5-27.5   pad + quarter-note pulse -- instruments into the plan
+    27.5-35.8   the pad lifts to A, the dominant -- Approve, the block at dusk
+    35.8-51.75  the arpeggio over A -- two ways in, the cafe, the same Offer
+    51.75-67.6  the dip: pad alone, back in D -- the question, the 900 ms
+                hole, the provenance tick.  From 66.4 s the pad ducks a
+                further 6 dB so the redemption note at 66.75 s stands alone.
+    67.6-74.0   the build -- pulse returns, a bass phrase, a second arpeggio
+                voice a fifth up, the pad's filter opening
+    74.0-78.5   the crescendo -- the last thresholds, the morning fully up.
+                The loudest point in the film, at -14 dBFS.
+    78.5-86.0   the resolve -- everything cuts as the 21 lands; one warm D
+                major chord decays under the closing lines
+    86.0-90.0   silence but for a faint air
 
-    Nothing exceeds -12 dBFS peak; a gentle soft-clip limiter sits at the end.
+    Nothing exceeds -12 dBFS peak; a soft-clip limiter sits at the end.
     """
-    dur, n = 96.0, n_samples(96.0)
+    dur, n = 90.0, n_samples(90.0)
     rng = rng_for("music-bed")
-    mix = np.zeros((2, n))
+
+    CUT = 78.5              # the 21 lands; everything rhythmic stops here
+    mix = np.zeros((2, n))  # air, the sub swell, the resolve chord
+    pre = np.zeros((2, n))  # everything that the cut at 78.5 s silences
 
     # ---- faint air, present the whole way through -----------------------
     air = np.stack([fft_filter(white(n, rng), lo=40, hi=1600, order=2)
                     for _ in range(2)])
     air = air / np.max(np.abs(air))
-    air_lvl = ramp(n, [(0, db(-56)), (10, db(-54)), (44, db(-52)),
-                       (74, db(-52)), (80, db(-56)), (92, db(-58)),
-                       (96, 0.0)])
+    air_lvl = ramp(n, [(0, db(-56)), (4.0, db(-55)), (10.5, db(-53)),
+                       (51.75, db(-52)), (78.5, db(-52)), (86.0, db(-56)),
+                       (89.0, db(-60)), (90.0, 0.0)])
     mix += air * air_lvl
 
-    # ---- 0-10 s: near-silence, a sub-bass D1 swell entering at 6 s ------
-    sub_n = n_samples(14.0)
+    # ---- 4.0-10.5 s: the sub-bass D1 swell under the lift ---------------
+    sub_n = n_samples(7.6)
     sub = (sine(NOTE["D1"], sub_n) + 0.35 * sine(NOTE["D1"] * 2, sub_n)
            + 0.12 * sine(NOTE["D1"] * 3, sub_n))
     sub /= np.max(np.abs(sub))
-    sub_env = ramp(sub_n, [(0, 0.0), (4.0, 1.0), (7.5, 0.75), (11.0, 0.0)])
+    sub_env = ramp(sub_n, [(0, 0.0), (3.2, 1.0), (5.0, 0.78), (6.9, 0.0)])
     sub_env = fft_filter(sub_env, hi=3.0, order=1)          # smooth the corners
     sub = sub * sub_env * db(-27.0)
-    add_at(mix, np.stack([sub, sub * 0.97]), 6.0)
+    add_at(mix, np.stack([sub, sub * 0.97]), 4.0)
 
     # ---- pads -----------------------------------------------------------
-    # D major (10-28 and, after the dip, 44-74); A (28-44) voiced as Asus2.
-    def pad_section(t0, t1, freqs, seed, level_env, cutoff_at, fade_in, fade_out):
+    def pad_section(t0, t1, freqs, seed, level_env, cutoff_at,
+                    fade_in, fade_out):
         m = n_samples(t1 - t0)
         p = _pad_chord(freqs, m, seed)
         p = tv_lowpass(p, cutoff_at, block=8192, order=3)
@@ -1011,33 +1022,38 @@ def make_music_bed():
         if fo:
             e[-fo:] *= 0.5 + 0.5 * np.cos(np.pi * np.linspace(0, 1, fo))
         p = p / (np.max(np.abs(p)) + 1e-12) * e
-        add_at(mix, p, t0)
+        add_at(pre, p, t0)
 
     d_major = [NOTE["D2"], NOTE["A2"], NOTE["D3"], NOTE["F#3"], NOTE["A3"]]
     a_sus = [NOTE["A2"], NOTE["E3"], NOTE["A3"], NOTE["B3"]]
 
-    # 10-29.5 : D pad
-    pad_section(10.0, 29.5, d_major, 10,
+    # 10.5-29.0 : D, under the typing and the instruments
+    pad_section(10.5, 29.0, d_major, 10,
                 lambda m: ramp(m, [(0, db(-24)), (3, db(-22)),
-                                   (16, db(-22)), (19.5, db(-24))]),
-                lambda t: 620.0, 2.2, 1.8)
-    # 28-45.5 : lift to A
-    pad_section(28.0, 45.5, a_sus, 30,
-                lambda m: ramp(m, [(0, db(-26)), (3, db(-21.5)),
-                                   (14, db(-21.5)), (17.5, db(-25))]),
+                                   (15, db(-22)), (18.5, db(-24))]),
+                lambda t: 620.0, 2.2, 1.6)
+    # 27.5-53.0 : the lift to A, held through Act VI
+    pad_section(27.5, 53.0, a_sus, 30,
+                lambda m: ramp(m, [(0, db(-26)), (3, db(-22.5)),
+                                   (20, db(-22.5)), (25.5, db(-25.5))]),
                 lambda t: 780.0, 2.0, 2.0)
-    # 44-56.5 : the dip, back to D, pad alone
-    pad_section(44.0, 56.5, d_major, 50,
+    # 51.75-68.2 : the dip, back to D.  The ramp at 14.65 s into the section
+    # (= 66.4 s absolute) is the extra 6 dB duck that clears the redeem note.
+    pad_section(51.75, 68.2, d_major, 50,
                 lambda m: ramp(m, [(0, db(-27)), (2.5, db(-25)),
-                                   (9.0, db(-26)), (12.5, db(-27))]),
-                lambda t: 520.0, 2.5, 1.5)
-    # 55-74.6 : the build, D pad with a rising filter
-    pad_section(55.0, 74.6, d_major, 70,
-                lambda m: ramp(m, [(0, db(-26)), (5, db(-22)),
-                                   (17, db(-17.5)), (19.0, db(-19)),
-                                   (19.6, db(-30))]),
+                                   (12.0, db(-26)),
+                                   (14.65, db(-26)),      # 66.40 s
+                                   (14.95, db(-32)),      # 66.70 s, -6 dB
+                                   (15.85, db(-32)),      # 67.60 s
+                                   (16.45, db(-34))]),
+                lambda t: 520.0, 2.5, 0.6)
+    # 67.6-78.55 : the build and the crescendo, filter opening 480 -> 3000 Hz
+    pad_section(67.6, 78.55, d_major, 70,
+                lambda m: ramp(m, [(0, db(-27)), (3.0, db(-22)),
+                                   (6.4, db(-19)), (9.4, db(-17)),
+                                   (10.95, db(-17))]),
                 lambda t: 480.0 + (3000.0 - 480.0) *
-                min(max((t - 1.0) / 16.0, 0.0), 1.0) ** 1.5, 2.0, 0.35)
+                min(max((t - 0.8) / 9.0, 0.0), 1.0) ** 1.5, 1.6, 0.05)
 
     # ---- the quarter-note pulse (76 bpm) --------------------------------
     def pulse_click(level):
@@ -1061,17 +1077,16 @@ def make_music_bed():
         return [k * BEAT for k in range(b0, int(t1 / BEAT) + 1)
                 if t0 <= k * BEAT < t1]
 
-    for t in beats_between(14.0, 44.0):
+    for t in beats_between(14.5, 51.75):
         strong = (round(t / BEAT) % 4 == 0)
         lv = -29.0 if strong else -32.0
-        # ease the pulse in over its first two bars
-        ease = min((t - 14.0) / 6.0, 1.0)
-        add_at(mix, pan(pulse_click(lv) * ease, 0.0), t)
-    for t in beats_between(56.0, 74.0):
+        ease = min((t - 14.5) / 3.0, 1.0)          # in over one bar
+        add_at(pre, pan(pulse_click(lv) * ease, 0.0), t)
+    for t in beats_between(67.6, CUT):
         strong = (round(t / BEAT) % 4 == 0)
-        g = min((t - 56.0) / 10.0, 1.0)             # crescendo through build
+        g = min((t - 67.6) / 7.0, 1.0)             # crescendo through build
         lv = (-30.0 if strong else -33.0) + 6.0 * g
-        add_at(mix, pan(pulse_click(lv), 0.0), t)
+        add_at(pre, pan(pulse_click(lv), 0.0), t)
 
     # ---- arpeggios (sine, 1/8 notes) ------------------------------------
     def arp_note(freq, level, length=0.42):
@@ -1083,41 +1098,38 @@ def make_music_bed():
 
     eighth = BEAT / 2.0
     # voice 1: D-F#-A-D across two octaves, a six-step figure so it drifts
-    # gently against the 4/4 pulse
+    # gently against the 4/4 pulse instead of marching with it
     v1 = [NOTE["D3"], NOTE["A3"], NOTE["D4"], NOTE["F#4"], NOTE["A4"], NOTE["D5"]]
-    t = math.ceil(32.0 / eighth) * eighth
+    t = math.ceil(35.8 / eighth) * eighth
     i = 0
-    while t < 44.0:
-        lv = -26.0 + (-6.0 if t > 42.0 else 0.0)
-        add_at(mix, pan(arp_note(v1[i % len(v1)], lv), 0.30 * math.sin(i * 1.1)), t)
+    while t < 51.75:
+        # Act VI has its own world (the grinder, the cups, the murmur);
+        # the score stays under it rather than beside it.
+        lv = -27.5 - (7.0 if t > 50.4 else 0.0)    # thin out into the dip
+        add_at(pre, pan(arp_note(v1[i % len(v1)], lv), 0.30 * math.sin(i * 1.1)), t)
         t += eighth
         i += 1
-    t = math.ceil(58.0 / eighth) * eighth
+    t = math.ceil(67.6 / eighth) * eighth
     i = 0
-    while t < 74.0:
-        g = min((t - 58.0) / 12.0, 1.0)
-        lv = -27.0 + 5.0 * g
-        if t > 73.0:
-            lv -= 8.0
-        add_at(mix, pan(arp_note(v1[i % len(v1)], lv), 0.32 * math.sin(i * 1.1)), t)
+    while t < CUT:
+        g = min((t - 67.6) / 8.0, 1.0)
+        add_at(pre, pan(arp_note(v1[i % len(v1)], -27.0 + 5.0 * g),
+                        0.32 * math.sin(i * 1.1)), t)
         t += eighth
         i += 1
 
-    # voice 2: the same figure a fifth up, entering with the build
+    # voice 2: the same figure a fifth up, entering inside the build
     v2 = [NOTE["A3"], NOTE["E4"], NOTE["A4"], NOTE["C#5"], NOTE["E5"], NOTE["A5"]]
-    t = math.ceil(62.0 / eighth) * eighth
+    t = math.ceil(71.0 / eighth) * eighth
     i = 0
-    while t < 74.0:
-        g = min((t - 62.0) / 8.0, 1.0)
-        lv = -33.0 + 5.0 * g
-        if t > 73.0:
-            lv -= 8.0
-        add_at(mix, pan(arp_note(v2[i % len(v2)], lv, 0.34),
+    while t < CUT:
+        g = min((t - 71.0) / 6.0, 1.0)
+        add_at(pre, pan(arp_note(v2[i % len(v2)], -33.0 + 5.0 * g, 0.34),
                         -0.34 * math.sin(i * 0.9)), t)
         t += eighth
         i += 1
 
-    # ---- bass, beats 1 and 3, four bars repeating -----------------------
+    # ---- the bass phrase, beats 1 and 3 ---------------------------------
     def bass_note(freq, level, length=1.5):
         m = n_samples(length)
         x = (sine(freq, m) + 0.30 * sine(freq * 2, m)
@@ -1126,37 +1138,41 @@ def make_music_bed():
         x *= env_ad(m, 0.020, length * 0.34, curve=1.2)
         return peak_norm(x, level)
 
-    bass_bars = ["D2", "A1", "B1", "G1"]
-    bar0 = math.ceil(56.0 / BAR)
-    bi = 0
-    while True:
-        t_bar = bar0 * BAR + bi * BAR
-        if t_bar >= 73.5:
-            break
-        name = bass_bars[bi % 4]
-        for beat in (0, 2):
-            t = t_bar + beat * BEAT
-            if t >= 73.5:
-                break
-            g = min(max((t - 56.0) / 14.0, 0.0), 1.0)
-            lv = -30.0 + 8.0 * g
-            add_at(mix, pan(bass_note(NOTE[name], lv), 0.0), t)
-        bi += 1
+    # D2-A1-B1-G1, one chord per bar, on beats 1 and 3.  The phrase is placed
+    # (D as a pickup on beat 86) so that its last bar is G -- and the cut at
+    # 78.5 s lands on the D major resolve, a plagal step rather than a stop.
+    bass_plan = [(86, "D2"), (88, "A1"), (90, "A1"), (92, "B1"),
+                 (94, "B1"), (96, "G1"), (98, "G1")]
+    for beat_index, name in bass_plan:
+        t = beat_index * BEAT
+        if t >= CUT:
+            continue
+        g = min(max((t - 67.6) / 9.0, 0.0), 1.0)
+        add_at(pre, pan(bass_note(NOTE[name], -30.0 + 8.0 * g), 0.0), t)
 
-    # ---- 74-80 s: the resolve.  One D major root chord. ------------------
-    res_n = n_samples(6.4)
+    # ---- the cut at 78.5 s ----------------------------------------------
+    # Everything rhythmic and every pad stops here, together, in 40 ms -- the
+    # 21 lands into the space that leaves.
+    gate = np.ones(n)
+    i0, fl = n_samples(CUT), n_samples(0.04)
+    gate[i0:i0 + fl] = 0.5 + 0.5 * np.cos(np.pi * np.linspace(0, 1, fl))
+    gate[i0 + fl:] = 0.0
+    mix += pre * gate
+
+    # ---- 78.5-86.0 s: the resolve.  One D major root chord. --------------
+    res_n = n_samples(7.6)
     res = _pad_chord([NOTE["D2"], NOTE["A2"], NOTE["D3"], NOTE["F#3"],
                       NOTE["A3"], NOTE["D4"]], res_n, 90, spread=0.30)
     res = fft_filter(res, hi=1500, order=2)
     res = fft_filter(res, lo=32, order=2)
     rt = t_axis(res_n)
     r_att = 0.5 - 0.5 * np.cos(np.pi * np.clip(rt / 0.25, 0, 1))
-    r_dec = np.exp(-rt / 2.1) * np.clip(1.0 - (rt / 6.0) ** 2.5, 0.0, 1.0)
+    r_dec = np.exp(-rt / 2.5) * np.clip(1.0 - (rt / 7.4) ** 2.5, 0.0, 1.0)
     res = res / np.max(np.abs(res)) * r_att * r_dec * db(-15.5)
     # a low D underneath so the resolve has a floor
-    sub2 = sine(NOTE["D1"] * 2, res_n) * r_att * np.exp(-rt / 1.8) * db(-30.0)
+    sub2 = sine(NOTE["D1"] * 2, res_n) * r_att * np.exp(-rt / 2.0) * db(-30.0)
     res += np.stack([sub2, sub2])
-    add_at(mix, res, 74.0)
+    add_at(mix, res, CUT)
 
     # ---- master: soft-clip limiter, then peak ceiling -------------------
     mix = fft_filter(mix, lo=24, order=2)          # keep sub-sonic energy out
