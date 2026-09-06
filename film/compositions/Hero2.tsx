@@ -6,6 +6,7 @@ import { GrowthPlanCard, PLAN_LINES, PLAN_ROWS } from "../primitives/GrowthPlan"
 import { Mono } from "../primitives/Type";
 import { COLOR, FONT } from "../tokens";
 import { useTextWidths } from "../typography/measure";
+import { PLAN_X, PLAN_Y, ROW_PX, TITLE_PX } from "./acts/PlanAtRest";
 
 /**
  * HERO 2 · FRIDAY MORNINGS ARE SLOW → UNDERSTANDING → PLAN
@@ -23,8 +24,11 @@ const LEFT = 96;
 const RIGHT = 1824;
 const WORD_PX = 96;
 const WORD_FONT = `200 ${WORD_PX}px 'Geist Film'`;
-const ROW_PX = 40;
 const ROW_FONT = `300 ${ROW_PX}px 'Geist Film'`;
+const MONEY_PX = 30;
+const MONEY_FONT = `300 ${MONEY_PX}px 'Geist Film'`;
+/** Below the line, last Friday is ink: amber only ever means who could come. */
+const VISIT = "rgb(40, 38, 34)";
 const L1 = 380; // Friday's baseline: the weeks line
 const L2 = 620; // the day line
 const DAY0 = 6;
@@ -79,8 +83,10 @@ export const Hero2 = () => {
   const frame = useCurrentFrame();
   const words = [...INTENT.words];
   const widths = useTextWidths([...words, " "], WORD_FONT);
-  const rowW = useTextWidths(["Friday", "Friday · ", "Friday · 7–10 AM"], ROW_FONT);
-  if (!widths || !rowW) return <Frame />;
+  // rowW[3] is the whole limit row: the money counter's right edge is its end
+  const rowW = useTextWidths(["Friday", "Friday · ", "Friday · 7–10 AM", PLAN_LINES.limit], ROW_FONT);
+  const moneyW = useTextWidths([ECONOMICS.coffeeCostLabel], MONEY_FONT);
+  if (!widths || !rowW || !moneyW) return <Frame />;
   const space = widths[4];
   const sentence = INTENT.sentence;
 
@@ -120,7 +126,7 @@ export const Hero2 = () => {
   const slowMove = ramp(frame, T.slow, 22, PLANE);
   const slowHold = origins[3] + (hx(10) + 48 - origins[3]) * mM;
   const slowX = slowHold + ((hx(7) + hx(10)) / 2 - widths[3] / 2 - slowHold) * slowMove;
-  const slowY = L2 + 118 * slowMove;
+  const slowY = L2 + 190 * slowMove;
 
   // --- Friday: six Fridays on the word's own baseline ------------------------
   const fridayTrack = ramp(frame, T.friday + 8, 26, PLANE);
@@ -137,28 +143,33 @@ export const Hero2 = () => {
   // --- context: annotations on the reading --------------------------------------
   const ann = (i: number) => ramp(frame, T.context + i * 7, 14, OUT);
   const readingOut = 1 - ramp(frame, T.assemble, 22, IN);
-  const wordsOut = 1 - ramp(frame, T.assemble + 6, 22, IN);
-  const annOut = 1 - ramp(frame, T.assemble + 2, 16, IN);
+  const annOut = 1 - ramp(frame, T.assemble, 10, IN); // the annotations are clear before the money crosses their line
 
   // --- assemble: the plan, bare on the page; three things travel into it ------------
-  const planX = LEFT;
-  const planY = 236;
-  const rowTop = (key: keyof typeof PLAN_ROWS) => planY + 30 + PLAN_ROWS[key] + 14;
-  const rowsIn = (k: number) => ramp(frame, T.plan + 10 + k * 8, 14, OUT);
-  const titleIn = ramp(frame, T.plan, 16, OUT);
+  const rowTop = (key: keyof typeof PLAN_ROWS) => PLAN_Y + PLAN_ROWS[key] + 14;
+  // two of the four sentence words hand over: Friday walks into row 1, mornings
+  // flies to the title's first-word slot and becomes the Morning of the title.
+  const travel = ramp(frame, T.assemble + 4, 30, PLANE); // Friday + the two uprights, 304→334
+  const resolve = ramp(frame, T.assemble + 34, 4, PLANE); // row 1 completes around the word, 334→338
+  const morn = ramp(frame, T.assemble + 10, 24, PLANE); // mornings → Morning, 310→334
+  const slowOut = 1 - ramp(frame, T.assemble + 12, 10, IN); // slow holds past the flood, 312→322
+  const rowsIn = (k: number) => ramp(frame, T.plan + 14 + k * 6, 12, OUT); // offer 336, fuel 342, audience 348
   const approveIn = ramp(frame, T.approve, 12, OUT);
-  const ruleIn = ramp(frame, T.approve + 6, 12, OUT);
-  const travel = ramp(frame, T.assemble + 4, 30, PLANE);
-  const resolve = ramp(frame, T.assemble + 30, 10, PLANE);
-  const moneyTravel = ramp(frame, T.plan + 26, 30, PLANE);
-  const moneyResolve = ramp(frame, T.plan + 50, 10, PLANE);
+  const ruleIn = ramp(frame, T.approve + 4, 12, OUT); // Joe's rule is fully in by 400
+  // the money: it leaves the reading with everything else, pins itself on the
+  // limit row's baseline with its right edge at the row's end, and counts ×30 there
+  const moneyTravel = ramp(frame, T.assemble + 4, 34, PLANE); // 304→338
+  const count = ramp(frame, T.plan + 18, 22, PLANE); // 340→362
+  const limitIn = ramp(frame, T.plan + 30, 12, OUT); // "First 30 · max reward exposure" fades in at 352
+  const steps = Math.max(1, Math.min(ECONOMICS.limit, Math.ceil(count * ECONOMICS.limit)));
+  const money = `$${(ECONOMICS.coffeeCost * steps).toFixed(2)}`;
+  const moneyRight = 1920 - (PLAN_X + rowW[3]);
+  const moneyRest = rowTop("limit") + 14 * (1 - limitIn);
 
-  // where the flood stands, for the annotation above it
-  const floodTop = L2 - 2 - 14 * 5;
   const annotations = [
     { i: 0, x: AX0, y: L1 + 28, lead: `${RELATIONSHIPS.permissioned}`, text: "relationships said yes to hearing from Joe's", color: COLOR.ink },
     { i: 1, x: hx(7), y: L1 + 64, lead: `${RELATIONSHIPS.signals.morningResponders}`, text: "tend to answer in the morning", color: COLOR.amberDeep },
-    { i: 2, x: AX0, y: L2 + 196, lead: ECONOMICS.coffeeCostLabel, text: "what a large coffee costs Joe", color: COLOR.ink },
+    { i: 2, x: AX0, y: L2 + 256, lead: ECONOMICS.coffeeCostLabel, text: "what a large coffee costs Joe", color: COLOR.ink },
   ];
 
   return (
@@ -178,17 +189,17 @@ export const Hero2 = () => {
         <div style={{ position: "absolute", left: LEFT, top: L2 - WORD_PX * 0.86, ...wordStyle }}>{sentence.slice(0, chars)}</div>
       ) : (
         <>
-          <Word text={words[0]} x={LEFT + (origins[0] - LEFT) * (1 - mF)} y={yF} opacity={travel > 0 ? 0 : wordsOut} />
-          <Word text={words[1]} x={morningsX} y={morningsY} opacity={wordsOut} spacing={extra} />
+          <Word text={words[0]} x={LEFT + (origins[0] - LEFT) * (1 - mF)} y={yF} opacity={travel > 0 ? 0 : 1} />
+          <Word text={words[1]} x={morningsX} y={morningsY} opacity={morn > 0 ? 0 : 1} spacing={extra} />
           <Word text={words[2]} x={origins[2]} y={L2} opacity={areOut} />
-          <Word text={words[3]} x={slowX} y={slowY} opacity={wordsOut} />
+          <Word text={words[3]} x={slowX} y={slowY} opacity={slowOut} />
         </>
       )}
       {caretOn && frame < T.reset && <div style={{ position: "absolute", left: typedX + 4, top: L2 - WORD_PX * 0.78, width: 3, height: WORD_PX * 0.86, background: caretMint > 0 ? COLOR.mintDeep : COLOR.ink }} />}
 
       {/* FRIDAY · six Fridays, on the word's baseline */}
       {frame >= T.friday && (
-        <div style={{ position: "absolute", left: 0, top: 0, opacity: readingOut }}>
+        <div style={{ position: "absolute", inset: 0, opacity: readingOut }}>
           <div style={{ position: "absolute", left: AX0, top: L1, width: (RIGHT - AX0) * fridayTrack, height: 1, background: "rgba(23,32,31,0.22)" }} />
           {Array.from({ length: 6 }).map((_, w) => {
             const t = (w + 1) / 6;
@@ -203,7 +214,7 @@ export const Hero2 = () => {
               </div>
             );
           })}
-          <div style={{ position: "absolute", left: RIGHT - 220, top: L1 + 16, opacity: ramp(frame, T.friday + 34, 10, OUT), textAlign: "right", width: 220 }}>
+          <div style={{ position: "absolute", right: 1920 - RIGHT, top: L1 + 16, opacity: ramp(frame, T.friday + 34, 10, OUT) }}>
             <Mono color={COLOR.inkSoft} size={16}>
               every Friday · six weeks
             </Mono>
@@ -246,7 +257,7 @@ export const Hero2 = () => {
             if (f <= 0) return null;
             const x = hx(h);
             const y = L2 + 4 + (1 - f) * 90;
-            return <div key={`m${i}`} style={{ position: "absolute", left: x - 1.5, top: y, width: 3, height: 26, borderRadius: 1.5, background: COLOR.amber, opacity: 0.5 + 0.5 * f, boxShadow: `0 0 16px rgba(226,162,79,0.5)` }} />;
+            return <div key={`m${i}`} style={{ position: "absolute", left: x - 1.5, top: y, width: 3, height: 28, background: VISIT, opacity: 0.5 + 0.5 * f }} />;
           })}
           {RESPONDERS.map((h, i) => {
             const f = floodIn(i);
@@ -258,10 +269,9 @@ export const Hero2 = () => {
             const y = landY - (1 - f) * 110;
             return <div key={i} style={{ position: "absolute", left: x - 1, top: y, width: 2, height: hgt, background: COLOR.amber, opacity: 0.6 + 0.4 * f }} />;
           })}
-          <div style={{ position: "absolute", left: hx(7), top: L2 + 150, width: hx(10) - hx(7), textAlign: "center", opacity: ramp(frame, T.slow + 40, 12, OUT) }}>
-            <Mono color={COLOR.amberDeep} size={16}>
-              {GAP.visits} · last Friday
-            </Mono>
+          <div style={{ position: "absolute", left: hx(MORNING[0]) - 1.5, top: 676, opacity: ramp(frame, T.slow + 40, 12, OUT), display: "flex", alignItems: "baseline", gap: 10, whiteSpace: "nowrap", fontFamily: FONT.sans, fontWeight: 300, letterSpacing: "-0.02em", lineHeight: 1 }}>
+            <span style={{ fontSize: 28, color: COLOR.ink }}>{GAP.visits}</span>
+            <span style={{ fontSize: 24, color: "rgba(23, 32, 31, 0.56)" }}>came last Friday</span>
           </div>
         </div>
       )}
@@ -273,8 +283,9 @@ export const Hero2 = () => {
             const v = ann(a.i);
             const travels = a.i === 2;
             return (
-              <div key={a.i} style={{ position: "absolute", left: a.x, top: a.y - (1 - v) * 10, opacity: v * (travels ? 1 - moneyTravel : 1), display: "flex", alignItems: "baseline", gap: 12, whiteSpace: "nowrap" }}>
-                <span style={{ fontFamily: FONT.sans, fontWeight: 300, fontSize: 30, letterSpacing: "-0.02em", color: a.color }}>{a.lead}</span>
+              <div key={a.i} style={{ position: "absolute", left: a.x, top: a.y - (1 - v) * 10, opacity: v, display: "flex", alignItems: "baseline", gap: 12, whiteSpace: "nowrap" }}>
+                {/* the coffee's cost is one object: it leaves here, it does not fade here */}
+                <span style={{ fontFamily: FONT.sans, fontWeight: 300, fontSize: MONEY_PX, letterSpacing: "-0.02em", color: a.color, opacity: travels && moneyTravel > 0 ? 0 : 1 }}>{a.lead}</span>
                 <span style={{ fontFamily: FONT.sans, fontWeight: 300, fontSize: 22, color: COLOR.inkSoft }}>{a.text}</span>
               </div>
             );
@@ -285,21 +296,49 @@ export const Hero2 = () => {
       {/* ASSEMBLE · one plan, bare on the page, from what was already there */}
       {frame >= T.assemble && (
         <>
-          <GrowthPlanCard x={planX} y={planY + 30} bare labels={false} rules={false} titleSize={88} rowSize={ROW_PX} approveStyle="plain" reveal={{ title: titleIn, window: resolve >= 1 ? rowsIn(0) : 0, offer: rowsIn(1), fuel: rowsIn(2), audience: rowsIn(3), limit: rowsIn(4) * moneyResolve, approve: approveIn }} />
+          <GrowthPlanCard x={PLAN_X} y={PLAN_Y} bare labels={false} rules={false} titleSize={TITLE_PX} rowSize={ROW_PX} approveStyle="plain" reveal={{ title: morn >= 1 ? 1 : 0, window: resolve >= 1 ? 1 : 0, offer: rowsIn(0), fuel: rowsIn(1), audience: rowsIn(2), limit: limitIn, approve: approveIn }} />
           {/* Friday walks from its baseline into the first row */}
-          <Traveller t={travel} from={{ x: LEFT, y: L1 - WORD_PX * 0.935, size: WORD_PX, mono: false, color: COLOR.ink, weight: 200 }} to={{ x: planX, y: rowTop("window"), size: ROW_PX, mono: false, color: COLOR.ink, weight: 300 }} textFrom={words[0]} textTo={words[0]} fade={resolve >= 1 ? 1 : 0} />
+          <Traveller t={travel} from={{ x: LEFT, y: L1 - WORD_PX * 0.935, size: WORD_PX, mono: false, color: COLOR.ink, weight: 200 }} to={{ x: PLAN_X, y: rowTop("window"), size: ROW_PX, mono: false, color: COLOR.ink, weight: 300 }} textFrom={words[0]} textTo={words[0]} fade={resolve >= 1 ? 1 : 0} />
+          {/* mornings flies to the title's first-word slot and becomes its Morning */}
+          <Traveller
+            t={morn}
+            from={{ x: morningsX, y: morningsY - WORD_PX * 0.86, size: WORD_PX, mono: false, color: COLOR.ink, weight: 200, track: extra > 0 ? extra - 1.9 : -0.02 * WORD_PX, lh: 1 }}
+            to={{ x: PLAN_X, y: PLAN_Y - TITLE_PX, size: TITLE_PX, mono: false, color: COLOR.ink, weight: 200, track: -0.035 * TITLE_PX, lh: 1 }}
+            textFrom={words[1]}
+            textTo="Morning"
+            at={0.55}
+            fade={morn >= 1 ? 1 : 0}
+          />
           {/* the two mint uprights leave the day line and bracket 7–10 AM in that row */}
           {[7, 10].map((h, k) => {
-            const tx = planX + (k === 0 ? rowW[1] - 6 : rowW[2] + 6);
+            const tx = PLAN_X + (k === 0 ? rowW[1] - 6 : rowW[2] + 6);
             const x = hx(h) - 1.5 + (tx - (hx(h) - 1.5)) * travel;
             const y = L2 - 52 + (rowTop("window") - 2 - (L2 - 52)) * travel;
             const hgt = 52 + (ROW_PX + 6 - 52) * travel;
             return <div key={h} style={{ position: "absolute", left: x, top: y, width: travel < 1 ? 3 : 2, height: hgt, background: COLOR.mintDeep, opacity: travel > 0 ? 1 : 0 }} />;
           })}
-          {/* the coffee's cost steps ×30 into the limit */}
-          <Traveller t={moneyTravel} from={{ x: annotations[2].x, y: annotations[2].y, size: 30, mono: false, color: COLOR.ink, weight: 300 }} to={{ x: planX, y: rowTop("limit"), size: ROW_PX, mono: false, color: COLOR.ink, weight: 300 }} textFrom={ECONOMICS.coffeeCostLabel} textTo={moneyResolve < 0.5 ? `${ECONOMICS.coffeeCostLabel} × ${ECONOMICS.limit}` : PLAN_LINES.limit} fade={moneyResolve} />
+          {/* the coffee's cost leaves the reading, pins itself to the limit row's
+              end, counts ×30 there, and is handed to the row when the row is whole */}
+          {moneyTravel > 0 && limitIn < 1 && (
+            <div
+              style={{
+                position: "absolute",
+                right: 1920 - (annotations[2].x + moneyW[0]) + (moneyRight - (1920 - (annotations[2].x + moneyW[0]))) * moneyTravel,
+                top: annotations[2].y + 3 + (moneyRest - (annotations[2].y + 3)) * moneyTravel,
+                fontFamily: FONT.sans,
+                fontWeight: 300,
+                fontSize: MONEY_PX + (ROW_PX - MONEY_PX) * moneyTravel,
+                letterSpacing: "-0.02em",
+                lineHeight: 1.15,
+                color: COLOR.ink,
+                whiteSpace: "nowrap",
+              }}
+            >
+              {money}
+            </div>
+          )}
           {/* Joe's rule, on its own line beneath Approve, in his voice */}
-          <div style={{ position: "absolute", left: planX, top: planY + 30 + PLAN_ROWS.approve + 74, opacity: ruleIn, fontFamily: FONT.sans, fontWeight: 300, fontSize: 28, color: COLOR.amberDeep, letterSpacing: "-0.01em" }}>
+          <div style={{ position: "absolute", left: PLAN_X, top: PLAN_Y + PLAN_ROWS.approve + 74, opacity: ruleIn, fontFamily: FONT.sans, fontWeight: 300, fontSize: 28, color: COLOR.amberDeep, letterSpacing: "-0.01em", whiteSpace: "nowrap" }}>
             {ECONOMICS.fuelRule.replace(".", "")} — {ECONOMICS.fuelRuleTag.replace(".", "")}
           </div>
         </>
@@ -319,21 +358,25 @@ function Word({ text, x, y, opacity = 1, spacing = 0 }: { text: string; x: numbe
   );
 }
 
-type Anchor = { x: number; y: number; size: number; mono: boolean; color: string; weight?: number };
+type Anchor = { x: number; y: number; size: number; mono: boolean; color: string; weight?: number; /** tracking in px; defaults to the film's -0.02em */ track?: number; lh?: number };
 
 /** A fact that leaves its place and arrives in the plan, re-set on the way. */
-function Traveller({ t, from, to, textFrom, textTo, fade = 1 }: { t: number; from: Anchor; to: Anchor; textFrom: string; textTo: string; fade?: number }) {
+function Traveller({ t, from, to, textFrom, textTo, fade = 1, at = 0.5 }: { t: number; from: Anchor; to: Anchor; textFrom: string; textTo: string; fade?: number; at?: number }) {
   if (t <= 0) return null;
   const x = from.x + (to.x - from.x) * t;
   const y = from.y + (to.y - from.y) * t;
   const size = from.size + (to.size - from.size) * t;
-  const mono = t > 0.5 ? to.mono : from.mono;
-  const color = t > 0.5 ? to.color : from.color;
-  const weight = t > 0.5 ? (to.weight ?? 300) : (from.weight ?? 300);
-  const text = t > 0.5 ? textTo : textFrom;
+  const t0 = from.track ?? -0.02 * from.size;
+  const t1 = to.track ?? -0.02 * to.size;
+  const past = t > at;
+  const mono = past ? to.mono : from.mono;
+  const color = past ? to.color : from.color;
+  const weight = past ? (to.weight ?? 300) : (from.weight ?? 300);
+  const text = past ? textTo : textFrom;
+  const lh = past ? (to.lh ?? 1.15) : (from.lh ?? 1.15);
   const arrived = t >= 0.999 ? 1 - fade : 1;
   return (
-    <div style={{ position: "absolute", left: x, top: y, opacity: arrived, whiteSpace: "nowrap", fontFamily: mono ? FONT.mono : FONT.sans, fontSize: size, fontWeight: mono ? 500 : weight, letterSpacing: mono ? "0.16em" : "-0.02em", textTransform: mono ? "uppercase" : undefined, color, lineHeight: 1.15 }}>
+    <div style={{ position: "absolute", left: x, top: y, opacity: arrived, whiteSpace: "nowrap", fontFamily: mono ? FONT.mono : FONT.sans, fontSize: size, fontWeight: mono ? 500 : weight, letterSpacing: mono ? "0.16em" : `${(t0 + (t1 - t0) * t).toFixed(2)}px`, textTransform: mono ? "uppercase" : undefined, color, lineHeight: lh }}>
       {text}
     </div>
   );
