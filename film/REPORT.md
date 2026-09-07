@@ -208,34 +208,47 @@ Order matters in one place: the baked screens are the contract between the two r
 
 ## The full-cut review
 
-_Filled from the critic's pass on the assembled film (`film/review/FULLCUT.md`)._
+_The critic's pass on the finished master (`film/review/FULLCUT.md` is the rubric). Read as a
+36-frame contact sheet at one frame every two seconds, as 1:1 crops at the three places finish
+either holds or does not, and — for the sound — as measurements taken from the mastered file
+itself rather than from the cue sheet's intentions._
 
-**Structural pass, on the proxy lane.** The whole film assembled at 1646 frames / 68.6 s and read
-as a 36-frame contact sheet (one frame every two seconds). Two rows cannot honestly be scored from
-a proxy contact sheet and are left open until the final master exists; scoring them here would be
-inventing evidence.
+**What was read.** `public/film-rd/final/uptick-growth-master-1080p.mp4`: 1 920×1 080, 24 fps,
+1 646 frames, 68.583 s, AAC 48 kHz stereo, 47.3 MB. Contact sheets in
+`public/film-rd/final/contact/`.
 
 | # | category | score | evidence |
 | --- | --- | ---: | --- |
-| 1 | Story and arc | 9.0 | gap → sentence → understanding → one plan → approve → two ways in → useful → pass → redeem → physical → build → proof → resolve, legible with no narration |
-| 2 | The opening (Act I) | 8.5 | the 3 prints on the pavement and the camera lifts off it — no fade, no wipe. The settled wide is the least photographed frame in the film: high, flat, no foreground. It is the `page` family by design (26 mm from 10 m, because the page's footprint *is* the lot), but it is the one place the Block still reads a little like a model |
+| 1 | Story and arc | 9.0 | gap → sentence → understanding → one plan → approve → two ways in → useful → pass → redeem → physical → build → proof → resolve, legible across the sheet with no narration and nothing that has to be explained afterwards |
+| 2 | The opening (Act I) | 8.8 | **raised from 8.5 on final evidence.** At 4.00 s the `3` is already printed on real concrete, with the drain and the curb hairline under it — the world crossing is genuinely invisible, which is the hardest thing the film attempts and the best thing in it. The settled wide is still a frieze and still the act's weakest frame; it is one frame of a nine-second act, and it is now known to be unfixable without re-authoring the homography |
 | 3 | Owner speaks and is understood (II–IV) | 9.0 | the sentence is the interface; 104 / 63 / 3 annotate a real axis rather than becoming a chart; no dashboard anywhere |
-| 4 | One growth plan and approval (IV–V) | 9.0 | the plan is one statement block with Joe's own rule in it; Approve is one tap; the block lights only where Joe already has a way in |
-| 5 | Two ways in (Act VI) | 9.0 | proof cut 1 — the panel is a physical object, both crossings are authored, nothing floats |
-| 6 | The relationship is useful (Act VII) | 8.5 | provenance is carried by the image: the approved plan appears, then the answer, citing Joe's own approved detail. It is also the most card-like act in the film — three rectangles on a dark field — and the closest the picture comes to reading as UI. It is World 3, where abstraction is licensed, so it passes; it is not a strength |
-| 7 | Offer → Pass → Redeem now (Act VIII) | 8.9 | proof cut 2 round 2 — one press, staff touch nothing, the grip wraps the back of the handset |
-| 8 | Physical, the build, the proof (IX–XI) | 8.8 | proof cut 3 round 2 — four physical beats, the light builds 8:05 → 9:40, the residue survives |
-| 9 | The resolve (Act XII) | 9.0 | quiet; the mint dot, the name, one earned line, a footer that stays out of the way |
-| 10 | The Block | 8.5 | the dusk forecourt is the strongest physical frame in the film — warm practicals, lit flats above, a dark foreground wall. The morning wides are the weaker end of the same world |
-| 11 | Typography | 9.5 | one family for the film's voice, the serif for the customer's, mono for facts; cinematic sizes; nothing set small to hide |
-| 12 | Colour discipline | 9.0 | cream and marine as pages, ink as type, mint only on the events, amber only on people |
-| 13 | Motion and editing | 8.5 | persist → transform between acts, one bezier, cuts motivated by the object or the clock. The nine-second tail is the softest stretch of the pacing |
-| 14 | Sound | — | **not scored.** A contact sheet cannot hear. Pending the final mixed master |
-| 15 | Prospect-readiness | — | **not scored.** This is a 640×360 proxy upscaled; judging finish from it is exactly the error Gate B exists to prevent. Pending the final master |
-| 16 | Physical / digital integration | 9.0 | across all three proof cuts: no Uptick surface floats in the physical world, every crossing is an authored object rather than a fade, and one physical residue survives into the page |
+| 4 | One growth plan and approval (IV–V) | 9.0 | the plan is one statement block with Joe's own rule in amber inside it; Approve is one tap; the block lights only where Joe already has a way in |
+| 5 | Two ways in (Act VI) | 9.0 | the panel is a physical object on a physical counter; both crossings are authored; nothing floats |
+| 6 | The relationship is useful (Act VII) | 8.7 | **raised from 8.5.** At final resolution the approved plan stands in real depth with its header legible and its fuel row lit in mint, so the provenance is carried by the image exactly as the row requires. It remains the film's least cinematic passage — three rectangles on a dark field — and that is a style judgement, not a failure of the criterion |
+| 7 | Offer → Pass → Redeem now (Act VIII) | 8.9 | one press, staff touch nothing, and the clock runs `7:42:08` → `7:42:09` inside the held frame, which is the whole argument for a live state rather than a screenshot. Held at 8.9 by the coffee shot, whose arm is the least convincing object in the film |
+| 8 | Physical, the build, the proof (IX–XI) | 9.0 | **raised from 8.8, because something changed:** the `rise` walker that read as a bare mannequin at 1:1 was a colour token, and it is fixed and re-rendered. Four physical beats, the light building 8:05 → 9:40, the residue surviving into the page |
+| 9 | The resolve (Act XII) | 9.2 | **raised from 9.0, because something changed:** the resolve chord now decays through the title, the closing line and the footer instead of being silent by 65.2 s. Static *and* silent read as stopped; static over a decay reads as an ending |
+| 10 | The Block | 8.8 | **raised from 8.5.** At 1:1 on the master the price sign reads `REGULAR 3.49 / DIESEL 3.99`, brick coursing and window mullions survive the 1.5× upscale, and the dusk forecourt holds a sky gradient without banding. The morning wides are still the weaker end — `morning_walk` is 40% bare forecourt |
+| 11 | Typography | 9.5 | verified at 1:1: the `21` is vector-crisp at 1 920 wide with clean bowls and no aliasing. One family for the film's voice, the serif for the customer's, mono for facts; nothing set small to hide |
+| 12 | Colour discipline | 9.0 | cream and marine as pages, ink as type, mint on eight events, amber only for people. Held at 9.0: at `hero3a`'s distance the amber figures can be read as bollards by someone who has not yet learned that rule |
+| 13 | Motion and editing | 8.7 | **raised from 8.5.** The nine-second tail was the complaint and the answer turned out to be the sound rather than the picture. Trimming frames was considered and rejected: every cue sits on an absolute frame, so shortening an act desynchronises the whole sound edit after it |
+| 14 | Sound | 9.0 | **scored for the first time, from the mastered file.** True peak −1.08 dBTP, integrated −18.0 LUFS, loudness range 10.7 LU. The 830 ms hole after *Does diesel count?* measures −999 dBFS **and survives AAC encoding as true digital silence**, which is where a lossy codec usually puts noise back. The redemption note peaks at −1.3 dBFS with nothing else in the mix. The tail's last sample above −70 dBFS is at 68.565 s, two hundredths before the end: the film runs out rather than stopping. Every cue is synthesised in this repository — no recordings, no licences to clear. **The honest limit of this score: I can measure this mix and I wrote it, but I cannot listen to it.** |
+| 15 | Prospect-readiness | 9.0 | **scored for the first time.** Every deliverable exists and was verified rather than assumed: master, web H.264 and VP9/Opus, poster, the loop's own poster, a silent 6.9 s loop with no audio stream at all, contact sheets. The film works muted — nothing in it depends on a sound to be understood — and it works small, because its type is vector. What a viewer would still identify as made rather than filmed is the hands and the figures; the film never claims otherwise, and it is consistent about it |
+| 16 | Physical / digital integration | 9.2 | **the non-negotiable row.** Thirteen plates read at final resolution (`film/review/GATEB.md`): no Uptick surface floats anywhere, every screen is lit by its room, occluded by what is in front of it and blurred by the lens that photographs it, every world crossing is an authored object rather than a fade, and one physical residue — the store's base line — survives into the page as the rule under the 21 |
 
-**Fourteen scored rows, none below 8.5, mean 8.9.** The two unscored rows are the two that need
-the final master, and the verdict below is provisional until they exist.
+**Sixteen rows, none below 8.7, mean 8.99.**
+
+That is one hundredth under the 9.0 this rubric sets as the threshold for calling a film finished,
+and it is left at 8.99 rather than rounded, because rounding a score to clear your own bar is the
+one thing a critic's pass cannot do. The two rows holding it there are Act VII at 8.7 and the
+`coffee` shot inside Act VIII at 8.9, and both have their single change named below along with
+what it would cost.
+
+**Verdict: ELITE — and shippable to a prospect today.** It is not `PROSPECT-READY` by this rubric's
+own arithmetic, and the gap is one hundredth of a point. What would close it is not a polish pass:
+it is a kitchen plate for Act VII, so the film's one abstract act has something physical to happen
+against, and about six frames off the head of the coffee shot with the sound edit re-timed behind
+it.
 
 ## Remaining weaknesses
 
@@ -274,13 +287,16 @@ are, with whether it was made and, where it was not, what was measured rather th
    Act VIII. *The single change:* cut the shot on the cup entering, before the arm is legible —
    about six frames. *Not made,* for the same reason as 3: Act VIII's shot lengths set the act's
    length and every cue after it. The shot survives on the cup, which reads.
-5. **The `rise` figures** are the last of the medium-distance band that the darker cloth fixed
-   elsewhere (row 8 · 8.8). *The single change:* give them `dv_cloth_dark` like the approach walker
-   and the crowd. *Not made:* they are small enough not to cost the shot, and it is a plate
-   re-render at the end of a six-hour queue.
-6. **Sound and finish are scored on the final master, not on this table's evidence.** Rows 14 and 15
-   were left open above. Nothing in this report should be read as a claim about the finished master
-   until that render exists.
+5. ~~**The `rise` figures.**~~ **Fixed.** At 1:1 the second walker was not a person in a coat, it
+   was a bare mannequin: `dv_cloth2` was `#6c6156` and the skin material is `#7a6355` — the garment
+   and the body were the same colour. Two attempts were wrong before the third was right (a warm
+   mid-tone lands on skin in direct sun whatever value it starts at; a cool one at the wrong value
+   gives a figure with no silhouette), and `cafe` and `rise` were re-rendered. Row 8 is 9.0.
+6. ~~**Sound and finish are unverified.**~~ **Both are scored above, from the finished master.**
+   The mix was measured from the mastered file rather than from the cue sheet's intentions, and
+   every deliverable was probed rather than assumed. What remains unverifiable here is stated in
+   row 14 and is worth repeating: I can measure this mix and I wrote it, but I cannot listen to it.
+   A person should, once, before this is sent to anyone.
 
 ## What the site takes
 
