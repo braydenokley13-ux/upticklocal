@@ -570,37 +570,65 @@ def shot_counter(W: B.World):
 def shot_device(W: B.World):
     """D+E · the phone, close. Redeem now, one press, and the state that follows it.
 
-    lens      device 95 mm, f/2.2      height 1.44 m
+    Reframed after proof cut 2. The 95 mm original stood 0.715 m off the glass with the handset
+    square to the lens, which made a procedural hand the second-largest object in the frame and
+    invited exactly the anatomical inspection it cannot survive. The beat is unchanged -- one
+    customer press, no interstitial, the live state -- but the hierarchy is not: the screen is the
+    subject, the person is context, the hand is evidence that someone is holding it.
+
+    85 mm from 0.80 m with the handset raked 32 degrees off the lens. The rake is the whole trick:
+    it collapses the four fingers into one overlapping dark mass at the phone's edge instead of a
+    rank of four presented broadside. Swept on the proxy lane at 118/132/148/162/176 -- below 148
+    the grip swings back toward the lens and reads worse; above it the fingers separate again and
+    the frame drifts back toward the original mistake.
+
+    lens      device 85 mm, f/2.0      height 1.44 m
     fore      the counter's edge, out of focus along the bottom
-    subject   the handset's face, three quarters of frame height
-    back      the store's back bar, thrown far out of focus
+    subject   the handset's face, raked, lit chiefly by its own screen
+    back      the store's back bar, warm and thrown far out of focus
     focus     the glass. It never changes; nothing else in the shot is sharp.
     move      locked. The only movement is a thumb and the seconds.
+    """
+    return _device_variant(W, lens=85.0, dist=0.80, yaw=148.0, rise=0.06, fstop=2.0,
+                           subject="the handset's face, raked, its own screen the key",
+                           fore="the counter's edge, dark and close along the bottom",
+                           back="the store's back bar, warm and far out of focus",
+                           motive="locked; the grip is raked so the hand reads as one dark mass")
+
+
+def _device_variant(W: B.World, *, lens, dist, yaw, rise, fstop, subject, fore, back, motive, frames=84):
+    """The redemption close-up, parameterised so three genuinely different solutions to the same
+    beat can be cut against each other on the proxy lane instead of argued about.
+
+    The beat never changes: Redeem now, one customer press, the live state. What changes is where
+    the camera stands and how much of a hand it asks to survive inspection. The 95 mm original
+    made a procedural hand the second-largest object in frame, which is a hierarchy mistake, not
+    a modelling one: the screen is the subject, the person is context, and finger anatomy is
+    tertiary. If a joint can be inspected, the lens is too long.
     """
     m = look(W)
     dress_joes(W)
     B.set_state(W, "morning")
-    frames = 84
     cx, cy = JOES["counter_x"], JOES["counter_y"]
     px, py, pz = cx - 0.30, cy - 0.60, 1.26
 
-    ph_root, ph = held_phone(W, "dv_phone", (px, py, pz), yaw=math.radians(182), tilt=math.radians(-14), screen="device-pass", first=0, strength=5.4)
-    # the hand is alive: it does not sit on a tripod
+    ph_root, ph = held_phone(W, "dv_phone", (px, py, pz), yaw=math.radians(yaw), tilt=math.radians(-14),
+                             screen="device-pass", first=0, strength=5.4)
+    # the hand is alive: it does not sit on a tripod. NOTE the yaw is re-stated on every key --
+    # the original hard-coded 182 here, which silently overrode the yaw argument above.
     for f, dz, dp in ((0, 0.0, 0.0), (26, -0.004, 0.6), (34, 0.003, -0.4), (56, -0.002, 0.3), (frames - 1, 0.0, 0.0)):
         ph_root.location = (px, py, pz + dz)
-        ph_root.rotation_euler = (math.radians(-14 + dp), 0.0, math.radians(182))
+        ph_root.rotation_euler = (math.radians(-14 + dp), 0.0, math.radians(yaw))
         ph_root.keyframe_insert("location", frame=f)
         ph_root.keyframe_insert("rotation_euler", frame=f)
     CAM.ease_camera(ph_root)
-    # the press: the other thumb, once, at the same frame the baked UI presses
     press_thumb(ph["thumb_pivot"], 25)
     track(W, "phone", B.empty("dv_pt", (0, 0, 0)))
     W.tracks["phone"].parent = ph["phone"]
     track_screen(W, "glass", ph)
 
-    cam = CAM.Cam("device", subject="the handset's face", foreground="the counter's edge, out of focus along the bottom",
-                  background="the front glass and the bright forecourt, far out of focus", motivation="locked")
-    cam.lock((px - 0.014, py + 0.715, pz + 0.082), (px, py - 0.004, pz), frames, focus=(px, py + 0.004, pz), label="on the glass")
+    cam = CAM.Cam("device", lens=lens, fstop=fstop, subject=subject, foreground=fore, background=back, motivation=motive)
+    cam.lock((px - 0.014, py + dist, pz + rise), (px, py - 0.004, pz), frames, focus=(px, py + 0.004, pz), label="on the glass")
     CAM.ease_camera(cam.obj)
     return dict(frames=frames, cam=cam.obj, names=["phone", "glass_tl", "glass_tr", "glass_br", "glass_bl"], people=None,
                 meta=dict(state="morning", clock="Friday · 7:42 AM", press=26, redeemed=46, spec=cam.spec()),

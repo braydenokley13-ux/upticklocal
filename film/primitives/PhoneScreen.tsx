@@ -166,27 +166,26 @@ export function PhonePass({ press = 0, redeemed = 0, tick = 0, clockFrames = 0 }
       {/* the one object: the action becomes the state, in place */}
       <div style={{ position: "absolute", left: PAD, right: PAD, top, height: h, background: COLOR.ink, color: COLOR.canvas, borderRadius: 6, transform: `scale(${1 - 0.03 * press})`, overflow: "hidden" }}>
         <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 34, fontWeight: 500, opacity: restLabel }}>{PASS.redeemNow}</div>
-        <div style={{ position: "absolute", left: 44, top: 44, opacity: doneLabel, display: "flex", alignItems: "center", gap: 22 }}>
-          <svg width={48} height={48} viewBox="0 0 48 48" style={{ display: "block" }}>
+        {/* The live state is read on a handset that is a fifth of the frame, raked away from the
+            lens. At that size the old layout -- a 24px mono line, a 32px detail and a 20px
+            footer pair -- computed to eight screen pixels and was a dense receipt nobody could
+            read. Four things, in the order they matter: it happened, when, where, what. */}
+        <div style={{ position: "absolute", left: 44, top: 40, opacity: doneLabel, display: "flex", alignItems: "center", gap: 22 }}>
+          <svg width={56} height={56} viewBox="0 0 48 48" style={{ display: "block" }}>
             <path d="M 8 25 L 19 36 L 40 12" fill="none" stroke={COLOR.mint} strokeWidth={4} strokeLinecap="round" strokeLinejoin="round" strokeDasharray={tickLen} strokeDashoffset={tickLen * (1 - tick)} />
           </svg>
-          <div style={{ fontSize: 52, fontWeight: 500, letterSpacing: "-0.03em", lineHeight: 1 }}>{PASS.redeemedLine}</div>
+          <div style={{ fontSize: 74, fontWeight: 500, letterSpacing: "-0.03em", lineHeight: 1 }}>{PASS.redeemedLine}</div>
         </div>
-        <div style={{ position: "absolute", left: 44, right: 44, top: 152, opacity: doneLabel * Math.min(1, tick * 2), display: "flex", alignItems: "center", gap: 16 }}>
-          <span style={{ width: 12, height: 12, borderRadius: 6, background: COLOR.mint, opacity: live, display: "inline-block", flex: "none" }} />
-          <Mono color={COLOR.canvas} size={24}>
-            {BUSINESS.short} · {passClock(clockFrames)} AM
+        {/* the seconds are the proof that this is live and not a screenshot, so they are the
+            second-largest thing on the card rather than a footnote */}
+        <div style={{ position: "absolute", left: 44, right: 44, top: 156, opacity: doneLabel * Math.min(1, tick * 2), display: "flex", alignItems: "center", gap: 18 }}>
+          <span style={{ width: 16, height: 16, borderRadius: 8, background: COLOR.mint, opacity: live, display: "inline-block", flex: "none" }} />
+          <Mono color={COLOR.canvas} size={50}>
+            {passClock(clockFrames)} AM
           </Mono>
         </div>
-        <div style={{ position: "absolute", left: 44, right: 44, top: 226, fontSize: 32, fontWeight: 400, opacity: detail, color: "rgba(243,240,233,0.74)" }}>{PASS.redeemedDetail}</div>
-        <div style={{ position: "absolute", left: 44, right: 44, bottom: 40, opacity: detail, display: "flex", justifyContent: "space-between" }}>
-          <Mono color="rgba(243,240,233,0.45)" size={20}>
-            Pass {PASS.id}
-          </Mono>
-          <Mono color="rgba(243,240,233,0.45)" size={20}>
-            {PASS.ordinal}
-          </Mono>
-        </div>
+        <div style={{ position: "absolute", left: 44, right: 44, top: 246, fontSize: 40, fontWeight: 400, opacity: detail, color: "rgba(243,240,233,0.88)" }}>{BUSINESS.name}</div>
+        <div style={{ position: "absolute", left: 44, right: 44, top: 306, fontSize: 38, fontWeight: 400, opacity: detail, color: "rgba(243,240,233,0.66)" }}>{PASS.redeemedDetail}</div>
       </div>
 
       <div style={{ position: "absolute", left: PAD, right: PAD, top: BLOCK.rest.top + BLOCK.rest.h + 40, fontSize: 28, color: COLOR.inkSoft, opacity: 1 - Math.min(1, yield_ * 1.6) }}>{PASS.window}</div>
