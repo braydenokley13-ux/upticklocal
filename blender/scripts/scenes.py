@@ -256,39 +256,31 @@ def grip(W, name, parent, scale=1.0):
     # The pitch is a little under a finger's width so they touch: separated tubes read as four
     # sausages, and at 95 mm the hand is the second-largest thing in the frame. Each tip carries
     # a nail, because the pad is against the glass and the nail is the side facing the lens.
-    # The nail is a sheen, not a colour. It was written that way and then built with coat 0.6 and
-    # specular 0.5 over a paler brown, which at 95 mm is not a sheen, it is a highlight: four pale
-    # glossy ovals reading as caps glued to a toy. Nearly skin, nearly matte, and smaller.
-    nail = B.mat_surface("dv_nail", "#9a8071", rough=0.44, spec=0.20, coat=0.12)
     # Four fingers, only two of which really crest the glass: an even rank of four reads as a
     # rank of four, and a hand does not do that. The index rides the edge, the middle comes
     # furthest over, the ring follows it, the little finger stays on the rim.
+    # The fingers stay BEHIND the glass. They used to crest the near edge and rest their pads on
+    # the front, which is what a hand does when it is presenting a phone to a camera and not what
+    # it does when it is holding one: a one-handed grip wraps the back and puts only the thumb on
+    # the face. Cresting also put four fingertips broadside to the lens, and four procedural tubes
+    # cannot survive that -- they are separate meshes, so Cycles renders their intersections as
+    # hard V-grooves where skin would fold, and no amount of radius or material tuning removes a
+    # groove. Ending the wrap at the side leaves one soft edge along the handset's silhouette
+    # instead of four pads, and the shot stops asking the geometry a question it cannot answer.
     for i, (z, reach, r) in enumerate(((0.0300, -0.0026, 0.0092), (0.0142, 0.0034, 0.0098), (-0.0018, 0.0022, 0.0094), (-0.0170, -0.0032, 0.0080))):
         z *= s
         reach *= s
         rr = r * s
-        tipx = -hw + reach
-        crestx = min(-hw + 0.004 * s, tipx - 0.003 * s)
-        tip = (tipx, -hd - 0.007 * s, z + 0.003 * s)
         path = [
             (0.014 * s, hd + 0.030 * s, z - 0.004 * s),
             (-0.014 * s, hd + 0.028 * s, z - 0.002 * s),
-            (-hw - 0.007 * s, hd + 0.017 * s, z),
-            (-hw - 0.011 * s, 0.0, z + 0.002 * s),
-            (crestx, -hd - 0.006 * s, z + 0.003 * s),
-            tip,
+            (-hw - 0.006 * s, hd + 0.016 * s, z),
+            (-hw - 0.009 * s, hd * 0.15 + reach, z + 0.002 * s),
+            (-hw - 0.007 * s, -hd * 0.30 + reach, z + 0.003 * s),
         ]
-        # A finger is not a tube that tapers. It swells at the knuckle it is bent over and
-        # narrows between: the middle joint rides the handset's edge and is the one the lens
-        # sees. The old profile modulated by a tenth, which at this magnification reads as a
-        # smooth sausage; this one swells and narrows by a fifth, which reads as jointed.
-        fg = BD.tube(f"{name}_f{i}", path, [rr * 1.21, rr * 0.94, rr * 1.15, rr * 0.90, rr * 1.07, rr * 0.78], m["skin"], group="device")
+        fg = BD.tube(f"{name}_f{i}", path, [rr * 1.21, rr * 0.94, rr * 1.15, rr * 0.96, rr * 0.86], m["skin"], group="device")
         fg.parent = parent
         parts[f"f{i}"] = fg
-        nl = BD.ellipsoid(f"{name}_n{i}", (rr * 0.52, rr * 0.07, rr * 0.34), nail, group="device")
-        nl.parent = parent
-        nl.location = (tip[0] - rr * 0.36, tip[1] - rr * 0.88, tip[2])
-        parts[f"n{i}"] = nl
 
     # the thumb up the far edge, its pad on the glass. It hangs off a pivot at its own knuckle
     # so it can swing onto the button: the hand that holds the pass is the hand that redeems it.

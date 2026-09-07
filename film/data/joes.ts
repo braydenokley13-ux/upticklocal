@@ -163,7 +163,9 @@ export const PASS = {
   redeemedAt: "Fri · 7:42 AM",
   redeemedClock: { h: 7, m: 42, s: 8 },
   redeemedLine: "Redeemed.",
-  redeemedDetail: "One large coffee · Pump 3 · regular",
+  // "regular" orphaned onto its own line at film scale, and the fuel row above already
+  // says Regular, premium, diesel. The grade is not this card's job.
+  redeemedDetail: "One large coffee · Pump 3",
   ordinal: "1 of 30",
 } as const;
 
