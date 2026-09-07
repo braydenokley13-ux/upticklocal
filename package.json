@@ -9,10 +9,14 @@
     "bake": "node scripts/bake-frames.mjs",
     "film:dev": "remotion studio film/index.ts",
     "film:render": "scripts/film-render.sh",
-    "film:plates": "scripts/film-render-plates.sh hero1a hero3b hero5 hero3a",
-    "film:tracks": "for s in hero1a hero1b hero1c hero3a hero3b hero5; do python3 blender/scripts/render.py $s --tracks-only; done",
+    "film:plates": "scripts/film-plates.sh",
+    "film:tracks": "for s in cafe scan threshold counter device coffee approach morning_pump morning_walk morning_door rise hero3a hero1a; do python3 blender/scripts/render.py $s --tracks-only; done",
     "film:review": "scripts/film-review.py",
-    "film:lookdev": "python3 blender/scripts/lookdev.py"
+    "film:lookdev": "python3 blender/scripts/lookdev.py",
+    "film:proxy": "scripts/film-proxy.sh",
+    "film:preflight": "python3 scripts/film-preflight.py",
+    "film:master": "scripts/film-master.sh",
+    "film:screens": "scripts/bake-screens.sh"
   },
   "dependencies": {
     "@fontsource/geist-mono": "^5.3.0",
