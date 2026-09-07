@@ -851,10 +851,14 @@ def shot_morning_walk(W: B.World):
     ], frames, [m["cloth_dark"], m["cloth"]])
     # The shot declared the curb as its foreground, which is the ground the camera looks across,
     # not an object it looks past: everything sat on one plane at f/5.6 and the frame read as
-    # archviz. A car parked along the near curb, six metres out, is a real Main Street object and
-    # it closes one side. At 40 mm it will be sharp, not soft -- which is correct here: a wide
-    # lens cannot blur a foreground, so a wide-lens foreground has to be a dark shape.
-    B.car_at(-2.4, 3.9, 1, yaw=0.0, name="mw_car", z=0.0)
+    # archviz. The first fix put a parked car six metres out; it closed the frame but at that crop
+    # it read as an ambiguous dark pod rather than a car, which is the kind of object the brief
+    # warns against. A lamp post is unambiguous at any crop and is the dark vertical a wide lens
+    # actually wants: at 40 mm a foreground at six metres computes to under a pixel of circle of
+    # confusion, so it cannot be softened into a shape -- it has to already be one.
+    _post = B.mat_surface("post", "#2f3335", rough=0.45, metallic=0.4)
+    B.cylinder("mw_post", 0.09, 6.4, (-2.90, 4.62, 3.2 + B.CURB_H), _post, group="street", verts=14)
+    B.cylinder("mw_postbase", 0.19, 0.5, (-2.90, 4.62, 0.25 + B.CURB_H), _post, group="street", verts=14)
     cam = CAM.Cam("block", subject="two people walking the frontage toward Joe's",
                   foreground="a car parked along the near curb, dark and hard, closing the right of frame", background="the café's awning, the cars, the lot",
                   motivation="locked")
