@@ -32,7 +32,7 @@ Sensor is 36 mm across, so these are millimetres as a photographer means them. D
 | `block` | 40 mm | f/5.6 | 1.62 m | the street, the lot, the building whole |
 | `street` | 50 mm | f/4 | 1.58 m | a person crossing a real distance |
 | `human` | 75 mm | f/2.8 | 1.42 m | the counter, the shoulder, the exchange |
-| `device` | 95 mm | f/2.2 | 1.10 m | the phone, the cup, the thing in the hand |
+| `device` | 95 mm | f/2.2 | 1.10 m | the phone, the cup, the thing in the hand — but see the rake, below: the redemption runs at 85 mm because 95 made a hand the second-largest object in frame |
 | `page` | 26 mm | f/4 | 10.0 m | the one exception, below |
 
 A shot may open the stop or lengthen the lens within a family (the coffee is 85 mm), but it may not sit between families.
