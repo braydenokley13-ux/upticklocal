@@ -102,6 +102,12 @@ def look(W):
         skin=skin_mat("dv_skin"),
         cloth=B.mat_surface("dv_cloth", "#3d4448", rough=0.80),
         cloth2=B.mat_surface("dv_cloth2", "#6c6156", rough=0.80),
+        # Front-lit at 24 degrees of sun, dv_cloth comes back at 64% of the pump beside it: a lit
+        # grey volume, which is the band where this figure system stops reading as a person and
+        # starts reading as a chess piece. morning_door works because its figure sits at 37 against
+        # a 44 door -- darker than what is behind it, so light does the work. This is that value,
+        # for the shots the sun is in front of.
+        cloth_dark=B.mat_surface("dv_cloth_dark", "#1c2124", rough=0.85),
         wood=B.mat_surface("dv_wood", "#6b5744", rough=0.46),
         rubber=B.mat_surface("dv_rubber", "#1c1f21", rough=0.86),
     )
@@ -430,7 +436,7 @@ def shot_approach(W: B.World):
     m = look(W)
     B.set_state(W, "morning")
     frames = 34
-    fig, parts = BD.figure("ap_walker", (-1.55, 6.55, 0.0), m["cloth"], height=1.78, yaw=math.radians(2))
+    fig, parts = BD.figure("ap_walker", (-1.55, 6.55, 0.0), m["cloth_dark"], height=1.78, yaw=math.radians(2))
     for f, y in ((0, 6.55), (frames - 1, 17.20)):
         fig.location = (-1.55 - (y - 6.55) * 0.029, y, 0.0)
         fig.keyframe_insert("location", frame=f)
@@ -814,7 +820,7 @@ def shot_morning_pump(W: B.World):
     m = look(W)
     B.set_state(W, "morning", elev=24.0, exposure=-3.0)
     frames = 28
-    _crowd(W, "mp", [([(2.9, 12.2), (1.2, 15.6), (-1.2, 18.6)], 1.35, 0, math.radians(-28))], frames, [m["cloth"], m["cloth2"]])
+    _crowd(W, "mp", [([(2.9, 12.2), (1.2, 15.6), (-1.2, 18.6)], 1.35, 0, math.radians(-28))], frames, [m["cloth_dark"], m["cloth2"]])
     cam = CAM.Cam("street", subject="a person leaving the pump and crossing to the store",
                   foreground="the near pump's shoulder, dark, left of frame", background="the store front, its door lit",
                   motivation="locked")
@@ -842,7 +848,7 @@ def shot_morning_walk(W: B.World):
     _crowd(W, "mw", [
         ([(4.6, 9.4), (2.7, 10.5)], 1.50, 0, math.radians(-120)),
         ([(6.4, 8.4), (4.6, 9.5)], 1.38, 4, math.radians(-120)),
-    ], frames, [m["cloth2"], m["cloth"]])
+    ], frames, [m["cloth_dark"], m["cloth"]])
     # The shot declared the curb as its foreground, which is the ground the camera looks across,
     # not an object it looks past: everything sat on one plane at f/5.6 and the frame read as
     # archviz. A car parked along the near curb, six metres out, is a real Main Street object and
