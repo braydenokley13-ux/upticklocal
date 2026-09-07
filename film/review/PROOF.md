@@ -99,7 +99,71 @@ the film can defend; neither is a choice that would make a stranger say *that is
 
 ### 2 · the redemption
 
-«PROOF-2»
+**Rendered** `film/review/proof/redeem.mp4` — film frames 1160–1321 (6.75 s), on the **proxy
+lane** (640×360/8spp), assembled about thirty-five minutes after the lane existed rather than
+the seven hours the final queue would have cost. Read in motion and as fourteen stills.
+
+## Verdict
+
+**6.5 / 10 — REJECTED.** The cut is right and the film underneath it is right: six beats in
+6.75 seconds, the forecourt, the threshold, the counter, the phone, the live state, the coffee.
+Nothing is composited — every frame is a plate, the UI is emitted by a panel inside the shot,
+the thumb covers the button it presses, and the staff perform no digital action anywhere. The
+threshold shots are genuinely good: the customer is a dark silhouette against a blown doorway
+and reads as a person because the light does the work.
+
+It is rejected on the human system, which is the one thing the brief singled out. At the
+approach the figure is a smooth grey capsule with a head-lump — the toy mannequin, not the
+architectural maquette. At the counter and on the phone the hands are four rounded bulbs with
+pale oval nails. At 95 mm the hand is the second-largest object in the frame and it reads as a
+claw-machine prize. **`UI pasted over Blender` — no. `low-poly explainer` — yes.**
+
+### This was checked at Gate B before any geometry was touched
+
+A 640×360 proxy upscaled three times smears fine detail, and it would have been easy to
+condemn the model for the proxy's softness. The same frame at 1280×720, 1:1, is **worse**: the
+gloss on the nails survives at full resolution what the proxy's softness partly hid. The
+finding is real.
+
+## Punch list
+
+1. `[PLATE]` `[P1]` **the fingertip nails — improved this round.** `dv_nail` was written in its
+   own comment as "a sheen, not a colour" and then built with `coat 0.6` and `specular 0.5`
+   over a paler brown. At this magnification that is not a sheen, it is four pale highlights
+   reading as caps glued on. Now near-skin, near-matte, and smaller.
+2. `[PLATE]` `[P1]` **the finger profile — improved this round.** Each finger's radius modulated
+   by a tenth along its length, which reads as a smooth tube. A fifth reads as jointed, with
+   the swell on the middle knuckle that rides the handset's edge — the one the lens sees.
+3. `[PLATE]` `[P1]` **the hand's value — improved this round.** `dv_skin` at `#9d8272` rendered
+   **brighter than the white screen it holds**, and in a macro frame the eye takes the brightest
+   thing for the subject, so the shot was about a hand. Two stops down at the same hue, and the
+   subsurface from 0.22 to 0.15 because the red bleed was lighting the finger edges from inside.
+4. `[PLATE]` `[P1]` **the residue, and it is the real one.** Three passes each moved the frame
+   and none of them fixed it. A procedural tube cannot carry a knuckle: the crease between
+   phalanges, the flattening of the pad against glass, and the way real fingers touch and
+   deform against each other are all geometry this builder has no way to express. The fingers
+   also cannot be pulled in tighter — at `-hw - 0.011` the finger surface already clears the
+   handset's edge by 0.4 mm, so the lateral bulge in frame *is* the finger's own radius. This
+   is not a tuning problem and it should not be tuned at any further. It needs either a
+   sculpted hand or a shot that shows less of this one.
+5. `[PLATE]` `[P2]` **the approach figure.** Same cause at the other end of the lens family.
+   The brief asks for shoulder structure, a tapered torso and a deliberate gait; the capsule has
+   none. Note that the threshold shots solve it for free by making the figure a silhouette —
+   that is the cheapest available answer and it is already in the film.
+6. `[PLATE]` `[P3]` **the coffee.** The cup reads (paper, kraft sleeve, dark lid) but it arrives
+   small and centre-frame under a smooth tube of an arm. The physical payoff of the whole act is
+   currently the least composed shot in it.
+
+## Keep
+
+1. **The six beats and their lengths.** Approach, threshold, counter, device, live state, coffee
+   in 6.75 seconds, with D and E one continuous shot so nothing cuts away between the action and
+   its result. The edit is not the problem.
+2. **The threshold pair.** A dark figure in a blown doorway, backlit. The one place in this act
+   where a person reads as a person, and it does it with light rather than geometry.
+3. **The live state.** `Redeemed. · 7:42:09 AM · One large coffee · Pump 3 · regular`, legible
+   even at proxy resolution, with the seconds running so a screenshot of it would be obviously
+   stale. One press, no interstitial, mint marking the transition rather than flooding it.
 
 ### 3 · the morning
 
