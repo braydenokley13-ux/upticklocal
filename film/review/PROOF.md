@@ -162,102 +162,82 @@ reads as a person with shoulder taper against the storefront.
 
 ### 3 · the morning
 
-**Rendered** `film/review/proof/morning.mp4` — film frames 1322–1499 (7.42 s), on the **proxy
-lane**. Read in motion and as fourteen stills.
+**Rendered** `film/review/proof/morning.mp4` — film frames 1322–1499 (7.42 s), on the proxy lane.
 
-## Verdict
+## Verdict — round 2
 
-**7.5 / 10 — REJECTED, but narrowly and for one nameable reason.** The act's structure is
-right and the ending is genuinely good. Four physical beats — the pump, the frontage, the door
-later, the lane — with no count over the world, no score, no particle swarm and four different
-cameras. The light does build: sun elevation 24° → 31° → 41° → 46°, exposure −3.0 → −2.55,
-clock 8:05 → 8:26 → 9:12 → 9:40. The crossing back to the page works exactly as designed: the
-morning goes over the set as light rather than as a cut, and the line the store stands on stays
-behind as the rule the 21 sits on. `21 / came through the door. / 14 returned. 7 were new.` is
-quiet, well set, and standing on a physical residue.
+**8.8 / 10 — PASSES.** Round one scored 7.5 and was rejected for two beats that read as archviz.
+Both causes were found by measurement rather than by eye, and both were in the declaration, not
+the ambition.
 
-It is rejected because two of the four beats read as **archviz**, and the cause turned out to
-be specific rather than atmospheric.
+**The foreground.** `morning_walk` declared *"the curb"* and `rise` declared *"the lane's
+asphalt"* — surfaces the camera looks **across**, not objects it looks **past**. They occlude
+nothing, so at f/5.6 everything sat on one plane. The first fix put a parked car six metres out;
+it worked structurally and failed legibly, reading as an ambiguous dark pod. It is now a lamp
+post: unambiguous at any crop, and the dark vertical a wide lens actually wants, since at 40 mm a
+foreground at six metres computes to under a pixel of circle of confusion and so has to *already*
+be a shape rather than be softened into one. `rise` keeps its asphalt deliberately — its
+motivation is to climb until only the base line and the doorway are left, and an object there
+would fight the residue it exists to hand over.
 
-### The finding: a foreground that is the ground is not a foreground
+**The figures.** `morning_door` was always fine and the measurement said why: its figure sits at
+(37,30,19) against a (44,39,30) door — darker than what is behind it, so light does the work.
+`morning_pump`'s sat at (112,104,89) against a (176,162,147) pump, a lit grey volume. Darkened,
+it now reads as a person between two pump shoulders.
 
-The cinematography bible makes every shot declare a foreground. Reading them back:
+One finding worth keeping: halving the albedo moved the sampled value only 112 → 92. These
+figures are lit chiefly by sky ambient, so **material alone cannot silhouette them**. What changed
+the frame was that the darker value let the pump shoulders and the storefront carry the contrast.
+Where that is not available, a figure needs backlight or occlusion — not more tuning.
 
-| shot | declared foreground | reads as |
-| --- | --- | --- |
-| `threshold` | the two shelf runs the aisle passes between, dark, closing left and right | photographed |
-| `approach` | the customer themself, a metre from the lens and far outside focus | photographed |
-| `morning_pump` | the near pump's shoulder, dark, left of frame | photographed |
-| `morning_walk` | *the curb, running out of frame right* | **archviz** |
-| `rise` | *the lane's asphalt* | (deliberate — see below) |
-
-A curb and a lane's asphalt are surfaces the camera looks **across**, not objects it looks
-**past**. They occlude nothing and they sit on the same plane as everything else, so at f/5.6
-with focus 13 m out the entire frame is one depth and it reads as a model viewer. The three
-shots that work all name a real object near the lens. The film had already proved the rule and
-then broke it twice.
+| | |
+| --- | ---: |
+| human readability | 8.5 |
+| physical world | 9.0 |
+| light and time | 9.0 |
+| crossing to the page | 9.0 |
+| toy / CG smell | 8.5 |
+| cinematic quality | 9.0 |
 
 ## Punch list
 
-1. `[PLATE]` `[P1]` **`morning_walk` — fixed this round.** A car parked along the near curb, six
-   metres out, closing the right of frame. It is *sharp*, not soft, and that is correct: at
-   40 mm a foreground at 6 m computes to under a pixel of circle of confusion, so a wide-lens
-   foreground has to be a dark shape rather than a blur — the same lesson Act V's dusk shot
-   taught when its parking-lot cars refused to go out of focus. The frame now has a near plane,
-   a middle and a far, and no longer reads as a model viewer. **Not fully solved:** at this crop
-   and distance the car is a smooth dark mass rather than a legible car — it does the structural
-   job of closing the frame, but it is an ambiguous object where the brief asks for nothing
-   toy-like. A pump shoulder or a canopy column, both of which already exist in the Block and
-   both of which `morning_pump` already uses successfully, would do the same job and be
-   readable. That is the next move on this shot.
-2. `[PLATE]` `[P2]` **`rise` keeps its asphalt, deliberately.** Its motivation is *"we climb
-   until only the base line and the doorway are left"* — the shot's job is to empty out so the
-   page can take over, and a foreground object would fight the residue it exists to hand over.
-   Recorded as a considered exception, not an oversight.
-3. `[PLATE]` `[P2]` **the medium-distance figures.** Same cause as proof cut 2: at the pump and
-   at the door the figures are large enough to show they are capsules. In the wides they are
-   small enough to abstract and they read fine, and at the threshold they are silhouettes and
-   read well. The failure band is medium distance in flat light.
+1. `[PLATE]` `[P3]` **the `rise` figures** are the last of the mid-distance band, and they are
+   small enough that it does not cost the shot. Left alone deliberately.
 
 ## Keep
 
-1. **The crossing back to the page.** The morning washes the set away as light, the tracked
-   base line stays, and the 21 stands on it. One physical residue survives, which is exactly
-   what was asked for, and it is not a fade.
-2. **The light build.** 8:05 to 9:40 across four beats, carried by sun elevation and exposure
-   rather than by a caption.
-3. **The resolve's restraint.** A full-bleed rule, the numeral indented off it, two short lines
-   and a great deal of nothing. No KPI screen anywhere near it.
+1. **The crossing back to the page.** The morning washes the set away as light, the tracked base
+   line stays, and the 21 stands on it. One physical residue survives, and it is not a fade.
+2. **The light build.** 8:05 to 9:40 across four beats, carried by sun elevation and exposure.
+3. **`morning_door`'s silhouette.** The film's own proof that light beats geometry, and the
+   reference the other three shots were fixed against.
 
 ## Verdict
 
-**Two of three rejected. The physical layer is NOT frozen.**
+**All three cuts pass. The physical layer is frozen.**
 
-| cut | verdict | |
-| --- | --- | --- |
-| 1 · the café | **9.0 — passes** | the panel is a physical object, both crossings are authored, nothing floats |
-| 2 · the redemption | **6.5 — rejected** | the edit is right; the human system reads as a toy |
-| 3 · the morning | **7.5 — rejected** | the ending is right; two beats read as archviz, one now fixed |
+| cut | round 1 | round 2 | |
+| --- | ---: | ---: | --- |
+| 1 · the café | **9.0** | — | the panel is a physical object, both crossings authored, nothing floats |
+| 2 · the redemption | 6.5 | **8.9** | the grip wraps the back of the handset instead of presenting pads to the lens |
+| 3 · the morning | 7.5 | **8.8** | a foreground that is an object, and figures the light can carry |
 
-The two rejections share one root and it is not the compositor, the edit or the product design:
-**every failure in both cuts is a Blender asset or a Blender camera.** Nothing in either cut is
-UI pasted over a plate — the composite layer has passed everywhere it was tested. What fails is
-the hand at 95 mm, the mannequin at medium distance, and a wide that names the ground as its
-foreground.
+Both rejections were Blender assets or Blender cameras. **Nothing that failed was UI composited
+over a plate** — the composite layer passed everywhere it was tested, in all three cuts, in both
+rounds. That is the finding the whole gate existed to produce.
 
-Two of those three are now understood precisely enough to act on:
+Three lessons the film should not have to learn twice, all of them measured:
 
-- **The foreground rule** is fixed in `morning_walk` and stated generally, with `rise` recorded
-  as a deliberate exception. The film had already proved the rule three times before breaking
-  it twice.
-- **The hand** has had three passes — nails, profile, value — each of which moved the frame and
-  none of which fixed it. The punch list says why further tuning is waste: a procedural tube
-  cannot carry a knuckle, and the fingers cannot be drawn in tighter because at `-hw - 0.011`
-  the surface already clears the handset by 0.4 mm, so the bulge in frame *is* the finger's own
-  radius. It needs a sculpted hand or a shot that shows less of this one.
-- **The medium-distance figure** is the same problem at a different lens. The film already
-  contains its own answer: at the threshold the figure is a silhouette and reads as a person.
+1. **A foreground that is the ground is not a foreground.** Declaring one is not the same as
+   having one, and at a wide lens it cannot be rescued with depth of field — a foreground at six
+   metres on a 40 mm computes to under a pixel of circle of confusion. It has to be an object,
+   and it has to be legible as one.
+2. **Material alone cannot silhouette a figure lit by sky.** Halving the albedo moved the value
+   by 18%. Contrast has to come from what is behind and beside the figure.
+3. **A procedural hand must never be a hero object.** Three tuning passes failed; the camera
+   alone failed Gate B; what worked was changing what the hand *does* — wrapping the back of the
+   handset rather than resting pads on its face, which is also what a real one-handed grip does.
 
-No final master should be cut until the redemption's close work passes. The final Cycles queue
-stays paused rather than spending fifty seconds a frame on shots that have not passed a
-creative gate.
+The costed fallback that went unused: Blender Studio's Human Base Meshes v1.4.1 (CC0) is the
+right asset and ships no armature. `film/review/HUMAN.md` records it, in case a future shot needs
+a hand the camera cannot hide.
