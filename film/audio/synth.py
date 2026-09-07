@@ -978,10 +978,11 @@ def make_music_bed():
                 bass phrase D-A-B-G on the odd beats, a second arpeggio
                 voice a fifth up, the pad's filter opening.  The loudest
                 point in the film, at -14 dBFS, is the last threshold.
-    59.0-65.0   the resolve -- everything cuts as the morning washes the set
-                away; one warm D major chord decays under the 21 and the
-                closing lines
-    65.0-69.5   silence but for a faint air
+    59.0-68.7   the resolve -- everything cuts as the morning washes the set
+                away; one warm D major chord decays under the 21, the title,
+                the closing line and the footer, reaching zero a tenth of a
+                second after the last frame
+    68.7-69.5   the faint air alone, running out
 
     The bass phrase ends on G so the cut at 59.0 s lands on the D major
     resolve: a plagal step into the 21, not a stop.
@@ -1003,8 +1004,8 @@ def make_music_bed():
                     for _ in range(2)])
     air = air / np.max(np.abs(air))
     air_lvl = ramp(n, [(0, db(-56)), (3.0, db(-55)), (9.0, db(-53)),
-                       (40.3, db(-52)), (59.0, db(-52)), (65.0, db(-56)),
-                       (68.6, db(-60)), (69.5, 0.0)])
+                       (40.3, db(-52)), (59.0, db(-52)), (65.0, db(-55)),
+                       (68.58, db(-56)), (69.5, 0.0)])
     mix += air * air_lvl
 
     # ---- 3.0-9.0 s: the sub-bass D1 swell under the lift ----------------
@@ -1169,18 +1170,26 @@ def make_music_bed():
     gate[i0 + fl:] = 0.0
     mix += pre * gate
 
-    # ---- 59.0-65.0 s: the resolve.  One D major root chord. --------------
-    res_n = n_samples(6.4)
+    # ---- 59.0 s to the last frame: the resolve.  One D major root chord. -
+    # The chord has to *reach* the closing titles, not stop just before them.
+    # Measured against the first cut of this bed, the 2.3 s decay was silent by
+    # 65.2 s -- 0.1 s after "Uptick Growth" appears, and 3.4 s before the film
+    # ends -- so the logo, the closing line and the footer all played into a
+    # dead mix.  The decay is 4.2 s now and the polynomial that takes it to true
+    # zero lands at 68.7 s, a tenth of a second past the last frame: the film
+    # runs out rather than stopping, which is what the cut at 59.0 s promised.
+    res_n = n_samples(10.5)
     res = _pad_chord([NOTE["D2"], NOTE["A2"], NOTE["D3"], NOTE["F#3"],
                       NOTE["A3"], NOTE["D4"]], res_n, 90, spread=0.30)
     res = fft_filter(res, hi=1500, order=2)
     res = fft_filter(res, lo=32, order=2)
     rt = t_axis(res_n)
     r_att = 0.5 - 0.5 * np.cos(np.pi * np.clip(rt / 0.25, 0, 1))
-    r_dec = np.exp(-rt / 2.3) * np.clip(1.0 - (rt / 6.2) ** 2.5, 0.0, 1.0)
+    r_dec = np.exp(-rt / 4.2) * np.clip(1.0 - (rt / 9.7) ** 2.5, 0.0, 1.0)
     res = res / np.max(np.abs(res)) * r_att * r_dec * db(-15.5)
-    # a low D underneath so the resolve has a floor
-    sub2 = sine(NOTE["D1"] * 2, res_n) * r_att * np.exp(-rt / 1.9) * db(-30.0)
+    # a low D underneath so the resolve has a floor.  It stays short: the tail
+    # that carries the titles is the chord, not a rumble under them.
+    sub2 = sine(NOTE["D1"] * 2, res_n) * r_att * np.exp(-rt / 2.6) * db(-30.0)
     res += np.stack([sub2, sub2])
     add_at(mix, res, CUT)
 

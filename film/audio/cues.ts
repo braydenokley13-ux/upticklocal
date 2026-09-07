@@ -72,7 +72,20 @@ export function cues(): Cue[] {
     // ---- the score --------------------------------------------------------
     // The bed is written to this cut (film/audio/synth.py::make_music_bed); it
     // already ducks 6 dB under the redemption, so nothing here has to.
-    ...(SCORE ? [{ file: "music-bed", at: 0, gain: SCORE_GAIN, note: "the score · D, 76 bpm, cut to the acts; ducks itself under the redeem note" } as Cue] : []),
+    // The score is the only thing that plays continuously, so it is the only thing that can
+    // fill the film's one deliberate silence. It does not: the hole at 42.00-42.83 s is cut
+    // here, out over 4 frames and back over 8, so the 830 ms after "Does diesel count?" is
+    // actually nothing. Measured before the gate, the quietest 20 ms in that window was
+    // -37.1 dBFS - a pad humming through the moment the merchant is waiting to be answered.
+    ...(SCORE
+      ? [{
+          file: "music-bed",
+          at: 0,
+          gain: SCORE_GAIN,
+          env: (f: number) => 1 - lin(f, ACT.VII + H4.silence - 4, ACT.VII + H4.silence) * (1 - lin(f, ACT.VII + H4.silence + 20, ACT.VII + H4.silence + 28)),
+          note: "the score · D, 76 bpm, cut to the acts; ducks itself under the redeem note; cut entirely for the 830 ms hole",
+        } as Cue]
+      : []),
 
     // ---- I · the gap ------------------------------------------------------
     { file: "room-tone", at: 0, frames: 92, gain: 0.9, fadeIn: 12, fadeOut: 24, loop: true, note: "the page: almost nothing" },

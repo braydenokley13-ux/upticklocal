@@ -81,8 +81,9 @@ rendered file**.
 | 51.9–53.3 s | the duck — the pad drops a further 6 dB | −28.8 | −42.4 | **the redemption note at 52.08 s stands alone**, 27 dB clear of the bed |
 | 53.7–57.5 s | the build — pulse returns from bar 17, the bass phrase, a second arpeggio voice a fifth up (A–E–A–C♯–E–A) from 56.05 s, the pad's filter opening 480 → 3 000 Hz | −15.4 | −30.2 | the coffee crosses the counter, the morning starts |
 | 57.5–59.0 s | the crescendo — **the loudest point in the film** | **−14.0** | −26.2 | the lane the first customer walked, from further back and higher |
-| 59.0–65.0 s | the resolve — everything cuts in 40 ms; one warm D major chord decays | −17.8 | −33.9 | the morning washes the set away, the 21 lands, "came through the door.", "14 returned. 7 were new." |
-| 65.0–69.5 s | silence but for a faint air, fading out | −50.6 | −67.2 | Uptick Growth, the closing line, the footer |
+| 59.0–65.0 s | the resolve — everything cuts in 40 ms; one warm D major chord, 4.2 s decay | −17.0 | −31.5 | the morning washes the set away, the 21 lands, "came through the door.", "14 returned. 7 were new." |
+| 65.0–68.58 s | the same chord, still decaying — it reaches the titles rather than stopping in front of them | −31.0 | −47.3 | Uptick Growth, the closing line, the footer |
+| 68.58–69.5 s | the run-out, past the last frame | −53.2 | −64.9 | — |
 
 The pulse's click deliberately occupies 650–1 900 Hz, above the pad's low-pass
 corner, so it stands proud of the pad between beats while staying at
@@ -108,12 +109,20 @@ wash the set away, six frames before the 21 arrives on the page.
   wrap-around discontinuity is at or below the interior sample-to-sample step.
   `street-morning`, `cafe-interior` and `kitchen-evening` have events on a
   timeline and carry short head/tail fades — cut to them, don't loop them.
-- **Silence is a cue.** Three places want an actual hole in the mix, not a
-  quiet bed: the 3 landing on the pavement (Act I), the 830 ms after `send`
-  (Act VII, 42.0–42.83 s), and the closing line and footer (Act XII, from
-  65.0 s). Mute the beds; do not crossfade them. The bed goes silent at 65.0 s
-  and ducks 6 dB for the redemption note — the other cues need the same
-  restraint at those two moments.
+- **Silence is a cue, and one of them is absolute.** Two places want a hole in
+  the mix rather than a quiet bed: the 3 landing on the pavement (Act I), and
+  the 830 ms after `send` (Act VII, 42.0–42.83 s). Mute the beds; do not
+  crossfade them. The second one includes **the score** — it is the only thing
+  that plays continuously, so it is the only thing that can fill a silence, and
+  `cues.ts` gates it out over 4 frames and back over 8. Measured in the
+  rendered mix, the window 42.10–42.78 s is digital silence: `−999 dBFS`. The
+  bed ducks itself 6 dB for the redemption note; nothing else needs to.
+- **The end is a decay, not a hole.** The film does not stop, it runs out. The
+  resolve chord struck at 59.0 s is still sounding under *Uptick Growth*
+  (−32 dB in the master), the closing line (−35 dB) and the footer (−45 dB),
+  and reaches zero one tenth of a second after the last frame. An earlier cut
+  of the bed died at 65.2 s and left 3.4 s of dead mix under the whole sign-off,
+  which reads as a fault rather than as restraint.
 - **Never stack the mint.** `pad-mint`, `key-last`, `tick` and `redeem` are the
   mint family and each is a single clean tone. Two at once turns the idea into
   a chord and loses it.
@@ -123,3 +132,34 @@ wash the set away, six frames before the 21 arrives on the page.
 - **No whooshes.** There is no transition sweetener in this set, by design.
   `send` is a text send, not a riser; the car passes are geometry (level and
   pan follow 1/distance), not fader moves.
+
+---
+
+## The mix, measured
+
+From `npx remotion render Film mix.wav --codec=wav` — the sound edit as the
+film actually plays it, before the single master gain.
+
+| | |
+| --- | --- |
+| length | 68.584 s · 1 646 frames · 48 kHz stereo |
+| sample peak / true peak (4×) | −17.45 dBFS / −17.45 dBTP |
+| integrated loudness | **−34.4 LUFS** (→ **−18.0 LUFS** after the master's +16.44 dB) |
+| loudness range (p10–p95 of the gated blocks) | −40.9 … −30.1 LUFS |
+
+The three loudest 50 ms windows in the film are the three moments the product
+does something, and they are within 0.7 dB of each other by design:
+
+| | | |
+| ---: | --- | ---: |
+| 45.05 s | `tick` — the provenance row lands as the answer | −17.45 dBFS |
+| 52.10 s | `redeem` — the redemption | −17.76 dBFS |
+| 35.70 s | `scan` — the stranger's phone meets the panel | −18.14 dBFS |
+
+`scripts/film-master.sh` lifts the whole mix once so its true peak sits at
+−1 dBTP and touches nothing else: no compression, no limiting, no per-cue
+rides. The film therefore delivers at about −18 LUFS integrated, two to four
+dB under the streaming norm, with 17 dB of crest. That is a deliberate
+trade — the redemption note is 27 dB clear of the bed and the 830 ms hole is
+true silence, and neither survives being mastered to −14 LUFS. A viewer can
+turn a quiet film up; nobody can put the dynamics back.
