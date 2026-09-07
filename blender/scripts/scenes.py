@@ -101,7 +101,17 @@ def look(W):
         lid=B.mat_surface("dv_lid", "#22262a", rough=0.42),
         skin=skin_mat("dv_skin"),
         cloth=B.mat_surface("dv_cloth", "#3d4448", rough=0.80),
-        cloth2=B.mat_surface("dv_cloth2", "#6c6156", rough=0.80),
+        # NOT #6c6156. That was (108,97,86); the skin material is (122,99,85) — the same colour —
+        # so a figure wearing it read as a nude mannequin rather than as a person in a coat, which
+        # is exactly what it looked like on the `rise` plate at 1:1. Two things had to change, and
+        # the first attempt only fixed one of them. Hue: a *warm* mid-tone in direct morning sun
+        # lands on skin whatever value it starts at, so every garment here is cool. Value: at
+        # 0.25 albedo the sun put the legs at 164/255 against 190 paving, which is a figure with
+        # no silhouette. The response is steeply non-linear — dv_cloth_dark renders at 60 and a
+        # value four times its albedo renders at 159 — so this is solved from the numbers rather
+        # than by eye: dark enough to hold a silhouette in full sun, a different hue from
+        # dv_cloth_dark, so two people in one frame still read as two people.
+        cloth2=B.mat_surface("dv_cloth2", "#2d3531", rough=0.80),
         # Front-lit at 24 degrees of sun, dv_cloth comes back at 64% of the pump beside it: a lit
         # grey volume, which is the band where this figure system stops reading as a person and
         # starts reading as a chess piece. morning_door works because its figure sits at 37 against
@@ -911,7 +921,7 @@ def shot_rise(W: B.World):
     _crowd(W, "rs", [
         ([(-4.2, 9.0), (-2.6, 14.0), (-1.8, 18.8)], 1.25, 0, math.radians(-10)),
         ([(1.6, 8.2), (0.2, 13.0), (-1.3, 18.4)], 1.10, 9, math.radians(-22)),
-    ], frames, [m["cloth"], m["cloth2"]])
+    ], frames, [m["cloth_dark"], m["cloth2"]])
     for key, x in (("base_l", -12.0), ("base_r", 9.0)):
         track(W, key, B.empty(f"rs_{key}", (x, 19.70, 0.02)))
     cam = CAM.Cam("street", fstop=5.6, subject="the store front, square on, its base line level",
