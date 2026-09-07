@@ -1,5 +1,6 @@
 import { OffthreadVideo, Sequence, staticFile, useCurrentFrame } from "remotion";
 import { HEIGHT, WIDTH } from "../tokens";
+import { PLATE_LANE } from "./lane";
 
 /**
  * A Blender plate: a rendered image sequence, encoded to MP4, composited
@@ -46,10 +47,9 @@ export function quadAt(data: TrackData, prefix: string, plateFrame: number): [Pt
  * every question about camera, blocking, pacing and a world crossing can be answered on the
  * proxy lane, and only a locked shot is worth a final frame.
  *
- *   REMOTION_PLATE_QUALITY=proxy npx remotion render …
+ *   scripts/film-lane.sh proxy   # then render; scripts/film-lane.sh final to put it back
  */
-export const PLATE_QUALITY = process.env.REMOTION_PLATE_QUALITY === "proxy" ? "proxy" : "final";
-const DIR = PLATE_QUALITY === "proxy" ? "film-rd/plates/proxy" : "film-rd/plates";
+const DIR = PLATE_LANE === "proxy" ? "film-rd/plates/proxy" : "film-rd/plates";
 const plate = (name: string) => `${DIR}/${name}.mp4`;
 
 export const PLATES = {
