@@ -209,7 +209,12 @@ then broke it twice.
    40 mm a foreground at 6 m computes to under a pixel of circle of confusion, so a wide-lens
    foreground has to be a dark shape rather than a blur — the same lesson Act V's dusk shot
    taught when its parking-lot cars refused to go out of focus. The frame now has a near plane,
-   a middle and a far.
+   a middle and a far, and no longer reads as a model viewer. **Not fully solved:** at this crop
+   and distance the car is a smooth dark mass rather than a legible car — it does the structural
+   job of closing the frame, but it is an ambiguous object where the brief asks for nothing
+   toy-like. A pump shoulder or a canopy column, both of which already exist in the Block and
+   both of which `morning_pump` already uses successfully, would do the same job and be
+   readable. That is the next move on this shot.
 2. `[PLATE]` `[P2]` **`rise` keeps its asphalt, deliberately.** Its motivation is *"we climb
    until only the base line and the doorway are left"* — the shot's job is to empty out so the
    page can take over, and a foreground object would fight the residue it exists to hand over.
