@@ -137,16 +137,16 @@ Seven world passes built the look: brick with world-space coursing; facades as p
 | `hero1a` | 144 | I | 26–30 mm f/4.0 · 10.00 → 5.05 m · the page is printed on this pavement, so the camera lifts off the ground it printed and lets the block rise into the frame — the sidewalk in front of Joe's, and then the block that sidewalk belongs to; foreground: nothing while we are over the ground — the near row's bench and low wall arrive as we cross the street |
 | `hero3a` | 144 | V | 40 mm f/2.8 · 1.62 m · locked — Joe's forecourt: the canopy, the near island, the store behind them; foreground: the lot's own asphalt and its low wall, running across below the road |
 | `cafe` | 26 | VI | 75 mm f/2.8 · 1.50 m · locked — the Uptick panel on the end of the café's counter; foreground: the corner of a table, soft, left of frame |
-| `scan` | 46 | VI | 95 mm f/2.4 · 1.48 m · we follow the offer from the panel that published it to the handset that received it — the panel, and then the phone that takes it; foreground: the back of the customer's phone, low left |
+| `scan` | 46 | VI | 75–95 mm f/2.4 · 1.48 m · we follow the offer from the panel that published it to the handset that received it — the panel, and then the phone that takes it; foreground: the back of the customer's phone, low left |
 | `approach` | 30 | VIII | 50 mm f/2.8 · 1.34 m · locked — the doorway the customer is walking to; foreground: the customer themself, a metre from the lens and far outside focus |
 | `threshold` | 26 | VIII | 40 mm f/4.0 · 1.52 m · locked — the doorway, and the person who comes through it; foreground: the two shelf runs the aisle passes between, dark, closing left and right |
 | `counter` | 28 | VIII | 75 mm f/2.8 · 1.58 m · locked — the customer's forearm and phone, raised across the counter; foreground: the counter's own laminate, running out of the bottom of frame |
-| `device` | 78 | VIII | 95 mm f/2.2 · 1.34 m · locked — the handset's face; foreground: the counter's edge, out of focus along the bottom |
+| `device` | 78 | VIII | 85 mm f/2.0 · 1.32 m · locked; the grip is raked so the hand reads as one dark mass — the handset's face, raked, its own screen the key; foreground: the counter's edge, dark and close along the bottom |
 | `coffee` | 26 | VIII | 65 mm f/2.8 · 1.17 m · locked — the cup crossing the counter; foreground: the counter's laminate, running away under the cup |
 | `morning_pump` | 27 | IX | 50 mm f/4.0 · 1.55 m · locked — a person leaving the pump and crossing to the store; foreground: the near pump's shoulder, dark, left of frame |
-| `morning_walk` | 28 | IX | 40 mm f/5.6 · 1.60 m · locked — two people walking the frontage toward Joe's; foreground: the curb, running out of frame right |
+| `morning_walk` | 28 | IX | 40 mm f/5.6 · 1.60 m · locked — two people walking the frontage toward Joe's; foreground: a lamp post on the near curb, 6.4 m out and 80% of the way to the right edge, a dark vertical from the bottom of frame to the top |
 | `morning_door` | 24 | X | 75 mm f/2.8 · 1.52 m · locked — the doorway, and a person going through it; foreground: none; the door is close |
-| `rise` | 40 | XI | 50 mm f/5.6 · 2.30 m · the morning goes over; we climb until only the base line and the doorway are left — the store front, square on, its base line level; foreground: the lane's asphalt |
+| `rise` | 40 | XI | 50 mm f/5.6 · 1.58 → 2.30 m · the morning goes over; we climb until only the base line and the doorway are left — the store front, square on, its base line level; foreground: the lane's asphalt |
 
 Every camera declares focal length, height, foreground, subject, background, focal plane, and a motivation a viewer could say back (`film/CINEMATOGRAPHY.md`, `blender/scripts/camera.py`). "Locked" is a motivation and it is the default: ten of the thirteen do not move. There are no orbits, no flythroughs and no move whose only justification is that the scene is three-dimensional.
 
