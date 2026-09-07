@@ -527,40 +527,6 @@ def shot_hero1a(W: B.World):
             "comp": {"mist": 0.45, "mist_color": (0.74, 0.66, 0.56), "mist_start": 30, "mist_depth": 140}}
 
 
-def shot_hero1b(W: B.World):
-    """B · the descent. The block as a plan from 70 m, paper-white; the 3 stamps onto Joe's lot; a crane-down settles into the street."""
-    frames = 144
-    walk, ppl = _hero1_common(W)
-    lot = W.tracks["joes_lot"].location
-    cam = camera(lens=26, fstop=4.0, focus=70.0)
-    key_cam(cam, 0, (lot.x + 2.0, B.FRONT - 1.0, 70.0), (lot.x + 2.0, B.FRONT - 0.9999, 0.0), lens=26, focus=70.0)
-    key_cam(cam, 18, (lot.x + 2.0, B.FRONT - 1.0, 70.0), (lot.x + 2.0, B.FRONT - 0.9999, 0.0), lens=26, focus=70.0)
-    key_cam(cam, 96, E_FINAL["pos"], E_FINAL["target"], lens=E_FINAL["lens"], focus=34.0)
-    key_cam(cam, frames - 1, E_DRIFT["pos"], E_DRIFT["target"], lens=E_DRIFT["lens"], focus=34.0)
-    ease(cam)
-    ease(cam.data)
-    base = B.STATES["dawn"]["exposure"]
-    _exposure(0, base + 3.2)
-    _exposure(18, base + 3.2)
-    _exposure(60, base)
-    return {"frames": frames, "cam": cam, "people": ppl, "names": HERO1_TRACKS, "meta": {"variant": "B", "descent": [18, 96], "clock": "Friday · 07:12"}, "comp": {"mist": 0.5, "mist_start": 30, "mist_depth": 140}}
-
-
-def shot_hero1c(W: B.World):
-    """C · the page tilts into the street. A slow push only; the editorial page becomes the ground plane in the composite."""
-    frames = 120
-    walk, ppl = _hero1_common(W)
-    cam = camera(lens=26, fstop=4.0, focus=36.0)
-    key_cam(cam, 0, (-11.0, -22.5, 7.0), (1.0, 10.5, 3.0), lens=27, focus=36.0)
-    key_cam(cam, frames - 1, E_FINAL["pos"], E_FINAL["target"], lens=E_FINAL["lens"], focus=34.0)
-    ease(cam)
-    ease(cam.data)
-    base = B.STATES["dawn"]["exposure"]
-    _exposure(0, base + 2.4)
-    _exposure(34, base)
-    return {"frames": frames, "cam": cam, "people": ppl, "names": HERO1_TRACKS, "meta": {"variant": "C", "clock": "Friday · 07:12"}, "comp": {"mist": 0.5, "mist_start": 30, "mist_depth": 140}}
-
-
 def shot_hero1(W: B.World):
     return shot_hero1a(W)
 
@@ -893,4 +859,4 @@ SHOTS.update({
     "morning_pump": SC.shot_morning_pump, "morning_walk": SC.shot_morning_walk, "morning_door": SC.shot_morning_door,
     "rise": SC.shot_rise,
 })
-SHOTS.update({"hero1": shot_hero1, "hero1a": shot_hero1a, "hero1b": shot_hero1b, "hero1c": shot_hero1c, "hero3a": shot_hero3a, "hero3b": shot_hero3b, "hero5": shot_hero5, "hero5c": shot_hero5c})
+SHOTS.update({"hero1": shot_hero1, "hero1a": shot_hero1a, "hero3a": shot_hero3a, "hero3b": shot_hero3b, "hero5": shot_hero5, "hero5c": shot_hero5c})
