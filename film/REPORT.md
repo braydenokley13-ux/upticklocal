@@ -48,10 +48,30 @@ All under `public/film-rd/final/` from one command, `scripts/film-master.sh` (st
 | A | `uptick-growth-master-1080p.mp4` | the master: H.264 CRF 15 from PNG frames, 24 fps, AAC 256k. The picture is rendered muted and the mix separately as PCM, so the sound reaches each deliverable through one lossy encode rather than two, and the +16.4 dB that puts its true peak at −1 dBTP is measured on the PCM |
 | B | `uptick-growth-1080p.mp4` · `uptick-growth-1080p.webm` · `uptick-growth-poster.jpg` · `uptick-growth-loop-poster.jpg` | web H.264 (CRF 20, faststart, AAC 160k) and VP9/Opus, with the film's poster and the loop's own frame 0 for the hero's `<video poster>` |
 | C | `uptick-growth-loop.mp4` | the silent 6.9 s loop: the page already set, the 3 becoming the sidewalk, cut to loop (`film/compositions/Teaser.tsx`) |
-| D | `uptick-growth-poster.png` | the poster frame (Film frame 200: the settle, the painted 3 beside "JOE'S · 07:00–10:00") |
+| D | `uptick-growth-poster.png` | the poster frame — Film frame 200, chosen against six alternatives at final quality rather than taken as a default (below) |
 | E | `film/`, `blender/`, `scripts/`, `public/film-rd/{plates,audio,fonts}` | organised source: compositions, acts, primitives, the fixture, the Blender world and shots, the sound, the pipeline |
 | F | `contact/` | the final contact sheet: one frame every two seconds, nine to a sheet |
 | G | this file · `film/HANDOFF.md` · `film/review/` | the report, the website/app handoff, the critics' record (rubrics, punch lists, `PROOF.md` for gate A and `GATEB.md` for the look) |
+
+**The poster frame.** Seven candidates were rendered at 1920×1080 and read side by side, because a
+poster is the frame most people will see and some of them will see nothing else.
+
+| frame | what it is | why not |
+| ---: | --- | --- |
+| 60 | the cream page: `3` and the sentence | it is a page, not a film frame, and it is already the loop's own first frame |
+| **200** | **the settle: the painted 3 on Joe's pavement beside `JOE'S · 07:00–10:00`, and "Same street. Same morning."** | **chosen** |
+| 690 | the forecourt at dusk, mint light lying on it, the flats lit above the café | the most beautiful frame in the film, and the least honest poster: it is a picture of a filling station at dusk. Its caption is two lines of explanation, which on a still reads as a subtitle |
+| 830 | the Uptick panel on the café counter, the offer fully legible | the best *product* frame — it is the one that proves nothing floats — but at thumbnail size it is a small screen on a desk, and it does not say what the film is about |
+| 1250 | the pass in a hand at the counter | high contrast and strong small, but it shows the pass before the press, and it puts the film's least convincing asset at its largest |
+| 1300 | the coffee crossing the counter | an empty counter and a soft arm |
+| 1450 | the `21` on its rule | a number without its story |
+
+Frame 200 is the only candidate that is three things at once: the film's whole argument in one image
+(a number that became a place — the `3` is *printed on the pavement it counted*), legible at
+thumbnail size, and carrying the film's own voice rather than an explanation. It is also, by the
+full-cut critic's own reckoning, not the prettiest frame in the film. That is the trade, made
+deliberately: a poster's job is to be true about the film, and the prettier candidates are true
+about a gas station.
 
 **Resolution.** The master is 1920×1080. The Blender plates render at 1280×720 (18 samples with OpenImageDenoise, adaptive threshold 0.1, motion blur at shutter 0.5) on four CPU cores at 42–55 s a frame — 667 plate frames in all, about nine machine-hours. Two measurements set that budget. Eighteen samples with the denoiser was compared against twenty-eight on the heaviest shot and is visually indistinguishable. And the same frame was rendered twice, once at 1280×720 and once natively at 1920×1080, and the crops compared at the finest detail in the film — the price sign's REGULAR / DIESEL rows and the brick courses beside them: the native frame is marginally cleaner, and it cost 3.7× the time. A 1.5× upscale is the cheap half of that trade.
 
