@@ -116,3 +116,30 @@ straddling the camera plane clips against the near plane and reports garbage
 extents. When the projection is ambiguous, query the world-space box instead
 and reason about it analytically — and remember `bpy.context.view_layer.update()`
 after `B.build()`, or `matrix_world` is stale and every box comes back local.
+
+## What the physical gate changed
+
+Three rules came out of the three proof cuts, each of them measured on this film rather than
+inherited. They are here because each one was broken by a shot that had *declared* the right
+thing in its own docstring.
+
+**A foreground is an object, not a surface.** `morning_walk` declared "the curb" and `rise`
+declared "the lane's asphalt". Both are ground the camera looks *across*. They occlude nothing,
+so every plane sits at one depth and the frame reads as a model viewer. And a wide lens cannot
+rescue it: at 40 mm a foreground at six metres computes to under a pixel of circle of confusion,
+so it cannot be softened into a shape — it has to already be one, and it has to be legible as
+one. A parked car closed the frame and still failed, because at that crop it read as an
+ambiguous dark pod; a lamp post reads at any crop.
+
+**Light silhouettes a figure; material cannot.** `morning_door` works because its figure sits at
+(37,30,19) against a (44,39,30) door. `morning_pump`'s sat at (112,104,89) against a
+(176,162,147) pump. Halving the albedo moved it only to (92,83,71): these figures are lit chiefly
+by sky ambient, so contrast has to come from what is behind and beside them. Where that is not
+available, the answer is backlight or occlusion — never more tuning.
+
+**The lens decides how much of a model you are asked to believe.** The redemption's 95 mm made a
+procedural hand the second-largest object in frame. If a finger joint can be inspected, the lens
+is too long. The fix was 85 mm with the handset raked 32° — *and* a change to what the hand does,
+because the camera alone passed the proxy at 8.0 and still failed at 1280×720. A 640×360 proxy
+upscaled three times hides exactly the defect the look gate exists to catch, which is why both
+gates exist.

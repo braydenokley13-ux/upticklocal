@@ -44,24 +44,40 @@ Authorised and time-boxed. Findings:
 
 It is kept on the shelf, costed: *if the reframe had not worked, this is what to rig.*
 
-## What actually fixed it: the camera
+## What actually fixed it: the camera, and then one design change
 
 The mistake was hierarchy, not modelling. At 95 mm from 0.715 m with the handset square to the
 lens, the hand was the second-largest object in the frame. The brief's rule — *if I can inspect a
 finger joint, we are probably too close* — is the diagnosis.
-
-**85 mm from 0.80 m, with the handset raked 32° off the lens.** The rake is the whole trick: it
-collapses four fingers into one overlapping dark mass at the phone's edge instead of presenting a
-rank of four broadside. Swept on the proxy lane at 118 / 132 / 148 / 162 / 176 — below 148 the
-grip swings back toward the lens and reads worse; above it the fingers separate again.
 
 Three genuinely different solutions were cut against each other first, not three camera offsets:
 
 | | design | verdict |
 | --- | --- | --- |
 | **A** edge-of-frame gesture | 75 mm, 1.02 m, staff eyeline | hierarchy fixed, but the wider lens saw past the phone to the blown forecourt and the screen went illegible |
-| **B** over the shoulder | 65 mm, 1.34 m, higher | the least demonstrative and the most cinematic frame, but the product cannot be read at all |
-| **C** the threshold's grammar, close | 85 mm, 0.86 m, raked hard | **winner** — the grip goes edge-on, the back bar stays warm and dark behind, the headline and button still read |
+| **B** over the shoulder | 65 mm, 1.34 m, higher | the least demonstrative and most cinematic frame, but the product cannot be read at all |
+| **C** the threshold's grammar, close | 85 mm, 0.80 m, raked 32° | **winner** — the grip goes edge-on, the back bar stays warm and dark behind, the headline and button still read |
+
+The rake was swept on the proxy lane at 118 / 132 / 148 / 162 / 176. Below 148 the grip swings
+back toward the lens and reads worse; above it the fingers separate again.
+
+### And the camera alone did not pass Gate B
+
+This is the part worth keeping. The reframe scored 8.0 on the proxy and looked like enough. At
+1280×720 the fingers were still four separate bulbs with pale caps — the softness of a 640×360
+proxy upscaled three times had been hiding the very thing the gate exists to catch.
+
+What passed was a change to what the hand *does*. `grip()` had been cresting each fingertip over
+the near edge to rest its pad on the **front** of the glass. That is what a hand does when it is
+presenting a phone to a camera; it is not what a hand does when it is holding one. A one-handed
+grip wraps the back and puts only the thumb on the face. Cresting also put four pads broadside to
+the lens, and because the fingers are separate meshes Cycles renders their intersections as hard
+V-grooves where skin would fold — a groove no radius or material tuning can remove. The wrap now
+ends at the side: one soft edge along the handset's silhouette instead of four pads. The nails
+went with it; they existed only for tips that faced the lens.
+
+**The lesson, stated plainly:** the camera decides how much of a thing you are asked to believe;
+the model decides whether you believe it. Both had to change, and the cheap one was not enough.
 
 ## The UI followed the camera
 
