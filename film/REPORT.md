@@ -134,11 +134,52 @@ Order matters in one place: the baked screens are the contract between the two r
 
 _Filled from the critic's pass on the assembled film (`film/review/fullcut-review.md`)._
 
-«FULLCUT-TABLE»
+**Structural pass, on the proxy lane.** The whole film assembled at 1646 frames / 68.6 s and read
+as a 36-frame contact sheet (one frame every two seconds). Two rows cannot honestly be scored from
+a proxy contact sheet and are left open until the final master exists; scoring them here would be
+inventing evidence.
+
+| # | category | score | evidence |
+| --- | --- | ---: | --- |
+| 1 | Story and arc | 9.0 | gap → sentence → understanding → one plan → approve → two ways in → useful → pass → redeem → physical → build → proof → resolve, legible with no narration |
+| 2 | The opening (Act I) | 8.5 | the 3 prints on the pavement and the camera lifts off it — no fade, no wipe. The settled wide is the least photographed frame in the film: high, flat, no foreground. It is the `page` family by design (26 mm from 10 m, because the page's footprint *is* the lot), but it is the one place the Block still reads a little like a model |
+| 3 | Owner speaks and is understood (II–IV) | 9.0 | the sentence is the interface; 104 / 63 / 3 annotate a real axis rather than becoming a chart; no dashboard anywhere |
+| 4 | One growth plan and approval (IV–V) | 9.0 | the plan is one statement block with Joe's own rule in it; Approve is one tap; the block lights only where Joe already has a way in |
+| 5 | Two ways in (Act VI) | 9.0 | proof cut 1 — the panel is a physical object, both crossings are authored, nothing floats |
+| 6 | The relationship is useful (Act VII) | 8.5 | provenance is carried by the image: the approved plan appears, then the answer, citing Joe's own approved detail. It is also the most card-like act in the film — three rectangles on a dark field — and the closest the picture comes to reading as UI. It is World 3, where abstraction is licensed, so it passes; it is not a strength |
+| 7 | Offer → Pass → Redeem now (Act VIII) | 8.9 | proof cut 2 round 2 — one press, staff touch nothing, the grip wraps the back of the handset |
+| 8 | Physical, the build, the proof (IX–XI) | 8.8 | proof cut 3 round 2 — four physical beats, the light builds 8:05 → 9:40, the residue survives |
+| 9 | The resolve (Act XII) | 9.0 | quiet; the mint dot, the name, one earned line, a footer that stays out of the way |
+| 10 | The Block | 8.5 | the dusk forecourt is the strongest physical frame in the film — warm practicals, lit flats above, a dark foreground wall. The morning wides are the weaker end of the same world |
+| 11 | Typography | 9.5 | one family for the film's voice, the serif for the customer's, mono for facts; cinematic sizes; nothing set small to hide |
+| 12 | Colour discipline | 9.0 | cream and marine as pages, ink as type, mint only on the events, amber only on people |
+| 13 | Motion and editing | 8.5 | persist → transform between acts, one bezier, cuts motivated by the object or the clock. The nine-second tail is the softest stretch of the pacing |
+| 14 | Sound | — | **not scored.** A contact sheet cannot hear. Pending the final mixed master |
+| 15 | Prospect-readiness | — | **not scored.** This is a 640×360 proxy upscaled; judging finish from it is exactly the error Gate B exists to prevent. Pending the final master |
+| 16 | Physical / digital integration | 9.0 | across all three proof cuts: no Uptick surface floats in the physical world, every crossing is an authored object rather than a fade, and one physical residue survives into the page |
+
+**Fourteen scored rows, none below 8.5, mean 8.9.** The two unscored rows are the two that need
+the final master, and the verdict below is provisional until they exist.
 
 ## Remaining weaknesses
 
-«WEAKNESSES»
+1. **Act VII is the film's most card-like passage.** Three rectangles on a dark field. It is
+   licensed — World 3 is where the relationship may be abstract — and the provenance is genuinely
+   carried by the image rather than the copy. But it is the one act that would most reward being
+   given something physical to happen against.
+2. **Act I's settled wide is the least photographed frame in the film.** High, flat, no
+   foreground. The `page` lens family is a deliberate exception (the page's footprint is the lot),
+   which is why it is not simply a mistake — but the foreground rule the gate produced applies
+   here too, and this shot predates it.
+3. **The last nine seconds are nearly static.** Four seconds of the 21 on its rule, then five of
+   the resolve. The brief asks for quiet and this is quiet; it is still 13% of the running time
+   spent on two held pages.
+4. **The coffee shot's arm is a smooth tube**, and the shot is the least composed second in
+   Act VIII. It survives on the cup, which reads.
+5. **The `rise` figures** are the last of the medium-distance band that the darker cloth fixed
+   elsewhere. They are small enough not to cost the shot, and were left alone deliberately.
+6. **Sound and finish are unverified at final quality.** Rows 14 and 15 above. Nothing in this
+   report should be read as a claim about the finished master until that render exists.
 
 ## What the site takes
 
