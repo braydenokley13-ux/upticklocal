@@ -82,6 +82,19 @@ proxy plate and a final plate produce **byte-identical composite geometry**. The
 a phone's glass lands on exactly the pixels it will land on in the final. Only the photograph
 behind it is cheap.
 
+This was checked rather than asserted. Rendering `approach`, `coffee` and `morning_pump`
+through the proxy lane and diffing their exports against the committed ones:
+
+```
+approach      tracks identical=True   800x450 → 640x360
+coffee        tracks identical=True   800x450 → 640x360
+morning_pump  tracks identical=True   800x450 → 640x360
+```
+
+Only `width`/`height` moved. Those two fields are **vestigial**: nothing reads them, because
+`trackAt` scales by the composition's own 1920×1080. They record which render last wrote the
+file, not a space any coordinate lives in.
+
 A shot already finished at final quality is a better proxy than any proxy, so `film-proxy.sh`
 copies it into the proxy lane instead of re-rendering it. Freshness is decided by the frames:
 if the final mp4 is newer than its own `seq/` directory, it is current.
