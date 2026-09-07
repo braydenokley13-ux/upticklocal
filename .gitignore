@@ -13,6 +13,10 @@ CLAUDE.md
 
 # Blender plate frame sequences are rebuilt by scripts/film-plates.sh; only the encoded plates are kept
 public/film-rd/plates/seq
+# The proxy lane in full: it is the cheap lane by design (640x360/8spp, ~7 s a frame against 50),
+# rebuilt from the same cameras by scripts/film-proxy.sh whenever a cut needs judging. Committing
+# it would put a disposable photograph of the film in the history beside the real one.
+public/film-rd/plates/proxy
 blender/assets/*.blend
 blender/assets/*.blend1
 
