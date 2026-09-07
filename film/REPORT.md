@@ -166,23 +166,48 @@ the final master, and the verdict below is provisional until they exist.
 
 ## Remaining weaknesses
 
-1. **Act VII is the film's most card-like passage.** Three rectangles on a dark field. It is
-   licensed — World 3 is where the relationship may be abstract — and the provenance is genuinely
-   carried by the image rather than the copy. But it is the one act that would most reward being
-   given something physical to happen against.
-2. **Act I's settled wide is the least photographed frame in the film.** High, flat, no
-   foreground. The `page` lens family is a deliberate exception (the page's footprint is the lot),
-   which is why it is not simply a mistake — but the foreground rule the gate produced applies
-   here too, and this shot predates it.
-3. **The last nine seconds are nearly static.** Four seconds of the 21 on its rule, then five of
-   the resolve. The brief asks for quiet and this is quiet; it is still 13% of the running time
-   spent on two held pages.
-4. **The coffee shot's arm is a smooth tube**, and the shot is the least composed second in
-   Act VIII. It survives on the cup, which reads.
+The rubric asks the critic to name the single change that would move each row below 9. Here they
+are, with whether it was made and, where it was not, what was measured rather than assumed.
+
+1. **Act VII is the film's most card-like passage** (row 6 · 8.5). Three rectangles on a dark
+   field, and the closest the picture comes to reading as UI. *The single change:* give the act
+   something physical to happen against — a kitchen, so the thread sits in a room instead of on a
+   field. *Not made:* that is a new Blender shot and a new camera after the physical layer was
+   frozen, and the act passes as it stands. Two cheaper theories were tested and both were wrong.
+   The field is not flat — there is a breathing lamp pool, and the approved plan stands in real
+   depth with its fuel row lit in mint — and it is not banded: a row across the background carries
+   five levels interleaved at a mean flat-run of 2.3 px, which is dither, not stepping, so the
+   film-wide grain that every plate act carries would have had nothing to do there.
+2. **Act I's settled wide is the least photographed frame in the film** (rows 2 and 10 · 8.5).
+   High, flat, a bottom third of empty road and pavement. *The single change:* a foreground.
+   *Not made, and now measured:* the settle sits at 5.05 m on a 29.6 mm lens, so the nearest ground
+   inside the frame is about twelve metres away — the shot **cannot** hold a near foreground
+   without moving the camera, and moving the camera re-authors the homography the whole act is
+   composited on. It was tried anyway, since `hero1a` had not been rendered yet and the experiment
+   was free: two cars parked at the near curb. The result was worse. An object at fifteen metres is
+   in the same depth band as the car already crossing the road, so it reads as a duplicate rather
+   than as a foreground, and it flattens the frame instead of opening it. The `page` family is a
+   declared exception in `film/CINEMATOGRAPHY.md` precisely because the page's footprint *is* the
+   lot; this frame is a frieze by construction, and a prop does not fix a frieze.
+3. **The last nine seconds are nearly static** (row 13 · 8.5). Four seconds of the 21 on its rule,
+   then five of the resolve — 13% of the running time on two held pages. *The single change:* it
+   was the sound, not the picture. The resolve chord used to be silent by 65.2 s, so the title, the
+   closing line and the footer all played into a dead mix, and static plus silent reads as stopped.
+   The chord now decays through all three and runs out a tenth of a second after the last frame.
+   Trimming frames was considered and rejected: every cue in `cues.ts` is placed on an absolute
+   frame, so shortening an act desynchronises the whole sound edit after it, which is a large risk
+   for a beat the brief asks to be quiet.
+4. **The coffee shot's arm is a smooth tube** (row 7 · 8.9), and it is the least composed second in
+   Act VIII. *The single change:* cut the shot on the cup entering, before the arm is legible —
+   about six frames. *Not made,* for the same reason as 3: Act VIII's shot lengths set the act's
+   length and every cue after it. The shot survives on the cup, which reads.
 5. **The `rise` figures** are the last of the medium-distance band that the darker cloth fixed
-   elsewhere. They are small enough not to cost the shot, and were left alone deliberately.
-6. **Sound and finish are unverified at final quality.** Rows 14 and 15 above. Nothing in this
-   report should be read as a claim about the finished master until that render exists.
+   elsewhere (row 8 · 8.8). *The single change:* give them `dv_cloth_dark` like the approach walker
+   and the crowd. *Not made:* they are small enough not to cost the shot, and it is a plate
+   re-render at the end of a six-hour queue.
+6. **Sound and finish are scored on the final master, not on this table's evidence.** Rows 14 and 15
+   were left open above. Nothing in this report should be read as a claim about the finished master
+   until that render exists.
 
 ## What the site takes
 
