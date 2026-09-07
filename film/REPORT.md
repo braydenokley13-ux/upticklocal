@@ -86,7 +86,8 @@ film/
   review/                            the critics' record: rubrics, punch lists, proof cuts, sheets
   render/   PROFILE.md manifest.json where the render seconds go, and what the cut actually needs
   CINEMATOGRAPHY.md                  the lens grammar every Blender shot is checked against
-  REPORT.md  HANDOFF.md  PLAN.md     this report, the site handoff, the plan
+  REPORT.md  HANDOFF.md         this report, and the site handoff
+  PLAN.md                            the brief: the argument the film has to make, left as written
 
 blender/scripts/
   block.py                           the neighbourhood: facades, sidewalks, cars, materials, light states

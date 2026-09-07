@@ -1,6 +1,12 @@
-# Uptick Growth · Film R&D Lab · implementation plan
+# Uptick Growth · the brief
 
 Branch `film/uptick-growth-rd`. Nothing here touches production routes.
+
+_This is the argument the film has to make, and the fixture it has to make it with. It was written
+before the film existed and it has not been rewritten to match the film — a brief that is edited
+to agree with the thing it produced stops being able to hold it to account. What the film actually
+became, and how it is built, is `film/REPORT.md`; the render pipeline is `film/render/PROFILE.md`;
+the lens grammar is `film/CINEMATOGRAPHY.md`._
 
 ## What we are proving (read before touching code)
 
@@ -67,52 +73,24 @@ plan is a data sheet. We keep the logic and rebuild the picture.
   Distribution happens Thursday 6:48 PM (text tonight; screens armed for the
   window). Light carries the time jump.
 
-## Tools actually available
+## What replaced the rest of this file
 
-- Blender: `bpy` 5.0.1 (pip wheel, Python 3.11) → Cycles CPU + OIDN denoise.
-  Blender 4.0.2 apt binary also present (no denoiser, no EEVEE: no GPU/EGL).
-  We use `bpy` 5.0.1 for all renders. 4 cores, 15 GB. Cycles CPU only.
-- Remotion 4.0.521 (+ Player for the lab). Chromium from Playwright at
-  `/opt/pw-browsers/chromium-1194/chrome-linux/chrome`.
-- Fonts: OFL packages `@fontsource/geist-sans`, `geist-mono`, `newsreader`,
-  copied into `public/film-rd/fonts` with their licences.
-- ffmpeg: Playwright's `/opt/pw-browsers/ffmpeg-1011/ffmpeg-linux` +
-  Remotion's bundled one.
+The sections that used to follow — the tool inventory, the directory sketch and a six-step order
+of work — described a five-shot lab, and the film is twelve acts. They named primitives that were
+never built (`OfferSlab`, `Thread`, `Provenance`, `BlockPlate`) and a Chromium path the render no
+longer uses. Leaving them in place would put two contradictory descriptions of the same tree in
+the same directory, so they are in the branch history instead, and the current answers are:
 
-## Architecture
+| question | where it is answered now |
+| --- | --- |
+| what the film is, act by act | `film/REPORT.md` |
+| where every file lives | `film/REPORT.md` § The source, laid out |
+| what the machine can do, and what each lane costs | `film/render/PROFILE.md` |
+| what a camera must declare | `film/CINEMATOGRAPHY.md` |
+| what the sound is made of, and how loud | `film/audio/CUES.md` · `film/audio/NOTES.md` |
+| what the critics said | `film/review/` — `CRITIC.md`, `PROOF.md` (gate A), `GATEB.md` (the look), `FULLCUT.md` |
+| what the site takes from it | `film/HANDOFF.md` |
 
-```
-film/                      Remotion project (relative imports only)
-  index.ts                 registerRoot
-  Root.tsx                 five compositions, 1920×1080, 24 fps
-  data/joes.ts             THE fixture
-  motion/                  bezier, tempo, springs, timeline helpers
-  typography/fonts.ts      @font-face loading with delayRender
-  primitives/              Numeral, Sentence, GrowthPlan, OfferSlab, Thread,
-                           Pass, Provenance, Result, BlockPlate, Tracked…
-  block/                   plate manifest + tracking JSON (from Blender)
-  compositions/Hero1…5     the five gates
-  audio/NOTES.md           sound-intent per shot
-blender/
-  scripts/block.py         builds the Block (materials, lighting states)
-  scripts/shots.py         cameras, people paths, per-shot render + tracking export
-  scripts/render.py        CLI: still / sequence
-  exports/*.json           2D tracks (Joe's door, curb line, screen quad, thresholds)
-app/film-rd/               the lab (Player, shot selector, scrub, frame, renders)
-public/film-rd/
-  plates/*.mp4             Blender plates (committed, small)
-  renders/*.mp4 + stills   Remotion outputs
-  fonts/                   OFL woff2
-```
-
-Pipeline for a Block shot: Blender renders the plate + exports per-frame 2D
-tracks → Remotion composites Direction 1 / phone layers over the plate using
-the tracks (the `3` lands on Joe's tracked lot; the screen quad drives a
-homography so the DOM Offer sits on the physical screen and lifts off it).
-
-## Order of work
-
-1. Fixture. 2. Block look-dev in Blender (stills until it is good).
-3. Remotion skeleton + fonts + lab page (build must pass).
-4. Hero 2 and Hero 4 (pure Direction 1 / focused dark) while plates render.
-5. Hero 1, Hero 3, Hero 5 over plates. 6. Render, critique, iterate, report.
+The one thing above that has not moved is the fixture: `film/data/joes.ts` is still the single
+source, and it still checks its own arithmetic — 14 returned plus 7 new must equal 21, and the
+coffee's cost times the cap must equal the stated exposure, or the module refuses to load.
