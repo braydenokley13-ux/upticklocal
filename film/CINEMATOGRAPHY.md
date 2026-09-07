@@ -143,3 +143,24 @@ is too long. The fix was 85 mm with the handset raked 32° — *and* a change to
 because the camera alone passed the proxy at 8.0 and still failed at 1280×720. A 640×360 proxy
 upscaled three times hides exactly the defect the look gate exists to catch, which is why both
 gates exist.
+
+## The declaration is the deliverable
+
+`camera.py` will not let a shot be built without a lens, a stop, a height, a subject, a
+foreground, a background, a focal plane and a motivation. That check runs once, when the shot is
+first written, and it cannot tell whether the declaration is still *true* a month later — it only
+knows a string is present. Every one of those strings is exported into
+`blender/exports/<shot>.json` and printed straight into `film/REPORT.md`'s plate table, so a
+declaration that has gone stale is not a stale comment: it is a wrong sentence in the film's
+report about the film.
+
+It happened once. `morning_walk`'s foreground was a parked car; the car read as an ambiguous dark
+pod at that crop and was replaced with a lamp post, with a full comment beside the geometry
+explaining why — and the camera's `foreground=` string was left saying "a car parked along the
+near curb". The scene, the comment and the declaration all disagreed, and the report printed the
+declaration.
+
+**So: when you change what is in front of the lens, change the declaration in the same edit.**
+Not afterwards, and not "when the plate is re-rendered" — the export is written at the start of
+every render, so a wrong string ships with the next frame.
+

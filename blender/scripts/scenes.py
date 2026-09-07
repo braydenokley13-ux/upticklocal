@@ -834,7 +834,7 @@ def shot_morning_walk(W: B.World):
     """Beat: two people come along the frontage from the café end. 8:26.
 
     lens      block 40 mm, f/5.6      height 1.60 m
-    fore      a car parked along the near curb, dark and hard, closing the right of frame
+    fore      a lamp post on the near curb, 6.4 m out, a dark vertical closing the right of frame
     subject   two people walking the sidewalk toward Joe's
     back      the block: the café's awning, the parked cars, the lot
     focus     the sidewalk at the middle distance
@@ -860,7 +860,7 @@ def shot_morning_walk(W: B.World):
     B.cylinder("mw_post", 0.09, 6.4, (-2.90, 4.62, 3.2 + B.CURB_H), _post, group="street", verts=14)
     B.cylinder("mw_postbase", 0.19, 0.5, (-2.90, 4.62, 0.25 + B.CURB_H), _post, group="street", verts=14)
     cam = CAM.Cam("block", subject="two people walking the frontage toward Joe's",
-                  foreground="a car parked along the near curb, dark and hard, closing the right of frame", background="the café's awning, the cars, the lot",
+                  foreground="a lamp post on the near curb, 6.4 m out and 80% of the way to the right edge, a dark vertical from the bottom of frame to the top", background="the café's awning, the cars, the lot",
                   motivation="locked")
     cam.lock((-9.6, 3.2, 1.60), (3.0, 11.0, 1.55), frames, focus=(2.0, 9.6, 1.5), label="across the road")
     CAM.ease_camera(cam.obj)
