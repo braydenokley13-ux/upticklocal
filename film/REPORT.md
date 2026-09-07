@@ -57,6 +57,57 @@ All under `public/film-rd/final/` from one command, `scripts/film-master.sh` (st
 
 At 3840×2160 those plates would be a 3× upscale sitting under vector typography, which is not a 4K film. The honest master is therefore 1080p, and the project is built to render 4K without a re-cut: `SCALE=2 scripts/film-master.sh` renders every Remotion layer at 3840×2160, and the plates come from `RES=2560x1440 SAMPLES=64 scripts/film-plates.sh` on a GPU box — roughly 8× this machine's time per frame. Nothing in the timeline, the typography or the compositing is authored in pixels that would have to change.
 
+## The source, laid out
+
+Deliverable E. Two renderers, one timeline, one fixture. Nothing in `film/` imports from the
+site's `app/` and nothing on the site imports from `film/`.
+
+```
+film/
+  Root.tsx  index.ts  shots.ts       the Remotion root and the composition registry
+  tokens.ts                          colour, type and frame constants — one source for both renderers
+  compositions/
+    Film.tsx                         the whole film: twelve acts on one timeline
+    Sound.tsx                        the sound edit, as Audio sequences
+    Teaser.tsx                       the silent web loop, cut from Act I
+    hero1/Hero1A.tsx  common.tsx     Act I · the page is the pavement
+    Hero2.tsx                        Acts II–IV · the sentence becomes the instruments becomes the plan
+    Hero4.tsx                        Act VII · does diesel count
+    acts/                            Acts V, VI, VIII, IX–XI, XII, and the plan at rest
+  primitives/                        Frame · Type · GrowthPlan · PhoneScreen · ScreenContent · Touch · Grain
+  block/    homography.ts            the 3D matrix that puts a page on a real surface
+            plate.tsx                the plate registry and the tracked-quad reader
+            lane.ts                  which lane the edit reads (see film/render/PROFILE.md)
+  motion/                            the film's eases, ramps and typing cadence
+  typography/                        the font faces, and text measured with its own tracking
+  data/joes.ts                       the fixture: one business, and it checks its own arithmetic
+  audio/    synth.py  cues.ts        the material, and where every cue sits on the film's frames
+            CUES.md  NOTES.md        the cue sheet with measured levels, and the intent
+  review/                            the critics' record: rubrics, punch lists, proof cuts, sheets
+  render/   PROFILE.md manifest.json where the render seconds go, and what the cut actually needs
+  CINEMATOGRAPHY.md                  the lens grammar every Blender shot is checked against
+  REPORT.md  HANDOFF.md  PLAN.md     this report, the site handoff, the plan
+
+blender/scripts/
+  block.py                           the neighbourhood: facades, sidewalks, cars, materials, light states
+  body.py                            the figures — proportion from one height, so a short figure is a short person
+  camera.py                          a shot cannot be built without declaring lens, stop, height, subject,
+                                     foreground, background, focal plane and a motivation
+  device.py                          the handset and the counter screen, as objects that emit a baked sequence
+  scenes.py  shots.py                the thirteen shots and the sets they need
+  lookdev.py  render.py              look development, and the resumable renderer with the track exporter
+  exports/<shot>.json                per-frame 2D tracks, normalised, plus the camera's own declaration
+
+scripts/                             synth · encode · bake screens · plates · proxy · lane · manifest ·
+                                     preflight · review sheets · master
+
+public/film-rd/
+  plates/<shot>.mp4                  the physical layer, 1280×720
+  audio/*.ogg                        the cues, synthesised in this repo
+  fonts/                             Geist and Newsreader, with their OFL licences beside them
+  final/                             the deliverables
+```
+
 ## Gate history
 
 Every hero shot went through a critic who had not built it (`film/review/CRITIC.md`; the punch lists are the record). The stricter scale applied from the production mandate on: 6 prototype · 7 decent startup film · 8 professional but not special · 9 the minimum for a final · 9.5+ signature.
