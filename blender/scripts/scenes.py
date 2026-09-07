@@ -48,10 +48,15 @@ def skin_mat(name: str):
     if name in B._MATS:
         return B._MATS[name]
     m, p, nt = B._new_mat(name)
-    p.inputs["Base Color"].default_value = B.srgb("#9d8272")
-    p.inputs["Roughness"].default_value = 0.72
-    p.inputs["Specular IOR Level"].default_value = 0.13
-    p.inputs["Subsurface Weight"].default_value = 0.22
+    # Value, not hue, is what was making this read as plastic. At #9d8272 under a warm practical
+    # the hand came back brighter than the white screen it is holding, and the eye reads the
+    # brightest thing in a macro frame as the subject: the shot was about a hand. Two stops of
+    # value down puts the phone back in charge, and the subsurface comes down with it because at
+    # 0.22 the red bleed was lighting the finger edges from inside like a gummy sweet.
+    p.inputs["Base Color"].default_value = B.srgb("#7a6355")
+    p.inputs["Roughness"].default_value = 0.74
+    p.inputs["Specular IOR Level"].default_value = 0.11
+    p.inputs["Subsurface Weight"].default_value = 0.15
     try:
         p.inputs["Subsurface Radius"].default_value = (0.016, 0.007, 0.004)
         p.inputs["Subsurface Scale"].default_value = 0.012
