@@ -251,8 +251,10 @@ def grip(W, name, parent, scale=1.0):
     # The pitch is a little under a finger's width so they touch: separated tubes read as four
     # sausages, and at 95 mm the hand is the second-largest thing in the frame. Each tip carries
     # a nail, because the pad is against the glass and the nail is the side facing the lens.
-    # the nail is a sheen, not a colour: a paler cap on each fingertip reads as a painted toy
-    nail = B.mat_surface("dv_nail", "#a68a79", rough=0.26, spec=0.5, coat=0.6)
+    # The nail is a sheen, not a colour. It was written that way and then built with coat 0.6 and
+    # specular 0.5 over a paler brown, which at 95 mm is not a sheen, it is a highlight: four pale
+    # glossy ovals reading as caps glued to a toy. Nearly skin, nearly matte, and smaller.
+    nail = B.mat_surface("dv_nail", "#9a8071", rough=0.44, spec=0.20, coat=0.12)
     # Four fingers, only two of which really crest the glass: an even rank of four reads as a
     # rank of four, and a hand does not do that. The index rides the edge, the middle comes
     # furthest over, the ring follows it, the little finger stays on the rim.
@@ -271,10 +273,14 @@ def grip(W, name, parent, scale=1.0):
             (crestx, -hd - 0.006 * s, z + 0.003 * s),
             tip,
         ]
-        fg = BD.tube(f"{name}_f{i}", path, [rr * 1.16, rr * 1.02, rr * 1.10, rr * 0.95, rr * 1.02, rr * 0.88], m["skin"], group="device")
+        # A finger is not a tube that tapers. It swells at the knuckle it is bent over and
+        # narrows between: the middle joint rides the handset's edge and is the one the lens
+        # sees. The old profile modulated by a tenth, which at this magnification reads as a
+        # smooth sausage; this one swells and narrows by a fifth, which reads as jointed.
+        fg = BD.tube(f"{name}_f{i}", path, [rr * 1.21, rr * 0.94, rr * 1.15, rr * 0.90, rr * 1.07, rr * 0.78], m["skin"], group="device")
         fg.parent = parent
         parts[f"f{i}"] = fg
-        nl = BD.ellipsoid(f"{name}_n{i}", (rr * 0.66, rr * 0.11, rr * 0.40), nail, group="device")
+        nl = BD.ellipsoid(f"{name}_n{i}", (rr * 0.52, rr * 0.07, rr * 0.34), nail, group="device")
         nl.parent = parent
         nl.location = (tip[0] - rr * 0.36, tip[1] - rr * 0.88, tip[2])
         parts[f"n{i}"] = nl

@@ -17,6 +17,10 @@ public/film-rd/plates/seq
 # rebuilt from the same cameras by scripts/film-proxy.sh whenever a cut needs judging. Committing
 # it would put a disposable photograph of the film in the history beside the real one.
 public/film-rd/plates/proxy
+# Extracted review frames. scripts/film-review.py's own rule: the frames are working files,
+# the contact sheets are the review record. A proof cut re-rendered three times should not
+# leave three sets of 1.3 MB stills in the history.
+film/review/proof/*/f[0-9]*.png
 blender/assets/*.blend
 blender/assets/*.blend1
 
