@@ -37,22 +37,37 @@ export function quadAt(data: TrackData, prefix: string, plateFrame: number): [Pt
   return [trackAt(data, `${prefix}_tl`, plateFrame), trackAt(data, `${prefix}_tr`, plateFrame), trackAt(data, `${prefix}_br`, plateFrame), trackAt(data, `${prefix}_bl`, plateFrame)];
 }
 
+/**
+ * Which lane the edit is reading.
+ *
+ * `proxy` plates are the same cameras, the same figures, the same timing and the same screen
+ * content, rendered small and cheap so a cut can be judged in minutes instead of hours. They
+ * live beside the final plates under the same names, so nothing in a composition changes:
+ * every question about camera, blocking, pacing and a world crossing can be answered on the
+ * proxy lane, and only a locked shot is worth a final frame.
+ *
+ *   REMOTION_PLATE_QUALITY=proxy npx remotion render …
+ */
+export const PLATE_QUALITY = process.env.REMOTION_PLATE_QUALITY === "proxy" ? "proxy" : "final";
+const DIR = PLATE_QUALITY === "proxy" ? "film-rd/plates/proxy" : "film-rd/plates";
+const plate = (name: string) => `${DIR}/${name}.mp4`;
+
 export const PLATES = {
   /* the physical acts, rebuilt: one authored camera each, the product emitting from a real panel */
-  approach: "film-rd/plates/approach.mp4",
-  threshold: "film-rd/plates/threshold.mp4",
-  counter: "film-rd/plates/counter.mp4",
-  device: "film-rd/plates/device.mp4",
-  coffee: "film-rd/plates/coffee.mp4",
-  cafe: "film-rd/plates/cafe.mp4",
-  scan: "film-rd/plates/scan.mp4",
-  morningPump: "film-rd/plates/morning_pump.mp4",
-  morningWalk: "film-rd/plates/morning_walk.mp4",
-  morningDoor: "film-rd/plates/morning_door.mp4",
-  rise: "film-rd/plates/rise.mp4",
+  approach: plate("approach"),
+  threshold: plate("threshold"),
+  counter: plate("counter"),
+  device: plate("device"),
+  coffee: plate("coffee"),
+  cafe: plate("cafe"),
+  scan: plate("scan"),
+  morningPump: plate("morning_pump"),
+  morningWalk: plate("morning_walk"),
+  morningDoor: plate("morning_door"),
+  rise: plate("rise"),
   /* Act I's rise, and Act V's block at dusk */
-  hero1a: "film-rd/plates/hero1a.mp4",
-  hero3a: "film-rd/plates/hero3a.mp4",
+  hero1a: plate("hero1a"),
+  hero3a: plate("hero3a"),
 } as const;
 
 /**
