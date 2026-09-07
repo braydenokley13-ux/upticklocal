@@ -120,3 +120,23 @@ recorded so nobody goes looking for savings here again.
 640×360 plate could in principle be restored for a 1280×720 request. It cannot happen today
 because the cache is only consulted when `--range` is absent and both lanes always pass
 `--range`. If the cache is ever used without a range, key it by `<shot>@<res>@<samples>`.
+
+## Two hazards that are not about speed, recorded because both cost a run
+
+**Do not edit a shell script while it is running.** `bash` reads a script
+incrementally, by byte offset, and does not re-read what it has already
+consumed. Inserting lines into `scripts/film-master.sh` while a rehearsal of it
+was in flight shifted every offset after the insertion point, and the running
+shell resumed mid-line: it reported `0:v:0: command not found` at a line number
+that, in the file on disk, contains `fi`. Nothing was wrong with the script. The
+long queues here run for hours (`film-plates.sh` is a six-hour script), so this
+is a live risk every time one of them is going: change the file after it exits,
+or copy it, or the run will fail in a way whose error message points at the
+wrong line.
+
+**libopus is not deterministic; the synthesiser is.** `film/audio/synth.py` is
+seeded and writes byte-identical WAVs between runs, but re-encoding those WAVs
+with `libopus` produces different bytes with identical decoded samples. So a
+one-stem change looks like a 23-stem change in `git status`. Check before
+committing — decode both versions and compare the PCM — and restore the stems
+that did not actually move, or the history stops telling you which sound changed.

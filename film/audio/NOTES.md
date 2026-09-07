@@ -5,8 +5,9 @@ Silence is a material. No whooshes. One tempo, 76 bpm, when anything is rhythmic
 This was written for the five hero shots, when the plan was to carry them on sound design alone.
 The assembled film keeps every rule below and adds one thing the shots did not need: an underscore,
 written to this cut and to no other (`film/audio/synth.py::make_music_bed`, mapped in `CUES.md`).
-It sits *under* the picture — it never announces a beat the picture is already making, it goes to
-near-silence for the 830 ms hole, and it ducks 6 dB so the redemption note is alone. `SCORE = false`
+It sits *under* the picture — it never announces a beat the picture is already making, it is cut
+entirely for the 830 ms hole (near-silence is not silence: a pad humming through that moment is the
+one thing that can spoil it), and it ducks 6 dB so the redemption note is alone. `SCORE = false`
 in `film/audio/cues.ts` plays the original intent: the sound design by itself, with one root chord
 under the 21.
 
@@ -29,12 +30,14 @@ The scan: one short clean tick. The screen content lifting into the Offer: a pap
 
 ## Hero 4 · Does diesel count?
 Kitchen at 6:52 PM (a fridge, a TV in another room, low). The question sends with an ordinary text swoosh at
-ordinary volume. Then 900 ms of complete silence — even the room tone dips. The sheet rising: the mint pad,
+ordinary volume. Then 830 ms of complete silence — the room tone cut, and the score with it. The sheet rising: the mint pad,
 very soft. The row landing as the answer: a clean tick, the clearest small sound in the film. Room tone returns.
 
 ## Hero 5 · Redeemed → return → 21
 A nozzle click, morning air, the forecourt. Redemption: one clean resolved tone, the clearest note in the film.
 The mint point dropping through the door: a soft wooden tap. Each threshold crossing: the same tap, never louder;
 the count steps on the tap. As the morning advances the street bed brightens (more cars, a bell, voices).
-The 21 landing on the page: the street bed falls away under it and a root chord holds, then decays to nothing.
-End on silence, not a hit.
+The 21 landing on the page: the street bed falls away under it and a root chord holds, then decays to nothing —
+reaching the title, the closing line and the footer on its way down and running out a tenth of a second after
+the last frame. End by running out, not on a hit, and not on a hole: three seconds of dead mix under the
+sign-off reads as a fault, which is what an earlier cut of the bed did.

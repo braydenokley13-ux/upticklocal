@@ -45,8 +45,8 @@ All under `public/film-rd/final/` from one command, `scripts/film-master.sh` (st
 
 | | file | what |
 | --- | --- | --- |
-| A | `uptick-growth-master-1080p.mp4` | the master: H.264 CRF 15 from PNG frames, 24 fps, the mix lifted once to −1 dBTP |
-| B | `uptick-growth-1080p.mp4` · `uptick-growth-1080p.webm` · `uptick-growth-poster.jpg` | web H.264 (CRF 20, faststart, AAC 160k) and VP9/Opus, with the poster |
+| A | `uptick-growth-master-1080p.mp4` | the master: H.264 CRF 15 from PNG frames, 24 fps, AAC 256k. The picture is rendered muted and the mix separately as PCM, so the sound reaches each deliverable through one lossy encode rather than two, and the +16.4 dB that puts its true peak at −1 dBTP is measured on the PCM |
+| B | `uptick-growth-1080p.mp4` · `uptick-growth-1080p.webm` · `uptick-growth-poster.jpg` · `uptick-growth-loop-poster.jpg` | web H.264 (CRF 20, faststart, AAC 160k) and VP9/Opus, with the film's poster and the loop's own frame 0 for the hero's `<video poster>` |
 | C | `uptick-growth-loop.mp4` | the silent 6.9 s loop: the page already set, the 3 becoming the sidewalk, cut to loop (`film/compositions/Teaser.tsx`) |
 | D | `uptick-growth-poster.png` | the poster frame (Film frame 200: the settle, the painted 3 beside "JOE'S · 07:00–10:00") |
 | E | `film/`, `blender/`, `scripts/`, `public/film-rd/{plates,audio,fonts}` | organised source: compositions, acts, primitives, the fixture, the Blender world and shots, the sound, the pipeline |
@@ -125,10 +125,13 @@ scripts/film-plates.sh                  # the thirteen physical plates at 1280×
 npm run film:dev                        # Remotion Studio on film/index.ts
 scripts/film-render.sh Hero1 Hero2 …    # previews, stills and contact sheets per shot
 scripts/film-review.py Film --every 48 --per-sheet 9   # the critic's sheets from any preview
+scripts/film-preflight.py               # every plate present and long enough, every cue on disk
 scripts/film-master.sh                  # master · web · poster · loop · contact sheet
 ```
 
 Order matters in one place: the baked screens are the contract between the two renderers. Changing what the phone says means re-baking **and** re-rendering every plate that shows a phone.
+
+`film-preflight.py` reads the manifest and the cue module and refuses to call the film ready while a plate is missing or encoded shorter than the cut asks for, or a cue has no `.ogg`. Every way the master has actually failed here was knowable before the render started; this is the check that knows it.
 
 ## The full-cut review
 

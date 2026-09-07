@@ -28,7 +28,7 @@ _Preparation only. Nothing here changes the site; it maps what the film proved o
 
 ## Page mapping
 
-- **`/growth`** — hero: the teaser loop (`public/film-rd/final/uptick-growth-loop.mp4`, silent, 6.9 s, the 3 becoming the sidewalk) with the poster frame as the fallback image; the full film (`uptick-growth-1080p.mp4` / `.webm`, poster `uptick-growth-poster.jpg`) further down with sound opt-in. Sections in the film's order: the gap · owner speaks · one plan · two ways in · the relationship is useful · the pass · the proof. Each section's figure is the film's figure.
+- **`/growth`** — hero: the teaser loop (`public/film-rd/final/uptick-growth-loop.mp4`, silent, 6.9 s, the 3 becoming the sidewalk) with `uptick-growth-loop-poster.jpg` as its `<video poster>` — that file is the loop's own frame 0, so the hero does not jump when playback starts, which it would if the film's poster frame were used there; the full film (`uptick-growth-1080p.mp4` / `.webm`, poster `uptick-growth-poster.jpg`) further down with sound opt-in. Sections in the film's order: the gap · owner speaks · one plan · two ways in · the relationship is useful · the pass · the proof. Each section's figure is the film's figure.
 - **`/growth/demo`** — the interactive version of Acts II → VIII: type a sentence (or pick one), watch the plan assemble (`GrowthPlanCard` with the assemble animation), approve (one tap), see the Offer (`PhoneOffer`), save the pass, redeem it (`PhonePass`, real clock, one press). No account. The result page shows "21 came through the door." then "14 returned. 7 were new." — the film's restraint, no chart.
 - **Owner app** — the plan composer (Act II grammar), the plan review (Act IV's block, editable), approval (Act V's press: the plan becomes a line under the header, not a modal), the week line ("This week · 38 answered from the plan · 2 went to Joe") on the home screen, and the count ("21 came through the door") as the only number on the home screen until tapped.
 - **Merchant counter view** — none needed. The film's argument is that staff look at the customer's phone. If a counter view exists, it shows the day's count and nothing to tap.
@@ -45,6 +45,7 @@ _Preparation only. Nothing here changes the site; it maps what the film proved o
 public/film-rd/final/uptick-growth-1080p.mp4      the film (web, with sound)
 public/film-rd/final/uptick-growth-1080p.webm     the film (web, VP9/Opus)
 public/film-rd/final/uptick-growth-poster.jpg     the poster frame
+public/film-rd/final/uptick-growth-loop-poster.jpg  the loop's frame 0, for <video poster>
 public/film-rd/final/uptick-growth-loop.mp4       the silent 6.9 s loop
 public/film-rd/fonts/                             Geist Sans/Mono, Newsreader italic (OFL, licences beside them)
 film/data/joes.ts                                 the fixture, one source
