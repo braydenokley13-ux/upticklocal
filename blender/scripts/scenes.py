@@ -808,7 +808,7 @@ def shot_morning_walk(W: B.World):
     """Beat: two people come along the frontage from the café end. 8:26.
 
     lens      block 40 mm, f/5.6      height 1.60 m
-    fore      the curb, running out of frame right
+    fore      a car parked along the near curb, dark and hard, closing the right of frame
     subject   two people walking the sidewalk toward Joe's
     back      the block: the café's awning, the parked cars, the lot
     focus     the sidewalk at the middle distance
@@ -823,8 +823,14 @@ def shot_morning_walk(W: B.World):
         ([(4.6, 9.4), (2.7, 10.5)], 1.50, 0, math.radians(-120)),
         ([(6.4, 8.4), (4.6, 9.5)], 1.38, 4, math.radians(-120)),
     ], frames, [m["cloth2"], m["cloth"]])
+    # The shot declared the curb as its foreground, which is the ground the camera looks across,
+    # not an object it looks past: everything sat on one plane at f/5.6 and the frame read as
+    # archviz. A car parked along the near curb, six metres out, is a real Main Street object and
+    # it closes one side. At 40 mm it will be sharp, not soft -- which is correct here: a wide
+    # lens cannot blur a foreground, so a wide-lens foreground has to be a dark shape.
+    B.car_at(-2.4, 3.9, 1, yaw=0.0, name="mw_car", z=0.0)
     cam = CAM.Cam("block", subject="two people walking the frontage toward Joe's",
-                  foreground="the curb, running out of frame right", background="the café's awning, the cars, the lot",
+                  foreground="a car parked along the near curb, dark and hard, closing the right of frame", background="the café's awning, the cars, the lot",
                   motivation="locked")
     cam.lock((-9.6, 3.2, 1.60), (3.0, 11.0, 1.55), frames, focus=(2.0, 9.6, 1.5), label="across the road")
     CAM.ease_camera(cam.obj)

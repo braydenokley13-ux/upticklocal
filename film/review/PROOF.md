@@ -167,8 +167,97 @@ finding is real.
 
 ### 3 · the morning
 
-«PROOF-3»
+**Rendered** `film/review/proof/morning.mp4` — film frames 1322–1499 (7.42 s), on the **proxy
+lane**. Read in motion and as fourteen stills.
 
 ## Verdict
 
-«PROOF-VERDICT»
+**7.5 / 10 — REJECTED, but narrowly and for one nameable reason.** The act's structure is
+right and the ending is genuinely good. Four physical beats — the pump, the frontage, the door
+later, the lane — with no count over the world, no score, no particle swarm and four different
+cameras. The light does build: sun elevation 24° → 31° → 41° → 46°, exposure −3.0 → −2.55,
+clock 8:05 → 8:26 → 9:12 → 9:40. The crossing back to the page works exactly as designed: the
+morning goes over the set as light rather than as a cut, and the line the store stands on stays
+behind as the rule the 21 sits on. `21 / came through the door. / 14 returned. 7 were new.` is
+quiet, well set, and standing on a physical residue.
+
+It is rejected because two of the four beats read as **archviz**, and the cause turned out to
+be specific rather than atmospheric.
+
+### The finding: a foreground that is the ground is not a foreground
+
+The cinematography bible makes every shot declare a foreground. Reading them back:
+
+| shot | declared foreground | reads as |
+| --- | --- | --- |
+| `threshold` | the two shelf runs the aisle passes between, dark, closing left and right | photographed |
+| `approach` | the customer themself, a metre from the lens and far outside focus | photographed |
+| `morning_pump` | the near pump's shoulder, dark, left of frame | photographed |
+| `morning_walk` | *the curb, running out of frame right* | **archviz** |
+| `rise` | *the lane's asphalt* | (deliberate — see below) |
+
+A curb and a lane's asphalt are surfaces the camera looks **across**, not objects it looks
+**past**. They occlude nothing and they sit on the same plane as everything else, so at f/5.6
+with focus 13 m out the entire frame is one depth and it reads as a model viewer. The three
+shots that work all name a real object near the lens. The film had already proved the rule and
+then broke it twice.
+
+## Punch list
+
+1. `[PLATE]` `[P1]` **`morning_walk` — fixed this round.** A car parked along the near curb, six
+   metres out, closing the right of frame. It is *sharp*, not soft, and that is correct: at
+   40 mm a foreground at 6 m computes to under a pixel of circle of confusion, so a wide-lens
+   foreground has to be a dark shape rather than a blur — the same lesson Act V's dusk shot
+   taught when its parking-lot cars refused to go out of focus. The frame now has a near plane,
+   a middle and a far.
+2. `[PLATE]` `[P2]` **`rise` keeps its asphalt, deliberately.** Its motivation is *"we climb
+   until only the base line and the doorway are left"* — the shot's job is to empty out so the
+   page can take over, and a foreground object would fight the residue it exists to hand over.
+   Recorded as a considered exception, not an oversight.
+3. `[PLATE]` `[P2]` **the medium-distance figures.** Same cause as proof cut 2: at the pump and
+   at the door the figures are large enough to show they are capsules. In the wides they are
+   small enough to abstract and they read fine, and at the threshold they are silhouettes and
+   read well. The failure band is medium distance in flat light.
+
+## Keep
+
+1. **The crossing back to the page.** The morning washes the set away as light, the tracked
+   base line stays, and the 21 stands on it. One physical residue survives, which is exactly
+   what was asked for, and it is not a fade.
+2. **The light build.** 8:05 to 9:40 across four beats, carried by sun elevation and exposure
+   rather than by a caption.
+3. **The resolve's restraint.** A full-bleed rule, the numeral indented off it, two short lines
+   and a great deal of nothing. No KPI screen anywhere near it.
+
+## Verdict
+
+**Two of three rejected. The physical layer is NOT frozen.**
+
+| cut | verdict | |
+| --- | --- | --- |
+| 1 · the café | **9.0 — passes** | the panel is a physical object, both crossings are authored, nothing floats |
+| 2 · the redemption | **6.5 — rejected** | the edit is right; the human system reads as a toy |
+| 3 · the morning | **7.5 — rejected** | the ending is right; two beats read as archviz, one now fixed |
+
+The two rejections share one root and it is not the compositor, the edit or the product design:
+**every failure in both cuts is a Blender asset or a Blender camera.** Nothing in either cut is
+UI pasted over a plate — the composite layer has passed everywhere it was tested. What fails is
+the hand at 95 mm, the mannequin at medium distance, and a wide that names the ground as its
+foreground.
+
+Two of those three are now understood precisely enough to act on:
+
+- **The foreground rule** is fixed in `morning_walk` and stated generally, with `rise` recorded
+  as a deliberate exception. The film had already proved the rule three times before breaking
+  it twice.
+- **The hand** has had three passes — nails, profile, value — each of which moved the frame and
+  none of which fixed it. The punch list says why further tuning is waste: a procedural tube
+  cannot carry a knuckle, and the fingers cannot be drawn in tighter because at `-hw - 0.011`
+  the surface already clears the handset by 0.4 mm, so the bulge in frame *is* the finger's own
+  radius. It needs a sculpted hand or a shot that shows less of this one.
+- **The medium-distance figure** is the same problem at a different lens. The film already
+  contains its own answer: at the threshold the figure is a silhouette and reads as a person.
+
+No final master should be cut until the redemption's close work passes. The final Cycles queue
+stays paused rather than spending fifty seconds a frame on shots that have not passed a
+creative gate.
