@@ -47,7 +47,7 @@ All under `public/film-rd/final/` from one command, `scripts/film-master.sh` (st
 | --- | --- | --- |
 | A | `uptick-growth-master-1080p.mp4` | the master: H.264 CRF 15 from PNG frames, 24 fps, the mix lifted once to −1 dBTP |
 | B | `uptick-growth-1080p.mp4` · `uptick-growth-1080p.webm` · `uptick-growth-poster.jpg` | web H.264 (CRF 20, faststart, AAC 160k) and VP9/Opus, with the poster |
-| C | `uptick-growth-loop.mp4` | the silent 8.5 s loop: the 3 becoming the sidewalk, cut to loop (`film/compositions/Teaser.tsx`) |
+| C | `uptick-growth-loop.mp4` | the silent 6.9 s loop: the page already set, the 3 becoming the sidewalk, cut to loop (`film/compositions/Teaser.tsx`) |
 | D | `uptick-growth-poster.png` | the poster frame (Film frame 200: the settle, the painted 3 beside "JOE'S · 07:00–10:00") |
 | E | `film/`, `blender/`, `scripts/`, `public/film-rd/{plates,audio,fonts}` | organised source: compositions, acts, primitives, the fixture, the Blender world and shots, the sound, the pipeline |
 | F | `contact/` | the final contact sheet: one frame every two seconds, nine to a sheet |
