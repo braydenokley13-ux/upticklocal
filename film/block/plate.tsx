@@ -10,8 +10,8 @@ import { HEIGHT, WIDTH } from "../tokens";
 export type TrackData = {
   fps: number;
   frames: number;
-  width: number;
-  height: number;
+  /** Tracks are normalised 0-1; the composite scales them by the composition, never the plate. */
+  basis?: string;
   tracks: Record<string, [number, number, number][]>;
   events: { frame: number; kind: string; who: string; lot: string }[];
   meta: Record<string, unknown>;

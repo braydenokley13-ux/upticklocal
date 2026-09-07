@@ -280,7 +280,12 @@ def export_tracks(W: B.World, cam: bpy.types.Object, frames: int, names: list[st
             co = e.evaluated_get(dg).matrix_world.translation
             v = world_to_camera_view(scene, cam.evaluated_get(dg), co)
             tracks[n].append([round(v.x, 5), round(1 - v.y, 5), round(v.z, 3)])
-    data = {"fps": FPS, "frames": frames, "width": scene.render.resolution_x, "height": scene.render.resolution_y, "tracks": tracks, "events": events, "meta": meta}
+    # No resolution is recorded, deliberately. world_to_camera_view is NORMALISED, and the
+    # composite scales it by the composition's own 1920x1080 rather than the plate's -- which is
+    # precisely why a 640x360 proxy and a 1280x720 final produce byte-identical composite
+    # geometry, and why a world crossing can be judged on the proxy lane. Recording the render
+    # resolution here implied otherwise and made the two lanes fight over the same file.
+    data = {"fps": FPS, "frames": frames, "basis": "normalised", "tracks": tracks, "events": events, "meta": meta}
     os.makedirs(os.path.dirname(out), exist_ok=True)
     with open(out, "w") as fh:
         json.dump(data, fh)
