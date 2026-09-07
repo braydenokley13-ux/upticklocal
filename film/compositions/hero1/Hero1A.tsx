@@ -1,7 +1,7 @@
 import { useCurrentFrame } from "remotion";
 import tracks from "../../../blender/exports/hero1a.json";
 import { applyHomography, homography, homographyMatrix3d, type Quad } from "../../block/homography";
-import { Plate, quadAt, type TrackData } from "../../block/plate";
+import { PLATES, Plate, quadAt, type TrackData } from "../../block/plate";
 import { BUSINESS, GAP } from "../../data/joes";
 import { IN, OUT, PLANE, ramp, sec } from "../../motion";
 import { Frame } from "../../primitives/Frame";
@@ -81,7 +81,7 @@ export const Hero1A = () => {
 
   return (
     <Frame>
-      <Plate src="film-rd/plates/hero1a.mp4" from={PAGE_END} frames={PLATE_FRAMES} style={{ filter: blur > 0.05 ? `blur(${blur.toFixed(2)}px)` : undefined }} />
+      <Plate src={PLATES.hero1a} from={PAGE_END} frames={PLATE_FRAMES} style={{ filter: blur > 0.05 ? `blur(${blur.toFixed(2)}px)` : undefined }} />
       <div style={{ position: "absolute", inset: 0, background: COLOR.canvas, opacity: paper }} />
       <div style={{ position: "absolute", inset: 0, background: COLOR.canvas, mixBlendMode: "multiply", opacity: onPlate ? 0.35 * (1 - ramp(frame, PAGE_END + 4, 24, PLANE)) : 0 }} />
       {/* the page, printed on the pavement: ink multiplied into the concrete */}
