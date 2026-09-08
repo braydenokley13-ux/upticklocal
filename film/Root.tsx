@@ -6,9 +6,16 @@ import { PHONE_H, PHONE_W } from "./primitives/PhoneScreen";
 import { TypeTest } from "./compositions/TypeTest";
 import { FPS, HEIGHT, WIDTH } from "./tokens";
 import { shotFrames } from "./shots";
+import { AcquisitionSurface, type AcquisitionSurface as AcquisitionSurfaceState } from './compositions/acquisition/Surfaces';
 
 export const Root = () => (
   <>
+    {(['placement', 'pass', 'redeemed', 'permission', 'friday', 'paid'] as AcquisitionSurfaceState[]).map(state => (
+      <Composition key={`acquisition-${state}`} id={`Acquisition-${state}`} component={AcquisitionSurface}
+        durationInFrames={state === 'permission' ? 144 : 1} fps={FPS}
+        width={state === 'placement' ? 1600 : PHONE_W} height={state === 'placement' ? 900 : PHONE_H}
+        defaultProps={{state}} />
+    ))}
     {SHOTS.map((s) => (
       <Composition key={s.id} id={s.id} component={s.component} durationInFrames={shotFrames(s)} fps={FPS} width={WIDTH} height={HEIGHT} />
     ))}

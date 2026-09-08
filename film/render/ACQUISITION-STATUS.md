@@ -1,6 +1,29 @@
 # The Next Stop — production checkpoint
 
-## Actual status — 2026-09-08
+## Current local production status — 2026-09-08
+
+The user subsequently authorized all necessary production work on this Mac.
+The earlier cloud-only blocker below is historical, not the current constraint.
+
+- Apple M2, 8 GB unified memory; Blender 5.0.1 detected the 8-core Metal GPU.
+- Locked npm dependencies installed; existing Remotion compositions load in Chrome.
+- The six acquisition screen states have been baked. The 144-frame permission
+  sequence was checked for frame count, endpoints, dimensions and changed state.
+- `npx tsc --noEmit`, fixture checks, and Python syntax checks pass.
+- First car-wash still: 640×360, 8 samples, Metal, 145.328 seconds including
+  scene setup. This is a cold single-frame measurement, not sequence throughput.
+- First visual review **failed**: toy-like vehicle, mannequin person, small
+  acquisition sign. Revision 2 replaces the vehicle details, removes the exposed
+  mannequin from this establishing camera, moves closer to the physical sign,
+  and excludes the distant town geometry from the car-wash render.
+- No creative gate is passed. No new full film or final deliverable is claimed.
+
+New source: `blender/scripts/acquisition.py`,
+`film/compositions/acquisition/Surfaces.tsx`, and `scripts/acquisition-bake.mjs`.
+The prototype module declares six physical systems; these are not six approved
+shots. The network prototype remains a camera test and lacks the P1 source assets.
+
+## Initial checkpoint (historical)
 
 Not a completed film. Gate A has not been rendered or passed. No new film,
 poster, teaser, benchmark, creative score, or final-quality result is claimed.
@@ -11,7 +34,7 @@ Remote R&D head verified through `git ls-remote`:
 The new branch is `astra/uptick-acquisition-film`; neither main nor the R&D
 branch was changed. The new branch was pushed before source edits.
 
-## Cloud access blocker
+## Initial cloud access blocker (superseded by local authorization)
 
 This session executes shell commands on the user's Mac. No cloud shell tool is
 available. GitHub works using the existing login, but Codespaces enumeration

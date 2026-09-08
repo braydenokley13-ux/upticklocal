@@ -1,0 +1,38 @@
+{
+  "shot": "carwash",
+  "frame": 48,
+  "width": 640,
+  "height": 360,
+  "samples": 8,
+  "device": "METAL",
+  "seconds": 145.328,
+  "camera": {
+    "spec": {
+      "family": "block",
+      "lens": 40.0,
+      "fstop": 5.6,
+      "height": 2.0,
+      "subject": "a customer at Main Street Car Wash, beside the exit placement",
+      "foreground": "a near vacuum bollard, cropped at the left edge",
+      "background": "open wash bays, brushes and the EXIT fascia",
+      "motivation": "settle beside the exit to discover the next-stop placement",
+      "stops": [
+        "car wash first",
+        "placement discovered"
+      ],
+      "focus": [
+        21.025,
+        16.155
+      ],
+      "lenses": [
+        40.0,
+        40.0
+      ],
+      "heights": [
+        2.2,
+        2.0
+      ]
+    },
+    "source": "car-wash"
+  }
+}
