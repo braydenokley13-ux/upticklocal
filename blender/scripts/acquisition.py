@@ -80,10 +80,15 @@ def hero_car(x,y,yaw=0):
         obj=B.box('acq_vehicle_'+name,size,loc,material,bevel=bevel,group='acquisition',shade_smooth=True)
         obj.parent=root
         return obj
-    part('lower',(4.55,1.86,.51),(0,0,.58),paint,.15)
-    part('hood',(1.25,1.77,.18),(1.35,0,.91),paint,.10)
-    part('cabin',(2.78,1.57,.57),(-.34,0,1.19),glass,.17)
-    part('roof',(2.42,1.51,.075),(-.39,0,1.49),paint,.07)
+    # Bevels here are a fraction of each box's smallest dimension. The first
+    # 1280x720 review showed a .17 bevel on a .57-tall smooth-shaded cabin
+    # reading as a black barrel on the roof, so the greenhouse is now a glass
+    # volume between an explicit shoulder line and a body-coloured roof panel.
+    part('lower',(4.55,1.86,.51),(0,0,.58),paint,.08)
+    part('hood',(1.25,1.77,.18),(1.35,0,.91),paint,.04)
+    part('shoulder',(3.30,1.83,.09),(-.30,0,.885),paint,.03)
+    part('cabin',(2.62,1.49,.50),(-.34,0,1.16),glass,.04)
+    part('roof',(2.46,1.53,.11),(-.42,0,1.44),paint,.05)
     part('front_bumper',(.12,1.77,.22),(2.27,0,.53),trim,.04)
     part('grille',(.018,.87,.19),(2.335,0,.70),trim,.004)
     part('rear_bumper',(.13,1.80,.18),(-2.25,0,.48),trim,.035)
@@ -91,7 +96,7 @@ def hero_car(x,y,yaw=0):
         part(f'sill{side}',(3.22,.055,.10),(-.12,side*.94,.35),trim)
         part(f'mirror{side}',(.20,.23,.12),(.67,side*.93,1.09),paint,.06)
         for px in (-1.37,-.40,.66):
-            part(f'pillar{side}{px}',(.075,.04,.49),(px,side*.77,1.23),paint,.008)
+            part(f'pillar{side}{px}',(.075,.04,.50),(px,side*.745,1.16),paint,.008)
         for px in (-.95,.27):
             part(f'handle{side}{px}',(.19,.035,.03),(px,side*.94,.90),alloy,.005)
         part(f'head{side}',(.035,.43,.15),(2.275,side*.60,.85),head,.03)
@@ -281,7 +286,11 @@ def main():
     args=parser.parse_args(sys.argv[sys.argv.index('--')+1:] if '--' in sys.argv else sys.argv[1:])
     w,h=map(int,args.res.split('x')); S.settings(w,h,args.samples)
     scene=bpy.context.scene
-    scene.render.threads_mode='FIXED'; scene.render.threads=2
+    # The Mac preview reserved cores for its UI. A headless worker should use
+    # every core it has; FILM_THREADS still allows an explicit cap.
+    threads=int(os.environ.get('FILM_THREADS','0'))
+    if threads>0: scene.render.threads_mode='FIXED'; scene.render.threads=threads
+    else: scene.render.threads_mode='AUTO'
     if args.device!='CPU':
         prefs=bpy.context.preferences.addons['cycles'].preferences
         prefs.compute_device_type=args.device; prefs.refresh_devices()

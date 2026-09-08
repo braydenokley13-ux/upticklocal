@@ -19,27 +19,55 @@ paired visits targeting 9.5+. None is certified at that standard.
 | Network | 3/10 | Old district pullback proves geography, not operated acquisition | Old wide; new physical Quick Lube/Ridge Tire inserts authored | Repeat the Next Stop installation across distinct trades, return to Joe’s | New units and inserts need rendered comparison; convergence must not feel bolted on | 9+ |
 | Proof | 8/10 layout only | Clean static layout; no complete transition has been watched | Fixture arithmetic validated; 1080p proof and closing stills inspected | Marks resolve into three counts with persistent illustrative qualification | Full transition, reading time and proof accuracy in context | 9+ |
 
-## Next Stop comparison — selected direction, not approval
+## Next Stop comparison — resolved on cloud, September 8
 
-`next-stop-comparison-v2.png` compares three different encounters at the same
-distance: vacuum finish, wash-bay exit, and a unit beside the vehicle.
+`next-stop-comparison-v3.png` renders all four candidates at 1280x720/24 samples
+at the same beat: handset raised, offer being read. The earlier
+`next-stop-comparison-v2.png` compared the first three from 640x360 stills and
+picked `island` provisionally. **That pick is superseded.** At a resolution
+where the frame can actually be judged, all three original options failed the
+same way, and it was not the failure the still review had identified:
 
-The **vehicle-side unit** is the provisional winner. It keeps customer, unit,
-vehicle and the full wash in a readable triangle. The vacuum alternative
-crowds the customer against the unit and near bollard. The exit alternative
-separates customer/unit from the vehicle and leaves the parked car too dominant.
-None merits a 9.5 pass from a still alone.
+- the unit stood inside or against the wash building in every one of them, so
+  the offer read as a screen hung in a garage rather than as equipment Uptick
+  installed on the forecourt — the exact opposite of "this network is operated";
+- at that camera distance the offer surface was about 8% of frame width and
+  illegible, while `placement.png` itself is well composed at 1:1;
+- the just-washed vehicle sat unlit inside a bay and read as a dark mass;
+- the apron was a dead tan plane: none of the authored wet patches registered;
+- `island` additionally walked the customer past the unit without engaging it,
+  which is not an acquisition interaction at all.
 
-All three use the new Next Stop body: permanent identity, sun hood, amber side
-fin, metal spine, bolted base, and a replaceable merchant offer. The same unit
-is intended for the partner inserts. Wet patches, wash residue, motor housings
-and bay lighting improve source specificity, but materials and vehicle quality
-still need native-resolution judgment.
+`option-forecourt` keeps `island`'s causal triangle — customer, vehicle, unit —
+and fixes the shared defeat. The unit stands clear of the building's left edge
+(the building spans WASH_X±8.7; the unit is at WASH_X-10.8) so its base, spine,
+body, sun hood and amber fin silhouette against open ground and read as
+hardware. The vehicle is out on the apron in daylight. The forecourt carries a
+real wet sheet with tyre trails drying away from the bay mouth. A raking
+morning sun (elev 14) gives the wet apron a specular the flat earlier lighting
+had none of. The camera drifts three metres over the shot and holds the whole
+named car wash at both ends: this is not the billboard push-in the user
+rejected.
 
-The first comparison revealed customers approaching the **back** of the unit.
-That was corrected before choosing a direction. The next revision plants the
-feet after the walk and uses a short arm IK action for the handset; it must be
-reviewed in motion before any acquisition approval.
+**Selected: `option-forecourt`.** It is the only candidate where the six things
+the brief asks the frame to say are all present and legible at once. It is now
+the production entry point for `external`; `acquisition_production.external` no
+longer relabels a 144-frame animation as 168 frames but is authored at 168.
+
+Selection is a direction, not a gate. What the renders do not yet prove:
+the shot has only been inspected at 1280x720 and at six or eight sampled
+frames, not at 24 fps and not at 1920x1080.
+
+## Rendered-evidence fixes this comparison forced
+
+| Defect found at 1:1 | Fix | Evidence |
+| --- | --- | --- |
+| Two-bone IK on the handset arm flattened and stretched the limb, because the solver fought the per-frame `matrix_basis` keys the retarget writes on the same bones | IK removed; the arm is posed inside the retarget bake via `customer(handset_at=...)` | `external-forecourt-handset-1to1.png` |
+| `phone_at` rotated `Bip01 R Forearm` about local X. These bones run along X, so X is the twist axis and the hand never moved: the parameter was a silent no-op | Elbow folds about local Z; measured on the rig, -1.4 rad puts the hand at chest height with the elbow at the side (0.864 m to 1.254 m) | `scene-construction-checks.json` |
+| A 14 cm unlit slab at 10 m is a few pixels of shadow, so the handset action did not register at all | The screen face is emissive, carrying the same pass surface the edit cuts to next | `external-forecourt-motion-sheet.png` |
+| The vehicle greenhouse read as a black barrel: a .17 bevel on a .57 m smooth-shaded cabin | Greenhouse rebuilt as a glass band between an explicit shoulder line and a body-coloured roof; bevels reduced to a fraction of each box's smallest dimension | `external-forecourt-0147.png` |
+| The near bollard and the left vacuum landed between the customer and the offer | Both moved further left; neither deleted, so the apron still reads as in use | `next-stop-comparison-v3.png` |
+| The renderer pinned Cycles to 2 threads, a Mac-preview setting | Threads follow the host unless `FILM_THREADS` caps them | measured 4.27 s a proxy frame on 4 cores |
 
 ## Rig repair evidence
 

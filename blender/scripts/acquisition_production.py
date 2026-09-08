@@ -14,11 +14,18 @@ B,SC,DV,CAM,CUSTOMER=A.B,A.SC,A.DV,A.CAM,A.CUSTOMER
 
 
 def external(W):
+    """The acquisition shot, resolved against rendered comparisons.
+
+    'island' was the provisional pick from stills alone and is superseded. At
+    1280x720 it, 'vacuum' and 'exit' all failed the same way: the unit stood
+    against the wash building, so the offer read as a screen inside a garage
+    rather than as equipment Uptick installed on the forecourt. 'forecourt'
+    keeps the island's causal triangle -- customer, vehicle, unit -- and stands
+    the unit clear of the building. It is authored at the edit's 168 frames
+    rather than having a 144-frame animation relabelled to 168.
+    """
     from acquisition_options import composition
-    result=composition(W,'island')
-    # The two-second hold at the end belongs to reading the installed offer.
-    result['frames']=168
-    return result
+    return composition(W,'forecourt')
 
 
 def approach(W,friday=False):

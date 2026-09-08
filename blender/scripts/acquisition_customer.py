@@ -22,7 +22,7 @@ def validate_assets():
             raise RuntimeError(f'Customer asset differs from licensed source manifest: {asset}')
 
 
-def customer(path,frames,yaw=math.pi,stop_walking=None,notice_at=None,phone_at=None,walk_from=0):
+def customer(path,frames,yaw=math.pi,stop_walking=None,notice_at=None,phone_at=None,handset_at=None,walk_from=0):
     validate_assets()
     scene=bpy.context.scene
     output_fps=scene.render.fps / scene.render.fps_base
@@ -80,9 +80,16 @@ def customer(path,frames,yaw=math.pi,stop_walking=None,notice_at=None,phone_at=N
                 if notice_at is not None and bone.name=='Bip01 Head':
                     amount=max(0,min(1,(f-notice_at)/12))
                     bone.matrix_basis=bone.matrix_basis @ Matrix.Rotation(-.3*amount,4,'Z')
+                # These bones run along local X, so X is the twist axis and a
+                # rotation about it never moves the hand. The elbow folds about
+                # local Z; measured on the rig, -1.4 rad brings the hand to
+                # chest height with the elbow still at the side.
                 if phone_at is not None and bone.name=='Bip01 R Forearm':
                     amount=max(0,min(1,(f-phone_at)/16))
-                    bone.matrix_basis=bone.matrix_basis @ Matrix.Rotation(-1.05*amount,4,'X')
+                    bone.matrix_basis=bone.matrix_basis @ Matrix.Rotation(1.4*amount,4,'Z')
+                if handset_at is not None and bone.name=='Bip01 L Forearm':
+                    amount=max(0,min(1,(f-handset_at)/16))
+                    bone.matrix_basis=bone.matrix_basis @ Matrix.Rotation(-1.4*amount,4,'Z')
                 bone.keyframe_insert('location',frame=f)
                 bone.keyframe_insert('rotation_quaternion',frame=f)
                 bone.keyframe_insert('scale',frame=f)
