@@ -1,0 +1,45 @@
+{
+  "title": "The Next Stop",
+  "illustrative": true,
+  "disclaimer": "Illustrative campaign data.",
+  "merchant": "Joe's Fuel & Go",
+  "ownerGoal": "I need more nearby drivers to choose us.",
+  "ownerAction": "Build a local growth plan",
+  "sources": [
+    {"id":"car-wash","name":"Main Street Car Wash","distanceMiles":0.7,"claims":9,"firstVisits":7,"optIns":6,"returns":3},
+    {"id":"quick-lube","name":"Quick Lube","distanceMiles":1.2,"claims":5,"firstVisits":4,"optIns":3,"returns":1},
+    {"id":"ridge-tire","name":"Ridge Tire","distanceMiles":1.5,"claims":4,"firstVisits":3,"optIns":2,"returns":1},
+    {"id":"uptick-screen","name":"Nearby Uptick screen","distanceMiles":0.9,"claims":3,"firstVisits":2,"optIns":2,"returns":0},
+    {"id":"local-paid","name":"Local paid reach","radiusMiles":1.8,"claims":3,"firstVisits":2,"optIns":1,"returns":0}
+  ],
+  "hero": {
+    "customerId": "illustrative-driver-001",
+    "sourceId": "car-wash",
+    "passId": "illustrative-car-wash-001",
+    "continuity": {"coat":"amber overshirt","trousers":"charcoal","vehicle":"marine compact wagon","phone":"dark handset"},
+    "events": [
+      {"kind":"claim","weekMinute":1928,"label":"Tuesday · 8:08 AM"},
+      {"kind":"first-redemption","weekMinute":1937,"label":"Tuesday · 8:17 AM","priceCents":0},
+      {"kind":"permission","weekMinute":1938,"label":"Tuesday · 8:18 AM","action":"KEEP ME POSTED","accepted":true},
+      {"kind":"return-offer","weekMinute":5322,"label":"Thursday · 4:42 PM"},
+      {"kind":"return-redemption","weekMinute":6216,"label":"Friday · 7:36 AM","priceCents":499}
+    ]
+  },
+  "acquisitionOffer": {"headline":"YOUR NEXT STOP IS ON US.","detail":"Free coffee at Joe's Fuel & Go","distance":"0.7 mi away","redeemed":"Redeemed at Joe's"},
+  "permission": {"headline":"Want Joe's Friday offer?","detail":"Get one useful offer each Friday.","action":"KEEP ME POSTED","accepted":"YOU'RE IN."},
+  "returnOffer": {"headline":"JOE'S FRIDAY DROP","detail":"Breakfast sandwich + coffee","priceCents":499,"window":"Friday · 6–10 AM","returned":"RETURNED FRIDAY"},
+  "proof": {"heading":"EXAMPLE UPTICK GROWTH CAMPAIGN","firstVisits":"first visits from Uptick","optIns":"chose to stay connected","returns":"returned on Friday"},
+  "closing": {"brand":"UPTICK GROWTH","detail":"We build the network around your station.","line":"Bring them in. Bring them back."},
+  "fps": 24,
+  "acts": [
+    {"id":"owner","start":0,"end":144},
+    {"id":"elsewhere","start":144,"end":384},
+    {"id":"route","start":384,"end":600},
+    {"id":"first-visit","start":600,"end":840},
+    {"id":"permission","start":840,"end":984},
+    {"id":"later-offer","start":984,"end":1176},
+    {"id":"second-visit","start":1176,"end":1344},
+    {"id":"network","start":1344,"end":1488},
+    {"id":"proof-resolve","start":1488,"end":1608}
+  ]
+}
