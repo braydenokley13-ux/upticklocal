@@ -1,0 +1,24 @@
+{
+  "fps":24,
+  "shots":[
+    {"id":"external","frames":168},
+    {"id":"pass","frames":96},
+    {"id":"route","frames":168},
+    {"id":"approach","frames":48},
+    {"id":"first","frames":48},
+    {"id":"redeemed","frames":96},
+    {"id":"permission","frames":144},
+    {"id":"friday","frames":144},
+    {"id":"return-approach","frames":48},
+    {"id":"second","frames":48},
+    {"id":"paid","frames":144},
+    {"id":"network-lube","frames":48},
+    {"id":"network-tire","frames":48},
+    {"id":"network","frames":72}
+  ],
+  "lanes":{
+    "proxy":{"width":640,"height":360,"samples":8},
+    "final":{"width":1920,"height":1080,"samples":64}
+  },
+  "note":"Final is native 1080p physical rendering, not enlarged 720p plates. Gate B and representative 1:1 frames must be approved before final queues."
+}

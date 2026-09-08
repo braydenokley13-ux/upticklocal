@@ -1,5 +1,46 @@
 # The Next Stop — production checkpoint
 
+## Latest handoff state
+
+The complete new film is authored in `film/compositions/acquisition/Film.tsx`:
+67 seconds, 1608 frames, customer-first default with an owner-first comparison,
+source-specific pass, two matched visits, explicit permission, paid Friday
+breakfast, physical partner inserts, 18/14/5 proof and a 15-second teaser.
+Every planned plate's duration is checked against the edit.
+
+`blender/scripts/acquisition_production.py` defines the full physical shot set.
+`acquisition_options.py` compares three acquisition encounters. The vehicle-side
+Next Stop unit is the provisional composition choice; it is not creatively
+approved. See the current scoreboard and rendered comparison in
+`film/review/acquisition/GATE-A.md`.
+
+The cloud worker, export, finishing and technical-validation scripts are
+implemented. Native final plates are configured at 1920×1080/64 samples.
+The final queue requires source-matched Gate A, Gate B and final-frame evidence.
+No final queue has run. **No new full proxy, final master or creative pass is
+claimed.** Existing legacy final outputs remain unchanged.
+
+The user will use Claude Code cloud for the next compute stage. The local
+Claude CLI supports cloud sessions and is signed in, but no cloud session was
+launched: automatic approval review rejected the initial probe's transfer of
+the private repository. The user then requested a pushed branch and a handoff
+prompt instead. See `film/HANDOFF-CLAUDE-CLOUD.md`.
+
+Cleanup is complete. Do not delete more user data. Small local preview and
+construction checks are allowed; long queues and final physical rendering
+belong on the cloud worker. GPU availability there is unverified.
+
+All 14 production scene constructors passed a local **non-rendering** check:
+expected duration, active camera, live texture paths, and finite customer poses
+at the start/middle/end. Evidence: `scene-construction-checks.json`. This caught
+and resolved the unsupported evening-state name before handoff. The route
+renderer also preserves Joe's geometry instead of applying the old source-only
+culling to a camera that now travels to the destination.
+
+The selected Next Stop unit is shared by acquisition and both physical partner
+inserts through `acquisition_unit.py`. The selected customer blocking is now
+the production entry point, not just an unused comparison file.
+
 ## Current local production status — 2026-09-08
 
 The user subsequently authorized all necessary production work on this Mac.

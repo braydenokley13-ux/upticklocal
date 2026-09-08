@@ -20,6 +20,7 @@ import camera as CAM
 import device as DV
 import scenes as SC
 import shots as S
+import acquisition_customer as CUSTOMER
 
 ROOT = Path(__file__).resolve().parents[2]
 FIXTURE = json.loads((ROOT / 'film/data/acquisition.json').read_text())
@@ -69,10 +70,10 @@ def hero_car(x,y,yaw=0):
     """
     root=B.empty('acq_vehicle',(x,y,.1),group='acquisition')
     root.rotation_euler.z=yaw
-    paint=B.mat_surface('acq_vehicle_paint','#183443',rough=.24,metallic=.55,coat=.4)
+    paint=B.mat_surface('acq_vehicle_paint','#183443',rough=.38,metallic=.2,coat=.25)
     glass=B.mat_surface('acq_vehicle_glass','#15222b',rough=.14,metallic=.25,coat=.4)
     trim=B.mat_surface('acq_vehicle_trim','#17191a',rough=.45)
-    alloy=B.mat_surface('acq_vehicle_alloy','#849097',rough=.24,metallic=.9)
+    alloy=B.mat_surface('acq_vehicle_alloy','#435055',rough=.38,metallic=.65)
     head=B.mat_surface('acq_vehicle_headlamp','#d5dcd6',rough=.13,metallic=.35)
     tail=B.mat_surface('acq_vehicle_tail','#752a21',rough=.25,coat=.3)
     def part(name,size,loc,material,bevel=.025):
@@ -151,8 +152,7 @@ def carwash(W):
 def external(W):
     carwash(W)
     B.set_state(W,'morning', exposure=-2.25)
-    # Keep the driver inside the vehicle for this establishing shot. The same
-    # overshirt will be visible at Joe's threshold, where silhouette is credible.
+    CUSTOMER.customer(((0,WASH_X-4.7,11),(119,WASH_X-6.7,9)),120,yaw=-math.pi/2)
     cam=CAM.Cam('block', lens=40, fstop=5.6, subject='a customer at Main Street Car Wash, beside the exit placement',
         foreground='a near vacuum bollard, cropped at the left edge', background='open wash bays, brushes and the EXIT fascia',
         motivation='settle beside the exit to discover the next-stop placement')
@@ -162,12 +162,57 @@ def external(W):
     return dict(frames=120,cam=cam.obj,names=[],meta={'spec':cam.spec(),'source':FIXTURE['hero']['sourceId']})
 
 
+def external_exit(W):
+    """Alternative: the offer is encountered from inside the source's exit lane."""
+    vehicle=carwash(W)
+    vehicle.hide_render=True
+    for obj in vehicle.children_recursive: obj.hide_render=True
+    B.set_state(W,'morning',exposure=-2.25)
+    pivot=B.empty('acq_exit_placement',(WASH_X-8.7,7.8,0))
+    bpy.context.view_layer.update()
+    for name in ('acq_sign_foot','acq_sign_post','acq_sign_body','acq_sign_screen'):
+        obj=bpy.data.objects[name]
+        saved=obj.matrix_world.copy(); obj.parent=pivot; obj.matrix_world=saved
+    pivot.rotation_euler.z=math.pi
+    metal=B.mat_surface('acq_exit_dash','#14212a',rough=.65)
+    # A cropped dashboard establishes the customer's viewpoint without exposing
+    # a face or a hand. The camera and dashboard travel together out of the bay.
+    rig=B.empty('acq_exit_camera_car',(0,0,0))
+    dash=B.box('acq_exit_dashboard',(2.0,.5,.2),(WASH_X-4,14.8,.83),metal,bevel=.09)
+    dash.parent=rig
+    cam=CAM.Cam('block',lens=32,fstop=8,subject='Joe’s placement encountered while leaving the wash',
+        foreground='dashboard and wet wash-bay pavement',background='the exit-mounted placement and the real road beyond',
+        motivation='the driver’s next decision occurs at the source’s exit')
+    cam.key(0,(WASH_X-4,17,1.45),(WASH_X-8.5,7.8,2.0),focus=(WASH_X-8.7,7.8,2.12),label='inside the wash exit')
+    cam.key(71,(WASH_X-4.8,13,1.45),(WASH_X-8.7,7.8,2.12),focus=(WASH_X-8.7,7.8,2.12),label='the next stop enters the driving decision')
+    CAM.ease_camera(cam.obj)
+    return dict(frames=72,cam=cam.obj,names=[],meta={'spec':cam.spec(),'alternative':'exit-driver-view','source':FIXTURE['hero']['sourceId']})
+
+
+def route_geography(W):
+    carwash(W)
+    SC.dress_joes(W)
+    B.set_state(W,'morning',exposure=-2.25)
+    car=hero_car(WASH_X-10,2.1,yaw=math.pi)
+    for frame,x in ((0,WASH_X-10),(119,1)):
+        car.location.x=x; car.keyframe_insert('location',frame=frame)
+    cam=CAM.Cam('block',lens=32,fstop=8,subject='the external source and Joe’s joined by the same physical Main Street',
+        foreground='the wash exit at the start, Joe’s canopy at the end',background='the full seven-tenths-mile road between businesses',
+        motivation='compress travel while preserving both physical endpoints')
+    cam.obj.data.clip_end=2400
+    cam.key(0,(WASH_X-18,-25,14),(WASH_X-3,14,2),focus=(WASH_X-3,14,2),label='source business')
+    cam.key(48,(WASH_X*.58,-125,155),(WASH_X*.50,0,0),focus=(WASH_X*.50,0,0),label='one continuous road')
+    cam.key(119,(-18,-25,12),(0,18,2),focus=(0,18,2),label='Joe’s is the destination')
+    CAM.ease_camera(cam.obj)
+    return dict(frames=120,cam=cam.obj,names=[],meta={'spec':cam.spec(),'routeMiles':.7,'alternative':'continuous-geography','travelCompression':'120 frames cover the full road, not real-time driving'})
+
+
 def route(W):
     carwash(W)
     B.set_state(W,'morning',exposure=-2.25)
     # A painted distance is photographed on the road, never a map over the road.
     paint=B.mat_surface('acq_distance_paint','#ddd6c4',rough=.94,bump=.15)
-    B.text('acq_distance','0.7 mi',1.7,(WASH_X-18,2.1,.019),paint,rot=(0,0,0),extrude=0)
+    B.text('acq_distance','0.7 mi',1.25,(WASH_X-18,1.65,.019),paint,rot=(0,0,0),extrude=0)
     car=hero_car(WASH_X-22,2.1,yaw=math.pi)
     for f,px in ((0,WASH_X-22),(167,WASH_X-90)):
         car.location.x=px; car.keyframe_insert('location',frame=f)
@@ -176,7 +221,8 @@ def route(W):
         motivation='the distance stops being text as the camera lifts enough to reveal the road beneath it')
     cam.obj.data.clip_end=2200
     cam.key(0,(WASH_X-18,2.1,9),(WASH_X-18,2.1,0),focus=9,label='distance on pavement')
-    cam.key(58,(WASH_X-31,-13,13),(WASH_X-23,2,0),focus=(WASH_X-23,2,0),label='car enters the physical route')
+    cam.key(36,(WASH_X-18,2.1,9),(WASH_X-18,2.1,0),focus=9,label='hold the full distance for reading')
+    cam.key(82,(WASH_X-42,-20,19),(WASH_X-33,2,0),focus=(WASH_X-33,2,0),label='car enters the physical route')
     cam.key(167,(WASH_X-102,-20,17),(WASH_X-83,3,0),focus=(WASH_X-83,3,0),label='follow west toward Joes')
     CAM.ease_camera(cam.obj)
     return dict(frames=168,cam=cam.obj,names=[],meta={'spec':cam.spec(),'routeMiles':.7,'travelCompression':'cuts required between source road and Joe endpoint'})
@@ -184,13 +230,9 @@ def route(W):
 
 def threshold(W, friday=False):
     shot=SC.shot_threshold(W)
-    coat,trousers=hero_materials()
-    for name in ('th_walker','th_walker_arm_l','th_walker_arm_r'):
-        obj=bpy.data.objects.get(name)
-        if obj: obj.data.materials[0]=coat
-    for name in ('th_walker_leg_l','th_walker_leg_r'):
-        obj=bpy.data.objects.get(name)
-        if obj: obj.data.materials[0]=trousers
+    for obj in bpy.data.objects:
+        if obj.name.startswith('th_walker'): obj.hide_render=True
+    CUSTOMER.customer(((0,-2.10,19.2),(18,-1.52,20.42),(39,-.44,21.62)),40)
     B.set_state(W,'morning',elev=12 if friday else 21,rot=105 if friday else 132,exposure=-2.55,interior_w=980)
     shot['meta']['clock']='Friday · 7:36 AM' if friday else 'Tuesday · 8:17 AM'
     shot['meta']['customerId']=FIXTURE['hero']['customerId']
@@ -204,12 +246,10 @@ def permission(W):
     if not first.exists(): raise FileNotFoundError('Bake permission sequence before physical permission shot')
     screen=DV.screen_mat('acq_permission',str(first),frames=frames,strength=5.4)
     root,parts=DV.phone('acq_permission_phone',m['alu'],screen)
-    root.location=(3.5,21.4,1.27); root.rotation_euler=(math.radians(-14),0,math.radians(148))
-    grip=SC.grip(W,'acq_permission_grip',root)
-    SC.press_thumb(grip['thumb_pivot'],69)
-    cam=CAM.Cam('device',lens=85,fstop=3.5,subject='the explicit KEEP ME POSTED choice becoming You are in',
-        foreground='the edge of a handset and its supporting grip',background='Joe’s warm counter and brewer',motivation='locked on the customer choice')
-    cam.lock((3.486,22.2,1.32),(3.5,21.4,1.27),frames,focus=(3.5,21.4,1.27),label='same phone, after redemption')
+    root.location=(3.6,21.96,1.001); root.rotation_euler=(-math.pi/2,0,0)
+    cam=CAM.Cam('device',lens=85,fstop=5.6,subject='the explicit KEEP ME POSTED choice becoming You are in',
+        foreground='the chamfer of the handset resting on the counter',background='the actual counter laminate around the handset',motivation='locked on the customer choice')
+    cam.lock((3.6,21.75,1.60),(3.6,21.96,1.001),frames,focus=(3.6,21.96,1.005),label='same phone, after redemption')
     return dict(frames=frames,cam=cam.obj,names=[],meta={'spec':cam.spec(),'permissionFrame':78})
 
 
@@ -225,7 +265,7 @@ def network(W):
     return dict(frames=144,cam=cam.obj,names=[],meta={'spec':cam.spec(),'gateAOnly':True})
 
 
-SHOTS={'carwash':external,'route':route,'first':threshold,'second':lambda W:threshold(W,True),'permission':permission,'network':network}
+SHOTS={'carwash':external,'carwash-exit':external_exit,'route':route,'route-geography':route_geography,'first':threshold,'second':lambda W:threshold(W,True),'permission':permission,'network':network}
 
 
 def main():
@@ -236,27 +276,28 @@ def main():
     parser.add_argument('--step',type=int,default=1,help='Sparse motion inspection only; final plates use 1')
     parser.add_argument('--res',default='640x360')
     parser.add_argument('--samples',type=int,default=8)
-    parser.add_argument('--device',choices=['CPU','METAL'],default='CPU')
+    parser.add_argument('--device',choices=['CPU','METAL','CUDA','OPTIX'],default='CPU')
     parser.add_argument('--out',required=True)
     args=parser.parse_args(sys.argv[sys.argv.index('--')+1:] if '--' in sys.argv else sys.argv[1:])
     w,h=map(int,args.res.split('x')); S.settings(w,h,args.samples)
     scene=bpy.context.scene
     scene.render.threads_mode='FIXED'; scene.render.threads=2
-    if args.device=='METAL':
+    if args.device!='CPU':
         prefs=bpy.context.preferences.addons['cycles'].preferences
-        prefs.compute_device_type='METAL'; prefs.refresh_devices()
-        gpu=[device for device in prefs.devices if device.type=='METAL']
-        if not gpu: raise RuntimeError('Metal requested but no Metal device is available')
-        for device in prefs.devices: device.use=device.type=='METAL'
+        prefs.compute_device_type=args.device; prefs.refresh_devices()
+        gpu=[device for device in prefs.devices if device.type==args.device]
+        if not gpu: raise RuntimeError(f'{args.device} requested but no matching GPU is available')
+        for device in prefs.devices: device.use=device.type==args.device
         scene.cycles.device='GPU'
     start=time.monotonic(); world=B.build()
-    if args.shot in ('carwash','route'):
+    if args.shot in ('carwash','carwash-exit','external','pass') or args.shot.startswith('option-') or (args.shot=='route' and SHOTS[args.shot] is route):
         # Joe's is more than a kilometre outside these cameras. Its detailed
         # shelves, glazing and props must not consume this shot's render memory.
         for obj in list(bpy.data.objects):
             if obj.type in ('MESH','FONT','CURVE'):
                 obj.hide_render=True
     shot=SHOTS[args.shot](world)
+    scene.render.fps=FIXTURE['fps']; scene.render.fps_base=1
     scene.frame_start=0; scene.frame_end=shot['frames']-1
     if args.frame<0 or args.frame>=shot['frames']: raise ValueError('Frame outside shot')
     S.compositor(**shot.get('comp',{'mist':.06,'glare':.08}))
@@ -274,7 +315,7 @@ def main():
         bpy.ops.render.render(write_still=True)
         timings.append({'frame':frame,'seconds':round(time.monotonic()-frame_start,3)})
         print('ACQUISITION_FRAME',json.dumps(timings[-1]),flush=True)
-    report={'shot':args.shot,'frame':args.frame,'width':w,'height':h,'samples':args.samples,
+    report={'shot':args.shot,'frame':args.frame,'width':w,'height':h,'fps':scene.render.fps,'samples':args.samples,
             'device':args.device,'seconds':round(time.monotonic()-start,3),'camera':shot['meta'],
             'sequence':args.sequence,'step':args.step,'frameTimings':timings}
     report_path=out/'render.json' if args.sequence else out.with_suffix('.json')

@@ -1,0 +1,51 @@
+{
+  "shot": "route",
+  "frame": 20,
+  "width": 640,
+  "height": 360,
+  "samples": 8,
+  "device": "METAL",
+  "seconds": 10.261,
+  "camera": {
+    "spec": {
+      "family": "page",
+      "lens": 40.0,
+      "fstop": 7.1,
+      "height": 17.0,
+      "subject": "0.7 mi physically painted on Main Street, then the car taking that road",
+      "foreground": "road paint and asphalt aggregate",
+      "background": "the car-wash exit receding along Main Street",
+      "motivation": "the distance stops being text as the camera lifts enough to reveal the road beneath it",
+      "stops": [
+        "distance on pavement",
+        "car enters the physical route",
+        "follow west toward Joes"
+      ],
+      "focus": [
+        9.0,
+        21.401,
+        34.337
+      ],
+      "lenses": [
+        40.0,
+        40.0,
+        40.0
+      ],
+      "heights": [
+        9.0,
+        13.0,
+        17.0
+      ]
+    },
+    "routeMiles": 0.7,
+    "travelCompression": "cuts required between source road and Joe endpoint"
+  },
+  "sequence": false,
+  "step": 1,
+  "frameTimings": [
+    {
+      "frame": 20,
+      "seconds": 9.27
+    }
+  ]
+}

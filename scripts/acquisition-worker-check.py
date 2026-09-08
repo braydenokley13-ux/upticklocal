@@ -8,6 +8,8 @@ separately because the proxy lane may run on a cloud CPU.
 """
 import importlib.util
 import json
+import os
+from pathlib import Path
 import platform
 import shutil
 import subprocess
@@ -21,6 +23,9 @@ def main():
     report = {
         "system": platform.platform(),
         "python": platform.python_version(),
+        "cpuCount": os.cpu_count(),
+        "diskFreeBytes": shutil.disk_usage('.').free,
+        "memory": [line for line in Path('/proc/meminfo').read_text().splitlines() if line.startswith(('MemTotal:','MemAvailable:'))],
         "executables": {name: shutil.which(name) for name in ("node", "npm", "ffmpeg", "ffprobe", "git")},
         "blender": None,
         "cycles": [],

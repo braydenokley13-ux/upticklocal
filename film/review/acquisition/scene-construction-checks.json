@@ -1,0 +1,72 @@
+[
+  {
+    "shot": "external",
+    "exitCode": 0,
+    "result": "ACQUISITION_SCENE_CHECK {\"shot\": \"external\", \"frames\": 168, \"checkedFrames\": [0, 84, 167], \"status\": \"PASS\", \"scope\": \"Scene construction and live dependencies; not rendered quality\"}"
+  },
+  {
+    "shot": "pass",
+    "exitCode": 0,
+    "result": "ACQUISITION_SCENE_CHECK {\"shot\": \"pass\", \"frames\": 96, \"checkedFrames\": [0, 48, 95], \"status\": \"PASS\", \"scope\": \"Scene construction and live dependencies; not rendered quality\"}"
+  },
+  {
+    "shot": "route",
+    "exitCode": 0,
+    "result": "ACQUISITION_SCENE_CHECK {\"shot\": \"route\", \"frames\": 168, \"checkedFrames\": [0, 84, 167], \"status\": \"PASS\", \"scope\": \"Scene construction and live dependencies; not rendered quality\"}"
+  },
+  {
+    "shot": "approach",
+    "exitCode": 0,
+    "result": "ACQUISITION_SCENE_CHECK {\"shot\": \"approach\", \"frames\": 48, \"checkedFrames\": [0, 24, 47], \"status\": \"PASS\", \"scope\": \"Scene construction and live dependencies; not rendered quality\"}"
+  },
+  {
+    "shot": "first",
+    "exitCode": 0,
+    "result": "ACQUISITION_SCENE_CHECK {\"shot\": \"first\", \"frames\": 48, \"checkedFrames\": [0, 24, 47], \"status\": \"PASS\", \"scope\": \"Scene construction and live dependencies; not rendered quality\"}"
+  },
+  {
+    "shot": "redeemed",
+    "exitCode": 0,
+    "result": "ACQUISITION_SCENE_CHECK {\"shot\": \"redeemed\", \"frames\": 96, \"checkedFrames\": [0, 48, 95], \"status\": \"PASS\", \"scope\": \"Scene construction and live dependencies; not rendered quality\"}"
+  },
+  {
+    "shot": "permission",
+    "exitCode": 0,
+    "result": "ACQUISITION_SCENE_CHECK {\"shot\": \"permission\", \"frames\": 144, \"checkedFrames\": [0, 72, 143], \"status\": \"PASS\", \"scope\": \"Scene construction and live dependencies; not rendered quality\"}"
+  },
+  {
+    "shot": "friday",
+    "exitCode": 0,
+    "result": "ACQUISITION_SCENE_CHECK {\"shot\": \"friday\", \"frames\": 144, \"checkedFrames\": [0, 72, 143], \"status\": \"PASS\", \"scope\": \"Scene construction and live dependencies; not rendered quality\"}"
+  },
+  {
+    "shot": "return-approach",
+    "exitCode": 0,
+    "result": "ACQUISITION_SCENE_CHECK {\"shot\": \"return-approach\", \"frames\": 48, \"checkedFrames\": [0, 24, 47], \"status\": \"PASS\", \"scope\": \"Scene construction and live dependencies; not rendered quality\"}"
+  },
+  {
+    "shot": "second",
+    "exitCode": 0,
+    "result": "ACQUISITION_SCENE_CHECK {\"shot\": \"second\", \"frames\": 48, \"checkedFrames\": [0, 24, 47], \"status\": \"PASS\", \"scope\": \"Scene construction and live dependencies; not rendered quality\"}"
+  },
+  {
+    "shot": "paid",
+    "exitCode": 0,
+    "result": "ACQUISITION_SCENE_CHECK {\"shot\": \"paid\", \"frames\": 144, \"checkedFrames\": [0, 72, 143], \"status\": \"PASS\", \"scope\": \"Scene construction and live dependencies; not rendered quality\"}"
+  },
+  {
+    "shot": "network-lube",
+    "exitCode": 0,
+    "result": "ACQUISITION_SCENE_CHECK {\"shot\": \"network-lube\", \"frames\": 48, \"checkedFrames\": [0, 24, 47], \"status\": \"PASS\", \"scope\": \"Scene construction and live dependencies; not rendered quality\"}"
+  },
+  {
+    "shot": "network-tire",
+    "exitCode": 0,
+    "result": "ACQUISITION_SCENE_CHECK {\"shot\": \"network-tire\", \"frames\": 48, \"checkedFrames\": [0, 24, 47], \"status\": \"PASS\", \"scope\": \"Scene construction and live dependencies; not rendered quality\"}"
+  },
+  {
+    "shot": "network",
+    "exitCode": 0,
+    "result": "ACQUISITION_SCENE_CHECK {\"shot\": \"network\", \"frames\": 72, \"checkedFrames\": [0, 36, 71], \"status\": \"PASS\", \"scope\": \"Scene construction and live dependencies; not rendered quality\"}"
+  }
+]

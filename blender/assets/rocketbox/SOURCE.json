@@ -1,0 +1,12 @@
+{
+  "source": "https://github.com/microsoft/Microsoft-Rocketbox",
+  "license": "MIT, Copyright (c) 2020 Microsoft",
+  "files": {
+    "LICENSE.md": "17474e386e0b9e1a700cc3d06b2b0882a2c376d9c6b49c7f8274409b8f8d2352",
+    "m002_body_color.tga": "6a048a6b2140a1f5293798ca286be64fd0de6d79572e1273ff5765bd578f463f",
+    "m002_opacity_color.tga": "53818d3f45519451edd2bc60d6e59cd4057ecd381827463c5503da0439d0a5cf",
+    "Male_Adult_01.fbx": "8d1edb51b4dc3427ae2456f4407fc105532c145dd019e53cd42bab31cc948a29",
+    "walk.fbx": "93089851a370e3a117a6bd04c002815f7133fce41c6271e9eb448ca1228b154f",
+    "m002_head_color.tga": "f5b64e4894930d438f7c419c3c9d0bba1f95fa4de9af078b762ea55bfca1ab85"
+  }
+}

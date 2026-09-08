@@ -1,0 +1,48 @@
+{
+  "shot": "carwash-exit",
+  "frame": 60,
+  "width": 640,
+  "height": 360,
+  "fps": 24,
+  "samples": 8,
+  "device": "METAL",
+  "seconds": 25.392,
+  "camera": {
+    "spec": {
+      "family": "block",
+      "lens": 32.0,
+      "fstop": 8.0,
+      "height": 1.45,
+      "subject": "Joe\u2019s placement encountered while leaving the wash",
+      "foreground": "dashboard and wet wash-bay pavement",
+      "background": "the exit-mounted placement and the real road beyond",
+      "motivation": "the driver\u2019s next decision occurs at the source\u2019s exit",
+      "stops": [
+        "inside the wash exit",
+        "the next stop enters the driving decision"
+      ],
+      "focus": [
+        10.353,
+        6.534
+      ],
+      "lenses": [
+        32.0,
+        32.0
+      ],
+      "heights": [
+        1.45,
+        1.45
+      ]
+    },
+    "alternative": "exit-driver-view",
+    "source": "car-wash"
+  },
+  "sequence": false,
+  "step": 1,
+  "frameTimings": [
+    {
+      "frame": 60,
+      "seconds": 23.689
+    }
+  ]
+}

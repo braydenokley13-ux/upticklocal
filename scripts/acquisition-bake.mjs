@@ -30,6 +30,10 @@ try {
     }
     console.log(`Baked ${state}`);
   }
+  for(const sourceId of ['quick-lube','ridge-tire','uptick-screen']) {
+    const composition=await selectComposition({serveUrl,id:`Acquisition-Placement-${sourceId}`,puppeteerInstance:browser});
+    await renderStill({serveUrl,composition,puppeteerInstance:browser,output:path.join(output,`placement-${sourceId}.png`),imageFormat:'png',frame:0,logLevel:'error'});
+  }
   const files=['film/data/acquisition.json','film/compositions/acquisition/Surfaces.tsx'];
   const hashes={};
   for (const file of files) hashes[file]=createHash('sha256').update(await readFile(path.join(root,file))).digest('hex');

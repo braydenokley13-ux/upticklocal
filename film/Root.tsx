@@ -7,9 +7,18 @@ import { TypeTest } from "./compositions/TypeTest";
 import { FPS, HEIGHT, WIDTH } from "./tokens";
 import { shotFrames } from "./shots";
 import { AcquisitionSurface, type AcquisitionSurface as AcquisitionSurfaceState } from './compositions/acquisition/Surfaces';
+import {OpeningTest} from './compositions/acquisition/OpeningTest';
+import {AcquisitionFilm,AcquisitionTeaser,ACQUISITION_FRAMES} from './compositions/acquisition/Film';
 
 export const Root = () => (
   <>
+    <Composition id="Acquisition-Film" component={AcquisitionFilm} durationInFrames={ACQUISITION_FRAMES} fps={24} width={1920} height={1080}
+      defaultProps={{lane:'proxy',opening:'customer',sound:true}}/>
+    <Composition id="Acquisition-Teaser" component={AcquisitionTeaser} durationInFrames={360} fps={24} width={1920} height={1080} defaultProps={{lane:'final'}}/>
+    {(['owner','customer'] as const).map(order=><Composition key={`opening-${order}`} id={`Acquisition-Opening-${order}`} component={OpeningTest}
+      durationInFrames={288} fps={24} width={640} height={360} defaultProps={{order}}/>)}
+    {(['quick-lube','ridge-tire','uptick-screen'] as const).map(sourceId=><Composition key={sourceId} id={`Acquisition-Placement-${sourceId}`} component={AcquisitionSurface}
+      durationInFrames={1} fps={24} width={1600} height={900} defaultProps={{state:'placement',sourceId}}/>)}
     {(['placement', 'pass', 'redeemed', 'permission', 'friday', 'paid'] as AcquisitionSurfaceState[]).map(state => (
       <Composition key={`acquisition-${state}`} id={`Acquisition-${state}`} component={AcquisitionSurface}
         durationInFrames={state === 'permission' ? 144 : 1} fps={FPS}

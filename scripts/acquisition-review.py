@@ -8,12 +8,15 @@ from PIL import Image, ImageDraw, ImageFont
 parser=argparse.ArgumentParser()
 parser.add_argument('directory',type=Path)
 parser.add_argument('--out',type=Path,required=True)
+parser.add_argument('--files',nargs='+',help='Selected filenames, in comparison order')
+parser.add_argument('--columns',type=int,default=2)
 args=parser.parse_args()
-files=sorted(p for p in args.directory.glob('*.png') if p.resolve()!=args.out.resolve())
+files=[args.directory/name for name in args.files] if args.files else sorted(p for p in args.directory.glob('*.png') if p.resolve()!=args.out.resolve())
 if not files: raise SystemExit('No rendered PNG frames found')
 root=Path(__file__).resolve().parents[1]
 font=ImageFont.truetype(str(root/'blender/assets/fonts/Geist-Medium.ttf'),17)
-width,height,pad,columns=480,270,16,2
+width,height,pad,columns=480,270,16,args.columns
+if columns<1:raise SystemExit('Columns must be positive')
 rows=math.ceil(len(files)/columns)
 sheet=Image.new('RGB',(columns*(width+pad)+pad,rows*(height+42+pad)+pad),'#0a1820')
 draw=ImageDraw.Draw(sheet)

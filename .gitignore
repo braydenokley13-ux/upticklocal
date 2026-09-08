@@ -34,6 +34,7 @@ public/film-rd/audio/*.wav
 
 # Finished plate frames, hard-linked so a re-run of a chain does not pay for them twice
 blender/.plate-cache
+blender/.acquisition-frames/
 blender/screens
 
 # Baked screen PNG sequences — rebuilt by scripts/bake-screens.sh from the Remotion compositions
