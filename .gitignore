@@ -55,3 +55,8 @@ film/review/frames
 # record, the same rule the rest of the film's review frames follow.
 film/review/acquisition/proxy-frames
 film/review/acquisition/final-frames
+
+# Proxy plates for the acquisition film are rebuilt by the render worker; the
+# encoded review cut beside them is the record, not 14 disposable mp4s.
+public/film-rd/acquisition/plates/proxy
+film/review/acquisition/prototypes
