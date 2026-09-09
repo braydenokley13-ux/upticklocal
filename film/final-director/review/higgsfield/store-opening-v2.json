@@ -1,0 +1,22 @@
+{
+  "name": "store-opening-v2",
+  "id": "795671bb-3400-4279-b274-f08c945d7846",
+  "requested": {
+    "model": "kling3_0",
+    "mode": "pro",
+    "sound": "off",
+    "duration": 3,
+    "aspect_ratio": "16:9",
+    "count": 1,
+    "medias": [
+      {
+        "role": "start_image",
+        "value": "86ec8bbe-c233-4459-bc90-069bd6bb1f4e"
+      }
+    ],
+    "prompt": "A single restrained three-second live-action establishing shot of this exact Joe's convenience store in warm clear autumn morning light. Very slow physical dolly forward about thirty centimetres, with real gentle parallax between the soft foreground leaves and the building. The store remains rigid and perfectly coherent: identical burgundy Joe's FUEL & GO sign, off-white brickwork, glass windows, open door and metal bar, canopy, bicycle and ice freezer. A tiny natural breeze stirs only the leaves. Preserve readable real signage without changing letter shapes. Keep the interior warm and inviting with bright detailed windows and nuanced shadows. No people, no cars appearing, no time lapse, no large dramatic push, no lens flare, no moving doorway, no architectural change, no cut. A purposeful expensive-feeling commercial opening, photographed with human restraint."
+  },
+  "estimatedCredits": 5.25,
+  "status": "CREATIVE TEST — NOT LOCKED",
+  "resultValidation": "Pending file inspection and recorded checksum"
+}

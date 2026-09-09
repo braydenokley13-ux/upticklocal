@@ -1,0 +1,48 @@
+{
+  "shot": "station",
+  "frame": 60,
+  "frames": null,
+  "width": 640,
+  "height": 360,
+  "fps": 24,
+  "samples": 8,
+  "device": "CPU",
+  "seconds": 5.851,
+  "camera": {
+    "spec": {
+      "family": "block",
+      "lens": 38.0,
+      "fstop": 4.0,
+      "height": 3.2,
+      "subject": "Joe's warm store and the active street around it",
+      "foreground": "a cropped near tree and textured street",
+      "background": "the same local shops used in the journey",
+      "motivation": "a patient lateral reveal that resolves at the store",
+      "stops": [
+        "the station belongs to this street",
+        "arrive at the warm store"
+      ],
+      "focus": [
+        40.234,
+        36.903
+      ],
+      "lenses": [
+        38.0,
+        38.0
+      ],
+      "heights": [
+        3.2,
+        3.2
+      ]
+    },
+    "illustrative": true
+  },
+  "sequence": false,
+  "step": 1,
+  "frameTimings": [
+    {
+      "frame": 60,
+      "seconds": 5.114
+    }
+  ]
+}

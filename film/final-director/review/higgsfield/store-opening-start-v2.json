@@ -1,0 +1,20 @@
+{
+  "name": "store-opening-start-v2",
+  "id": "86ec8bbe-c233-4459-bc90-069bd6bb1f4e",
+  "requested": {
+    "model": "nano_banana_pro",
+    "resolution": "2k",
+    "aspect_ratio": "16:9",
+    "count": 1,
+    "medias": [
+      {
+        "role": "image",
+        "value": "0aa50e94-183e-4425-97f6-8f57b270ac9b"
+      }
+    ],
+    "prompt": "Make one cinematic establishing photograph of THIS EXACT Joe's store, preserving its off-white brick architecture, burgundy Joe's FUEL & GO sign, black projecting entrance surround, open right-hand glass door, coffee counter visible inside, modest ice freezer and cream canopy with thin burgundy stripe. Remove the blue car entirely. Move the CAMERA, not the building: three-quarter view from the LEFT edge of the small forecourt at waist height, 35mm lens, so the store facade recedes to screen right and the canopy makes a strong diagonal along the upper right, no flat frontal elevation. Clear autumn early morning sunlight from behind the building on screen right produces a warm rim on brick edges and brilliant small window reflections; cool open-sky fill keeps the whole storefront readable, with warm practical lights inviting us inside. A naturally blurred near foreground tree edge frames the extreme left. A little local street and modest neighboring shops beyond the right side establish a lived-in neighborhood, not a lonely parking lot. Include a bicycle leaning beside the ice freezer, a few fall leaves, subtle patching in real asphalt and gently scuffed doorway, believable operations not decay. Premium live-action local-business commercial, purposeful elegant camera composition, photographic texture, restrained warm/cool balance, broad tonal latitude. No people, no car, no mist or rain, no fake lens flare, no text overlays, no changed signage or changed store layout, no miniature or 3D render. Leave calm darker negative space in lower left for restrained opening copy."
+  },
+  "estimatedCredits": 2,
+  "status": "CREATIVE TEST — NOT LOCKED",
+  "resultValidation": "Pending file inspection and recorded checksum"
+}

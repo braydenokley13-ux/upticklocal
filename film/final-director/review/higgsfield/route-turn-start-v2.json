@@ -1,0 +1,24 @@
+{
+  "name": "route-turn-start-v2",
+  "id": "91de780b-abf4-48d0-b30f-6bb2510c5538",
+  "requested": {
+    "model": "nano_banana_pro",
+    "resolution": "2k",
+    "aspect_ratio": "16:9",
+    "count": 1,
+    "medias": [
+      {
+        "role": "image",
+        "value": "48df5989-673a-46c6-ac3d-005dd8700d76"
+      },
+      {
+        "role": "image",
+        "value": "5faaadc1-d6b2-4d0a-b3f4-a5a9de9bc883"
+      }
+    ],
+    "prompt": "Edit reference1, keeping its excellent exact street corner, curb, tree, autumn sunlight and camera composition. Replace ONLY the entire blue car with the SAME older dark marine-blue LOW STATION WAGON shown in reference2. The replacement must be a low early-2000s Volvo V70-shaped estate: long flat roof, low ride height, squared vertical tailgate, tall thin vertical red taillights at the REAR PILLARS, plain black bumper strip, simple silver many-thin-spoke alloy wheels exactly like reference2. No manufacturer badges, blank license plate. It must NOT be a modern Subaru crossover, SUV, Outback, rounded hatchback, or have broad horizontal rear taillights. Preserve navy paint and the visible wheel design from reference2. Keep car the same size and rear-three-quarter angle in reference1, front facing screen LEFT as it turns around the bend; preserve existing light and real tire contact on the road. One car only. Photographic realism, identical street, no other changes, no rendered appearance. This is a continuity correction between two consecutive film shots."
+  },
+  "estimatedCredits": 2,
+  "status": "CREATIVE TEST — NOT LOCKED",
+  "resultValidation": "Pending file inspection and recorded checksum"
+}

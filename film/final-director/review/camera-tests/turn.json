@@ -1,0 +1,51 @@
+{
+  "shot": "turn",
+  "frame": 12,
+  "frames": null,
+  "width": 640,
+  "height": 360,
+  "fps": 24,
+  "samples": 8,
+  "device": "CPU",
+  "seconds": 6.678,
+  "camera": {
+    "spec": {
+      "family": "street",
+      "lens": 48.0,
+      "fstop": 4.0,
+      "height": 0.72,
+      "subject": "the familiar wagon passes one real corner",
+      "foreground": "road texture and the marine wagon",
+      "background": "Joe's neighboring shopfronts and street trees",
+      "motivation": "three spatial anchors compress the trip without pretending to show real-time driving",
+      "stops": [
+        "turn",
+        "turn"
+      ],
+      "focus": [
+        8.486,
+        8.486
+      ],
+      "lenses": [
+        48.0,
+        48.0
+      ],
+      "heights": [
+        0.72,
+        0.72
+      ]
+    },
+    "routeMiles": 0.7,
+    "travelCompression": "editorial ellipsis",
+    "beat": "turn",
+    "notRealTime": true
+  },
+  "sequence": false,
+  "step": 1,
+  "frameTimings": [
+    {
+      "frame": 12,
+      "seconds": 5.298
+    }
+  ]
+}

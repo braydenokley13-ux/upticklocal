@@ -1,0 +1,49 @@
+{
+  "shot": "lube",
+  "frame": 12,
+  "frames": null,
+  "width": 640,
+  "height": 360,
+  "fps": 24,
+  "samples": 8,
+  "device": "CPU",
+  "seconds": 3.231,
+  "camera": {
+    "spec": {
+      "family": "block",
+      "lens": 40.0,
+      "fstop": 5.6,
+      "height": 1.7,
+      "subject": "the same Uptick network operating at QUICK LUBE",
+      "foreground": "installed placement and service equipment",
+      "background": "an open driver-serving business",
+      "motivation": "repeat the system, change the source",
+      "stops": [
+        "a different source",
+        "the same operated placement"
+      ],
+      "focus": [
+        11.32,
+        9.096
+      ],
+      "lenses": [
+        40.0,
+        40.0
+      ],
+      "heights": [
+        1.7,
+        1.7
+      ]
+    },
+    "sourceId": "quick-lube",
+    "retimedFrom": 48
+  },
+  "sequence": false,
+  "step": 1,
+  "frameTimings": [
+    {
+      "frame": 12,
+      "seconds": 2.696
+    }
+  ]
+}

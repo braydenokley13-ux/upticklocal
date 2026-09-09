@@ -1,0 +1,48 @@
+{
+  "shot": "invitation",
+  "frame": 24,
+  "frames": null,
+  "width": 640,
+  "height": 360,
+  "fps": 24,
+  "samples": 8,
+  "device": "CPU",
+  "seconds": 3.1,
+  "camera": {
+    "spec": {
+      "family": "device",
+      "lens": 85.0,
+      "fstop": 8.0,
+      "height": 1.72,
+      "subject": "Main Street Car Wash remains the source on Joe\u2019s coffee pass",
+      "foreground": "the dark handset edge",
+      "background": "the marine car bonnet at the wash exit",
+      "motivation": "carry the installed offer into the customer\u2019s own next-stop pass",
+      "stops": [
+        "source-specific pass",
+        "source-specific pass"
+      ],
+      "focus": [
+        0.622,
+        0.622
+      ],
+      "lenses": [
+        85.0,
+        85.0
+      ],
+      "heights": [
+        1.72,
+        1.72
+      ]
+    },
+    "sourceId": "car-wash"
+  },
+  "sequence": false,
+  "step": 1,
+  "frameTimings": [
+    {
+      "frame": 24,
+      "seconds": 2.504
+    }
+  ]
+}

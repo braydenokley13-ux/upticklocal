@@ -1,0 +1,22 @@
+{
+  "name": "route-turn-v2",
+  "id": "5a60b111-c2c7-40e2-8363-5bf28c9bd3dd",
+  "requested": {
+    "model": "kling3_0",
+    "mode": "pro",
+    "sound": "off",
+    "duration": 3,
+    "aspect_ratio": "16:9",
+    "count": 1,
+    "medias": [
+      {
+        "role": "start_image",
+        "value": "91de780b-abf4-48d0-b30f-6bb2510c5538"
+      }
+    ],
+    "prompt": "One continuous locked-off live-action street-corner shot at normal speed. The exact older navy station wagon in the starting frame is ALREADY MOVING at a gentle neighborhood speed. It follows the curved curb forward toward screen LEFT, completes this one street turn, and continues away along the far street, passing partly behind the foreground tree at the left edge. Body is rigid and moves as a single real weighted car; wheels roll in contact with the road and steering smoothly straightens after the turn. Preserve the exact squared wagon, tall vertical rear lamps, navy paint, windows, wheel placement, curb geometry, shops and autumn light. The camera stays still. No pause, reversal, drift, sideways sliding, vehicle changing shape, new cars or pedestrians, slow motion or camera orbit. Quiet, observational premium commercial cinematography; a short ordinary real journey, not a stunt."
+  },
+  "estimatedCredits": 5.25,
+  "status": "CREATIVE TEST — NOT LOCKED",
+  "resultValidation": "Pending file inspection and recorded checksum"
+}

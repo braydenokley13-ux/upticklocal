@@ -1,0 +1,22 @@
+{
+  "name": "doorway-return-v1",
+  "id": "e8568366-f09b-4dc3-a80b-f5ce36c71f4e",
+  "requested": {
+    "model": "kling3_0",
+    "mode": "pro",
+    "sound": "off",
+    "duration": 5,
+    "aspect_ratio": "16:9",
+    "count": 1,
+    "medias": [
+      {
+        "role": "start_image",
+        "value": "0a0e4572-4c7d-4b0f-866f-b795955ce4e7"
+      }
+    ],
+    "prompt": "A restrained continuous live-action over-the-shoulder shot of a regular customer's RETURN visit to the same neighborhood convenience store, in real time. Starting from this exact frame, the man immediately walks with easy confident familiarity straight forward through the open entrance gap on the LEFT of the stationary right-hand glass door, heading directly for the familiar coffee counter. Three relaxed ordinary steps; subtle natural shoulder and hip movement, cotton overshirt creases responding to his body. As he reaches the counter he gives a tiny relaxed greeting nod toward the counter to his left. Stay behind him without showing his face. The camera follows forward slowly about half a metre at shoulder height; no dramatic move. Preserve the man's short dark hair, navy cotton overshirt and dark trousers, and exactly preserve the doorframe, right-hand glass door and metal horizontal bar, round Joe's decal, coffee equipment and stocked shelves. The glass door is already open and remains stationary: the man passes through the empty gap to its left, never through glass or the bar. Keep his hands empty, no bag or coffee yet. Normal speed, no slow-motion or hesitation, physically credible walking. Warm natural practical store light, real material texture, no room redesign, no extra doorway, no cut."
+  },
+  "estimatedCredits": 8.75,
+  "status": "CREATIVE TEST — NOT LOCKED",
+  "resultValidation": "Pending file inspection and recorded checksum"
+}

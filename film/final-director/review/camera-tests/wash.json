@@ -1,0 +1,60 @@
+{
+  "shot": "wash",
+  "frame": 12,
+  "frames": null,
+  "width": 640,
+  "height": 360,
+  "fps": 24,
+  "samples": 8,
+  "device": "CPU",
+  "seconds": 12.307,
+  "camera": {
+    "spec": {
+      "family": "block",
+      "lens": 32.0,
+      "fstop": 5.6,
+      "height": 1.5,
+      "subject": "a customer finishing at Main Street Car Wash stops at an installed Next Stop unit and takes the offer on their handset",
+      "foreground": "the wet forecourt the vehicle has just carried water across",
+      "background": "the complete named car wash, its open bays and brushes",
+      "motivation": "hold source, customer, vehicle and installed unit in one frame, and let the walk change it",
+      "stops": [
+        "the source business, whole",
+        "the installed unit, and the decision at it"
+      ],
+      "focus": [
+        14.453,
+        11.619
+      ],
+      "lenses": [
+        32.0,
+        32.0
+      ],
+      "heights": [
+        1.62,
+        1.5
+      ]
+    },
+    "option": "forecourt",
+    "actionFrames": {
+      "finish": 24,
+      "encounter": 96,
+      "notice": 104,
+      "phone": 112
+    },
+    "sourceId": "car-wash",
+    "gate": "UNAPPROVED COMPARISON",
+    "directorSourceRange": [
+      96,
+      119
+    ]
+  },
+  "sequence": false,
+  "step": 1,
+  "frameTimings": [
+    {
+      "frame": 12,
+      "seconds": 2.811
+    }
+  ]
+}

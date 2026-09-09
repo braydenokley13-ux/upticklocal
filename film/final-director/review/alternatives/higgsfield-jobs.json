@@ -1,0 +1,85 @@
+{
+  "status": "CREATIVE TESTS — NOT LOCKED",
+  "fps": 24,
+  "jobs": [
+    {
+      "id": "0b8fbeec-208b-438b-8584-032d03974083",
+      "purpose": "first visit doorway motion",
+      "requested": {
+        "model": "seedance_2_5",
+        "mode": "omni_reference",
+        "duration": 5,
+        "aspect_ratio": "16:9",
+        "resolution": "720p",
+        "generate_audio": false,
+        "bitrate_mode": "high",
+        "count": 1,
+        "medias": [
+          {
+            "role": "start_image",
+            "value": "0a0e4572-4c7d-4b0f-866f-b795955ce4e7"
+          }
+        ],
+        "prompt": "A single continuous over-the-shoulder tracking shot, photographed at natural real-time speed. After a brief moment orienting toward the coffee counter, the man takes two relaxed purposeful steps straight forward through the already-open entrance gap to the LEFT of the stationary glass door. He passes through the open space, never through the glass or horizontal bar. His shoulders and hips shift subtly with each step; the navy cotton overshirt moves naturally. The camera follows forward only about half a metre at shoulder height, keeping the warm coffee counter and stocked shelves visible beyond him. Stay behind him throughout; no face reveal. Preserve the exact customer, navy clothing, doorway, door hardware, round Joe's decal, shelves, coffee equipment, and warm practical lighting in the input frame. Physically credible ordinary human movement and premium live-action commercial camera restraint. The door stays open and stationary. He is arriving to buy coffee, with empty hands throughout this shot."
+      },
+      "costCredits": 32.5,
+      "result": {
+        "file": "public/film-rd/director/photographic/doorway-first-v1.mp4",
+        "sha256": "14b663d53a340ea3dd021d78ae1faca6b9cbc82a744bd8e2cada80a1b18bfbb5",
+        "width": 1280,
+        "height": 720,
+        "fps": 24,
+        "frames": 121,
+        "duration": 5.041667
+      },
+      "review": "Pending independent movement/geometry critique. Photo quality improved; whole film not approved."
+    },
+    {
+      "id": "5faaadc1-d6b2-4d0a-b3f4-a5a9de9bc883",
+      "purpose": "route departure start still",
+      "requested": {
+        "model": "nano_banana_pro",
+        "resolution": "2k",
+        "aspect_ratio": "16:9",
+        "count": 1,
+        "medias": [
+          {
+            "role": "image",
+            "value": "https://raw.githubusercontent.com/braydenokley13-ux/upticklocal/9a418ce341eb80fc9759b02c2ee007b4b5197b03/film/final-director/review/alternatives/route-photographic-comparison.png"
+          }
+        ],
+        "prompt": "Create ONE single 16:9 photographic live-action commercial film frame, not a collage. Use the ordinary dark marine-blue station wagon from the TOP ROW of the reference board as the same vehicle. We are at the exit of a real neighborhood car wash on a clear autumn morning. Extremely low camera, 50mm lens, close on the wagon's near rear tire and lower wet navy body, vehicle front points screen RIGHT. Tire at left-center, enough ground and empty space to the right for forward movement. Silver understated factory alloy wheel, realistic rubber tread and contact patch under the car's weight, fine water droplets on paint, a little runoff across worn concrete into an ordinary narrow drain. Crisp glancing sun catches small droplets; cool open shade gives depth in the tire. The wash exit and one discreet teal wayfinding panel are softly visible behind the vehicle, no legible generated type or logos. Honest working neighborhood, lightly worn materials, natural reflections and photographic highlight rolloff. Not an SUV, not a sports coupe, not a concept car, not a 3D render. No giant splashes, glowing road, CG map, speed streaks, customer or montage. The car is stationary immediately before rolling forward, making this a practical start frame for a real-time departure shot."
+      },
+      "reportedModel": "nano_banana_2",
+      "costCredits": 2,
+      "result": {
+        "file": "public/film-rd/director/photographic/route-depart-start-v1.png",
+        "sha256": "16a8cb69c23b8b4fbda03079e5c3529d0bf42200599addcdf98c0437614ab2d3",
+        "width": 2752,
+        "height": 1536
+      },
+      "review": "Selected for bounded tire departure test. Still is not motion approval."
+    },
+    {
+      "id": "1963d896-8b79-4224-89dc-fe89db40b736",
+      "purpose": "route departure motion",
+      "requested": {
+        "model": "kling3_0",
+        "mode": "pro",
+        "sound": "off",
+        "duration": 3,
+        "aspect_ratio": "16:9",
+        "count": 1,
+        "medias": [
+          {
+            "role": "start_image",
+            "value": "5faaadc1-d6b2-4d0a-b3f4-a5a9de9bc883"
+          }
+        ],
+        "prompt": "A single continuous low locked-off live-action shot at normal speed. The wet ordinary navy station wagon gently begins driving FORWARD away from camera toward the upper RIGHT, out of the car wash. The visible rear tire rolls forward physically, with its tread rotating in exact contact with the wet concrete. The wheel gets smaller as the whole car travels away. A few small droplets fall from the body and tire; ordinary shallow runoff, no dramatic splash. The camera stays almost perfectly still 15 centimetres above the ground; the drain, teal panel and wash structure do not move or deform. Keep the same wheel spokes, navy paint, car shape and real sunlight. Gentle everyday acceleration, realistic vehicle mass, no reversing, no sideways sliding, no spinning in place, no slow motion, no cut, no camera orbit."
+      },
+      "costCredits": 5.25,
+      "review": "Completed generation; inspection pending."
+    }
+  ]
+}

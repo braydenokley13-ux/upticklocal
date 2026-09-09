@@ -1,0 +1,50 @@
+{
+  "shot": "permission",
+  "frame": 72,
+  "frames": null,
+  "width": 640,
+  "height": 360,
+  "fps": 24,
+  "samples": 8,
+  "device": "CPU",
+  "seconds": 5.927,
+  "camera": {
+    "spec": {
+      "family": "device",
+      "lens": 85.0,
+      "fstop": 8.0,
+      "height": 1.6,
+      "subject": "permission: the customer\u2019s choice on the same handset",
+      "foreground": "the edge of the acquired coffee, and breakfast on the paid return",
+      "background": "Joe\u2019s physical counter surface",
+      "motivation": "keep the visit object in frame as its relationship state changes",
+      "stops": [
+        "shared counter axis",
+        "shared counter axis"
+      ],
+      "focus": [
+        0.624,
+        0.624
+      ],
+      "lenses": [
+        85.0,
+        85.0
+      ],
+      "heights": [
+        1.6,
+        1.6
+      ]
+    },
+    "state": "permission",
+    "sourceId": "car-wash",
+    "permissionFrame": 78
+  },
+  "sequence": false,
+  "step": 1,
+  "frameTimings": [
+    {
+      "frame": 72,
+      "seconds": 5.421
+    }
+  ]
+}

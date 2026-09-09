@@ -1,0 +1,24 @@
+{
+  "name": "store-exterior-frontal-v1",
+  "id": "0aa50e94-183e-4425-97f6-8f57b270ac9b",
+  "requested": {
+    "model": "nano_banana_pro",
+    "resolution": "2k",
+    "aspect_ratio": "16:9",
+    "count": 1,
+    "medias": [
+      {
+        "role": "image",
+        "value": "https://raw.githubusercontent.com/braydenokley13-ux/upticklocal/9a418ce341eb80fc9759b02c2ee007b4b5197b03/public/film-rd/director/photographic/doorway-clean-plate-v1.png"
+      },
+      {
+        "role": "image",
+        "value": "5faaadc1-d6b2-4d0a-b3f4-a5a9de9bc883"
+      }
+    ],
+    "prompt": "ONE photographic live-action commercial frame, 16:9, never a grid. Show the exterior of the SAME operating Joe's Fuel & Go convenience store whose entrance and interior are in reference image 1. View from across its modest forecourt, shoulder height 35mm lens. Preserve off-white painted brick facade, dark charcoal metal entrance frame, single right-hand glass door propped open with horizontal silver bar and small round brown Joe's decal; through the open left gap we can glimpse the warm wood coffee counter and stocked chips rack. Broaden this into a believable small convenience store: one-story white brick building, broad glass windows, discreet ice freezer to left of door, a few ordinary beverage decals and practical wall lights. A modest off-white gas canopy edge with one thin burgundy stripe enters along the upper-right edge, never blocks the storefront. A single tasteful deep-burgundy script 'Joe's' sign above the entrance, subordinate small 'FUEL & GO'. The SAME dark marine-blue older station wagon from reference2 enters the extreme right foreground facing left toward a parking bay, with just its front quarter visible, leaving the facade and doorway unobscured. Correct ordinary wagon shape, not a sports car. Early autumn morning, low warm side light, soft luminous interior, believable slightly worn asphalt and curb, quiet street and trees beyond, human-scale local business, premium restrained film photograph. No carwash visible, no neon teal road graphics, no huge empty parking lot, no miniature/dollhouse perspective. Real brick grain, glass reflections, nuanced shadows, highlight detail. This must feel like a real operating neighborhood store and the natural destination of a short drive."
+  },
+  "estimatedCredits": 2,
+  "status": "CREATIVE TEST — NOT LOCKED",
+  "resultValidation": "Pending file inspection and recorded checksum"
+}

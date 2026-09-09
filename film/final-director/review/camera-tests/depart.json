@@ -1,0 +1,51 @@
+{
+  "shot": "depart",
+  "frame": 12,
+  "frames": null,
+  "width": 640,
+  "height": 360,
+  "fps": 24,
+  "samples": 8,
+  "device": "CPU",
+  "seconds": 7.576,
+  "camera": {
+    "spec": {
+      "family": "street",
+      "lens": 48.0,
+      "fstop": 4.0,
+      "height": 0.57,
+      "subject": "a wet wheel leaves the car-wash apron",
+      "foreground": "road texture and the marine wagon",
+      "background": "the same wet curb and source building",
+      "motivation": "three spatial anchors compress the trip without pretending to show real-time driving",
+      "stops": [
+        "depart",
+        "depart"
+      ],
+      "focus": [
+        5.0,
+        5.0
+      ],
+      "lenses": [
+        48.0,
+        48.0
+      ],
+      "heights": [
+        0.57,
+        0.57
+      ]
+    },
+    "routeMiles": 0.7,
+    "travelCompression": "editorial ellipsis",
+    "beat": "depart",
+    "notRealTime": true
+  },
+  "sequence": false,
+  "step": 1,
+  "frameTimings": [
+    {
+      "frame": 12,
+      "seconds": 5.387
+    }
+  ]
+}
