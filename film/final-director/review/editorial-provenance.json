@@ -1,0 +1,210 @@
+[
+  {
+    "id": "station",
+    "frames": 120,
+    "fps": 24,
+    "source": "film/review/acquisition/full-proxy/review-customer.mp4",
+    "sourceSha256": "9f4baf9b5b2e12baed6c176128d658495295f742d891acbf56b72de4e7b8a6de",
+    "sourceRange": [
+      1248,
+      1319
+    ],
+    "resampledForEditorialTiming": true,
+    "status": "TEMPORARY OLD-CUT IMAGERY \u2014 NOT NEW CAMERA OR MOTION EVIDENCE"
+  },
+  {
+    "id": "wash",
+    "frames": 24,
+    "fps": 24,
+    "source": "film/review/acquisition/full-proxy/review-customer.mp4",
+    "sourceSha256": "9f4baf9b5b2e12baed6c176128d658495295f742d891acbf56b72de4e7b8a6de",
+    "sourceRange": [
+      112,
+      135
+    ],
+    "resampledForEditorialTiming": false,
+    "status": "TEMPORARY OLD-CUT IMAGERY \u2014 NOT NEW CAMERA OR MOTION EVIDENCE"
+  },
+  {
+    "id": "lube",
+    "frames": 24,
+    "fps": 24,
+    "source": "film/review/acquisition/full-proxy/review-customer.mp4",
+    "sourceSha256": "9f4baf9b5b2e12baed6c176128d658495295f742d891acbf56b72de4e7b8a6de",
+    "sourceRange": [
+      276,
+      299
+    ],
+    "resampledForEditorialTiming": false,
+    "status": "TEMPORARY OLD-CUT IMAGERY \u2014 NOT NEW CAMERA OR MOTION EVIDENCE"
+  },
+  {
+    "id": "tire",
+    "frames": 24,
+    "fps": 24,
+    "source": "film/review/acquisition/full-proxy/review-customer.mp4",
+    "sourceSha256": "9f4baf9b5b2e12baed6c176128d658495295f742d891acbf56b72de4e7b8a6de",
+    "sourceRange": [
+      300,
+      323
+    ],
+    "resampledForEditorialTiming": false,
+    "status": "TEMPORARY OLD-CUT IMAGERY \u2014 NOT NEW CAMERA OR MOTION EVIDENCE"
+  },
+  {
+    "id": "encounter",
+    "frames": 96,
+    "fps": 24,
+    "source": "film/review/acquisition/full-proxy/review-customer.mp4",
+    "sourceSha256": "9f4baf9b5b2e12baed6c176128d658495295f742d891acbf56b72de4e7b8a6de",
+    "sourceRange": [
+      72,
+      167
+    ],
+    "resampledForEditorialTiming": false,
+    "status": "TEMPORARY OLD-CUT IMAGERY \u2014 NOT NEW CAMERA OR MOTION EVIDENCE"
+  },
+  {
+    "id": "invitation",
+    "frames": 48,
+    "fps": 24,
+    "source": "film/review/acquisition/full-proxy/review-customer.mp4",
+    "sourceSha256": "9f4baf9b5b2e12baed6c176128d658495295f742d891acbf56b72de4e7b8a6de",
+    "sourceRange": [
+      168,
+      263
+    ],
+    "resampledForEditorialTiming": true,
+    "status": "TEMPORARY OLD-CUT IMAGERY \u2014 NOT NEW CAMERA OR MOTION EVIDENCE"
+  },
+  {
+    "id": "depart",
+    "frames": 24,
+    "fps": 24,
+    "source": "film/review/acquisition/full-proxy/review-customer.mp4",
+    "sourceSha256": "9f4baf9b5b2e12baed6c176128d658495295f742d891acbf56b72de4e7b8a6de",
+    "sourceRange": [
+      312,
+      335
+    ],
+    "resampledForEditorialTiming": false,
+    "status": "TEMPORARY OLD-CUT IMAGERY \u2014 NOT NEW CAMERA OR MOTION EVIDENCE"
+  },
+  {
+    "id": "turn",
+    "frames": 24,
+    "fps": 24,
+    "source": "film/review/acquisition/full-proxy/review-customer.mp4",
+    "sourceSha256": "9f4baf9b5b2e12baed6c176128d658495295f742d891acbf56b72de4e7b8a6de",
+    "sourceRange": [
+      360,
+      383
+    ],
+    "resampledForEditorialTiming": false,
+    "status": "TEMPORARY OLD-CUT IMAGERY \u2014 NOT NEW CAMERA OR MOTION EVIDENCE"
+  },
+  {
+    "id": "arrive",
+    "frames": 24,
+    "fps": 24,
+    "source": "film/review/acquisition/full-proxy/review-customer.mp4",
+    "sourceSha256": "9f4baf9b5b2e12baed6c176128d658495295f742d891acbf56b72de4e7b8a6de",
+    "sourceRange": [
+      408,
+      431
+    ],
+    "resampledForEditorialTiming": false,
+    "status": "TEMPORARY OLD-CUT IMAGERY \u2014 NOT NEW CAMERA OR MOTION EVIDENCE"
+  },
+  {
+    "id": "first",
+    "frames": 72,
+    "fps": 24,
+    "source": "film/review/acquisition/full-proxy/review-customer.mp4",
+    "sourceSha256": "9f4baf9b5b2e12baed6c176128d658495295f742d891acbf56b72de4e7b8a6de",
+    "sourceRange": [
+      480,
+      527
+    ],
+    "resampledForEditorialTiming": true,
+    "status": "TEMPORARY OLD-CUT IMAGERY \u2014 NOT NEW CAMERA OR MOTION EVIDENCE"
+  },
+  {
+    "id": "coffee",
+    "frames": 48,
+    "fps": 24,
+    "source": "film/review/acquisition/full-proxy/review-customer.mp4",
+    "sourceSha256": "9f4baf9b5b2e12baed6c176128d658495295f742d891acbf56b72de4e7b8a6de",
+    "sourceRange": [
+      528,
+      575
+    ],
+    "resampledForEditorialTiming": false,
+    "status": "TEMPORARY OLD-CUT IMAGERY \u2014 NOT NEW CAMERA OR MOTION EVIDENCE"
+  },
+  {
+    "id": "permission",
+    "frames": 144,
+    "fps": 24,
+    "source": "film/review/acquisition/full-proxy/review-customer.mp4",
+    "sourceSha256": "9f4baf9b5b2e12baed6c176128d658495295f742d891acbf56b72de4e7b8a6de",
+    "sourceRange": [
+      624,
+      767
+    ],
+    "resampledForEditorialTiming": false,
+    "status": "TEMPORARY OLD-CUT IMAGERY \u2014 NOT NEW CAMERA OR MOTION EVIDENCE"
+  },
+  {
+    "id": "offer",
+    "frames": 96,
+    "fps": 24,
+    "source": "film/review/acquisition/full-proxy/review-customer.mp4",
+    "sourceSha256": "9f4baf9b5b2e12baed6c176128d658495295f742d891acbf56b72de4e7b8a6de",
+    "sourceRange": [
+      768,
+      911
+    ],
+    "resampledForEditorialTiming": true,
+    "status": "TEMPORARY OLD-CUT IMAGERY \u2014 NOT NEW CAMERA OR MOTION EVIDENCE"
+  },
+  {
+    "id": "return",
+    "frames": 96,
+    "fps": 24,
+    "source": "film/review/acquisition/full-proxy/review-customer.mp4",
+    "sourceSha256": "9f4baf9b5b2e12baed6c176128d658495295f742d891acbf56b72de4e7b8a6de",
+    "sourceRange": [
+      960,
+      1007
+    ],
+    "resampledForEditorialTiming": true,
+    "status": "TEMPORARY OLD-CUT IMAGERY \u2014 NOT NEW CAMERA OR MOTION EVIDENCE"
+  },
+  {
+    "id": "paid",
+    "frames": 96,
+    "fps": 24,
+    "source": "film/review/acquisition/full-proxy/review-customer.mp4",
+    "sourceSha256": "9f4baf9b5b2e12baed6c176128d658495295f742d891acbf56b72de4e7b8a6de",
+    "sourceRange": [
+      1008,
+      1151
+    ],
+    "resampledForEditorialTiming": true,
+    "status": "TEMPORARY OLD-CUT IMAGERY \u2014 NOT NEW CAMERA OR MOTION EVIDENCE"
+  },
+  {
+    "id": "neighborhood",
+    "frames": 168,
+    "fps": 24,
+    "source": "film/review/acquisition/full-proxy/review-customer.mp4",
+    "sourceSha256": "9f4baf9b5b2e12baed6c176128d658495295f742d891acbf56b72de4e7b8a6de",
+    "sourceRange": [
+      1248,
+      1319
+    ],
+    "resampledForEditorialTiming": true,
+    "status": "TEMPORARY OLD-CUT IMAGERY \u2014 NOT NEW CAMERA OR MOTION EVIDENCE"
+  }
+]

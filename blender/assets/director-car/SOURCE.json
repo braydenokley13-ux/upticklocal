@@ -1,0 +1,12 @@
+{
+  "title": "Car Concept",
+  "creator": "Eric Chadwick",
+  "copyright": "2024 Darmstadt Graphics Group GmbH",
+  "license": "CC-BY-4.0",
+  "licenseURL": "https://creativecommons.org/licenses/by/4.0/legalcode",
+  "sourceURL": "https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/CarConcept",
+  "downloadURL": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/main/Models/CarConcept/glTF-Binary/CarConcept.glb",
+  "sha256": "c272098089d78c5cd9fd9f24ff50ee8acf8d932c55f2d55fc10adb6c8998966b",
+  "modifications": "Source GLB unchanged. Director importer rotates to production axes, replaces exterior paint/trim, removes emblem object and logo-bearing plate/material treatments. Native-size logo inspection still required.",
+  "status": "TEST CANDIDATE: coupe changes previous wagon silhouette; not final creative approval."
+}

@@ -1,0 +1,50 @@
+{
+  "shot": "first",
+  "frame": 36,
+  "frames": null,
+  "width": 640,
+  "height": 360,
+  "fps": 24,
+  "samples": 8,
+  "device": "CPU",
+  "seconds": 11.376,
+  "camera": {
+    "spec": {
+      "family": "human",
+      "lens": 50.0,
+      "fstop": 3.5,
+      "height": 0.94,
+      "subject": "the familiar shirt, gait and doorway; the face never carries the shot",
+      "foreground": "warm counter edge and shelf detail",
+      "background": "Joe's recognizable door and bright forecourt",
+      "motivation": "identical waist-height lens for Tuesday and Friday; return gets one more second",
+      "stops": [
+        "shared Tuesday/Friday camera",
+        "shared Tuesday/Friday camera"
+      ],
+      "focus": [
+        4.401,
+        4.401
+      ],
+      "lenses": [
+        50.0,
+        50.0
+      ],
+      "heights": [
+        0.94,
+        0.94
+      ]
+    },
+    "day": "Tuesday",
+    "customerId": "illustrative-driver-001",
+    "pairedCamera": true
+  },
+  "sequence": false,
+  "step": 1,
+  "frameTimings": [
+    {
+      "frame": 36,
+      "seconds": 6.134
+    }
+  ]
+}

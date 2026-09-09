@@ -1,0 +1,49 @@
+{
+  "shot": "offer",
+  "frame": 48,
+  "frames": null,
+  "width": 640,
+  "height": 360,
+  "fps": 24,
+  "samples": 8,
+  "device": "CPU",
+  "seconds": 3.281,
+  "camera": {
+    "spec": {
+      "family": "device",
+      "lens": 85.0,
+      "fstop": 8.0,
+      "height": 1.39,
+      "subject": "a paid Friday breakfast offer reaching the permissioned customer days later",
+      "foreground": "phone rim and familiar car keys",
+      "background": "a home table, outside the station",
+      "motivation": "a restrained callback before the physical return",
+      "stops": [
+        "Thursday evening, the same handset",
+        "Thursday evening, the same handset"
+      ],
+      "focus": [
+        0.627,
+        0.627
+      ],
+      "lenses": [
+        85.0,
+        85.0
+      ],
+      "heights": [
+        1.39,
+        1.39
+      ]
+    },
+    "clock": "Thursday \u00b7 4:42 PM",
+    "priceCents": 499
+  },
+  "sequence": false,
+  "step": 1,
+  "frameTimings": [
+    {
+      "frame": 48,
+      "seconds": 2.753
+    }
+  ]
+}

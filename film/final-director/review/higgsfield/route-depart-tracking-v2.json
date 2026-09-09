@@ -1,0 +1,22 @@
+{
+  "name": "route-depart-tracking-v2",
+  "id": "5f3f6904-1a29-45cf-bc07-72bfc883f3a0",
+  "requested": {
+    "model": "kling3_0",
+    "mode": "pro",
+    "sound": "off",
+    "duration": 3,
+    "aspect_ratio": "16:9",
+    "count": 1,
+    "medias": [
+      {
+        "role": "start_image",
+        "value": "5faaadc1-d6b2-4d0a-b3f4-a5a9de9bc883"
+      }
+    ],
+    "prompt": "One continuous three-second photographic tracking shot. FROM THE FIRST MOMENT the wet navy wagon drives forward at a steady slow walking speed. The camera travels forward alongside it, rigidly matching the car's speed and keeping the visible near rear wheel at EXACTLY its initial position and size in the composition for the entire take. Maintain the same viewpoint relative to the car: never reveal more of its rear or change the car's angle. The tire tread and silver spokes rotate steadily at the physically correct rate; wet pavement, narrow drain and wash doorway glide backward relative to the tracking camera. Small droplets shake loose naturally. The car itself stays the same rigid shape as the start image, identical vertical tail lamp edge, silver multi-spoke wheel, navy body panels, side mirror and black bumper. No change of make or model. Begin already moving; no hesitation or slow start. Natural real-time motion, ordinary vehicle mass, premium controlled low tracking camera. No cuts, no orbit, no static wheel, no sideways vehicle slide, no backwards driving, no splash effect."
+  },
+  "estimatedCredits": 5.25,
+  "status": "CREATIVE TEST — NOT LOCKED",
+  "resultValidation": "Pending file inspection and recorded checksum"
+}

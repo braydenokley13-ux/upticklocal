@@ -1,0 +1,51 @@
+{
+  "shot": "arrive",
+  "frame": 12,
+  "frames": null,
+  "width": 640,
+  "height": 360,
+  "fps": 24,
+  "samples": 8,
+  "device": "CPU",
+  "seconds": 4.878,
+  "camera": {
+    "spec": {
+      "family": "street",
+      "lens": 35.0,
+      "fstop": 4.0,
+      "height": 1.4,
+      "subject": "the same car turns under Joe's canopy",
+      "foreground": "road texture and the marine wagon",
+      "background": "Joe's door, the destination of both visits",
+      "motivation": "three spatial anchors compress the trip without pretending to show real-time driving",
+      "stops": [
+        "arrive",
+        "arrive"
+      ],
+      "focus": [
+        21.642,
+        21.642
+      ],
+      "lenses": [
+        35.0,
+        35.0
+      ],
+      "heights": [
+        1.4,
+        1.4
+      ]
+    },
+    "routeMiles": 0.7,
+    "travelCompression": "editorial ellipsis",
+    "beat": "arrive",
+    "notRealTime": true
+  },
+  "sequence": false,
+  "step": 1,
+  "frameTimings": [
+    {
+      "frame": 12,
+      "seconds": 4.392
+    }
+  ]
+}

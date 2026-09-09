@@ -1,0 +1,55 @@
+{
+  "shot": "option-vacuum",
+  "frame": 130,
+  "width": 640,
+  "height": 360,
+  "fps": 24,
+  "samples": 8,
+  "device": "METAL",
+  "seconds": 70.341,
+  "camera": {
+    "spec": {
+      "family": "block",
+      "lens": 38.0,
+      "fstop": 5.6,
+      "height": 1.8,
+      "subject": "the vacuum task ends beside an Uptick Next Stop unit; the customer pauses and raises a handset",
+      "foreground": "the vacuum equipment and wet source-business apron",
+      "background": "the complete named car wash and open wash bays",
+      "motivation": "let the customer action change the frame, while the source stays unmistakable",
+      "stops": [
+        "vacuum: source and customer remain together",
+        "vacuum: source and customer remain together"
+      ],
+      "focus": [
+        20.001,
+        20.001
+      ],
+      "lenses": [
+        38.0,
+        38.0
+      ],
+      "heights": [
+        1.8,
+        1.8
+      ]
+    },
+    "option": "vacuum",
+    "actionFrames": {
+      "finish": 24,
+      "encounter": 72,
+      "notice": 80,
+      "phone": 104
+    },
+    "sourceId": "car-wash",
+    "gate": "UNAPPROVED COMPARISON"
+  },
+  "sequence": false,
+  "step": 1,
+  "frameTimings": [
+    {
+      "frame": 130,
+      "seconds": 53.159
+    }
+  ]
+}

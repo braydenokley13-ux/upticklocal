@@ -1,0 +1,248 @@
+{
+  "sourceHash": "6143683ef5bc2e2a7267f4e912cd6b119dfeae0dc7039f38ab9aea9cb10a85fa",
+  "frames": 48,
+  "fps": 24,
+  "lane": "proxy",
+  "still": false,
+  "declaredStill": false,
+  "freshCyclesFrames": 48,
+  "render": {
+    "shot": "first",
+    "frame": 0,
+    "frames": null,
+    "width": 640,
+    "height": 360,
+    "fps": 24,
+    "samples": 8,
+    "device": "CPU",
+    "seconds": 385.84,
+    "camera": {
+      "state": "morning",
+      "clock": "Tuesday \u00b7 8:17 AM",
+      "cross": 23,
+      "spec": {
+        "family": "block",
+        "lens": 40.0,
+        "fstop": 4.0,
+        "height": 1.52,
+        "subject": "the doorway, and the person who comes through it",
+        "foreground": "the two shelf runs the aisle passes between, dark, closing left and right",
+        "background": "the forecourt, two stops brighter than the room",
+        "motivation": "locked",
+        "stops": [
+          "in the aisle opposite the door",
+          "in the aisle opposite the door"
+        ],
+        "focus": [
+          4.539,
+          4.539
+        ],
+        "lenses": [
+          40.0,
+          40.0
+        ],
+        "heights": [
+          1.52,
+          1.52
+        ]
+      },
+      "customerId": "illustrative-driver-001"
+    },
+    "sequence": true,
+    "step": 1,
+    "frameTimings": [
+      {
+        "frame": 0,
+        "seconds": 10.09
+      },
+      {
+        "frame": 1,
+        "seconds": 7.534
+      },
+      {
+        "frame": 2,
+        "seconds": 8.253
+      },
+      {
+        "frame": 3,
+        "seconds": 8.047
+      },
+      {
+        "frame": 4,
+        "seconds": 7.578
+      },
+      {
+        "frame": 5,
+        "seconds": 7.536
+      },
+      {
+        "frame": 6,
+        "seconds": 7.874
+      },
+      {
+        "frame": 7,
+        "seconds": 8.628
+      },
+      {
+        "frame": 8,
+        "seconds": 8.088
+      },
+      {
+        "frame": 9,
+        "seconds": 7.772
+      },
+      {
+        "frame": 10,
+        "seconds": 7.721
+      },
+      {
+        "frame": 11,
+        "seconds": 7.457
+      },
+      {
+        "frame": 12,
+        "seconds": 7.503
+      },
+      {
+        "frame": 13,
+        "seconds": 7.58
+      },
+      {
+        "frame": 14,
+        "seconds": 7.701
+      },
+      {
+        "frame": 15,
+        "seconds": 8.372
+      },
+      {
+        "frame": 16,
+        "seconds": 7.217
+      },
+      {
+        "frame": 17,
+        "seconds": 7.363
+      },
+      {
+        "frame": 18,
+        "seconds": 8.254
+      },
+      {
+        "frame": 19,
+        "seconds": 8.191
+      },
+      {
+        "frame": 20,
+        "seconds": 7.647
+      },
+      {
+        "frame": 21,
+        "seconds": 7.647
+      },
+      {
+        "frame": 22,
+        "seconds": 7.56
+      },
+      {
+        "frame": 23,
+        "seconds": 7.381
+      },
+      {
+        "frame": 24,
+        "seconds": 7.217
+      },
+      {
+        "frame": 25,
+        "seconds": 7.414
+      },
+      {
+        "frame": 26,
+        "seconds": 7.271
+      },
+      {
+        "frame": 27,
+        "seconds": 7.337
+      },
+      {
+        "frame": 28,
+        "seconds": 7.129
+      },
+      {
+        "frame": 29,
+        "seconds": 7.173
+      },
+      {
+        "frame": 30,
+        "seconds": 7.291
+      },
+      {
+        "frame": 31,
+        "seconds": 7.779
+      },
+      {
+        "frame": 32,
+        "seconds": 7.476
+      },
+      {
+        "frame": 33,
+        "seconds": 7.703
+      },
+      {
+        "frame": 34,
+        "seconds": 7.38
+      },
+      {
+        "frame": 35,
+        "seconds": 8.887
+      },
+      {
+        "frame": 36,
+        "seconds": 9.929
+      },
+      {
+        "frame": 37,
+        "seconds": 9.9
+      },
+      {
+        "frame": 38,
+        "seconds": 7.858
+      },
+      {
+        "frame": 39,
+        "seconds": 7.519
+      },
+      {
+        "frame": 40,
+        "seconds": 7.452
+      },
+      {
+        "frame": 41,
+        "seconds": 8.056
+      },
+      {
+        "frame": 42,
+        "seconds": 8.108
+      },
+      {
+        "frame": 43,
+        "seconds": 7.326
+      },
+      {
+        "frame": 44,
+        "seconds": 7.296
+      },
+      {
+        "frame": 45,
+        "seconds": 7.527
+      },
+      {
+        "frame": 46,
+        "seconds": 7.428
+      },
+      {
+        "frame": 47,
+        "seconds": 7.575
+      }
+    ]
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "title": "Render manifest \u2014 From Nearby to Yours (locked photographic cut)",
+  "recalculatedAfterCreativeLock": true,
+  "blender": {
+    "platesRequired": 0,
+    "cpuHoursRequired": 0.0,
+    "workersRequired": 0,
+    "reason": "No Blender output appears in the locked cut. Every picture is photographic, so the CG plate queue is not reduced \u2014 it is empty.",
+    "obsoletedQueue": {
+      "source": "film/render/manifest.json and film/render/acquisition-decomposition.json",
+      "platesDescribed": 13,
+      "priorEstimates": {
+        "naiveCpuHours": 64.3,
+        "afterStillDecompositionAndMotionValidated16spp": 14.9,
+        "expectedWallClockHours": 1.9,
+        "workers": 8
+      },
+      "disposition": "Left in place as the R&D film's record and NOT run. Section 21 of the brief is explicit that obsolete shots must not be rendered; these plates belong to shots the photographic cut does not contain. Running them would have cost ~14.9 CPU hours and produced nothing that could appear in the film.",
+      "whatWouldRevivIt": "Only a creative decision to put a CG shot back in the cut. The scripts, caches, sharding, determinism fixes and render-worker-bootstrap.sh are untouched and would still work."
+    }
+  },
+  "remotion": {
+    "composition": "Final-Film",
+    "entry": "film/index.ts",
+    "frames": 1248,
+    "fps": 24,
+    "resolution": "1920x1080",
+    "codec": "h264",
+    "crf": 15,
+    "pixelFormat": "yuv420p",
+    "audioCodec": "aac",
+    "audioBitrate": "256k",
+    "browser": "Chromium headless shell (pre-installed; no download)",
+    "hardware": "4 CPU cores, ~15 GB RAM, no usable GPU",
+    "concurrency": 3,
+    "shardsRequired": 0,
+    "note": "The whole film renders in one pass on the session's own container. No fleet, no sharding and no bootstrap script are needed for this cut."
+  },
+  "teaser": {
+    "composition": "Final-Teaser",
+    "frames": 360,
+    "fps": 24,
+    "resolution": "1920x1080"
+  },
+  "derivedArtifacts": {
+    "producedBy": "scripts/final-deliver.py",
+    "inputs": [
+      "public/film-rd/final/uptick-growth-final-master-1080p.mp4"
+    ],
+    "outputs": [
+      "web mp4 (h264 crf 21, faststart)",
+      "webm (vp9 crf 32 + opus)",
+      "poster png + jpg",
+      "four contact sheets",
+      "VALIDATION.json"
+    ],
+    "note": "Every delivered file except the master and the teaser is a deterministic transform of the master, so a re-render cannot leave a stale artifact behind."
+  },
+  "preflight": {
+    "script": "scripts/final-preflight.py",
+    "checks": 196,
+    "mustPassBeforeRender": true
+  },
+  "reproducibilitySafeguardsPreserved": [
+    "Deterministic hashing and the fixed PYTHONHASHSEED behaviour in the Blender window-light code are untouched.",
+    "Exact frame ranges are declared per shot in final-edit.json and enforced by preflight; no frame-count relabelling.",
+    "Pixel-based still equivalence rather than PNG byte hashing remains the rule in the existing review scripts.",
+    "Checksums are recorded for every collected source picture and every delivered artifact.",
+    "All asset paths in the edit are repository-relative under public/.",
+    "The film's grain is a pure function of the frame number, so two renders of the same commit agree."
+  ]
+}

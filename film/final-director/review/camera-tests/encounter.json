@@ -1,0 +1,54 @@
+{
+  "shot": "encounter",
+  "frame": 48,
+  "frames": null,
+  "width": 640,
+  "height": 360,
+  "fps": 24,
+  "samples": 8,
+  "device": "CPU",
+  "seconds": 12.348,
+  "camera": {
+    "spec": {
+      "family": "human",
+      "lens": 34.0,
+      "fstop": 4.0,
+      "height": 1.55,
+      "subject": "one customer stops and raises the same handset at the external source",
+      "foreground": "the edge of the washed vehicle",
+      "background": "Main Street Car Wash fascia, open bay and permanent Uptick unit",
+      "motivation": "start within the decision; the customer owns the frame",
+      "stops": [
+        "notice",
+        "act"
+      ],
+      "focus": [
+        8.871,
+        8.133
+      ],
+      "lenses": [
+        34.0,
+        34.0
+      ],
+      "heights": [
+        1.55,
+        1.55
+      ]
+    },
+    "sourceId": "car-wash",
+    "actionFrames": {
+      "stop": 24,
+      "notice": 32,
+      "handset": 40
+    },
+    "customerId": "illustrative-driver-001"
+  },
+  "sequence": false,
+  "step": 1,
+  "frameTimings": [
+    {
+      "frame": 48,
+      "seconds": 3.076
+    }
+  ]
+}

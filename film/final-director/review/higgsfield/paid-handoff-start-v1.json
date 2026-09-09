@@ -1,0 +1,20 @@
+{
+  "name": "paid-handoff-start-v1",
+  "id": "34e40754-8a08-4a7c-99e2-e4d5186a786a",
+  "requested": {
+    "model": "nano_banana_pro",
+    "resolution": "2k",
+    "aspect_ratio": "16:9",
+    "count": 1,
+    "medias": [
+      {
+        "role": "image",
+        "value": "0a0e4572-4c7d-4b0f-866f-b795955ce4e7"
+      }
+    ],
+    "prompt": "One single photographic live-action commercial film frame inside the SAME Joe's convenience store shown in the reference, not a collage. A warm human-scale 50mm two-shot at the wood checkout counter beside the coffee equipment. The SAME ordinary mid-30s customer is on screen LEFT in side/three-quarter profile: short textured dark brown hair, natural lightly stubbled face, navy cotton overshirt with the exact collar/shoulder seam construction from the reference, dark trousers, believable skin texture and relaxed expression. He faces a friendly female cashier in her late forties on screen RIGHT, natural face with smile lines, simple muted charcoal apron, no posed advertising grin. There is a compact contactless payment terminal on the counter between them. The customer's right hand holds an ordinary plain dark payment card five centimetres above the terminal, just before tapping; anatomically correct natural fingers. The cashier's hands rest behind a SMALL closed plain kraft breakfast bag on HER side of the counter, not yet given to the customer. A white-lidded brown paper coffee cup with the small round cream Joe's mark sits beside the bag. Customer's other hand is relaxed, no products in it. Preserve the warm wood counter, real coffee brewer, mundane stocked shelves and warm ceiling practical lights from the reference. Cashier and customer share a small knowing smile as people who have met before. Beautiful controlled practical commercial lighting, warm highlights and cooler soft fill, shallow but useful depth of field so hands and faces remain legible, photographic skin and fabric, no plastic render. No printed price, UI overlay, illegible receipt, floating objects or giant branding. This is the moment immediately BEFORE payment and product handoff on a return visit."
+  },
+  "estimatedCredits": 2,
+  "status": "CREATIVE TEST — NOT LOCKED",
+  "resultValidation": "Pending file inspection and recorded checksum"
+}

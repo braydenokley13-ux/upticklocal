@@ -1,0 +1,49 @@
+{
+  "shot": "neighborhood",
+  "frame": 84,
+  "frames": null,
+  "width": 640,
+  "height": 360,
+  "fps": 24,
+  "samples": 8,
+  "device": "CPU",
+  "seconds": 5.592,
+  "camera": {
+    "spec": {
+      "family": "block",
+      "lens": 40.0,
+      "fstop": 5.6,
+      "height": 17.0,
+      "subject": "the station is one destination in a larger inhabited neighborhood",
+      "foreground": "warm windows and canopy",
+      "background": "the continuous street and surrounding local businesses",
+      "motivation": "expand the scale only after the returning customer has earned the payoff",
+      "stops": [
+        "the destination",
+        "the surrounding neighborhood"
+      ],
+      "focus": [
+        35.16,
+        58.189
+      ],
+      "lenses": [
+        40.0,
+        40.0
+      ],
+      "heights": [
+        5.5,
+        17.0
+      ]
+    },
+    "illustrative": true,
+    "notLiteralCustomerCount": true
+  },
+  "sequence": false,
+  "step": 1,
+  "frameTimings": [
+    {
+      "frame": 84,
+      "seconds": 5.08
+    }
+  ]
+}

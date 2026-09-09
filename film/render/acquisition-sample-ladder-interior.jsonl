@@ -1,0 +1,3 @@
+{"shot": "first", "samples": 64, "first": 20, "count": 5, "seconds": [265.65, 256.06, 254.41, 252.34, 253.15], "meanSeconds": 256.32}
+{"shot": "first", "samples": 24, "first": 20, "count": 5, "seconds": [123.41, 120.87, 122.3, 122.34, 122.56], "meanSeconds": 122.3}
+{"shot": "first", "samples": 16, "first": 20, "count": 5, "seconds": [88.31, 86.97, 86.46, 87.11, 86.55], "meanSeconds": 87.08}

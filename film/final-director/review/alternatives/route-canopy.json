@@ -1,0 +1,48 @@
+{
+  "shot": "route-canopy",
+  "frame": 12,
+  "frames": null,
+  "width": 640,
+  "height": 360,
+  "fps": 24,
+  "samples": 8,
+  "device": "CPU",
+  "seconds": 8.442,
+  "camera": {
+    "spec": {
+      "family": "street",
+      "lens": 65.0,
+      "fstop": 4.0,
+      "height": 1.35,
+      "subject": "Joe\u2019s canopy resolves the local journey",
+      "foreground": "moving car window edge",
+      "background": "destination name and canopy lights",
+      "motivation": "the diagonal road line resolves as destination architecture",
+      "stops": [
+        "f0",
+        "f23"
+      ],
+      "focus": [
+        17.106,
+        15.021
+      ],
+      "lenses": [
+        65.0,
+        65.0
+      ],
+      "heights": [
+        1.35,
+        1.35
+      ]
+    },
+    "treatment": "canopy"
+  },
+  "sequence": false,
+  "step": 1,
+  "frameTimings": [
+    {
+      "frame": 12,
+      "seconds": 6.211
+    }
+  ]
+}

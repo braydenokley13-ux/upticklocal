@@ -1,0 +1,46 @@
+{
+  "shot": "network",
+  "frame": 20,
+  "width": 640,
+  "height": 360,
+  "samples": 8,
+  "device": "METAL",
+  "seconds": 13.839,
+  "camera": {
+    "spec": {
+      "family": "block",
+      "lens": 40.0,
+      "fstop": 8.0,
+      "height": 38.0,
+      "subject": "Joe\u2019s and the Main Street businesses around it",
+      "foreground": "the canopy and near street lamps",
+      "background": "the continuous local street",
+      "motivation": "expand from the customer destination to the district around it",
+      "stops": [
+        "Joe\u2019s destination",
+        "the local district"
+      ],
+      "focus": [
+        42.344,
+        79.656
+      ],
+      "lenses": [
+        40.0,
+        40.0
+      ],
+      "heights": [
+        12.0,
+        38.0
+      ]
+    },
+    "gateAOnly": true
+  },
+  "sequence": false,
+  "step": 1,
+  "frameTimings": [
+    {
+      "frame": 20,
+      "seconds": 13.183
+    }
+  ]
+}

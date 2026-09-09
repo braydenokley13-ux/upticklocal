@@ -1,0 +1,49 @@
+{
+  "shot": "paid",
+  "frame": 80,
+  "width": 640,
+  "height": 360,
+  "fps": 24,
+  "samples": 8,
+  "device": "METAL",
+  "seconds": 41.385,
+  "camera": {
+    "spec": {
+      "family": "device",
+      "lens": 75.0,
+      "fstop": 8.0,
+      "height": 1.6,
+      "subject": "paid: the customer\u2019s choice on the same handset",
+      "foreground": "the edge of the acquired coffee, and breakfast on the paid return",
+      "background": "Joe\u2019s physical counter surface",
+      "motivation": "keep the visit object in frame as its relationship state changes",
+      "stops": [
+        "shared counter axis",
+        "shared counter axis"
+      ],
+      "focus": [
+        0.624,
+        0.624
+      ],
+      "lenses": [
+        75.0,
+        75.0
+      ],
+      "heights": [
+        1.6,
+        1.6
+      ]
+    },
+    "state": "paid",
+    "sourceId": "car-wash",
+    "permissionFrame": null
+  },
+  "sequence": false,
+  "step": 1,
+  "frameTimings": [
+    {
+      "frame": 80,
+      "seconds": 37.759
+    }
+  ]
+}

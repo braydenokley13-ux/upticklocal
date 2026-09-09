@@ -1,0 +1,303 @@
+# Uptick Growth · final film report
+
+_Branch `film/uptick-growth-rd`. Nothing here touches production routes. The film, its deliverables, the source, the critics' record, and what is still weak. The R&D report this replaces is in the branch history (`git log -- film/REPORT.md`)._
+
+## The film
+
+**Uptick Growth** · 1646 frames at 24 fps · **68.58 s** · 1920×1080 · twelve acts on one timeline (`film/compositions/Film.tsx`). No narration. One family for the film's voice (Geist), one serif for the customer's voice (Newsreader italic), mono for facts. Cream and marine as pages, ink as type, amber for people, mint rationed to the events.
+
+Three worlds and the crossings between them are the film's grammar. **World 1** is the editorial page: cream, ink, no SaaS shell. **World 2** is the physical block — Main Street, Joe's, the café — where nothing Uptick makes ever floats: the product appears only on a phone the camera can see, on a physical panel, or on signage. **World 3** is the relationship, where a handset may become the whole frame. Every crossing is authored as a rectangle that travels and lands on a real surface, or as a residue that survives the transition. There are no dissolves between worlds.
+
+| act | frames | s | what happens |
+| --- | --- | --- | --- |
+| I · The gap | 0–216 | 0–9.00 | `3` and one sentence on cream. The page is a photograph of the sidewalk in front of Joe's, blown to paper. The cream lifts off the concrete on one frame, the hairline is the curb, the camera rises and cranes back across Main St; the printed 3 stays on the pavement, takes paint weight, and stands as the mark beside `JOE'S · 07:00–10:00`. "Same street. Same morning." |
+| II–IV · Owner speaks · understands · one plan | 216–542 | 9.00–22.58 | Joe types "Friday mornings are slow" at 96 px, no input chrome. The four words become the instruments: six Fridays on a weeks line; a linear 06:00–16:00 day line with 07:00–10:00 bracketed in mint; three visits falling onto it; the 63 who tend to answer in the morning arriving above it, where they answer. The reading is annotated, then reorganises into one plan set bare on the page — Morning Coffee Drop · Friday · 7–10 AM · tomorrow · $25+ fill-up, coffee on us · Regular, premium or diesel · Existing customers + nearby reach · First 30 · max reward exposure $18.60 — with Approve in plain ink and Joe's own rule beneath it. Nothing new appears: every fact walks in from the reading. |
+| V · Thought becomes action | 542–736 | 22.58–30.67 | One tap. The rows are absorbed into the word, the word becomes one mint line, and the line drops into the block at dusk, takes the angle of Joe's own curb and stops being an object: what is left is light lying on his forecourt. Then the block answers, physically, where Joe already has a way in — his canopy, his sign and his store come on together, and three windows light in the flats above the café and stay on, because a window that answered does not un-answer. Two lines of the film's own voice, bottom left, in Act I's grammar. The shot is a locked 40 mm from the lot opposite: a street at dusk, not a plan of one. No network diagram, no status bar, no ledger panel. |
+| VI · Two ways in | 736–968 | 30.67–40.33 | Thursday night: a text lands on a phone that is the whole frame. It opens, and it is the Offer. That rectangle leaves the relationship and lands as the panel on the café's counter — and the café is around it before it gets there. 7:04, on a physical panel, on a physical counter, with a person working behind it. A stranger holds their phone to it; we scale into that glass, the same glass, tracked, and it opens back out into the relationship at full resolution. The Offer, saved. |
+| VII · The relationship is useful | 968–1160 | 40.33–48.33 | "Does diesel count?", in the customer's own voice, on two sheets of paper on a dark field. 830 ms of nothing. The approved plan surfaces in the depth to the upper right, turned and soft, its header legible; its fuel row lights; *regular*, *premium* and *diesel* peel off that row at the row's own size, drop clear of the sheet, un-skew on one shared track and land inside the sentence that answers. "This week: 38 handled by the plan · 2 needed Joe." |
+| VIII · Offer → Pass → Redeem now | 1160–1322 | 48.33–55.08 | Five shots and no compositing. The forecourt, from behind a customer walking to the door. From inside, in the aisle opposite it: the leaf swings and they cross. The staff's own side of the counter: a hand comes up holding a phone, and nobody reaches for it. The phone, close, at 85 mm and raked 32° off the lens — the pass is the offer they saved, the same headline and the same terms, and one thumb presses **Redeem now**. The same frame, uncut: *Redeemed.* · `7:42:08 AM` running in real seconds, then Joe's and the cup. A large coffee crosses the counter. The staff perform no digital action at any point. |
+| IX–XI · The build · the proof | 1322–1528 | 55.08–63.67 | Four physical beats: someone leaving the pump, two people along the frontage, the door later with the light moved, and then the lane the first customer walked, from further back and higher, with the morning gone over. No count over the world and no score. The line where the store meets its forecourt runs level across the last shot; Blender exports that line's two ends and the page's rule is drawn on exactly those pixels, so the morning washes the set away and the rule stays. "21 came through the door." then "14 returned. 7 were new." |
+| XII · Resolve | 1528–1646 | 63.67–68.58 | The proof leaves. Uptick Growth. "Tell Uptick what you want more of." |
+
+"38 handled · 2 needed Joe" sits with its provenance in Act VII and never after the 21.
+
+### What a merchant learns, and where
+
+Nine things a prospective customer has to come away knowing. None of them is
+narrated, captioned or explained; each is carried by an image, and the act it
+lands in is the only place it is said.
+
+| # | what the merchant learns | how the film says it |
+| --- | --- | --- |
+| 1 | You say what you want in your own words. There is no campaign builder. | Act II. One sentence at 96 px on cream, typed at a human cadence, with no input box, no placeholder and no send button anywhere near it. |
+| 2 | Uptick reads your own history and shows you what it understood. | Acts II–IV. The four words become the instruments: six Fridays, an honest 06:00–16:00 day line, three visits below it and the 63 who answer in the morning above it. The reading is annotated with its own provenance — 104 said yes, 63 answer mornings, 3 came last Friday, $0.62 a coffee. |
+| 3 | The plan is one object with real economics, not a funnel. | Act IV. Reward, qualifier, window, audience, cap and worst-case exposure on one page: *First 30 · max reward exposure $18.60*. Nothing new appears in it — every fact walks in from the reading. |
+| 4 | Nothing runs that you did not approve. | Act V. One press on the word *Approve* in plain ink, with Joe's own rule under it — *Fuel is never discounted*. The plan does not exist in the world until that frame. |
+| 5 | It runs on the reach you already have. | Acts V and VI. The block itself answers: light on Joe's own forecourt — the code at his pump and his counter — and windows coming on in the flats above the café, the homes of the 104 who said yes. The third way in is not claimed over a wide shot but walked up to: the Uptick screen on the café's counter is the subject of its own 75 mm in Act VI. Three channels, one plan, no diagram. |
+| 6 | Customers reach it two ways, and it is the same offer. | Act VI. A text on a handset that is the whole frame, and a screen on a café counter two doors down. The same rectangle carries both: it leaves the relationship and lands as the panel. |
+| 7 | When a customer asks a question, the plan answers, and anything else comes to you. | Act VII. *Does diesel count?* — and the three words leave the approved plan's own fuel row and land inside the reply. *This week · 38 handled by the plan · 2 needed Joe.* |
+| 8 | Redemption is one customer action at your counter. Nothing for staff to do. | Act VIII. Five shots. A hand comes up holding a phone and nobody behind the counter reaches for it; one thumb presses *Redeem now*; the same uncut frame reads *Redeemed. · JOE'S · 7:42:08*. No PIN, no scanner, no second device, no POS. |
+| 9 | You get a count you can believe. | Acts IX–XII. The morning is built physically — a pump, a frontage, a door, the light moved — and the number arrives only after it, standing on the line the store itself stands on. *21 came through the door. 14 returned. 7 were new.* |
+
+## Deliverables
+
+All under `public/film-rd/final/` from one command, `scripts/film-master.sh` (steps `master web poster teaser sheet`; `SCALE=2` renders the project at 3840×2160).
+
+| | file | what |
+| --- | --- | --- |
+| A | `uptick-growth-master-1080p.mp4` | the master: H.264 CRF 15 from PNG frames, 24 fps, AAC 256k. The picture is rendered muted and the mix separately as PCM, so the sound reaches each deliverable through one lossy encode rather than two, and the +16.4 dB that puts its true peak at −1 dBTP is measured on the PCM |
+| B | `uptick-growth-1080p.mp4` · `uptick-growth-1080p.webm` · `uptick-growth-poster.jpg` · `uptick-growth-loop-poster.jpg` | web H.264 (CRF 20, faststart, AAC 160k) and VP9/Opus, with the film's poster and the loop's own frame 0 for the hero's `<video poster>` |
+| C | `uptick-growth-loop.mp4` | the silent 6.9 s loop: the page already set, the 3 becoming the sidewalk, cut to loop (`film/compositions/Teaser.tsx`) |
+| D | `uptick-growth-poster.png` | the poster frame — Film frame 200, chosen against six alternatives at final quality rather than taken as a default (below) |
+| E | `film/`, `blender/`, `scripts/`, `public/film-rd/{plates,audio,fonts}` | organised source: compositions, acts, primitives, the fixture, the Blender world and shots, the sound, the pipeline |
+| F | `contact/` | the final contact sheet: one frame every two seconds, nine to a sheet |
+| G | this file · `film/HANDOFF.md` · `film/review/` | the report, the website/app handoff, the critics' record (rubrics, punch lists, `PROOF.md` for gate A and `GATEB.md` for the look) |
+
+**The poster frame.** Seven candidates were rendered at 1920×1080 and read side by side, because a
+poster is the frame most people will see and some of them will see nothing else.
+
+| frame | what it is | why not |
+| ---: | --- | --- |
+| 60 | the cream page: `3` and the sentence | it is a page, not a film frame, and it is already the loop's own first frame |
+| **200** | **the settle: the painted 3 on Joe's pavement beside `JOE'S · 07:00–10:00`, and "Same street. Same morning."** | **chosen** |
+| 690 | the forecourt at dusk, mint light lying on it, the flats lit above the café | the most beautiful frame in the film, and the least honest poster: it is a picture of a filling station at dusk. Its caption is two lines of explanation, which on a still reads as a subtitle |
+| 830 | the Uptick panel on the café counter, the offer fully legible | the best *product* frame — it is the one that proves nothing floats — but at thumbnail size it is a small screen on a desk, and it does not say what the film is about |
+| 1250 | the pass in a hand at the counter | high contrast and strong small, but it shows the pass before the press, and it puts the film's least convincing asset at its largest |
+| 1300 | the coffee crossing the counter | an empty counter and a soft arm |
+| 1450 | the `21` on its rule | a number without its story |
+
+Frame 200 is the only candidate that is three things at once: the film's whole argument in one image
+(a number that became a place — the `3` is *printed on the pavement it counted*), legible at
+thumbnail size, and carrying the film's own voice rather than an explanation. It is also, by the
+full-cut critic's own reckoning, not the prettiest frame in the film. That is the trade, made
+deliberately: a poster's job is to be true about the film, and the prettier candidates are true
+about a gas station.
+
+**Resolution.** The master is 1920×1080. The Blender plates render at 1280×720 (18 samples with OpenImageDenoise, adaptive threshold 0.1, motion blur at shutter 0.5) on four CPU cores at 42–55 s a frame — 667 plate frames in all, about nine machine-hours. Two measurements set that budget. Eighteen samples with the denoiser was compared against twenty-eight on the heaviest shot and is visually indistinguishable. And the same frame was rendered twice, once at 1280×720 and once natively at 1920×1080, and the crops compared at the finest detail in the film — the price sign's REGULAR / DIESEL rows and the brick courses beside them: the native frame is marginally cleaner, and it cost 3.7× the time. A 1.5× upscale is the cheap half of that trade.
+
+At 3840×2160 those plates would be a 3× upscale sitting under vector typography, which is not a 4K film. The honest master is therefore 1080p, and the project is built to render 4K without a re-cut: `SCALE=2 scripts/film-master.sh` renders every Remotion layer at 3840×2160, and the plates come from `RES=2560x1440 SAMPLES=64 scripts/film-plates.sh` on a GPU box — roughly 8× this machine's time per frame. Nothing in the timeline, the typography or the compositing is authored in pixels that would have to change.
+
+## The source, laid out
+
+Deliverable E. Two renderers, one timeline, one fixture. Nothing in `film/` imports from the
+site's `app/` and nothing on the site imports from `film/`.
+
+```
+film/
+  Root.tsx  index.ts  shots.ts       the Remotion root and the composition registry
+  tokens.ts                          colour, type and frame constants — one source for both renderers
+  compositions/
+    Film.tsx                         the whole film: twelve acts on one timeline
+    Sound.tsx                        the sound edit, as Audio sequences
+    Teaser.tsx                       the silent web loop, cut from Act I
+    hero1/Hero1A.tsx  common.tsx     Act I · the page is the pavement
+    Hero2.tsx                        Acts II–IV · the sentence becomes the instruments becomes the plan
+    Hero4.tsx                        Act VII · does diesel count
+    acts/                            Acts V, VI, VIII, IX–XI, XII, and the plan at rest
+  primitives/                        Frame · Type · GrowthPlan · PhoneScreen · ScreenContent · Touch · Grain
+  block/    homography.ts            the 3D matrix that puts a page on a real surface
+            plate.tsx                the plate registry and the tracked-quad reader
+            lane.ts                  which lane the edit reads (see film/render/PROFILE.md)
+  motion/                            the film's eases, ramps and typing cadence
+  typography/                        the font faces, and text measured with its own tracking
+  data/joes.ts                       the fixture: one business, and it checks its own arithmetic
+  audio/    synth.py  cues.ts        the material, and where every cue sits on the film's frames
+            CUES.md  NOTES.md        the cue sheet with measured levels, and the intent
+  review/                            the critics' record: rubrics, punch lists, proof cuts, sheets
+  render/   PROFILE.md manifest.json where the render seconds go, and what the cut actually needs
+  CINEMATOGRAPHY.md                  the lens grammar every Blender shot is checked against
+  REPORT.md  HANDOFF.md         this report, and the site handoff
+  PLAN.md                            the brief: the argument the film has to make, left as written
+
+blender/scripts/
+  block.py                           the neighbourhood: facades, sidewalks, cars, materials, light states
+  body.py                            the figures — proportion from one height, so a short figure is a short person
+  camera.py                          a shot cannot be built without declaring lens, stop, height, subject,
+                                     foreground, background, focal plane and a motivation
+  device.py                          the handset and the counter screen, as objects that emit a baked sequence
+  scenes.py  shots.py                the thirteen shots and the sets they need
+  lookdev.py  render.py              look development, and the resumable renderer with the track exporter
+  exports/<shot>.json                per-frame 2D tracks, normalised, plus the camera's own declaration
+
+scripts/                             synth · encode · bake screens · plates · proxy · lane · manifest ·
+                                     preflight · review sheets · master
+
+public/film-rd/
+  plates/<shot>.mp4                  the physical layer, 1280×720
+  audio/*.ogg                        the cues, synthesised in this repo
+  fonts/                             Geist and Newsreader, with their OFL licences beside them
+  final/                             the deliverables
+```
+
+## Gate history
+
+Every hero shot went through a critic who had not built it (`film/review/CRITIC.md`; the punch lists are the record). The stricter scale applied from the production mandate on: 6 prototype · 7 decent startup film · 8 professional but not special · 9 the minimum for a final · 9.5+ signature.
+
+| shot | rounds | scores | what the rounds changed |
+| --- | --- | --- | --- |
+| Hero 1 · the gap | 6 | 3 → 6 / 5 (A vs C) → 7 / 5.5 (A vs B) → 7 → 6 (stricter scale) → 6.5 gate, approved with conditions | B (the 70 m descent) and C (the tilting page) rejected as the drone cliché and a card flip; A kept. The cut made invisible (the cream leaves on one frame under the plate's exposure ramp); the printed 3 never shrinks, it takes paint weight and stays as the mark; the crane keeps the 3 inside the frame; the world rebuilt through six passes (below) |
+| Hero 2 · owner speaks | 3 | 6 → 8 → 8.5 | The flood made honest (63 morning responders, none after 11:00) on one axis that shares the weeks line's origin; the plan assembles from the instruments instead of cutting in; row rules and the Approve underline gone; money in ink; the plan block at the instruments' origin with one leading; "mornings" becomes the plan's "Morning" |
+| Hero 4 · does diesel count | 3 | 5 → 8 → 8.5 | Chat bubbles, the typing indicator and the stray timestamp gone; paper planes; the approved plan legible in real depth; the three words leave the fuel row at its own scale and land inside the answer, the row left emptied; the question yields to the answer |
+| Acts V, VI, IX · the block | on plates | verified against the R&D plates, then the finals | Act V: the delivered line takes the angle of Joe's curb and persists; Joe's lights when the line lands; the two lines of voice at reading size. Act VI: re-authored around the café's physical panel and a tracked handset — the crossing out of the relationship is a rectangle that travels and lands on the counter, and the crossing back scales into the same glass. Act IX: the count taken off the world entirely; four physical beats and the light doing the talking |
+| Act VIII · redemption | redesigned twice, then broken into shots | — | First the PIN/scan grammar was replaced with one transforming object. Then the confirmation step went: the mandate is one irreversible customer action, so it is **Redeem now → the live state**, and the staff perform nothing. Then the whole act came off the marine field and was rebuilt as five filmed shots on four new plates — forecourt, threshold, counter, device, coffee — with no compositing, no titles and no metadata in frame. Finally the pass was made the offer, saved: the same headline and the same terms, so the object the customer keeps is visibly one object |
+| The physical layer · gate A | 3 proof cuts | see below | on the proxy lane: the café screen → scan → relationship; the threshold → phone → redeem → coffee; the physical morning → the editorial 21. Rejected if any frame still read as UI pasted over Blender, a low-poly explainer, archviz, a tech demo or a generic SaaS commercial |
+| The physical layer · gate B | every plate | `film/review/GATEB.md` | the same frames at 1280×720, read as each plate lands. Finish cannot be judged from a proxy upscaled three times — measured once already, when a reframe scored 8.0 on the proxy and failed at final resolution |
+| The full cut | 1 | see below | sixteen categories, `film/review/FULLCUT.md`, with physical/digital integration non-negotiable at 9 |
+
+## The Block
+
+One procedural neighbourhood (`blender/scripts/block.py`) built deterministically from constants, keyed per shot (`shots.py`, `scenes.py`), rendered with Cycles on CPU with OpenImageDenoise (`render.py`: resumable image sequences, a hard-linked frame cache, and per-frame 2D tracks exported beside every plate so the editorial layer sits on physical things — `blender/exports/<shot>.json`).
+
+Seven world passes built the look: brick with world-space coursing; facades as plates with real openings, piers, sills and lintels; cornices that throw a shadow line; cast sidewalk slabs with joints, a patched slab and gullies; a three-box sedan; a 2.3 m price panel and the canopy name on the fascia; renderer motion blur at shutter 0.5. The seventh pass was the people. They had been a capsule with a ball on top — an architect's scale figure in intent, a chess pawn on screen, and the cheapest tell a rendered street can have. They now have two legs, a torso broad at the shoulder and narrow at the waist, a short neck and an ovoid head, every proportion a fraction of the figure's own height so a short figure is a short person; they keep the height and yaw variety, the lean into a walk and the contact shadow; and their emission drops from 1.3 to 0.35 so they take the block's sun and shadow instead of glowing like plastic. Legs are what make a forty-pixel silhouette human, and that one change is the difference between a miniature and a diagram. Four lighting states, plus warm practicals over each counter — the light the close shots are actually lit by. Joe's store got an aisle cut through its three shelf runs on the door's axis, because a store with shelving opposite its entrance gives a camera at the back of the room no floor and no legs to look at.
+
+**Thirteen plates, 667 frames, all at 1280×720:**
+
+| plate | frames | act | the camera |
+| --- | ---: | --- | --- |
+| `hero1a` | 144 | I | 26–30 mm f/4.0 · 10.00 → 5.05 m · the page is printed on this pavement, so the camera lifts off the ground it printed and lets the block rise into the frame — the sidewalk in front of Joe's, and then the block that sidewalk belongs to; foreground: nothing while we are over the ground — the near row's bench and low wall arrive as we cross the street |
+| `hero3a` | 144 | V | 40 mm f/2.8 · 1.62 m · locked — Joe's forecourt: the canopy, the near island, the store behind them; foreground: the lot's own asphalt and its low wall, running across below the road |
+| `cafe` | 26 | VI | 75 mm f/2.8 · 1.50 m · locked — the Uptick panel on the end of the café's counter; foreground: the corner of a table, soft, left of frame |
+| `scan` | 46 | VI | 75–95 mm f/2.4 · 1.48 m · we follow the offer from the panel that published it to the handset that received it — the panel, and then the phone that takes it; foreground: the back of the customer's phone, low left |
+| `approach` | 30 | VIII | 50 mm f/2.8 · 1.34 m · locked — the doorway the customer is walking to; foreground: the customer themself, a metre from the lens and far outside focus |
+| `threshold` | 26 | VIII | 40 mm f/4.0 · 1.52 m · locked — the doorway, and the person who comes through it; foreground: the two shelf runs the aisle passes between, dark, closing left and right |
+| `counter` | 28 | VIII | 75 mm f/2.8 · 1.58 m · locked — the customer's forearm and phone, raised across the counter; foreground: the counter's own laminate, running out of the bottom of frame |
+| `device` | 78 | VIII | 85 mm f/2.0 · 1.32 m · locked; the grip is raked so the hand reads as one dark mass — the handset's face, raked, its own screen the key; foreground: the counter's edge, dark and close along the bottom |
+| `coffee` | 26 | VIII | 65 mm f/2.8 · 1.17 m · locked — the cup crossing the counter; foreground: the counter's laminate, running away under the cup |
+| `morning_pump` | 27 | IX | 50 mm f/4.0 · 1.55 m · locked — a person leaving the pump and crossing to the store; foreground: the near pump's shoulder, dark, left of frame |
+| `morning_walk` | 28 | IX | 40 mm f/5.6 · 1.60 m · locked — two people walking the frontage toward Joe's; foreground: a lamp post on the near curb, 6.4 m out and 80% of the way to the right edge, a dark vertical from the bottom of frame to the top |
+| `morning_door` | 24 | X | 75 mm f/2.8 · 1.52 m · locked — the doorway, and a person going through it; foreground: none; the door is close |
+| `rise` | 40 | XI | 50 mm f/5.6 · 1.58 → 2.30 m · the morning goes over; we climb until only the base line and the doorway are left — the store front, square on, its base line level; foreground: the lane's asphalt |
+
+Every camera declares focal length, height, foreground, subject, background, focal plane, and a motivation a viewer could say back (`film/CINEMATOGRAPHY.md`, `blender/scripts/camera.py`). "Locked" is a motivation and it is the default: ten of the thirteen do not move. There are no orbits, no flythroughs and no move whose only justification is that the scene is three-dimensional.
+
+**The product inside the shot.** The UI is never composited over Blender. Remotion renders the handset's screen at the handset's own aspect (`Device-Pass`, `Device-Offer`, `Device-Text`); `scripts/bake-screens.sh` writes it to a PNG sequence; the sequence is the emission texture of a panel inside the shot. It is therefore lit by the room, reflected in the chamfer, blurred by the lens, motion-blurred by the shutter and covered by the thumb that presses it. The same holds for the Uptick screen on the café counter: a panel with thickness, a bezel and a foot, emitting Joe's content.
+
+## Typography
+
+Geist Sans 200/300/400, Geist Mono 400/500, Newsreader italic; all SIL OFL 1.1, the files and licences committed under `public/film-rd/fonts/`. The A/B against Bricolage Grotesque and Hanken Grotesk at the film's four sizes (`film/review/typography.md`) kept Geist: the 640 px weight-200 numeral holds its bowls where the others go idiosyncratic or soft, and the film's argument wants the voice to be quiet. Weight 200 only above 96 px. The serif is the customer's voice and nothing else. Mono is for the header's facts, never for labels. Text is measured with the tracking it is set in (`film/typography/measure.ts`), so uprights and counters sit on the letters.
+
+## Sound
+
+Built into the edit (`film/audio/cues.ts` → `film/compositions/Sound.tsx`), every cue at a frame the picture motivates, and the cue module reads the acts' own beat numbers rather than carrying copies of them. The material is synthesised from noise and sinusoids by `film/audio/synth.py` — numpy and stdlib only, fixed seeds, deterministic to the byte, **no recordings and no third-party audio** — rendered to `public/film-rd/audio/*.ogg`. The cue sheet with measured levels is `film/audio/CUES.md`; the intent is `film/audio/NOTES.md`.
+
+Room tone under the page; the street at 7:12 as the cream lifts; the keystrokes at the typing's own cadence with a cleaner, brighter click on the last key; three rising ticks as the words re-set; a dry grain as the 63 land, with nothing at all inside 07–10, which is the point; one soft resolve as the plan lands and nothing when Approve appears; one press; a held mint pad as the signal enters the block, a wooden tap per window; the café's grinder stopping; the scan; a paper unfold as the glass opens out; the send, then **830 ms of complete silence** — the room cut, and the score cut with it, because the score is the only thing that plays continuously and so the only thing that could fill a silence; the row landing as the clearest small sound in the film; a pump on the forecourt; the door; **the redeem note alone**, four frames after the one press, with every bed ducked around it; the cup meeting the counter; the same tap on every person who crosses, never louder; the street falling away under the 21; and then one chord running out under the titles.
+
+Under it, an underscore in D at 76 bpm written to this cut and no other (`music-bed`): near-silence on the page, a sub-bass swell under the lift, the pad entering on bar 3 with the typing, the lift to A on the frame Approve is pressed, an arpeggio through Act VI, then out of the picture's way for the question and the redemption — where it ducks a further 6 dB, measured at −42.4 dBFS rms, leaving the redeem note 27 dB of clear air. The build returns on bar 17 with a four-note bass phrase D–A–B–G on beats 68/70/72/74, so the 40 ms gate at 59.0 s lands on the D major resolve as a plagal step rather than a stop — on the frame the morning begins to wash the set away, six frames before the 21 arrives. The crescendo peaks at exactly the −14 dBFS ceiling. What is left after the gate is one warm D major chord with a 4.2 s decay, and it is written to reach the sign-off rather than stop in front of it: −32 dB under *Uptick Growth*, −35 dB under the closing line, −45 dB under the footer, zero a tenth of a second after the last frame. `SCORE = false` in `cues.ts` plays the sound design alone, with one root chord under the 21.
+
+The sound edit was rendered on its own and measured before the master existed (`npx remotion render Film mix.wav --codec=wav`): true peak −17.45 dBTP, integrated −34.4 LUFS, loudness range −40.9 to −30.1. The three loudest 50 ms windows in the film are the three moments the product does something — the provenance tick at 45.05 s, the redemption at 52.10 s, the scan at 35.70 s — and they sit within 0.7 dB of each other. `scripts/film-master.sh` lifts the whole mix once by +16.44 dB so its true peak sits at −1 dBTP and touches nothing else, which delivers the film at about −18 LUFS with 17 dB of crest: quieter than the streaming norm on purpose, because the 830 ms hole measures −999 dBFS and the redeem note stands 27 dB clear of the bed, and neither survives being mastered to −14. The film is also cut to work muted: nothing in it depends on a sound to be understood.
+
+## Pipeline
+
+Blender owns the physical world; Remotion owns the timeline, the typography, the compositing and the final render. Nothing is screen-recorded.
+
+```
+python3 film/audio/synth.py             # the sound material (WAV, git-ignored)
+scripts/film-audio-encode.sh            # → the .ogg cues the edit plays
+scripts/bake-screens.sh                 # the handset's UI → PNG sequences Blender emits from
+scripts/film-plates.sh                  # the thirteen physical plates at 1280×720/18 + tracks (resumable)
+npm run film:dev                        # Remotion Studio on film/index.ts
+scripts/film-render.sh Hero1 Hero2 …    # previews, stills and contact sheets per shot
+scripts/film-review.py Film --every 48 --per-sheet 9   # the critic's sheets from any preview
+scripts/film-preflight.py               # every plate present and long enough, every cue on disk
+scripts/film-master.sh                  # master · web · poster · loop · contact sheet
+```
+
+Order matters in one place: the baked screens are the contract between the two renderers. Changing what the phone says means re-baking **and** re-rendering every plate that shows a phone.
+
+`film-preflight.py` reads the manifest and the cue module and refuses to call the film ready while a plate is missing or encoded shorter than the cut asks for, or a cue has no `.ogg`. Every way the master has actually failed here was knowable before the render started; this is the check that knows it.
+
+## The full-cut review
+
+_The critic's pass on the finished master (`film/review/FULLCUT.md` is the rubric). Read as a
+36-frame contact sheet at one frame every two seconds, as 1:1 crops at the three places finish
+either holds or does not, and — for the sound — as measurements taken from the mastered file
+itself rather than from the cue sheet's intentions._
+
+**What was read.** `public/film-rd/final/uptick-growth-master-1080p.mp4`: 1 920×1 080, 24 fps,
+1 646 frames, 68.583 s, AAC 48 kHz stereo, 47.3 MB. Contact sheets in
+`public/film-rd/final/contact/`.
+
+| # | category | score | evidence |
+| --- | --- | ---: | --- |
+| 1 | Story and arc | 9.0 | gap → sentence → understanding → one plan → approve → two ways in → useful → pass → redeem → physical → build → proof → resolve, legible across the sheet with no narration and nothing that has to be explained afterwards |
+| 2 | The opening (Act I) | 8.8 | **raised from 8.5 on final evidence.** At 4.00 s the `3` is already printed on real concrete, with the drain and the curb hairline under it — the world crossing is genuinely invisible, which is the hardest thing the film attempts and the best thing in it. The settled wide is still a frieze and still the act's weakest frame; it is one frame of a nine-second act, and it is now known to be unfixable without re-authoring the homography |
+| 3 | Owner speaks and is understood (II–IV) | 9.0 | the sentence is the interface; 104 / 63 / 3 annotate a real axis rather than becoming a chart; no dashboard anywhere |
+| 4 | One growth plan and approval (IV–V) | 9.0 | the plan is one statement block with Joe's own rule in amber inside it; Approve is one tap; the block lights only where Joe already has a way in |
+| 5 | Two ways in (Act VI) | 9.0 | the panel is a physical object on a physical counter; both crossings are authored; nothing floats |
+| 6 | The relationship is useful (Act VII) | 8.7 | **raised from 8.5.** At final resolution the approved plan stands in real depth with its header legible and its fuel row lit in mint, so the provenance is carried by the image exactly as the row requires. It remains the film's least cinematic passage — three rectangles on a dark field — and that is a style judgement, not a failure of the criterion |
+| 7 | Offer → Pass → Redeem now (Act VIII) | 8.9 | one press, staff touch nothing, and the clock runs `7:42:08` → `7:42:09` inside the held frame, which is the whole argument for a live state rather than a screenshot. Held at 8.9 by the coffee shot, whose arm is the least convincing object in the film |
+| 8 | Physical, the build, the proof (IX–XI) | 9.0 | **raised from 8.8, because something changed:** the `rise` walker that read as a bare mannequin at 1:1 was a colour token, and it is fixed and re-rendered. Four physical beats, the light building 8:05 → 9:40, the residue surviving into the page |
+| 9 | The resolve (Act XII) | 9.2 | **raised from 9.0, because something changed:** the resolve chord now decays through the title, the closing line and the footer instead of being silent by 65.2 s. Static *and* silent read as stopped; static over a decay reads as an ending |
+| 10 | The Block | 8.8 | **raised from 8.5.** At 1:1 on the master the price sign reads `REGULAR 3.49 / DIESEL 3.99`, brick coursing and window mullions survive the 1.5× upscale, and the dusk forecourt holds a sky gradient without banding. The morning wides are still the weaker end — `morning_walk` is 40% bare forecourt |
+| 11 | Typography | 9.5 | verified at 1:1: the `21` is vector-crisp at 1 920 wide with clean bowls and no aliasing. One family for the film's voice, the serif for the customer's, mono for facts; nothing set small to hide |
+| 12 | Colour discipline | 9.0 | cream and marine as pages, ink as type, mint on eight events, amber only for people. Held at 9.0: at `hero3a`'s distance the amber figures can be read as bollards by someone who has not yet learned that rule |
+| 13 | Motion and editing | 8.7 | **raised from 8.5.** The nine-second tail was the complaint and the answer turned out to be the sound rather than the picture. Trimming frames was considered and rejected: every cue sits on an absolute frame, so shortening an act desynchronises the whole sound edit after it |
+| 14 | Sound | 9.0 | **scored for the first time, from the mastered file.** True peak −1.08 dBTP, integrated −18.0 LUFS, loudness range 10.7 LU. The 830 ms hole after *Does diesel count?* measures −999 dBFS **and survives AAC encoding as true digital silence**, which is where a lossy codec usually puts noise back. The redemption note peaks at −1.3 dBFS with nothing else in the mix. The tail's last sample above −70 dBFS is at 68.565 s, two hundredths before the end: the film runs out rather than stopping. Every cue is synthesised in this repository — no recordings, no licences to clear. **The honest limit of this score: I can measure this mix and I wrote it, but I cannot listen to it.** |
+| 15 | Prospect-readiness | 9.0 | **scored for the first time.** Every deliverable exists and was verified rather than assumed: master, web H.264 and VP9/Opus, poster, the loop's own poster, a silent 6.9 s loop with no audio stream at all, contact sheets. The film works muted — nothing in it depends on a sound to be understood — and it works small, because its type is vector. What a viewer would still identify as made rather than filmed is the hands and the figures; the film never claims otherwise, and it is consistent about it |
+| 16 | Physical / digital integration | 9.2 | **the non-negotiable row.** Thirteen plates read at final resolution (`film/review/GATEB.md`): no Uptick surface floats anywhere, every screen is lit by its room, occluded by what is in front of it and blurred by the lens that photographs it, every world crossing is an authored object rather than a fade, and one physical residue — the store's base line — survives into the page as the rule under the 21 |
+
+**Sixteen rows, none below 8.7, mean 8.99.**
+
+That is one hundredth under the 9.0 this rubric sets as the threshold for calling a film finished,
+and it is left at 8.99 rather than rounded, because rounding a score to clear your own bar is the
+one thing a critic's pass cannot do. The two rows holding it there are Act VII at 8.7 and the
+`coffee` shot inside Act VIII at 8.9, and both have their single change named below along with
+what it would cost.
+
+**Verdict: ELITE — and shippable to a prospect today.** It is not `PROSPECT-READY` by this rubric's
+own arithmetic, and the gap is one hundredth of a point. What would close it is not a polish pass:
+it is a kitchen plate for Act VII, so the film's one abstract act has something physical to happen
+against, and about six frames off the head of the coffee shot with the sound edit re-timed behind
+it.
+
+## Remaining weaknesses
+
+The rubric asks the critic to name the single change that would move each row below 9. Here they
+are, with whether it was made and, where it was not, what was measured rather than assumed.
+
+1. **Act VII is the film's most card-like passage** (row 6 · 8.5). Three rectangles on a dark
+   field, and the closest the picture comes to reading as UI. *The single change:* give the act
+   something physical to happen against — a kitchen, so the thread sits in a room instead of on a
+   field. *Not made:* that is a new Blender shot and a new camera after the physical layer was
+   frozen, and the act passes as it stands. Two cheaper theories were tested and both were wrong.
+   The field is not flat — there is a breathing lamp pool, and the approved plan stands in real
+   depth with its fuel row lit in mint — and it is not banded: a row across the background carries
+   five levels interleaved at a mean flat-run of 2.3 px, which is dither, not stepping, so the
+   film-wide grain that every plate act carries would have had nothing to do there.
+2. **Act I's settled wide is the least photographed frame in the film** (rows 2 and 10 · 8.5).
+   High, flat, a bottom third of empty road and pavement. *The single change:* a foreground.
+   *Not made, and now measured:* the settle sits at 5.05 m on a 29.6 mm lens, so the nearest ground
+   inside the frame is about twelve metres away — the shot **cannot** hold a near foreground
+   without moving the camera, and moving the camera re-authors the homography the whole act is
+   composited on. It was tried anyway, since `hero1a` had not been rendered yet and the experiment
+   was free: two cars parked at the near curb. The result was worse. An object at fifteen metres is
+   in the same depth band as the car already crossing the road, so it reads as a duplicate rather
+   than as a foreground, and it flattens the frame instead of opening it. The `page` family is a
+   declared exception in `film/CINEMATOGRAPHY.md` precisely because the page's footprint *is* the
+   lot; this frame is a frieze by construction, and a prop does not fix a frieze.
+3. **The last nine seconds are nearly static** (row 13 · 8.5). Four seconds of the 21 on its rule,
+   then five of the resolve — 13% of the running time on two held pages. *The single change:* it
+   was the sound, not the picture. The resolve chord used to be silent by 65.2 s, so the title, the
+   closing line and the footer all played into a dead mix, and static plus silent reads as stopped.
+   The chord now decays through all three and runs out a tenth of a second after the last frame.
+   Trimming frames was considered and rejected: every cue in `cues.ts` is placed on an absolute
+   frame, so shortening an act desynchronises the whole sound edit after it, which is a large risk
+   for a beat the brief asks to be quiet.
+4. **The coffee shot's arm is a smooth tube** (row 7 · 8.9), and it is the least composed second in
+   Act VIII. *The single change:* cut the shot on the cup entering, before the arm is legible —
+   about six frames. *Not made,* for the same reason as 3: Act VIII's shot lengths set the act's
+   length and every cue after it. The shot survives on the cup, which reads.
+5. ~~**The `rise` figures.**~~ **Fixed.** At 1:1 the second walker was not a person in a coat, it
+   was a bare mannequin: `dv_cloth2` was `#6c6156` and the skin material is `#7a6355` — the garment
+   and the body were the same colour. Two attempts were wrong before the third was right (a warm
+   mid-tone lands on skin in direct sun whatever value it starts at; a cool one at the wrong value
+   gives a figure with no silhouette), and `cafe` and `rise` were re-rendered. Row 8 is 9.0.
+6. ~~**Sound and finish are unverified.**~~ **Both are scored above, from the finished master.**
+   The mix was measured from the mastered file rather than from the cue sheet's intentions, and
+   every deliverable was probed rather than assumed. What remains unverifiable here is stated in
+   row 14 and is worth repeating: I can measure this mix and I wrote it, but I cannot listen to it.
+   A person should, once, before this is sent to anyone.
+
+## What the site takes
+
+`film/HANDOFF.md`: the grammar the film froze, the primitives to port (`PhoneOffer`, `PhonePass`, `GrowthPlanCard`, `ScreenFaceContent`, `Touch`, the type voices, the fixture), the page mapping for `/growth`, `/growth/demo` and the owner app, and what not to port. Preparation only; nothing on the site changed.

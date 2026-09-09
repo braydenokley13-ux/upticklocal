@@ -1,0 +1,49 @@
+{
+  "shot": "pair-follow-first",
+  "frame": 36,
+  "frames": null,
+  "width": 640,
+  "height": 360,
+  "fps": 24,
+  "samples": 8,
+  "device": "CPU",
+  "seconds": 14.027,
+  "camera": {
+    "spec": {
+      "family": "human",
+      "lens": 40.0,
+      "fstop": 2.8,
+      "height": 1.53,
+      "subject": "the familiar shoulder takes us into Joe\u2019s",
+      "foreground": "soft shoulder and worn cotton",
+      "background": "coffee counter and store interior",
+      "motivation": "follow the customer through the same entrance on both days",
+      "stops": [
+        "f0",
+        "f71"
+      ],
+      "focus": [
+        5.889,
+        3.713
+      ],
+      "lenses": [
+        40.0,
+        40.0
+      ],
+      "heights": [
+        1.53,
+        1.53
+      ]
+    },
+    "treatment": "follow",
+    "friday": false
+  },
+  "sequence": false,
+  "step": 1,
+  "frameTimings": [
+    {
+      "frame": 36,
+      "seconds": 8.938
+    }
+  ]
+}

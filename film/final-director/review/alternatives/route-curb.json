@@ -1,0 +1,48 @@
+{
+  "shot": "route-curb",
+  "frame": 12,
+  "frames": null,
+  "width": 640,
+  "height": 360,
+  "fps": 24,
+  "samples": 8,
+  "device": "CPU",
+  "seconds": 6.696,
+  "camera": {
+    "spec": {
+      "family": "street",
+      "lens": 55.0,
+      "fstop": 2.8,
+      "height": 0.56,
+      "subject": "one curb and its changing tree shadow",
+      "foreground": "asphalt aggregate",
+      "background": "edge of the next block",
+      "motivation": "carry left-to-right movement through a match cut without exposing the whole car",
+      "stops": [
+        "f0",
+        "f23"
+      ],
+      "focus": [
+        3.334,
+        3.334
+      ],
+      "lenses": [
+        55.0,
+        55.0
+      ],
+      "heights": [
+        0.56,
+        0.56
+      ]
+    },
+    "treatment": "curb"
+  },
+  "sequence": false,
+  "step": 1,
+  "frameTimings": [
+    {
+      "frame": 12,
+      "seconds": 4.914
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "shot": "first",
+  "frame": 20,
+  "width": 640,
+  "height": 360,
+  "samples": 8,
+  "device": "METAL",
+  "seconds": 11.766,
+  "camera": {
+    "state": "morning",
+    "clock": "Tuesday \u00b7 8:17 AM",
+    "cross": 19,
+    "spec": {
+      "family": "block",
+      "lens": 40.0,
+      "fstop": 4.0,
+      "height": 1.52,
+      "subject": "the doorway, and the person who comes through it",
+      "foreground": "the two shelf runs the aisle passes between, dark, closing left and right",
+      "background": "the forecourt, two stops brighter than the room",
+      "motivation": "locked",
+      "stops": [
+        "in the aisle opposite the door",
+        "in the aisle opposite the door"
+      ],
+      "focus": [
+        4.539,
+        4.539
+      ],
+      "lenses": [
+        40.0,
+        40.0
+      ],
+      "heights": [
+        1.52,
+        1.52
+      ]
+    },
+    "customerId": "illustrative-driver-001"
+  },
+  "sequence": false,
+  "step": 1,
+  "frameTimings": [
+    {
+      "frame": 20,
+      "seconds": 10.916
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+# extracted review frames are rebuilt by scripts/film-review.py; only the sheets and the punch lists are kept
+frames/*/f*.png

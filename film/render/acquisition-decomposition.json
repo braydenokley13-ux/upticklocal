@@ -1,0 +1,339 @@
+{
+  "sourceHash": "6143683ef5bc2e2a7267f4e912cd6b119dfeae0dc7039f38ab9aea9cb10a85fa",
+  "note": "Measured over every frame, not sampled. \"still\" shots are proved again at render time before being held.",
+  "shots": [
+    {
+      "shot": "external",
+      "frames": 168,
+      "framesCompared": 168,
+      "cameraStatic": false,
+      "cameraMove": 3.0,
+      "lightingStatic": true,
+      "lightMove": 0.0,
+      "backgroundStatic": true,
+      "movingByRole": {
+        "human": [
+          "Bip01 Footsteps",
+          "acq_customer",
+          "acq_customer_handset",
+          "acq_customer_handset_face",
+          "acq_customer_rig",
+          "m002_hipoly_81_bones_opacity"
+        ]
+      },
+      "movingCount": 6,
+      "animatedMaterials": [],
+      "animatedScreenSequences": [],
+      "nothingMoves": false,
+      "freshCyclesFrames": 168,
+      "plan": "camera, lighting or set changes: full world per frame",
+      "still": false
+    },
+    {
+      "shot": "pass",
+      "frames": 96,
+      "framesCompared": 96,
+      "cameraStatic": true,
+      "cameraMove": 0.0,
+      "lightingStatic": true,
+      "lightMove": 0.0,
+      "backgroundStatic": true,
+      "movingByRole": {},
+      "movingCount": 0,
+      "animatedMaterials": [],
+      "animatedScreenSequences": [],
+      "nothingMoves": true,
+      "freshCyclesFrames": 1,
+      "plan": "one plate held for the shot; nothing in the world changes",
+      "still": true
+    },
+    {
+      "shot": "route",
+      "frames": 168,
+      "framesCompared": 168,
+      "cameraStatic": false,
+      "cameraMove": 1126.540771,
+      "lightingStatic": true,
+      "lightMove": 0.0,
+      "backgroundStatic": true,
+      "movingByRole": {
+        "vehicle": [
+          "acq_vehicle.001",
+          "acq_vehicle_beltline.001",
+          "acq_vehicle_cabin.001",
+          "acq_vehicle_front_bumper.001",
+          "acq_vehicle_grille.001",
+          "acq_vehicle_handle-1-0.001",
+          "acq_vehicle_handle-10.001",
+          "acq_vehicle_handle1-0.001"
+        ]
+      },
+      "movingCount": 40,
+      "animatedMaterials": [],
+      "animatedScreenSequences": [],
+      "nothingMoves": false,
+      "freshCyclesFrames": 168,
+      "plan": "camera, lighting or set changes: full world per frame",
+      "still": false
+    },
+    {
+      "shot": "approach",
+      "frames": 48,
+      "framesCompared": 48,
+      "cameraStatic": true,
+      "cameraMove": 0.0,
+      "lightingStatic": true,
+      "lightMove": 0.0,
+      "backgroundStatic": true,
+      "movingByRole": {
+        "human": [
+          "Bip01 Footsteps",
+          "acq_customer",
+          "acq_customer_rig",
+          "m002_hipoly_81_bones_opacity"
+        ]
+      },
+      "movingCount": 4,
+      "animatedMaterials": [],
+      "animatedScreenSequences": [],
+      "nothingMoves": false,
+      "freshCyclesFrames": 48,
+      "plan": "static world with moving subjects: background is reusable, subjects are not",
+      "still": false
+    },
+    {
+      "shot": "first",
+      "frames": 48,
+      "framesCompared": 48,
+      "cameraStatic": true,
+      "cameraMove": 0.0,
+      "lightingStatic": true,
+      "lightMove": 0.0,
+      "backgroundStatic": false,
+      "movingByRole": {
+        "background": [
+          "lot_joes_doorbar1",
+          "lot_joes_doorframe1",
+          "lot_joes_doorglass1",
+          "th_leaf",
+          "th_t",
+          "th_walker",
+          "th_walker_arm_l",
+          "th_walker_arm_r"
+        ],
+        "human": [
+          "Bip01 Footsteps",
+          "acq_customer",
+          "acq_customer_rig",
+          "m002_hipoly_81_bones_opacity"
+        ]
+      },
+      "movingCount": 15,
+      "animatedMaterials": [],
+      "animatedScreenSequences": [],
+      "nothingMoves": false,
+      "freshCyclesFrames": 48,
+      "plan": "camera, lighting or set changes: full world per frame",
+      "still": false
+    },
+    {
+      "shot": "redeemed",
+      "frames": 96,
+      "framesCompared": 96,
+      "cameraStatic": true,
+      "cameraMove": 0.0,
+      "lightingStatic": true,
+      "lightMove": 0.0,
+      "backgroundStatic": true,
+      "movingByRole": {},
+      "movingCount": 0,
+      "animatedMaterials": [],
+      "animatedScreenSequences": [],
+      "nothingMoves": true,
+      "freshCyclesFrames": 1,
+      "plan": "one plate held for the shot; nothing in the world changes",
+      "still": true
+    },
+    {
+      "shot": "permission",
+      "frames": 144,
+      "framesCompared": 144,
+      "cameraStatic": true,
+      "cameraMove": 0.0,
+      "lightingStatic": true,
+      "lightMove": 0.0,
+      "backgroundStatic": true,
+      "movingByRole": {},
+      "movingCount": 0,
+      "animatedMaterials": [],
+      "animatedScreenSequences": [
+        "0000.png"
+      ],
+      "nothingMoves": true,
+      "freshCyclesFrames": 1,
+      "plan": "one plate; the screen sequence is composited over it",
+      "still": false
+    },
+    {
+      "shot": "friday",
+      "frames": 144,
+      "framesCompared": 144,
+      "cameraStatic": true,
+      "cameraMove": 0.0,
+      "lightingStatic": true,
+      "lightMove": 0.0,
+      "backgroundStatic": true,
+      "movingByRole": {},
+      "movingCount": 0,
+      "animatedMaterials": [],
+      "animatedScreenSequences": [],
+      "nothingMoves": true,
+      "freshCyclesFrames": 1,
+      "plan": "one plate held for the shot; nothing in the world changes",
+      "still": true
+    },
+    {
+      "shot": "return-approach",
+      "frames": 48,
+      "framesCompared": 48,
+      "cameraStatic": true,
+      "cameraMove": 0.0,
+      "lightingStatic": true,
+      "lightMove": 0.0,
+      "backgroundStatic": true,
+      "movingByRole": {
+        "human": [
+          "Bip01 Footsteps",
+          "acq_customer",
+          "acq_customer_rig",
+          "m002_hipoly_81_bones_opacity"
+        ]
+      },
+      "movingCount": 4,
+      "animatedMaterials": [],
+      "animatedScreenSequences": [],
+      "nothingMoves": false,
+      "freshCyclesFrames": 48,
+      "plan": "static world with moving subjects: background is reusable, subjects are not",
+      "still": false
+    },
+    {
+      "shot": "second",
+      "frames": 48,
+      "framesCompared": 48,
+      "cameraStatic": true,
+      "cameraMove": 0.0,
+      "lightingStatic": true,
+      "lightMove": 0.0,
+      "backgroundStatic": false,
+      "movingByRole": {
+        "background": [
+          "lot_joes_doorbar1",
+          "lot_joes_doorframe1",
+          "lot_joes_doorglass1",
+          "th_leaf",
+          "th_t",
+          "th_walker",
+          "th_walker_arm_l",
+          "th_walker_arm_r"
+        ],
+        "human": [
+          "Bip01 Footsteps",
+          "acq_customer",
+          "acq_customer_rig",
+          "m002_hipoly_81_bones_opacity"
+        ]
+      },
+      "movingCount": 15,
+      "animatedMaterials": [],
+      "animatedScreenSequences": [],
+      "nothingMoves": false,
+      "freshCyclesFrames": 48,
+      "plan": "camera, lighting or set changes: full world per frame",
+      "still": false
+    },
+    {
+      "shot": "paid",
+      "frames": 144,
+      "framesCompared": 144,
+      "cameraStatic": true,
+      "cameraMove": 0.0,
+      "lightingStatic": true,
+      "lightMove": 0.0,
+      "backgroundStatic": true,
+      "movingByRole": {},
+      "movingCount": 0,
+      "animatedMaterials": [],
+      "animatedScreenSequences": [],
+      "nothingMoves": true,
+      "freshCyclesFrames": 1,
+      "plan": "one plate held for the shot; nothing in the world changes",
+      "still": true
+    },
+    {
+      "shot": "network-lube",
+      "frames": 48,
+      "framesCompared": 48,
+      "cameraStatic": false,
+      "cameraMove": 2.223741,
+      "lightingStatic": true,
+      "lightMove": 0.0,
+      "backgroundStatic": true,
+      "movingByRole": {},
+      "movingCount": 0,
+      "animatedMaterials": [],
+      "animatedScreenSequences": [],
+      "nothingMoves": false,
+      "freshCyclesFrames": 48,
+      "plan": "camera, lighting or set changes: full world per frame",
+      "still": false
+    },
+    {
+      "shot": "network-tire",
+      "frames": 48,
+      "framesCompared": 48,
+      "cameraStatic": false,
+      "cameraMove": 2.223741,
+      "lightingStatic": true,
+      "lightMove": 0.0,
+      "backgroundStatic": true,
+      "movingByRole": {},
+      "movingCount": 0,
+      "animatedMaterials": [],
+      "animatedScreenSequences": [],
+      "nothingMoves": false,
+      "freshCyclesFrames": 48,
+      "plan": "camera, lighting or set changes: full world per frame",
+      "still": false
+    },
+    {
+      "shot": "network",
+      "frames": 72,
+      "framesCompared": 72,
+      "cameraStatic": false,
+      "cameraMove": 26.278324,
+      "lightingStatic": true,
+      "lightMove": 0.0,
+      "backgroundStatic": true,
+      "movingByRole": {
+        "vehicle": [
+          "acq_vehicle",
+          "acq_vehicle.001",
+          "acq_vehicle.002",
+          "acq_vehicle_beltline",
+          "acq_vehicle_beltline.001",
+          "acq_vehicle_beltline.002",
+          "acq_vehicle_cabin",
+          "acq_vehicle_cabin.001"
+        ]
+      },
+      "movingCount": 120,
+      "animatedMaterials": [],
+      "animatedScreenSequences": [],
+      "nothingMoves": false,
+      "freshCyclesFrames": 72,
+      "plan": "camera, lighting or set changes: full world per frame",
+      "still": false
+    }
+  ]
+}

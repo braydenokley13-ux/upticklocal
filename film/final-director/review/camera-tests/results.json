@@ -1,0 +1,182 @@
+[
+  {
+    "shot": "station",
+    "frames": 120,
+    "uniqueTransformStates": 120,
+    "animatedShading": false,
+    "screenSequence": false,
+    "staticCandidate": false,
+    "camera": {
+      "spec": {
+        "family": "block",
+        "lens": 38.0,
+        "fstop": 4.0,
+        "height": 3.2,
+        "subject": "Joe's warm store and the active street around it",
+        "foreground": "a cropped near tree and textured street",
+        "background": "the same local shops used in the journey",
+        "motivation": "a patient lateral reveal that resolves at the store",
+        "stops": [
+          "the station belongs to this street",
+          "arrive at the warm store"
+        ],
+        "focus": [
+          40.234,
+          36.903
+        ],
+        "lenses": [
+          38.0,
+          38.0
+        ],
+        "heights": [
+          3.2,
+          3.2
+        ]
+      },
+      "illustrative": true
+    },
+    "status": "CONSTRUCTION ONLY; no creative approval",
+    "sourceHash": "5a62fbb8151f59a0dee1c21ca7db20ab1683245e0feae21e04abb1ab1be4936e",
+    "renderExitCode": 0,
+    "image": "film/final-director/review/camera-tests/station.png",
+    "imageSha256": "5d917ac7d9b63b67b9f78b8da9e5b2e9c20f662951fa2659b2f6e06232d7aca8"
+  },
+  {
+    "shot": "depart",
+    "frames": 24,
+    "uniqueTransformStates": 24,
+    "animatedShading": false,
+    "screenSequence": false,
+    "staticCandidate": false,
+    "camera": {
+      "spec": {
+        "family": "street",
+        "lens": 48.0,
+        "fstop": 4.0,
+        "height": 0.57,
+        "subject": "a wet wheel leaves the car-wash apron",
+        "foreground": "road texture and the marine wagon",
+        "background": "the same wet curb and source building",
+        "motivation": "three spatial anchors compress the trip without pretending to show real-time driving",
+        "stops": [
+          "depart",
+          "depart"
+        ],
+        "focus": [
+          5.0,
+          5.0
+        ],
+        "lenses": [
+          48.0,
+          48.0
+        ],
+        "heights": [
+          0.57,
+          0.57
+        ]
+      },
+      "routeMiles": 0.7,
+      "travelCompression": "editorial ellipsis",
+      "beat": "depart",
+      "notRealTime": true
+    },
+    "status": "CONSTRUCTION ONLY; no creative approval",
+    "sourceHash": "5a62fbb8151f59a0dee1c21ca7db20ab1683245e0feae21e04abb1ab1be4936e",
+    "renderExitCode": 0,
+    "image": "film/final-director/review/camera-tests/depart.png",
+    "imageSha256": "c00ffa9460100749ce19bcd4873a8acfa6bd6ecc4ac0f2aebdeaf26cfdffbb32"
+  },
+  {
+    "shot": "turn",
+    "frames": 24,
+    "uniqueTransformStates": 24,
+    "animatedShading": false,
+    "screenSequence": false,
+    "staticCandidate": false,
+    "camera": {
+      "spec": {
+        "family": "street",
+        "lens": 48.0,
+        "fstop": 4.0,
+        "height": 0.72,
+        "subject": "the familiar wagon passes one real corner",
+        "foreground": "road texture and the marine wagon",
+        "background": "Joe's neighboring shopfronts and street trees",
+        "motivation": "three spatial anchors compress the trip without pretending to show real-time driving",
+        "stops": [
+          "turn",
+          "turn"
+        ],
+        "focus": [
+          8.486,
+          8.486
+        ],
+        "lenses": [
+          48.0,
+          48.0
+        ],
+        "heights": [
+          0.72,
+          0.72
+        ]
+      },
+      "routeMiles": 0.7,
+      "travelCompression": "editorial ellipsis",
+      "beat": "turn",
+      "notRealTime": true
+    },
+    "status": "CONSTRUCTION ONLY; no creative approval",
+    "sourceHash": "5a62fbb8151f59a0dee1c21ca7db20ab1683245e0feae21e04abb1ab1be4936e",
+    "renderExitCode": 0,
+    "image": "film/final-director/review/camera-tests/turn.png",
+    "imageSha256": "bee29b0c1b96edc4228dfdf35e40c9601fe5e29490130543e811894620eed98a"
+  },
+  {
+    "shot": "encounter",
+    "frames": 96,
+    "uniqueTransformStates": 96,
+    "animatedShading": false,
+    "screenSequence": false,
+    "staticCandidate": false,
+    "camera": {
+      "spec": {
+        "family": "human",
+        "lens": 34.0,
+        "fstop": 4.0,
+        "height": 1.55,
+        "subject": "one customer stops and raises the same handset at the external source",
+        "foreground": "the edge of the washed vehicle",
+        "background": "Main Street Car Wash fascia, open bay and permanent Uptick unit",
+        "motivation": "start within the decision; the customer owns the frame",
+        "stops": [
+          "notice",
+          "act"
+        ],
+        "focus": [
+          8.871,
+          8.133
+        ],
+        "lenses": [
+          34.0,
+          34.0
+        ],
+        "heights": [
+          1.55,
+          1.55
+        ]
+      },
+      "sourceId": "car-wash",
+      "actionFrames": {
+        "stop": 24,
+        "notice": 32,
+        "handset": 40
+      },
+      "customerId": "illustrative-driver-001"
+    },
+    "status": "CONSTRUCTION ONLY; no creative approval",
+    "sourceHash": "5a62fbb8151f59a0dee1c21ca7db20ab1683245e0feae21e04abb1ab1be4936e",
+    "renderExitCode": 0,
+    "image": "film/final-director/review/camera-tests/encounter.png",
+    "imageSha256": "71f513c732083909a72761d6a6d7b9be1ff4efd1db5abc9ee693810bc5b4e2a6"
+  }
+]

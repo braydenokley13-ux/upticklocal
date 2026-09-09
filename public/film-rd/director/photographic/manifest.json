@@ -1,0 +1,17 @@
+{
+  "status": "TEST INPUTS ONLY",
+  "assets": [
+    {
+      "file": "public/film-rd/director/photographic/doorway-clean-plate-v1.png",
+      "sha256": "16811c0d7491000e7d5a97e065b332294718a2f8e691fb3eaecd0d9a4b3b882b",
+      "source": "OpenAI built-in image generation/editing",
+      "status": "Photographic test input; not completed motion or creative lock"
+    },
+    {
+      "file": "public/film-rd/director/photographic/doorway-first-start-v1.png",
+      "sha256": "8ea030dfbafcc6f69a8d17bfddf04cbaee25ded83a9330bd1682ecd979790f86",
+      "source": "OpenAI built-in image generation/editing",
+      "status": "Photographic test input; not completed motion or creative lock"
+    }
+  ]
+}

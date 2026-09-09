@@ -1,0 +1,49 @@
+{
+  "shot": "coffee",
+  "frame": 24,
+  "frames": null,
+  "width": 640,
+  "height": 360,
+  "fps": 24,
+  "samples": 8,
+  "device": "CPU",
+  "seconds": 6.041,
+  "camera": {
+    "spec": {
+      "family": "human",
+      "lens": 65.0,
+      "fstop": 5.6,
+      "height": 1.6,
+      "subject": "the first coffee at Joe\u2019s",
+      "foreground": "counter grain and the cup sleeve",
+      "background": "the warm real shop",
+      "motivation": "a short camera move gives the physical purchase more weight than its screen",
+      "stops": [
+        "the physical visit",
+        "coffee at Joe\u2019s"
+      ],
+      "focus": [
+        0.997,
+        0.971
+      ],
+      "lenses": [
+        65.0,
+        65.0
+      ],
+      "heights": [
+        1.6,
+        1.6
+      ]
+    },
+    "priceCents": 0,
+    "sourceId": "car-wash"
+  },
+  "sequence": false,
+  "step": 1,
+  "frameTimings": [
+    {
+      "frame": 24,
+      "seconds": 5.53
+    }
+  ]
+}

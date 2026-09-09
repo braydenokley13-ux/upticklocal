@@ -1,0 +1,75 @@
+{
+  "shot": "option-island",
+  "frame": 0,
+  "width": 640,
+  "height": 360,
+  "fps": 24,
+  "samples": 8,
+  "device": "METAL",
+  "seconds": 34.659,
+  "camera": {
+    "spec": {
+      "family": "block",
+      "lens": 38.0,
+      "fstop": 5.6,
+      "height": 1.8,
+      "subject": "the customer leaves the vehicle, notices the network unit and makes the next-stop decision",
+      "foreground": "the vacuum equipment and wet source-business apron",
+      "background": "the complete named car wash and open wash bays",
+      "motivation": "let the customer action change the frame, while the source stays unmistakable",
+      "stops": [
+        "island: source and customer remain together",
+        "island: source and customer remain together"
+      ],
+      "focus": [
+        18.789,
+        18.789
+      ],
+      "lenses": [
+        38.0,
+        38.0
+      ],
+      "heights": [
+        1.8,
+        1.8
+      ]
+    },
+    "option": "island",
+    "actionFrames": {
+      "finish": 24,
+      "encounter": 72,
+      "notice": 80,
+      "phone": 104
+    },
+    "sourceId": "car-wash",
+    "gate": "UNAPPROVED COMPARISON"
+  },
+  "sequence": true,
+  "step": 24,
+  "frameTimings": [
+    {
+      "frame": 0,
+      "seconds": 17.442
+    },
+    {
+      "frame": 24,
+      "seconds": 2.356
+    },
+    {
+      "frame": 48,
+      "seconds": 1.189
+    },
+    {
+      "frame": 72,
+      "seconds": 1.169
+    },
+    {
+      "frame": 96,
+      "seconds": 1.187
+    },
+    {
+      "frame": 120,
+      "seconds": 1.373
+    }
+  ]
+}
