@@ -49,3 +49,9 @@ public/film-rd/renders/stills
 # Proof cuts are re-rendered from the timeline by scripts/film-proof.sh; the contact sheets beside them are the record
 film/review/proof/*.mp4
 film/review/frames
+
+# Per-shot review stills for the acquisition gates are rebuilt by
+# `acquisition-render-worker.py stills`; the contact sheets beside them are the
+# record, the same rule the rest of the film's review frames follow.
+film/review/acquisition/proxy-frames
+film/review/acquisition/final-frames

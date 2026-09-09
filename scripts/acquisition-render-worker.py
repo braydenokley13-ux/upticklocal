@@ -16,6 +16,16 @@ import sys
 
 ROOT=Path(__file__).resolve().parents[1]
 CONFIG=json.loads((ROOT/'film/render/acquisition-shots.json').read_text())
+DECOMPOSITION=ROOT/'film/render/acquisition-decomposition.json'
+
+
+def decomposition():
+    if not DECOMPOSITION.is_file(): return {}
+    return {entry['shot']:entry for entry in json.loads(DECOMPOSITION.read_text())['shots']}
+
+
+def digest(path):
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
 def run(command):
@@ -57,10 +67,11 @@ def require_gate(name,current_hash):
 
 def main():
     parser=argparse.ArgumentParser()
-    parser.add_argument('phase',choices=['preflight','stills','prototypes','plates'])
+    parser.add_argument('phase',choices=['preflight','decompose','stills','prototypes','plates'])
     parser.add_argument('--lane',choices=['proxy','final'],default='proxy')
     parser.add_argument('--device',choices=['CPU','OPTIX','CUDA'],default='CPU')
     parser.add_argument('--shots',nargs='+')
+    parser.add_argument('--frames',help='A:B inclusive frame range, to shard one shot across workers')
     parser.add_argument('--blender',default=os.environ.get('BLENDER','blender'))
     args=parser.parse_args()
     if platform.system()!='Linux': raise RuntimeError('This queue is for cloud Linux. Use isolated 640×360 prototypes on the Mac.')
@@ -71,6 +82,21 @@ def main():
     if args.phase=='preflight':
         run([args.blender,'--background','--factory-startup','--python-exit-code','2','--python','scripts/acquisition-worker-check.py'])
         print(json.dumps({'sourceHash':current_hash,'freeBytes':shutil.disk_usage(ROOT).free,'status':'CAPABILITIES ONLY'},indent=2));return
+    if args.phase=='decompose':
+        entries=[]
+        for shot in CONFIG['shots']:
+            result=subprocess.run([args.blender,'--background','--factory-startup','--python-exit-code','1',
+                '--python','scripts/acquisition-motion-audit.py','--',shot['id']],
+                cwd=ROOT,check=True,capture_output=True,text=True)
+            line=next(l for l in result.stdout.splitlines() if l.startswith('ACQUISITION_MOTION_AUDIT'))
+            audit=json.loads(line.split(' ',1)[1])
+            audit['still']=audit['nothingMoves'] and not audit['animatedScreenSequences']
+            entries.append(audit)
+            print(f"{shot['id']:17s} fresh={audit['freshCyclesFrames']:4d}/{audit['frames']:4d}  {audit['plan']}",flush=True)
+        DECOMPOSITION.write_text(json.dumps({'sourceHash':current_hash,
+            'note':'Measured over every frame, not sampled. "still" shots are proved again at render time before being held.',
+            'shots':entries},indent=2))
+        print(f'Wrote {DECOMPOSITION.relative_to(ROOT)}');return
     validate_bakes()
     if shutil.disk_usage(ROOT).free<12*1024**3: raise RuntimeError('Worker needs at least 12 GiB free before this queue')
     if args.phase=='plates':
@@ -78,6 +104,7 @@ def main():
         if args.lane=='final':
             require_gate('gate-b-approval',current_hash)
             require_gate('final-frame-approval',current_hash)
+    decomposed=decomposition()
     chosen=[s for s in CONFIG['shots'] if not args.shots or s['id'] in args.shots]
     if args.shots and len(chosen)!=len(set(args.shots)): raise RuntimeError('Unknown shot id')
     lane=CONFIG['lanes'][args.lane]
@@ -98,16 +125,55 @@ def main():
             if old.get('sourceHash')==current_hash and old.get('frames')==shot['frames']:
                 print(f"Reuse validated {shot['id']}",flush=True);continue
         frames=scratch/shot['id'];frames.mkdir(exist_ok=True)
-        run(command+['--sequence','--out',frames])
-        report=json.loads((frames/'render.json').read_text())
-        if report['fps']!=24 or [f['frame'] for f in report['frameTimings']]!=list(range(shot['frames'])):
-            raise RuntimeError(f"Incomplete frame sequence for {shot['id']}")
-        run(['ffmpeg','-y','-v','error','-framerate','24','-i',frames/'%04d.png','-frames:v',str(shot['frames']),'-c:v','libx264','-preset','slow','-crf','14' if args.lane=='final' else '20','-pix_fmt','yuv420p','-movflags','+faststart',video])
+        plan=decomposed.get(shot['id'],{})
+        last=shot['frames']-1
+        held=False
+        if plan.get('still'):
+            # The decompose phase says this shot is one photograph. Prove it here
+            # before relying on it: render the first and last frame and require
+            # them byte-identical. If they are not, the declaration is wrong about
+            # something the audit cannot see, so the shot renders in full and says
+            # so. A shot that actually moves can never be silently frozen.
+            run(command+['--frame','0','--out',frames/'0000.png'])
+            run(command+['--frame',str(last),'--out',frames/f'{last:04d}.png'])
+            held=digest(frames/'0000.png')==digest(frames/f'{last:04d}.png')
+            if not held:
+                print(f"{shot['id']}: declared still but frames 0 and {last} differ; rendering in full",flush=True)
+                for path in frames.glob('*.png'): path.unlink()
+        if held:
+            report={'fps':24,'still':True,'framesRendered':2,'frameTimings':[]}
+            run(['ffmpeg','-y','-v','error','-loop','1','-framerate','24','-i',frames/'0000.png','-frames:v',str(shot['frames']),'-c:v','libx264','-preset','slow','-crf','14' if args.lane=='final' else '20','-pix_fmt','yuv420p','-movflags','+faststart',video])
+        else:
+            def rendered():
+                return sorted(int(path.stem) for path in frames.glob('[0-9]*.png'))
+            if args.frames:
+                # One worker's share. Frame numbers are absolute and the seed is
+                # fixed, so shards from different machines merge by filename.
+                first,final=(int(part) for part in args.frames.split(':'))
+                run(command+['--frames',args.frames,'--sequence','--out',frames])
+                done=set(rendered());missing=[f for f in range(shot['frames']) if f not in done]
+                print(f"{shot['id']}: shard {first}-{final} rendered; {len(missing)} frames outstanding",flush=True)
+                if missing: continue
+            elif rendered()!=list(range(shot['frames'])):
+                run(command+['--sequence','--out',frames])
+            else:
+                print(f"{shot['id']}: all frames already present from shards; assembling",flush=True)
+            present=rendered()
+            if present!=list(range(shot['frames'])):
+                missing=sorted(set(range(shot['frames']))-set(present))
+                raise RuntimeError(f"{shot['id']} is missing {len(missing)} frames (first {missing[:5]}); run the remaining shards")
+            reports=sorted(frames.glob('render*.json'))
+            if not reports: raise RuntimeError(f"{shot['id']} has frames but no render manifest")
+            report=json.loads(reports[0].read_text())
+            if report['fps']!=24: raise RuntimeError(f"Wrong frame rate for {shot['id']}")
+            run(['ffmpeg','-y','-v','error','-framerate','24','-i',frames/'%04d.png','-frames:v',str(shot['frames']),'-c:v','libx264','-preset','slow','-crf','14' if args.lane=='final' else '20','-pix_fmt','yuv420p','-movflags','+faststart',video])
         probe=json.loads(subprocess.check_output(['ffprobe','-v','error','-count_frames','-show_streams','-of','json',str(video)]))
         stream=next(s for s in probe['streams'] if s['codec_type']=='video')
         if int(stream['nb_read_frames'])!=shot['frames'] or stream['width']!=lane['width'] or stream['height']!=lane['height']:
             raise RuntimeError(f"Encoded plate verification failed: {video}")
-        sidecar.write_text(json.dumps({'sourceHash':current_hash,'frames':shot['frames'],'fps':24,'lane':args.lane,'render':report},indent=2))
+        sidecar.write_text(json.dumps({'sourceHash':current_hash,'frames':shot['frames'],'fps':24,'lane':args.lane,
+            'still':held,'declaredStill':bool(plan.get('still')),
+            'freshCyclesFrames':2 if held else shot['frames'],'render':report},indent=2))
         # Only this queue's verified transient frames are removed; encoded plate,
         # manifest and review evidence survive. No user files are touched.
         shutil.rmtree(frames)

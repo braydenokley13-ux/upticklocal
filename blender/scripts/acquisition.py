@@ -73,7 +73,7 @@ def hero_car(x,y,yaw=0):
     paint=B.mat_surface('acq_vehicle_paint','#183443',rough=.38,metallic=.2,coat=.25)
     glass=B.mat_surface('acq_vehicle_glass','#15222b',rough=.14,metallic=.25,coat=.4)
     trim=B.mat_surface('acq_vehicle_trim','#17191a',rough=.45)
-    alloy=B.mat_surface('acq_vehicle_alloy','#435055',rough=.38,metallic=.65)
+    alloy=B.mat_surface('acq_vehicle_alloy','#7f8a8e',rough=.34,metallic=.7)
     head=B.mat_surface('acq_vehicle_headlamp','#d5dcd6',rough=.13,metallic=.35)
     tail=B.mat_surface('acq_vehicle_tail','#752a21',rough=.25,coat=.3)
     def part(name,size,loc,material,bevel=.025):
@@ -87,6 +87,7 @@ def hero_car(x,y,yaw=0):
     part('lower',(4.55,1.86,.51),(0,0,.58),paint,.08)
     part('hood',(1.25,1.77,.18),(1.35,0,.91),paint,.04)
     part('shoulder',(3.30,1.83,.09),(-.30,0,.885),paint,.03)
+    part('beltline',(3.34,1.855,.035),(-.30,0,.935),alloy,.01)
     part('cabin',(2.62,1.49,.50),(-.34,0,1.16),glass,.04)
     part('roof',(2.46,1.53,.11),(-.42,0,1.44),paint,.05)
     part('front_bumper',(.12,1.77,.22),(2.27,0,.53),trim,.04)
@@ -278,6 +279,7 @@ def main():
     parser.add_argument('shot',choices=SHOTS)
     parser.add_argument('--frame',type=int,default=0)
     parser.add_argument('--sequence',action='store_true')
+    parser.add_argument('--frames',help='A:B inclusive range within the shot, for sharding a sequence across workers')
     parser.add_argument('--step',type=int,default=1,help='Sparse motion inspection only; final plates use 1')
     parser.add_argument('--res',default='640x360')
     parser.add_argument('--samples',type=int,default=8)
@@ -316,6 +318,13 @@ def main():
     else: out.parent.mkdir(parents=True,exist_ok=True)
     timings=[]
     frames=range(0,shot['frames'],args.step) if args.sequence else [args.frame]
+    if args.frames:
+        if not args.sequence: raise ValueError('--frames applies to --sequence renders')
+        first,last=(int(part) for part in args.frames.split(':'))
+        if not 0<=first<=last<shot['frames']: raise ValueError('--frames outside shot')
+        # Frame numbers stay absolute, so shards rendered on different workers
+        # merge by filename and the seed is the same everywhere.
+        frames=range(first,last+1,args.step)
     for frame in frames:
         scene.frame_set(frame)
         destination=out/f'{frame:04d}.png' if args.sequence else out
@@ -324,10 +333,10 @@ def main():
         bpy.ops.render.render(write_still=True)
         timings.append({'frame':frame,'seconds':round(time.monotonic()-frame_start,3)})
         print('ACQUISITION_FRAME',json.dumps(timings[-1]),flush=True)
-    report={'shot':args.shot,'frame':args.frame,'width':w,'height':h,'fps':scene.render.fps,'samples':args.samples,
+    report={'shot':args.shot,'frame':args.frame,'frames':args.frames,'width':w,'height':h,'fps':scene.render.fps,'samples':args.samples,
             'device':args.device,'seconds':round(time.monotonic()-start,3),'camera':shot['meta'],
             'sequence':args.sequence,'step':args.step,'frameTimings':timings}
-    report_path=out/'render.json' if args.sequence else out.with_suffix('.json')
+    report_path=out/(f'render-{args.frames.replace(":","-")}.json' if args.frames else 'render.json') if args.sequence else out.with_suffix('.json')
     report_path.write_text(json.dumps(report,indent=2))
     print('ACQUISITION_RENDER',json.dumps(report),flush=True)
 
