@@ -469,7 +469,7 @@ def shot_approach(W: B.World):
                 comp=dict(mist=0.30, glare=0.10))
 
 
-def shot_threshold(W: B.World):
+def shot_threshold(W: B.World, frames: int = 40):
     """B · inside the store, down the aisle opposite the door. The morning walks in.
 
     lens      block 40 mm, f/4.0       height 1.52 m (standing in the aisle opposite the door)
@@ -487,7 +487,9 @@ def shot_threshold(W: B.World):
     m = look(W)
     dress_joes(W)
     B.set_state(W, "morning", exposure=-2.55, interior_w=980)
-    frames = 40
+    # Every beat below is placed as a fraction of the shot, so a caller asking
+    # for a longer threshold gets a longer crossing rather than a held tail.
+    cross = round(frames * 0.475)
 
     # the near leaf, hinged on its own stile, swings in ahead of the person
     leaf = B.empty("th_leaf", (-0.52, 20.30, 0.0))
@@ -497,16 +499,16 @@ def shot_threshold(W: B.World):
         if o is not None:
             o.parent = leaf
             o.matrix_parent_inverse = leaf.matrix_world.inverted()
-    for f, a in ((0, 0.0), (7, -3.0), (19, -62.0), (32, -64.0), (frames - 1, -48.0)):
+    for f, a in ((0, 0.0), (round(frames * .175), -3.0), (cross, -62.0), (round(frames * .80), -64.0), (frames - 1, -48.0)):
         leaf.rotation_euler = (0.0, 0.0, math.radians(a))
         leaf.keyframe_insert("rotation_euler", frame=f)
 
-    path = ((0, -2.10, 19.20), (18, -1.52, 20.42), (frames - 1, -0.44, 21.62))
+    path = ((0, -2.10, 19.20), (round(frames * .45), -1.52, 20.42), (frames - 1, -0.44, 21.62))
     fig, parts = BD.figure("th_walker", (path[0][1], path[0][2], 0.0), m["cloth"], height=1.78, yaw=math.radians(26))
     for f, x, y in path:
         fig.location = (x, y, 0.0)
         fig.keyframe_insert("location", frame=f)
-    for f, yaw in ((0, 26.0), (18, 30.0), (frames - 1, 46.0)):
+    for f, yaw in ((0, 26.0), (round(frames * .45), 30.0), (frames - 1, 46.0)):
         fig.rotation_euler = (0.0, 0.0, math.radians(yaw))
         fig.keyframe_insert("rotation_euler", frame=f)
     for fc in _fc(fig):
@@ -524,7 +526,7 @@ def shot_threshold(W: B.World):
     cam.lock((-1.18, 25.20, 1.52), (-1.72, 20.45, 1.02), frames, focus=(-1.60, 20.70, 1.10), label="in the aisle opposite the door")
     CAM.ease_camera(cam.obj)
     return dict(frames=frames, cam=cam.obj, names=["walker", "door_joes"], people=None,
-                meta=dict(state="morning", clock="Friday · 7:42 AM", cross=19, spec=cam.spec()),
+                meta=dict(state="morning", clock="Friday · 7:42 AM", cross=cross, spec=cam.spec()),
                 comp=dict(mist=0.20, glare=0.20))
 
 

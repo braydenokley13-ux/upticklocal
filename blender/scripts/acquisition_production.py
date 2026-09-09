@@ -40,9 +40,8 @@ def approach(W,friday=False):
 
 
 def threshold(W,friday=False):
-    result=A.threshold(W,friday)
-    result['frames']=48
-    return result
+    # A.threshold is authored at the edit's length; nothing is relabelled here.
+    return A.threshold(W,friday)
 
 
 def route(W):

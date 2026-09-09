@@ -62,8 +62,12 @@ def main():
         row = measured.get(name)
         seconds = (row['renderSeconds'] * args.scale) if row else None
         entry = decomposition.get(name, {})
+        # Count what the queue will actually render. A shot is only held if the
+        # decomposition marked it 'still'; a static world whose screen animates
+        # still renders in full until that compositing exists, so crediting it
+        # with one frame here would be an estimate of a program nobody wrote.
         still = entry.get('still')
-        fresh = 2 if still else entry.get('freshCyclesFrames', frames)
+        fresh = 2 if still else frames
         held = frames - fresh
         cost = (seconds * fresh + row['buildSeconds']) if row else 0
         per_shot_seconds[name] = cost

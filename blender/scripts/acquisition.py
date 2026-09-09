@@ -234,12 +234,31 @@ def route(W):
     return dict(frames=168,cam=cam.obj,names=[],meta={'spec':cam.spec(),'routeMiles':.7,'travelCompression':'cuts required between source road and Joe endpoint'})
 
 
+THRESHOLD_FRAMES=48
+
+
 def threshold(W, friday=False):
-    shot=SC.shot_threshold(W)
+    """The paired crossing. Both visits share lens, doorway, camera and blocking;
+    the day, the light and the transaction are what change.
+
+    Authored at the edit's own length. It used to be built at 40 frames and then
+    relabelled 48, which froze the last third of a second of both visits on the
+    crossing itself -- the one moment the shot exists for.
+
+    The sun stays behind the door. shot_threshold is designed so the doorway is
+    the brightest thing in the room and the customer reads as 'a body in a
+    doorway, not a face'; a sun swung round to the camera's side lit the face
+    frontally at 1920x1080 and exposed exactly the part of the asset that does
+    not survive inspection. Tuesday and Friday differ by elevation, which changes
+    the hour without turning the figure into a portrait.
+    """
+    frames=THRESHOLD_FRAMES
+    shot=SC.shot_threshold(W,frames=frames)
     for obj in bpy.data.objects:
         if obj.name.startswith('th_walker'): obj.hide_render=True
-    CUSTOMER.customer(((0,-2.10,19.2),(18,-1.52,20.42),(39,-.44,21.62)),40)
-    B.set_state(W,'morning',elev=12 if friday else 21,rot=105 if friday else 132,exposure=-2.55,interior_w=980)
+    CUSTOMER.customer(((0,-2.10,19.2),(round(frames*.45),-1.52,20.42),(frames-1,-.44,21.62)),frames)
+    B.set_state(W,'morning',elev=15 if friday else 24,rot=8 if friday else 352,exposure=-2.55,interior_w=980)
+    shot['frames']=frames
     shot['meta']['clock']='Friday · 7:36 AM' if friday else 'Tuesday · 8:17 AM'
     shot['meta']['customerId']=FIXTURE['hero']['customerId']
     return shot

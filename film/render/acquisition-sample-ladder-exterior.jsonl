@@ -1,0 +1,4 @@
+{"shot": "external", "samples": 64, "first": 58, "count": 8, "seconds": [96.58, 97.3, 102.46, 106.42, 101.4, 104.29, 102.96, 104.5], "meanSeconds": 101.99}
+{"shot": "external", "samples": 32, "first": 58, "count": 8, "seconds": [67.93, 64.09, 63.89, 65.38, 64.89, 63.9, 63.36, 63.84], "meanSeconds": 64.66}
+{"shot": "external", "samples": 24, "first": 58, "count": 8, "seconds": [51.64, 51.25, 51.36, 51.98, 50.69, 50.3, 50.49, 50.55], "meanSeconds": 51.03}
+{"shot": "external", "samples": 16, "first": 58, "count": 8, "seconds": [41.03, 38.83, 37.98, 38.85, 39.28, 39.64, 38.74, 39.88], "meanSeconds": 39.28}

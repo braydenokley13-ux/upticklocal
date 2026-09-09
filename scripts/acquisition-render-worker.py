@@ -19,9 +19,19 @@ CONFIG=json.loads((ROOT/'film/render/acquisition-shots.json').read_text())
 DECOMPOSITION=ROOT/'film/render/acquisition-decomposition.json'
 
 
-def decomposition():
+def decomposition(current_hash):
+    """The measured plan, but only if it was measured against these sources.
+
+    A stale plan is ignored rather than trusted: every shot then renders in full,
+    which costs time and never costs an image.
+    """
     if not DECOMPOSITION.is_file(): return {}
-    return {entry['shot']:entry for entry in json.loads(DECOMPOSITION.read_text())['shots']}
+    record=json.loads(DECOMPOSITION.read_text())
+    if record.get('sourceHash')!=current_hash:
+        print('Decomposition was measured against different sources; ignoring it. '
+              'Rerun: acquisition-render-worker.py decompose',flush=True)
+        return {}
+    return {entry['shot']:entry for entry in record['shots']}
 
 
 def digest(path):
@@ -104,7 +114,7 @@ def main():
         if args.lane=='final':
             require_gate('gate-b-approval',current_hash)
             require_gate('final-frame-approval',current_hash)
-    decomposed=decomposition()
+    decomposed=decomposition(current_hash)
     chosen=[s for s in CONFIG['shots'] if not args.shots or s['id'] in args.shots]
     if args.shots and len(chosen)!=len(set(args.shots)): raise RuntimeError('Unknown shot id')
     lane=CONFIG['lanes'][args.lane]
