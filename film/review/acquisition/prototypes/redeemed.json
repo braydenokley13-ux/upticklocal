@@ -1,0 +1,439 @@
+{
+  "sourceHash": "6143683ef5bc2e2a7267f4e912cd6b119dfeae0dc7039f38ab9aea9cb10a85fa",
+  "frames": 96,
+  "fps": 24,
+  "lane": "proxy",
+  "still": false,
+  "declaredStill": true,
+  "freshCyclesFrames": 96,
+  "render": {
+    "shot": "redeemed",
+    "frame": 0,
+    "frames": null,
+    "width": 640,
+    "height": 360,
+    "fps": 24,
+    "samples": 8,
+    "device": "CPU",
+    "seconds": 720.551,
+    "camera": {
+      "spec": {
+        "family": "device",
+        "lens": 85.0,
+        "fstop": 8.0,
+        "height": 1.6,
+        "subject": "redeemed: the customer\u2019s choice on the same handset",
+        "foreground": "the edge of the acquired coffee, and breakfast on the paid return",
+        "background": "Joe\u2019s physical counter surface",
+        "motivation": "keep the visit object in frame as its relationship state changes",
+        "stops": [
+          "shared counter axis",
+          "shared counter axis"
+        ],
+        "focus": [
+          0.624,
+          0.624
+        ],
+        "lenses": [
+          85.0,
+          85.0
+        ],
+        "heights": [
+          1.6,
+          1.6
+        ]
+      },
+      "state": "redeemed",
+      "sourceId": "car-wash",
+      "permissionFrame": null
+    },
+    "sequence": true,
+    "step": 1,
+    "frameTimings": [
+      {
+        "frame": 0,
+        "seconds": 9.632
+      },
+      {
+        "frame": 1,
+        "seconds": 7.611
+      },
+      {
+        "frame": 2,
+        "seconds": 7.373
+      },
+      {
+        "frame": 3,
+        "seconds": 7.278
+      },
+      {
+        "frame": 4,
+        "seconds": 6.938
+      },
+      {
+        "frame": 5,
+        "seconds": 7.131
+      },
+      {
+        "frame": 6,
+        "seconds": 7.564
+      },
+      {
+        "frame": 7,
+        "seconds": 6.989
+      },
+      {
+        "frame": 8,
+        "seconds": 7.482
+      },
+      {
+        "frame": 9,
+        "seconds": 7.092
+      },
+      {
+        "frame": 10,
+        "seconds": 7.407
+      },
+      {
+        "frame": 11,
+        "seconds": 7.124
+      },
+      {
+        "frame": 12,
+        "seconds": 6.981
+      },
+      {
+        "frame": 13,
+        "seconds": 6.949
+      },
+      {
+        "frame": 14,
+        "seconds": 7.395
+      },
+      {
+        "frame": 15,
+        "seconds": 7.144
+      },
+      {
+        "frame": 16,
+        "seconds": 7.078
+      },
+      {
+        "frame": 17,
+        "seconds": 7.076
+      },
+      {
+        "frame": 18,
+        "seconds": 7.718
+      },
+      {
+        "frame": 19,
+        "seconds": 7.339
+      },
+      {
+        "frame": 20,
+        "seconds": 7.368
+      },
+      {
+        "frame": 21,
+        "seconds": 7.718
+      },
+      {
+        "frame": 22,
+        "seconds": 7.676
+      },
+      {
+        "frame": 23,
+        "seconds": 7.718
+      },
+      {
+        "frame": 24,
+        "seconds": 7.753
+      },
+      {
+        "frame": 25,
+        "seconds": 7.044
+      },
+      {
+        "frame": 26,
+        "seconds": 6.977
+      },
+      {
+        "frame": 27,
+        "seconds": 7.306
+      },
+      {
+        "frame": 28,
+        "seconds": 7.366
+      },
+      {
+        "frame": 29,
+        "seconds": 7.595
+      },
+      {
+        "frame": 30,
+        "seconds": 7.931
+      },
+      {
+        "frame": 31,
+        "seconds": 6.808
+      },
+      {
+        "frame": 32,
+        "seconds": 7.877
+      },
+      {
+        "frame": 33,
+        "seconds": 8.35
+      },
+      {
+        "frame": 34,
+        "seconds": 7.57
+      },
+      {
+        "frame": 35,
+        "seconds": 6.729
+      },
+      {
+        "frame": 36,
+        "seconds": 7.257
+      },
+      {
+        "frame": 37,
+        "seconds": 7.378
+      },
+      {
+        "frame": 38,
+        "seconds": 7.473
+      },
+      {
+        "frame": 39,
+        "seconds": 7.069
+      },
+      {
+        "frame": 40,
+        "seconds": 7.062
+      },
+      {
+        "frame": 41,
+        "seconds": 6.805
+      },
+      {
+        "frame": 42,
+        "seconds": 7.618
+      },
+      {
+        "frame": 43,
+        "seconds": 7.857
+      },
+      {
+        "frame": 44,
+        "seconds": 7.331
+      },
+      {
+        "frame": 45,
+        "seconds": 7.182
+      },
+      {
+        "frame": 46,
+        "seconds": 7.592
+      },
+      {
+        "frame": 47,
+        "seconds": 7.012
+      },
+      {
+        "frame": 48,
+        "seconds": 7.205
+      },
+      {
+        "frame": 49,
+        "seconds": 7.394
+      },
+      {
+        "frame": 50,
+        "seconds": 6.921
+      },
+      {
+        "frame": 51,
+        "seconds": 7.064
+      },
+      {
+        "frame": 52,
+        "seconds": 7.196
+      },
+      {
+        "frame": 53,
+        "seconds": 7.577
+      },
+      {
+        "frame": 54,
+        "seconds": 6.956
+      },
+      {
+        "frame": 55,
+        "seconds": 6.987
+      },
+      {
+        "frame": 56,
+        "seconds": 7.082
+      },
+      {
+        "frame": 57,
+        "seconds": 7.096
+      },
+      {
+        "frame": 58,
+        "seconds": 7.248
+      },
+      {
+        "frame": 59,
+        "seconds": 8.476
+      },
+      {
+        "frame": 60,
+        "seconds": 7.774
+      },
+      {
+        "frame": 61,
+        "seconds": 7.177
+      },
+      {
+        "frame": 62,
+        "seconds": 7.912
+      },
+      {
+        "frame": 63,
+        "seconds": 8.863
+      },
+      {
+        "frame": 64,
+        "seconds": 7.066
+      },
+      {
+        "frame": 65,
+        "seconds": 7.194
+      },
+      {
+        "frame": 66,
+        "seconds": 7.662
+      },
+      {
+        "frame": 67,
+        "seconds": 7.73
+      },
+      {
+        "frame": 68,
+        "seconds": 7.674
+      },
+      {
+        "frame": 69,
+        "seconds": 7.348
+      },
+      {
+        "frame": 70,
+        "seconds": 7.494
+      },
+      {
+        "frame": 71,
+        "seconds": 7.693
+      },
+      {
+        "frame": 72,
+        "seconds": 7.166
+      },
+      {
+        "frame": 73,
+        "seconds": 7.617
+      },
+      {
+        "frame": 74,
+        "seconds": 7.479
+      },
+      {
+        "frame": 75,
+        "seconds": 7.674
+      },
+      {
+        "frame": 76,
+        "seconds": 7.977
+      },
+      {
+        "frame": 77,
+        "seconds": 7.66
+      },
+      {
+        "frame": 78,
+        "seconds": 7.964
+      },
+      {
+        "frame": 79,
+        "seconds": 7.85
+      },
+      {
+        "frame": 80,
+        "seconds": 8.096
+      },
+      {
+        "frame": 81,
+        "seconds": 7.883
+      },
+      {
+        "frame": 82,
+        "seconds": 7.523
+      },
+      {
+        "frame": 83,
+        "seconds": 7.293
+      },
+      {
+        "frame": 84,
+        "seconds": 7.44
+      },
+      {
+        "frame": 85,
+        "seconds": 7.618
+      },
+      {
+        "frame": 86,
+        "seconds": 7.346
+      },
+      {
+        "frame": 87,
+        "seconds": 7.536
+      },
+      {
+        "frame": 88,
+        "seconds": 7.146
+      },
+      {
+        "frame": 89,
+        "seconds": 6.81
+      },
+      {
+        "frame": 90,
+        "seconds": 7.336
+      },
+      {
+        "frame": 91,
+        "seconds": 7.406
+      },
+      {
+        "frame": 92,
+        "seconds": 7.317
+      },
+      {
+        "frame": 93,
+        "seconds": 7.446
+      },
+      {
+        "frame": 94,
+        "seconds": 8.992
+      },
+      {
+        "frame": 95,
+        "seconds": 7.532
+      }
+    ]
+  }
+}

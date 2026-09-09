@@ -3,21 +3,29 @@
 Status: **NOT PASSED**. Source code and screen bakes are not evidence of a
 finished film. The original R&D film's scores do not transfer to this cut.
 
-## Current scoreboard — September 8 continuation
+## Current scoreboard — September 9, on rendered motion
 
-Scores below are coarse self-review estimates of the **available rendered
-evidence**, not measurements or approval of the newer source. Unrendered work
-does not earn points. Overall target is 9.25+, with acquisition, route and the
-paired visits targeting 9.5+. None is certified at that standard.
+Scores are coarse self-review of **rendered evidence**, not measurements and not
+approval. Every row below has been watched as a proxy plate at 24 fps or
+inspected at 1920x1080, not judged from a still. Unrendered work earns nothing.
+Overall target is 9.25+, with acquisition, route and the paired visits at 9.5+.
+**None is certified at that standard, and Gate A is not passed.**
 
-| System | Current score | Failure | Options tested | Winning direction | Remaining blocker | Final target |
+| System | Score | What the render showed | Options tested | Winning direction | Remaining blocker | Target |
 | --- | --- | --- | --- | --- | --- | --- |
-| External acquisition | 6/10 | Original push-in loses source context; vehicle still synthetic; customer initially passed behind placement | Original wide/push; driver-exit frame; three Next Stop action compositions | Keep full wash visible; select front-of-unit interaction after side-by-side review | Clear finish/notice/handset beat and convincing installation | 9.5+ |
-| Route | 4/10 | Painted distance is legible, but the old camera never reaches Joe’s | Painted-distance still, framing revision; continuous physical-road alternative implemented | Physical endpoint continuity; typography remains secondary | Actual motion review of full 0.7-mile route and arrival cut | 9.5+ |
-| First/second pair | 6/10 | Better silhouette; long-cycle rig broke before matrix-basis repair; paired motion not approved | Procedural human versus Rocketbox; Tuesday/Friday stills; six repaired cycle frames | Same rig, door, lens and blocking; altered daylight, paid return | Paired motion and native-resolution character review | 9.5+ |
-| Permission | 6/10 | Hand obscured the message; counter frame clearer but action still needs full edit review | Hand-held version versus counter-resting phone; paid-return counter frame | Same coffee/phone/counter persists into explicit permission | Confirm choice precedes acceptance and captions leave the button clear | 9+ |
-| Network | 3/10 | Old district pullback proves geography, not operated acquisition | Old wide; new physical Quick Lube/Ridge Tire inserts authored | Repeat the Next Stop installation across distinct trades, return to Joe’s | New units and inserts need rendered comparison; convergence must not feel bolted on | 9+ |
-| Proof | 8/10 layout only | Clean static layout; no complete transition has been watched | Fixture arithmetic validated; 1080p proof and closing stills inspected | Marks resolve into three counts with persistent illustrative qualification | Full transition, reading time and proof accuracy in context | 9+ |
+| External acquisition | 8/10 | Unit reads as installed hardware clear of the building; offer legible at 1080p; wet apron carries a specular; customer stops, turns and raises a lit handset | vacuum, exit, island, forecourt, all at 1280x720 | `option-forecourt` | Vehicle is credible but not a hero object; horizon is bare | 9.5+ |
+| Route | 6.5/10 | Was three of seven seconds on empty terrain with a frozen tail; now a road-level travelling move with lamp standards, verges and the destination town growing ahead | 155 m apex vs 20 m vs road level; roadside furniture | Road-level travel, typography left to Remotion | The land either side is still a flat plain. Seven seconds may be more than this shot can earn | 9.5+ |
+| First/second pair | 7/10 | Crossing is legible end to end: approach through glass, leaf swings, figure enters and passes. Face no longer carries the frame | Interior at 980/480/260/140 W; sun at 150/195/240; four cameras | Authored camera, room at 300 W, sun behind the door | Shop interior is a dark mass on the left; the pair rhymes but the *difference* between the visits lives in the counter shots, not here | 9.5+ |
+| Permission | 7.5/10 | Counter framing is clean, the handset is legible, KEEP ME POSTED precedes YOU'RE IN | Hand-held vs counter-resting; 144-frame sequence checked for endpoints and count | Same coffee, phone and counter persist into permission | Not yet watched inside the full edit for reading time | 9+ |
+| Network | 7.5/10 | The same installed unit at Quick Lube and Ridge Tire in one grammar, then a real district pullback over Joe's. The lube car read as hovering and now sits on a lift that is built to be seen | Partner inserts rendered and compared; lift rebuilt | Repeat the installation, change the trade, return to Joe's | Partner buildings are plain boxes; they are two-second inserts, but they are the least finished world in the film | 9+ |
+| Proof | 8/10 layout | Tally marks count out 18, 14 and 5 above each number; illustrative-data line is readable | Fixture arithmetic validated; layout inspected at 1080p | Marks resolve into three counts with the qualification held | The transition into it has not been watched; five seconds of reading time is unverified | 9+ |
+
+### What is still missing before Gate A can pass
+
+- The full 67-second cut has not been assembled or watched, muted or with sound.
+- The owner comprehension checks at 10/20/35/45/55 seconds have not been run.
+- The DIY, Groupon, screen-company and marketing-agency threat tests have not been run.
+- No system is at its target. Route in particular is well short.
 
 ## Next Stop comparison — resolved on cloud, September 8
 

@@ -1,0 +1,15 @@
+{
+  "sourceHash": "6143683ef5bc2e2a7267f4e912cd6b119dfeae0dc7039f38ab9aea9cb10a85fa",
+  "frames": 96,
+  "fps": 24,
+  "lane": "proxy",
+  "still": true,
+  "declaredStill": true,
+  "freshCyclesFrames": 2,
+  "render": {
+    "fps": 24,
+    "still": true,
+    "framesRendered": 2,
+    "frameTimings": []
+  }
+}
