@@ -1,113 +1,91 @@
-# Final review record — From Nearby to Yours
+# Final review record — The Weekly Drop
 
-What was actually looked at before the cut was locked, and what looking at it
-changed. The contact sheets in `public/film-rd/final/contact/` are the review
-record for the delivered master; the poster candidates beside this file are the
-record for the poster choice.
+What was looked at before the cut was locked, and what looking at it changed.
+The contact sheets in `public/film-rd/final/contact/` are the review record for
+the delivered master; the poster candidates beside this file are the record for
+the poster choice.
+
+## Why the film was reopened
+
+The delivered 52-second cut was technically finished and strategically wrong: it
+sold a free coffee where the product is a recurring local audience. Product
+feedback changed the centre of the story to the **Uptick Weekly Drop**, and the
+middle of the movie was rebuilt rather than recaptioned. See `FINAL_REPORT.md`
+§1 for the before/after.
+
+## The problem that had to be solved first
+
+The revision requires a **physical Uptick screen at another local business**, and
+Higgsfield was unreachable for the whole session — the same 404 as the previous
+run — so no such photograph could be generated.
+
+Re-examining the car wash plate at full resolution found one anyway: a **blank
+teal sign panel on a concrete plinth**, defocused in the background, with real
+perspective, real lighting and real ground contact. Its corners were measured by
+colour segmentation (`x 2376–2657, y 246–806` in a 2752×1536 plate) and verified
+by drawing the quad back onto the image. The Uptick screen is drawn in Remotion
+at 600×1154 — the panel's own aspect — and projected onto those corners with
+`film/block/homography.ts`.
+
+That solved three problems at once: the screen exists, its copy is typeset
+rather than generated, and the film can **rack focus** onto it, which is how the
+acquisition beat gets played without a shot of the customer's face.
 
 ## How the film was reviewed
 
-1. **Every source clip first, before any editing.** Six generated clips and
-   seven stills, decoded to contact sheets and judged on their own — motion,
-   garment stability, vehicle identity, store identity, hands.
-2. **The previous run's CG camera tests, side by side.** This is what settled
-   the lane decision; see below.
-3. **A half-resolution proof of the complete 52-second cut**, watched with
-   sound, muted, and at laptop size.
-4. **The delivered 1920×1080 master**, frame-stepped at every cut and at the
-   end of every video shot.
+1. The plate at 1:1, to find and measure the panel.
+2. The composited screen at two states — matched-blur and racked-sharp — before
+   any of the rest was cut.
+3. A half-resolution proof of the complete 56-second cut, watched with sound,
+   muted and at laptop size.
+4. The delivered 1920×1080 master, frame-stepped at every cut, plus a
+   section-by-section audio measurement.
 
-Steps 3 and 4 are not interchangeable. Three defects survived step 3 and were
-only found in step 4 — and one of them could not have been found by looking at
-pictures at all.
-
-## What the source review rejected
-
-| Material | Finding |
-|---|---|
-| `route-depart-v1.mp4` | The car waits before moving, and in the closing frames the wagon resolves into a rounder crossover with different rear lamps. Superseded by the v2 tracking take, which moves from frame one and holds the wheel in frame. |
-| `doorway-return-v1.mp4`, frames 34–120 | A grey wash reaches the shoulders by frame 38 and the navy overshirt is fully desaturated by ~52. 87 of 121 frames discarded. |
-| `route-turn-rejected-car-v1.png` | The navy estate came back as a modern crossover SUV. |
-| The Blender camera tests | Flat grey boxes on an empty horizon with floating text; a faceless mannequin customer; a **red concept coupe** in the acquisition shot where the hero's navy estate belongs; night dioramas for the station and neighbourhood; a plastic cup on a blank tan plane for the coffee and checkout. Cutting any of it against real brick and autumn light would have exposed every frame it touched. The whole lane was cut. |
-
-## What the source review confirmed
-
-- **`doorway-first-v1.mp4`** — the strongest generation of the run. Believable
-  walking rhythm, stable clothing, he crosses the open gap rather than the
-  glass, and the store identity holds. Five seconds, used almost entire.
-- **`doorway-return-v1.mp4`, frames 0–33** — frame-matched against the first
-  visit at n=0, 16 and 32, the return is measurably more direct: he is deeper
-  into the store by frame 16 than the first visit is by frame 32. That
-  difference is the shot's entire job and it is there in the material.
-- **`route-turn-v2.mp4`** — vehicle identity rigid across the whole take. Brick
-  shopfronts, gutter leaves and cracked asphalt do more for local credibility
-  than any other frame in the film.
-- **`store-opening-v2.mp4`** — signage letterforms stay stable through the
-  dolly, which is rare, so it can carry the opening.
-- **`paid-handoff-start-v1.png`** — the most valuable single frame available and
-  the film's only view of the customer's face. Cut into three shots.
-
-## What the proof cut (step 3) changed
+## What the proof cut changed
 
 | Found | Change |
 |---|---|
-| The network list was white type over a sunlit car wash — effectively illegible. | Gave the list its own right-side scrim, so the photograph could stay bright instead of being dimmed into mud. |
-| "Uptick runs the places they already pass through." wrapped to three ragged lines. | Rewrote to "Uptick operates a network around your station." — the product thesis, two lines — and widened the copy column. |
-| Four consecutive dark, type-led beats from 0:03 to 0:34. | Reduced the dim on `network` (0.46 → 0.18) and `invitation` (0.52 → 0.24), and gave the Thursday field a warm practical glow instead of near-black. The earlier opening test failed for being too dark; that mistake was not worth repeating on the beat that has to land in six seconds. |
-| `arrive` was a near-repeat of the opening establishing shot. | Re-cropped tight onto the doorway, so the arrival reads as arriving rather than as the same picture twice. |
-| The phone was a slab with a third of it empty. | Shortened it, and closed each screen with something true: the network path on the invitation, the destination and distance on the Friday offer. |
-| `proof` and `close` had blurred Joe's into a grey smear. | Pulled the dim and blur back so the store is present behind the words. |
-| "And she knew him." sat unreadable over a lit face. | Strengthened the bottom scrim and the type's shadow. |
+| "Screens at the local businesses your customers already use." wrapped to three lines with "businesses" orphaned. | Rewritten to "Screens where your / drivers already stop." — two clean lines, and it names the behaviour rather than the hardware. |
+| The network beat read as though screens were the product. | Eyebrow changed to "HOW UPTICK FINDS THEM", so the screen is the mechanism and the audience is the product. |
+| `arrive` was a third helping of the opening establisher. | Re-cropped onto the canopy — where he is actually going, and where the fuel beat happens. |
+| The Drop's phone sat empty for most of a second before the first bubble landed. | Buzz pulled to frame 5, bubbles to 14 / 24 / 34. |
+| The full-frame offer card showed the **real blank panel** behind it, so the screen appeared twice in one frame. | The plate now crops off the panel entirely. |
+| The offer card had a dead middle. | Filled with the line that sets up the next beat: "Show your receipt inside." |
+| The network plate was dimmed so far the neighbourhood stopped reading. | 0.44 → 0.36, with both scrims still carrying the type. |
 
-## What the delivered master (step 4) changed
+## What the delivered master confirmed
 
-1. **The master's colour description was wrong.** Remotion renders from JPEG
-   frames, so ffmpeg handed back an HD deliverable tagged full-range with
-   BT.470BG — 625-line PAL luma coefficients. A player honouring the tag would
-   use the wrong matrix; one ignoring it would crush the blacks. Fixed by an
-   honest range and matrix conversion (full→limited, BT.601→BT.709) and
-   re-tagging, and turned into a standing delivery check.
-2. **The return ended one frame into its own failure.** The trim had been set to
-   source frame 38 on the strength of the source review, but at 38 a faint grey
-   wash has already reached the shoulders — and that frame sat directly on the
-   cut, where the eye lands. Pulled back to frame 33, which is verifiably clean;
-   the five frames went to the card tap. Re-rendered.
-3. **The sound was inaudible and unbalanced.** The master measured −44.2 dBFS
-   mean, −23.4 peak. Measuring the stems explained it: they were synthesised
-   across a 21 dB spread (`cafe-interior` −47.7, `director-carwash` −26.2), and
-   the cue gains had been chosen by eye on top of that, so the car wash bed sat
-   about 22 dB above the store interior. Each gain was recomputed from its own
-   stem's measured level — beds to a common target, music under them, one-shots
-   set by peak rather than mean — and the master normalised to −16 LUFS / −1.5
-   dBTP. Because only the sound edit changed, the audio was re-rendered on its
-   own and remuxed onto the existing picture rather than costing a second video
-   render.
-
-The third is the one that argues hardest for finishing on the delivered file:
-no amount of looking at frames would ever have found it.
+- **Colour:** yuv420p, limited range, BT.709 on every moving deliverable.
+- **Loudness:** master −16.07 LUFS / −1.35 dBTP; web and WebM within 0.01;
+  teaser −16.05. The alignment pass found nothing to correct this time, which is
+  what it should do once the mix is right.
+- **Balance:** section means span −16.4 to −22.6 dB — a 6.2 dB spread across
+  eight sections, with the proof/close swell as the loudest and the fuel beat as
+  the quietest.
+- **Frames:** 1,344 at 24 fps, 56.10 s of container including the audio tail.
 
 ## Poster
 
-Six candidates were extracted from the master, one per act, and compared:
+Six candidates, one per act:
 
 | Candidate | Frame | Verdict |
 |---|---|---|
-| **a-station** | 36 | **Chosen.** The store, the sign, warm morning light, and "Your next customers are already nearby." It carries the location and the whole proposition in one frame. |
-| b-network | 150 | Too dark and too text-heavy to work as a single image. |
-| c-route | 404 | A beautiful photograph, but "Seven tenths of a mile." is oblique without the film around it. |
-| d-first | 560 | The back of a head. |
-| e-return | 838 | The same, dimmer. |
-| f-counter | 958 | The warmest and most human frame in the film — and the closest call. Rejected because on its own it says nothing about Uptick, Joe's or a network; it reads as generic retail stock. |
+| a-station | 36 | Warm and clean, and it was the previous film's poster — but it sells a storefront, not a system. |
+| **b-screen** | 245 | **Chosen.** The customer's wet car in the foreground and, across the forecourt, a screen at somebody else's business advertising Joe's with a real offer. It states the entire product without a caption, and it is the one frame that could not be mistaken for a generic retail commercial. |
+| c-offer | 300 | The offer legibly, but the card is cropped by the frame edge and the ground behind it is mush. |
+| d-first | 610 | The back of a head. |
+| e-drop | 930 | A strong product frame, but four-fifths black. |
+| f-counter | 1105 | The warmest frame in the film, and the closest call — rejected because alone it says nothing about Uptick. |
 
 The choice is recorded as `POSTER` in `scripts/final-deliver.py` so it can be
 re-argued against the same six rather than taken on trust.
 
 ## Tests
 
-- `scripts/final-preflight.py` — 211 checks, 0 failed.
-- `scripts/final-deliver.py validate` — 38 checks, 0 failed. Every delivered
-  file re-read with ffprobe, including integrated loudness and true peak;
-  results and checksums in `VALIDATION.json` beside this file.
-- `scripts/final-deliver.py align` — re-measures what actually came out and
-  trims it if the encoder missed. It caught the teaser 2.7 dB hot.
-- `npx tsc --noEmit` — clean.
+- `scripts/final-preflight.py` — 263 checks, 0 failed. Includes the new product
+  rules: press must precede done on all three redemptions, both offers must keep
+  something free, the qualifying amount must agree across screen, receipt and
+  redemption, the composited quad must lie inside its plate — and **nothing on
+  screen may say "Friday"**.
+- `scripts/final-deliver.py validate` — 38 checks, 0 failed.
+- `npx tsc --noEmit` and `npm run build` — clean.

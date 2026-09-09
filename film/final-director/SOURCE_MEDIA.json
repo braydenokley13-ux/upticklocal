@@ -3,16 +3,16 @@
   "generatedBy": "scripts/final-manifest.py",
   "edit": {
     "file": "film/final-director/final-edit.json",
-    "sha256": "ee0e6bce14b39952f8ee855a1540802f74dec28fef9146f7c606d06ec374e625"
+    "sha256": "45f46b047fefafac39eabd15612647f99cb567356309fda857d463bd5eed43d6"
   },
   "composition": {
     "file": "film/compositions/director/FinalFilm.tsx",
-    "sha256": "8457fff763b9e5610679fdbcfd40fc81906534b44e469bd1617468ede4f4d82d"
+    "sha256": "19fd5f7011816b56980d4caaff169ad15b201062e26e072ed997afeee62cadf9"
   },
   "fixture": {
-    "file": "film/data/acquisition.json",
-    "sha256": "53ef5d8e07eeccd4bd513dafcbef95e1832099bf1e3f9e538c1ccf39c5ce5c90",
-    "role": "Every business name, distance, timestamp and price on screen is read from this file at render time; scripts/final-preflight.py fails the build if any of them drift."
+    "file": "film/data/weekly-drop.json",
+    "sha256": "4b36278714cf4c5e5ad1877868b5953cd2d24d60bd0b007d2080a3e8fc854282",
+    "role": "The Weekly Drop product truth. Every business name, distance, offer, timestamp and price on screen is read from this file at render time; scripts/final-preflight.py fails the build if any of them drift, and also fails if anything on screen says Friday."
   },
   "pictures": [
     {
@@ -57,7 +57,7 @@
       "bytes": 7060484,
       "width": 2752,
       "height": 1536,
-      "role": "washWide"
+      "role": "washPlate"
     },
     {
       "file": "public/film-rd/director/photographic/route-depart-tracking-v2.mp4",
@@ -172,6 +172,14 @@
       "seconds": 0.206,
       "mean_dbfs": -26.9,
       "peak_dbfs": -18.0
+    },
+    {
+      "file": "public/film-rd/audio/nozzle.ogg",
+      "sha256": "babee32c42df5ad57df32806531f392b01702eb9e6fe656abe092c38ed10ee52",
+      "bytes": 5262,
+      "seconds": 0.227,
+      "mean_dbfs": -37.6,
+      "peak_dbfs": -18.2
     },
     {
       "file": "public/film-rd/audio/pad-mint.ogg",
