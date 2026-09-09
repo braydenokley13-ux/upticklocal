@@ -1,0 +1,49 @@
+{
+  "shot": "pair-detail-first",
+  "frame": 36,
+  "frames": null,
+  "width": 640,
+  "height": 360,
+  "fps": 24,
+  "samples": 8,
+  "device": "CPU",
+  "seconds": 14.397,
+  "camera": {
+    "spec": {
+      "family": "human",
+      "lens": 85.0,
+      "fstop": 2.8,
+      "height": 1.1,
+      "subject": "sleeve and opening door, no exposed face",
+      "foreground": "aluminum door edge",
+      "background": "warm counter through glass",
+      "motivation": "one tactile gesture becomes the visual rhyme",
+      "stops": [
+        "locked",
+        "locked"
+      ],
+      "focus": [
+        2.409,
+        2.409
+      ],
+      "lenses": [
+        85.0,
+        85.0
+      ],
+      "heights": [
+        1.1,
+        1.1
+      ]
+    },
+    "treatment": "detail",
+    "friday": false
+  },
+  "sequence": false,
+  "step": 1,
+  "frameTimings": [
+    {
+      "frame": 36,
+      "seconds": 8.552
+    }
+  ]
+}

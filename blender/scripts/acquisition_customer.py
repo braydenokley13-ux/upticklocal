@@ -7,8 +7,9 @@ from pathlib import Path
 import math
 import hashlib
 import json
+import bisect
 import bpy
-from mathutils import Matrix
+from mathutils import Matrix, Vector
 
 ASSETS=Path(__file__).resolve().parents[1]/'assets/rocketbox'
 
@@ -22,7 +23,7 @@ def validate_assets():
             raise RuntimeError(f'Customer asset differs from licensed source manifest: {asset}')
 
 
-def customer(path,frames,yaw=math.pi,stop_walking=None,notice_at=None,phone_at=None,handset_at=None,walk_from=0):
+def customer(path,frames,yaw=math.pi,stop_walking=None,notice_at=None,phone_at=None,handset_at=None,walk_from=0,distance_driven=False,orient_path=False):
     validate_assets()
     scene=bpy.context.scene
     output_fps=scene.render.fps / scene.render.fps_base
@@ -55,13 +56,49 @@ def customer(path,frames,yaw=math.pi,stop_walking=None,notice_at=None,phone_at=N
     animation_objects=set(bpy.data.objects)-old
     source=next(o for o in animation_objects if o.type=='ARMATURE')
     source_fps=scene.render.fps / scene.render.fps_base
+    def path_position(frame):
+        for (a,x0,y0),(b,x1,y1) in zip(path,path[1:]):
+            if frame<=b:
+                u=max(0,min(1,(frame-a)/(b-a)))
+                return Vector((x0+(x1-x0)*u,y0+(y1-y0)*u,0))
+        return Vector((path[-1][1],path[-1][2],0))
+    travel=[0.0]
+    for frame in range(1,frames):travel.append(travel[-1]+(path_position(frame)-path_position(frame-1)).length)
+    if distance_driven:
+        hips=[]
+        for frame in range(1,34):
+            scene.frame_set(frame);bpy.context.view_layer.update()
+            hips.append((source.matrix_world@source.pose.bones['Bip01 Pelvis'].matrix).translation.copy())
+        forward=hips[-1]-hips[0];forward.z=0;stride=forward.length;forward.normalize()
+        distances=[max(0,(p-hips[0]).dot(forward)) for p in hips]
+        assert stride>1 and all(a<=b for a,b in zip(distances,distances[1:])), 'Unexpected walk take/root trajectory'
     # Target rest geometry and take share Rocketbox bone names. Full armature-
     # space poses carry the A-pose-to-walk change, not only local Euler angles.
     for f in range(frames):
         walk_frame=min(f,stop_walking) if stop_walking is not None else f
         walk_frame=max(0,walk_frame-walk_from)
         source_frame=1+(walk_frame*source_fps/output_fps)%32
+        if distance_driven:
+            distance=max(0,travel[min(frames-1,walk_frame+walk_from)]-travel[min(frames-1,walk_from)])
+            phase_distance=distance%stride
+            ix=min(31,max(0,bisect.bisect_right(distances,phase_distance)-1))
+            fraction=(phase_distance-distances[ix])/(distances[ix+1]-distances[ix])
+            source_frame=1+ix+fraction
         scene.frame_set(int(source_frame),subframe=source_frame%1)
+        bpy.context.view_layer.update()
+        if distance_driven:
+            hip=(source.matrix_world@source.pose.bones['Bip01 Pelvis'].matrix).translation
+            displacement=forward*(hip-hips[0]).dot(forward)
+            # This take carries locomotion on the armature OBJECT, not the
+            # pelvis bone. Preserve its body sway/bob, remove forward travel,
+            # and let the authored path supply only the forward displacement.
+            # The matched skeleton uses the donor's complete object frame.
+            # Normalizing by its animated frame 1 would remove real body pitch.
+            rig.matrix_world=Matrix.Translation(-displacement)@source.matrix_world
+            rig.rotation_mode='QUATERNION'
+            rig.keyframe_insert('location',frame=f)
+            rig.keyframe_insert('rotation_quaternion',frame=f)
+            rig.keyframe_insert('scale',frame=f)
         for bone in rig.pose.bones:
             if bone.name in source.pose.bones:
                 bone.rotation_mode='QUATERNION'
@@ -106,4 +143,15 @@ def customer(path,frames,yaw=math.pi,stop_walking=None,notice_at=None,phone_at=N
         root.rotation_euler=(0,0,yaw)
         root.keyframe_insert('location',frame=f)
         root.keyframe_insert('rotation_euler',frame=f)
+    if orient_path:
+        for f in range(frames):
+            tangent=path_position(min(frames-1,f+3))-path_position(max(0,f-3))
+            if tangent.length>.0001:
+                root.rotation_euler=(0,0,math.atan2(tangent.x,-tangent.y))
+                root.keyframe_insert('rotation_euler',frame=f)
+    if distance_driven:
+        from camera import _fcurves
+        for curve in _fcurves(root.animation_data.action):
+            for key in curve.keyframe_points:key.interpolation='LINEAR'
+        root['locomotion']='Distance-driven native root removal; 1.496m measured stride'
     return root

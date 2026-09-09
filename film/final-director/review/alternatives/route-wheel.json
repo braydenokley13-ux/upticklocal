@@ -1,0 +1,48 @@
+{
+  "shot": "route-wheel",
+  "frame": 12,
+  "frames": null,
+  "width": 640,
+  "height": 360,
+  "fps": 24,
+  "samples": 8,
+  "device": "CPU",
+  "seconds": 11.849,
+  "camera": {
+    "spec": {
+      "family": "human",
+      "lens": 75.0,
+      "fstop": 2.8,
+      "height": 0.56,
+      "subject": "wet tire follows the curb out of the wash",
+      "foreground": "wet curb with real depth",
+      "background": "soft source architecture",
+      "motivation": "keep wheel legible while pavement begins moving",
+      "stops": [
+        "f0",
+        "f23"
+      ],
+      "focus": [
+        3.921,
+        3.921
+      ],
+      "lenses": [
+        75.0,
+        75.0
+      ],
+      "heights": [
+        0.56,
+        0.56
+      ]
+    },
+    "treatment": "wheel"
+  },
+  "sequence": false,
+  "step": 1,
+  "frameTimings": [
+    {
+      "frame": 12,
+      "seconds": 7.44
+    }
+  ]
+}

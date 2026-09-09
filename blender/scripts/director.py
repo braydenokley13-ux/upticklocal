@@ -9,6 +9,7 @@ import math
 from pathlib import Path
 import sys
 import bpy
+from functools import partial
 from mathutils import Vector
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 import acquisition_production as P
@@ -19,6 +20,7 @@ from camera import _fcurves
 B,SC,CAM,DV=A.B,A.SC,A.CAM,A.DV
 # Only this director module selects the new asset; legacy entry points retain theirs.
 A.hero_car=hero_car
+A.CUSTOMER.customer=partial(A.CUSTOMER.customer,distance_driven=True)
 EDIT=json.loads((A.ROOT/'film/final-director/edit.json').read_text())
 COUNTS={s['id']:s['frames'] for s in EDIT['shots']}
 
@@ -159,7 +161,7 @@ def doorway(W,friday=False):
     shot=SC.shot_threshold(W,frames=n)
     for obj in bpy.data.objects:
         if obj.name.startswith('th_walker'):obj.hide_render=True
-    A.CUSTOMER.customer(((0,-2.10,19.2),(round(n*.45),-1.52,20.42),(n-1,-.44,21.62)),n)
+    A.CUSTOMER.customer(((0,-2.10,19.2),(round(n*.45),-1.52,20.42),(n-1,-.44,21.62)),n,orient_path=True)
     B.set_state(W,'morning',elev=12 if friday else 21,rot=188 if friday else 195,exposure=-2.25,interior_w=430)
     cam=CAM.Cam('human',lens=50,fstop=3.5,subject='the familiar shirt, gait and doorway; the face never carries the shot',
         foreground='warm counter edge and shelf detail',background="Joe's recognizable door and bright forecourt",motivation='identical waist-height lens for Tuesday and Friday; return gets one more second')

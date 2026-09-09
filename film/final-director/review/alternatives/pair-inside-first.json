@@ -1,0 +1,49 @@
+{
+  "shot": "pair-inside-first",
+  "frame": 36,
+  "frames": null,
+  "width": 640,
+  "height": 360,
+  "fps": 24,
+  "samples": 8,
+  "device": "CPU",
+  "seconds": 16.973,
+  "camera": {
+    "spec": {
+      "family": "human",
+      "lens": 42.0,
+      "fstop": 2.8,
+      "height": 1.5,
+      "subject": "a customer enters a working local store",
+      "foreground": "dark shelf edges",
+      "background": "morning beyond the door",
+      "motivation": "hold for the doorway action",
+      "stops": [
+        "locked",
+        "locked"
+      ],
+      "focus": [
+        4.618,
+        4.618
+      ],
+      "lenses": [
+        42.0,
+        42.0
+      ],
+      "heights": [
+        1.5,
+        1.5
+      ]
+    },
+    "treatment": "inside",
+    "friday": false
+  },
+  "sequence": false,
+  "step": 1,
+  "frameTimings": [
+    {
+      "frame": 36,
+      "seconds": 10.581
+    }
+  ]
+}

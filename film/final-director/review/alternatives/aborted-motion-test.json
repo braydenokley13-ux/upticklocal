@@ -1,0 +1,35 @@
+{
+  "status": "ABORTED BOUNDED TEST; NOT A COMPLETE MOTION CLIP",
+  "reason": "Local render slowed above 60 seconds per frame; stopped to respect small-Mac-work scope.",
+  "requestedRange": [
+    24,
+    47
+  ],
+  "framesActuallyWritten": [
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    31
+  ],
+  "checksums": {
+    "0024.png": "2f33caa825fa67353302e387b0428fc91b5d66ae68f0db376276050973a2dee5",
+    "0025.png": "e619f138be143d3545ddfaccb6399896cb08399540bf6ae6cba1bb53919f27c3",
+    "0026.png": "b19c16e35dd86b902f090fa2089ea28f71b5ada0b257bb7b4190cacd5b7cba6c",
+    "0027.png": "b1fbb17890d73f6c29c2fb5de610f8b13429e05e41893be4732d237f6025146c",
+    "0028.png": "a2681e6248eb405d4748128ea8cba6672794639467f39a6ec6e94d89c9f5b444",
+    "0029.png": "62ada42bb3300e5b7e3380c925bd17f35e66ceef7eb287e19169c753e384479e",
+    "0031.png": "f9c95024486d0fc4a725a96f95195c6018d4d1177c2af52c9a262e24b089d058"
+  },
+  "settings": {
+    "width": 640,
+    "height": 360,
+    "samples": 8,
+    "threads": 2,
+    "fps": 24
+  },
+  "script": "blender/scripts/director_tests.py",
+  "shot": "pair-follow-first"
+}
