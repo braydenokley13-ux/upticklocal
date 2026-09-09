@@ -68,3 +68,29 @@ npm run film:lookdev -- --pos -2.5,-19.5,5.2 --target 6,10.5,2.8 --lens 29 --out
 - `film/PLAN.md` and `film/REPORT.md` — the implementation plan and the R&D report. `film/review/` holds the critic's brief and every punch list; each hero shot is critiqued from extracted frames before the lead acts.
 
 Renders use a local Chromium: `FILM_CHROME=/path/to/chrome-headless-shell` (defaults to Playwright's in the remote environment).
+
+## The delivered film — *From Nearby to Yours*
+
+The finished Uptick Growth commercial: 52.00 s, 1,248 frames, 1920×1080, 24 fps.
+Every picture in it is photographic; no Blender plate appears in the master. Its
+three phone screens are drawn in Remotion so the product copy is exact.
+
+```
+python3 scripts/final-preflight.py        # 196 checks; must pass before a render
+npm run film:final                        # master + teaser, then the whole delivery set
+python3 scripts/final-deliver.py validate # ffprobe every delivered file
+```
+
+- `film/final-director/final-edit.json` — the locked timeline: eighteen shots,
+  their media, their crops, the sound edit, and the copy the film speaks.
+- `film/compositions/director/FinalFilm.tsx` — the composition (`Final-Film`)
+  and the 15-second teaser (`Final-Teaser`).
+- `film/final-director/FINAL_REPORT.md` — what was made, what was cut and why.
+  `CRITIC.md` scores the delivered master; `TRUTH_AUDIT.md` checks every claim
+  on screen against `film/data/acquisition.json`; `HIGGSFIELD_MANIFEST.json`,
+  `SOURCE_MEDIA.json` and `RENDER_MANIFEST.json` are the provenance record.
+- Deliverables are `public/film-rd/final/uptick-growth-final-*`. The R&D film's
+  own outputs keep their original names beside them.
+
+Every business name, distance, timestamp and price on screen is read from the
+fixture at render time, and preflight fails the build if any of them drift.

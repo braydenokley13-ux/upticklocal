@@ -1,0 +1,267 @@
+{
+  "title": "Higgsfield generation manifest \u2014 From Nearby to Yours",
+  "status": "FINAL. No generation was made during the Opus 5 run.",
+  "toolAvailability": {
+    "higgsfieldMcpServer": "FAILED TO CONNECT for the whole of this session (404 CLIENT_HTTP_NOT_IMPLEMENTED from the session's MCP gateway).",
+    "consequence": "Credit balance could not be read and no new clip could be generated. The film was finished from the material the previous run had already produced and committed.",
+    "creditsSpentThisRun": 0
+  },
+  "creditsRecordedInPriorRuns": 74.25,
+  "priorRunCreditsNote": "Sum of the charges the previous run recorded in its own files. Two rejected stills carry an assumed 2.0 nano_banana_pro charge each by analogy with their siblings; coffee-start-v1 has no recorded charge at all and contributes nothing to this total. It is a floor, not a reconciled invoice.",
+  "inTheCut": [
+    "doorway-first-v1",
+    "doorway-return-v1",
+    "route-depart-tracking-v2",
+    "route-turn-v2",
+    "store-opening-v2",
+    "route-depart-start-v1",
+    "route-turn-start-v2",
+    "store-opening-start-v2",
+    "paid-handoff-start-v1",
+    "coffee-start-v1"
+  ],
+  "rejected": [
+    "route-depart-v1",
+    "route-turn-rejected-car-v1"
+  ],
+  "notInTheCut": [
+    "store-exterior-frontal-v1"
+  ],
+  "generations": [
+    {
+      "id": "0b8fbeec-208b-438b-8584-032d03974083",
+      "name": "doorway-first-v1",
+      "kind": "video",
+      "model": "seedance_2_5",
+      "mode": "omni_reference",
+      "credits": 32.5,
+      "purpose": "First visit \u2014 over-the-shoulder entry through Joe's doorway",
+      "verdict": "USED",
+      "used": "Shot 8 `first`, source frames 0-119 of 121.",
+      "note": "Walk rhythm, garment and doorway geometry all hold; he passes through the open gap, never the glass. The strongest single generation of the run.",
+      "result": {
+        "sha256": "14b663d53a340ea3dd021d78ae1faca6b9cbc82a744bd8e2cada80a1b18bfbb5",
+        "width": 1280,
+        "height": 720,
+        "frames": 121,
+        "fps": 24,
+        "bytes": 3951874
+      },
+      "path": "public/film-rd/director/photographic/doorway-first-v1.mp4"
+    },
+    {
+      "id": "e8568366-f09b-4dc3-a80b-f5ce36c71f4e",
+      "name": "doorway-return-v1",
+      "kind": "video",
+      "model": "kling3_0",
+      "mode": "pro",
+      "credits": 8.75,
+      "purpose": "Return visit \u2014 same doorway, more direct behaviour",
+      "verdict": "USED (TRIMMED)",
+      "used": "Shot 12 `return`, source frames 0-38 of 121.",
+      "note": "Frames 0-38 are clean and read as a familiar, purposeful entry \u2014 he is further into the store by frame 16 than the first visit is by frame 32. From frame ~44 the navy overshirt desaturates into a grey gradient and by ~52 it is white; everything after 38 is discarded.",
+      "result": {
+        "sha256": "cc0a7dc99d4304e8ab7947e4b558bccd38df17c2a0e3a89624828d3e838e0132",
+        "width": 1916,
+        "height": 1080,
+        "frames": 121,
+        "fps": 24,
+        "bytes": 10155381
+      },
+      "path": "public/film-rd/director/photographic/doorway-return-v1.mp4"
+    },
+    {
+      "id": "5f3f6904-1a29-45cf-bc07-72bfc883f3a0",
+      "name": "route-depart-tracking-v2",
+      "kind": "video",
+      "model": "kling3_0",
+      "mode": "pro",
+      "credits": 5.25,
+      "purpose": "Route \u2014 wet tire leaving the car wash, moving from frame one",
+      "verdict": "USED",
+      "used": "Shot 5 `depart`, source frames 0-60 of 73.",
+      "note": "Motion begins immediately, the wheel holds its place in frame and the ground glides. Replaces the v1 take that waited before moving.",
+      "result": {
+        "sha256": "eb464569b7e798f649e5d7caa4c5b271ce9877771091d7de9d04fcf8d2099fc4",
+        "width": 1928,
+        "height": 1076,
+        "frames": 73,
+        "fps": 24,
+        "bytes": 10007323
+      },
+      "path": "public/film-rd/director/photographic/route-depart-tracking-v2.mp4"
+    },
+    {
+      "id": "1963d896-8b79-4224-89dc-fe89db40b736",
+      "name": "route-depart-v1",
+      "kind": "video",
+      "model": "kling3_0",
+      "mode": "pro",
+      "credits": 5.25,
+      "purpose": "Route \u2014 first attempt at the departure",
+      "verdict": "REJECTED",
+      "note": "Two failures: the car waits before moving, and in the closing frames the wagon resolves into a rounder crossover with different rear lamps. Superseded by the v2 tracking take.",
+      "result": {
+        "sha256": "de35530552fc1e814deb7139fba3fd8f16539d32db66c62414728ca512afd198",
+        "width": 1928,
+        "height": 1076,
+        "frames": 73,
+        "fps": 24,
+        "bytes": 5816786
+      },
+      "path": "public/film-rd/director/photographic/route-depart-v1.mp4"
+    },
+    {
+      "id": "5a60b111-c2c7-40e2-8363-5bf28c9bd3dd",
+      "name": "route-turn-v2",
+      "kind": "video",
+      "model": "kling3_0",
+      "mode": "pro",
+      "credits": 5.25,
+      "purpose": "Route \u2014 the wagon takes a real neighbourhood corner",
+      "verdict": "USED",
+      "used": "Shot 6 `turn`, source frames 0-72 of 73.",
+      "note": "Vehicle identity is rigid across the whole take: squared estate, tall vertical rear lamps, silver multi-spoke alloys. Brick shopfronts, autumn leaves and cracked asphalt do more for local credibility than any other frame in the film.",
+      "result": {
+        "sha256": "3acba12d49bb62e8acdb0f073019495fab4d59a436fdcf13285604e4416e70a6",
+        "width": 1928,
+        "height": 1076,
+        "frames": 73,
+        "fps": 24,
+        "bytes": 8668571
+      },
+      "path": "public/film-rd/director/photographic/route-turn-v2.mp4"
+    },
+    {
+      "id": "795671bb-3400-4279-b274-f08c945d7846",
+      "name": "store-opening-v2",
+      "kind": "video",
+      "model": "kling3_0",
+      "mode": "pro",
+      "credits": 5.25,
+      "purpose": "Opening \u2014 establishing dolly on Joe's Fuel & Go",
+      "verdict": "USED",
+      "used": "Shot 1 `station`, source frames 0-71 of 73.",
+      "note": "Signage letterforms stay stable through the move, which is rare. Carries the whole opening.",
+      "result": {
+        "sha256": "262988b02704bfd81b71e8fab7689ff4c2e2599e6723a190cabdfa1220106944",
+        "width": 1928,
+        "height": 1076,
+        "frames": 73,
+        "fps": 24,
+        "bytes": 10101370
+      },
+      "path": "public/film-rd/director/photographic/store-opening-v2.mp4"
+    },
+    {
+      "id": "5faaadc1-d6b2-4d0a-b3f4-a5a9de9bc883",
+      "name": "route-depart-start-v1",
+      "kind": "still",
+      "model": "nano_banana_pro",
+      "credits": 2.0,
+      "purpose": "Start frame for the departure motion test",
+      "verdict": "USED",
+      "used": "Shots 2 `network`, 3 `encounter` and 4 `invitation` \u2014 three framings inside one 2752x1536 photograph.",
+      "note": "Promoted from a start frame to the film's only view of the car wash. Coverage of one location, not one image used three times.",
+      "result": {
+        "sha256": "16a8cb69c23b8b4fbda03079e5c3529d0bf42200599addcdf98c0437614ab2d3",
+        "width": 2752,
+        "height": 1536,
+        "bytes": 7060484
+      },
+      "path": "public/film-rd/director/photographic/route-depart-start-v1.png"
+    },
+    {
+      "id": "91de780b-abf4-48d0-b30f-6bb2510c5538",
+      "name": "route-turn-start-v2",
+      "kind": "still",
+      "model": "nano_banana_pro",
+      "credits": 2.0,
+      "purpose": "Vehicle continuity correction on the street corner",
+      "verdict": "USED",
+      "used": "Shot 17 `hood`.",
+      "note": "This is the fix that made the route usable: the modern crossover was replaced with the same navy estate, keeping the street, curb, tree and light.",
+      "result": {
+        "sha256": "8ec64a40b6863a8702ff40367bd400b801fdd5e57c9ca8ba366651ab42af1f58",
+        "width": 2752,
+        "height": 1536,
+        "bytes": 7489643
+      },
+      "path": "public/film-rd/director/photographic/route-turn-start-v2.png"
+    },
+    {
+      "id": "86ec8bbe-c233-4459-bc90-069bd6bb1f4e",
+      "name": "store-opening-start-v2",
+      "kind": "still",
+      "model": "nano_banana_pro",
+      "credits": 2.0,
+      "purpose": "Start frame for the establishing dolly",
+      "verdict": "USED",
+      "used": "Shots 7 `arrive`, 16 `proof` and 18 `close`.",
+      "note": "`arrive` is a tight crop on the doorway so it cannot be mistaken for a repeat of the opening.",
+      "result": {
+        "sha256": "a8054e1d1fc7ba5edc8d33e733b2901b2a9dc0eebc097e58ac03dc7a39ff54e8",
+        "width": 2752,
+        "height": 1536,
+        "bytes": 7946105
+      },
+      "path": "public/film-rd/director/photographic/store-opening-start-v2.png"
+    },
+    {
+      "id": "34e40754-8a08-4a7c-99e2-e4d5186a786a",
+      "name": "paid-handoff-start-v1",
+      "kind": "still",
+      "model": "nano_banana_pro",
+      "credits": 2.0,
+      "purpose": "Friday checkout \u2014 payment and handoff two-shot",
+      "verdict": "USED",
+      "used": "Shots 13 `paid-tap`, 14 `paid-face` and 15 `paid-goods`.",
+      "note": "The most valuable single frame in the run and the film's only view of the customer's face. Cut into three framings \u2014 card at the terminal, the two of them, the bag and cup \u2014 which is what section 16 asked for and avoids putting an AI video model through several simultaneous hand interactions.",
+      "result": {
+        "sha256": "4ec5b3092d02ceafef0853e03bd15f41024cce5ac38aa0ebdb3787caafca590d",
+        "width": 2752,
+        "height": 1536,
+        "bytes": 7030168
+      },
+      "path": "public/film-rd/director/photographic/paid-handoff-start-v1.png"
+    },
+    {
+      "id": "0aa50e94-183e-4425-97f6-8f57b270ac9b",
+      "name": "store-exterior-frontal-v1",
+      "kind": "still",
+      "model": "nano_banana_pro",
+      "credits": 2.0,
+      "purpose": "First pass at the Joe's exterior",
+      "verdict": "NOT IN THE CUT",
+      "note": "Kept as the parent of store-opening-start-v2, which moved the camera off a flat frontal elevation. Held in review/alternatives/."
+    },
+    {
+      "id": null,
+      "name": "route-turn-rejected-car-v1",
+      "kind": "still",
+      "model": "nano_banana_pro",
+      "credits": 2.0,
+      "purpose": "Street corner, first attempt",
+      "verdict": "REJECTED",
+      "note": "The navy estate came back as a modern crossover SUV. Rejecting it is what forced the explicit vehicle-continuity correction above. Held in review/alternatives/."
+    },
+    {
+      "id": null,
+      "name": "coffee-start-v1",
+      "kind": "still",
+      "model": "unrecorded",
+      "credits": null,
+      "purpose": "First coffee on the counter at Joe's",
+      "verdict": "USED",
+      "used": "Shot 9 `coffee`.",
+      "note": "PROVENANCE GAP: this file arrived in commit e4e0165 alongside the Higgsfield batch, but the previous run recorded no job id, model or credit charge for it. The file is checksummed here; its generation record is genuinely missing and is not reconstructed.",
+      "result": {
+        "sha256": "baeedb5d1391cfec85c3b78a773ba599c04470a8b43e46a7f5a1861489cb3faf",
+        "width": 2752,
+        "height": 1536,
+        "bytes": 6381605
+      },
+      "path": "public/film-rd/director/photographic/coffee-start-v1.png"
+    }
+  ]
+}

@@ -1,0 +1,273 @@
+{
+  "title": "Source media manifest — From Nearby to Yours",
+  "generatedBy": "scripts/final-manifest.py",
+  "edit": {
+    "file": "film/final-director/final-edit.json",
+    "sha256": "ee0e6bce14b39952f8ee855a1540802f74dec28fef9146f7c606d06ec374e625"
+  },
+  "composition": {
+    "file": "film/compositions/director/FinalFilm.tsx",
+    "sha256": "8457fff763b9e5610679fdbcfd40fc81906534b44e469bd1617468ede4f4d82d"
+  },
+  "fixture": {
+    "file": "film/data/acquisition.json",
+    "sha256": "53ef5d8e07eeccd4bd513dafcbef95e1832099bf1e3f9e538c1ccf39c5ce5c90",
+    "role": "Every business name, distance, timestamp and price on screen is read from this file at render time; scripts/final-preflight.py fails the build if any of them drift."
+  },
+  "pictures": [
+    {
+      "file": "public/film-rd/director/photographic/coffee-start-v1.png",
+      "sha256": "baeedb5d1391cfec85c3b78a773ba599c04470a8b43e46a7f5a1861489cb3faf",
+      "bytes": 6381605,
+      "width": 2752,
+      "height": 1536,
+      "role": "counterCoffee"
+    },
+    {
+      "file": "public/film-rd/director/photographic/doorway-first-v1.mp4",
+      "sha256": "14b663d53a340ea3dd021d78ae1faca6b9cbc82a744bd8e2cada80a1b18bfbb5",
+      "bytes": 3951874,
+      "width": 1280,
+      "height": 720,
+      "frames": 121,
+      "fps": 24,
+      "role": "doorwayFirst"
+    },
+    {
+      "file": "public/film-rd/director/photographic/doorway-return-v1.mp4",
+      "sha256": "cc0a7dc99d4304e8ab7947e4b558bccd38df17c2a0e3a89624828d3e838e0132",
+      "bytes": 10155381,
+      "width": 1916,
+      "height": 1080,
+      "frames": 121,
+      "fps": 24,
+      "role": "doorwayReturn"
+    },
+    {
+      "file": "public/film-rd/director/photographic/paid-handoff-start-v1.png",
+      "sha256": "4ec5b3092d02ceafef0853e03bd15f41024cce5ac38aa0ebdb3787caafca590d",
+      "bytes": 7030168,
+      "width": 2752,
+      "height": 1536,
+      "role": "counterPaid"
+    },
+    {
+      "file": "public/film-rd/director/photographic/route-depart-start-v1.png",
+      "sha256": "16a8cb69c23b8b4fbda03079e5c3529d0bf42200599addcdf98c0437614ab2d3",
+      "bytes": 7060484,
+      "width": 2752,
+      "height": 1536,
+      "role": "washWide"
+    },
+    {
+      "file": "public/film-rd/director/photographic/route-depart-tracking-v2.mp4",
+      "sha256": "eb464569b7e798f649e5d7caa4c5b271ce9877771091d7de9d04fcf8d2099fc4",
+      "bytes": 10007323,
+      "width": 1928,
+      "height": 1076,
+      "frames": 73,
+      "fps": 24,
+      "role": "tireDepart"
+    },
+    {
+      "file": "public/film-rd/director/photographic/route-turn-start-v2.png",
+      "sha256": "8ec64a40b6863a8702ff40367bd400b801fdd5e57c9ca8ba366651ab42af1f58",
+      "bytes": 7489643,
+      "width": 2752,
+      "height": 1536,
+      "role": "streetStill"
+    },
+    {
+      "file": "public/film-rd/director/photographic/route-turn-v2.mp4",
+      "sha256": "3acba12d49bb62e8acdb0f073019495fab4d59a436fdcf13285604e4416e70a6",
+      "bytes": 8668571,
+      "width": 1928,
+      "height": 1076,
+      "frames": 73,
+      "fps": 24,
+      "role": "cornerTurn"
+    },
+    {
+      "file": "public/film-rd/director/photographic/store-opening-start-v2.png",
+      "sha256": "a8054e1d1fc7ba5edc8d33e733b2901b2a9dc0eebc097e58ac03dc7a39ff54e8",
+      "bytes": 7946105,
+      "width": 2752,
+      "height": 1536,
+      "role": "joesStill"
+    },
+    {
+      "file": "public/film-rd/director/photographic/store-opening-v2.mp4",
+      "sha256": "262988b02704bfd81b71e8fab7689ff4c2e2599e6723a190cabdfa1220106944",
+      "bytes": 10101370,
+      "width": 1928,
+      "height": 1076,
+      "frames": 73,
+      "fps": 24,
+      "role": "joesExterior"
+    }
+  ],
+  "picturesPresentButNotInTheCut": [
+    {
+      "file": "public/film-rd/director/photographic/doorway-clean-plate-v1.png",
+      "sha256": "16811c0d7491000e7d5a97e065b332294718a2f8e691fb3eaecd0d9a4b3b882b",
+      "bytes": 1767401,
+      "width": 1672,
+      "height": 941
+    },
+    {
+      "file": "public/film-rd/director/photographic/doorway-first-start-v1.png",
+      "sha256": "8ea030dfbafcc6f69a8d17bfddf04cbaee25ded83a9330bd1682ecd979790f86",
+      "bytes": 1820616,
+      "width": 1672,
+      "height": 941
+    },
+    {
+      "file": "public/film-rd/director/photographic/route-depart-v1.mp4",
+      "sha256": "de35530552fc1e814deb7139fba3fd8f16539d32db66c62414728ca512afd198",
+      "bytes": 5816786,
+      "width": 1928,
+      "height": 1076,
+      "frames": 73,
+      "fps": 24
+    }
+  ],
+  "picturesPresentButNotInTheCutNote": "route-depart-v1.mp4 was rejected — the car waits before moving and changes shape in the closing frames. The two doorway stills are the OpenAI-generated inputs the Higgsfield doorway motion was grown from, kept so the lineage of the film's best clip stays checkable.",
+  "audio": [
+    {
+      "file": "public/film-rd/audio/cafe-interior.ogg",
+      "sha256": "1787d91d1ab6e4182411efbeb0dd832d0fb4e63d46dd3aafefcfa4f2c6a59a0f",
+      "bytes": 431761,
+      "seconds": 30.006,
+      "mean_dbfs": -47.7,
+      "peak_dbfs": -25.9
+    },
+    {
+      "file": "public/film-rd/audio/chord-root.ogg",
+      "sha256": "b07ba7494e9418195970b424f0037a1a54f2c0342b540fbeb4ff7c237eec7c0f",
+      "bytes": 126138,
+      "seconds": 8.007,
+      "mean_dbfs": -31.8,
+      "peak_dbfs": -16.1
+    },
+    {
+      "file": "public/film-rd/audio/director-carwash.ogg",
+      "sha256": "721798d7ed457b487db52f7d2eec571d2f1efe2476ad3a0bdd0124184b91cc5a",
+      "bytes": 218418,
+      "seconds": 12.0,
+      "mean_dbfs": -26.2,
+      "peak_dbfs": -12.7
+    },
+    {
+      "file": "public/film-rd/audio/kitchen-evening.ogg",
+      "sha256": "a9c2f7660f9009d84dcb0243485516a1e13046a5facfe9ab9541b4017a798d95",
+      "bytes": 295521,
+      "seconds": 20.006,
+      "mean_dbfs": -37.9,
+      "peak_dbfs": -30.9
+    },
+    {
+      "file": "public/film-rd/audio/notify.ogg",
+      "sha256": "cc10e58622051e7c7284f99fcee7bf134fd50f1a2e97f31046650409b38cb36e",
+      "bytes": 5062,
+      "seconds": 0.206,
+      "mean_dbfs": -26.9,
+      "peak_dbfs": -18.0
+    },
+    {
+      "file": "public/film-rd/audio/pad-mint.ogg",
+      "sha256": "3ed1d53f612d5db728dd003a15f17dd2b4f9d9290599e63a4fefad5896d4cb9b",
+      "bytes": 221128,
+      "seconds": 12.007,
+      "mean_dbfs": -32.6,
+      "peak_dbfs": -24.0
+    },
+    {
+      "file": "public/film-rd/audio/press.ogg",
+      "sha256": "8797b51e8e571966861c3255c9ffe3c5805599e6e2a7634159a8a040c75840a6",
+      "bytes": 2310,
+      "seconds": 0.097,
+      "mean_dbfs": -31.4,
+      "peak_dbfs": -16.1
+    },
+    {
+      "file": "public/film-rd/audio/redeem.ogg",
+      "sha256": "aec6278d454b6f9067717e55554a38a711f9fa7a70e42a5796f20e357a5c52ac",
+      "bytes": 17434,
+      "seconds": 1.006,
+      "mean_dbfs": -30.2,
+      "peak_dbfs": -15.0
+    },
+    {
+      "file": "public/film-rd/audio/street-morning.ogg",
+      "sha256": "488187dd9028d91406ab638c96d8f67cf95aab02e9f3d33071937595715e11df",
+      "bytes": 579993,
+      "seconds": 40.007,
+      "mean_dbfs": -44.9,
+      "peak_dbfs": -25.5
+    },
+    {
+      "file": "public/film-rd/audio/tap-wood.ogg",
+      "sha256": "5dd3e6f8e9ee874cf7822148b46aa4d4ac2ba48005d44b23ea4a8a6cd091c44f",
+      "bytes": 3064,
+      "seconds": 0.127,
+      "mean_dbfs": -31.4,
+      "peak_dbfs": -17.1
+    },
+    {
+      "file": "public/film-rd/audio/tick-soft.ogg",
+      "sha256": "dd0d8e6ffe6437c81fa38fb06877a62161b9d3ab025259af504d72d919a7b00c",
+      "bytes": 1331,
+      "seconds": 0.036,
+      "mean_dbfs": -33.3,
+      "peak_dbfs": -22.0
+    }
+  ],
+  "fonts": [
+    {
+      "file": "public/film-rd/fonts/geist-mono-latin-400-normal.woff2",
+      "sha256": "3f98383b122fe015a48536cd4a1cda855a201718923ffe74931a01597107b9b5",
+      "bytes": 9864
+    },
+    {
+      "file": "public/film-rd/fonts/geist-mono-latin-500-normal.woff2",
+      "sha256": "72971bd4908d3984fa1b1426bb363730e4957e16a0f58bfbca76993095715488",
+      "bytes": 10116
+    },
+    {
+      "file": "public/film-rd/fonts/geist-sans-latin-200-normal.woff2",
+      "sha256": "4b5f770e3aef377cec899b6f563b19a8187128eb866ca60b2c8066deb5bb75ae",
+      "bytes": 34088
+    },
+    {
+      "file": "public/film-rd/fonts/geist-sans-latin-300-normal.woff2",
+      "sha256": "0e2b8a081774f7a372eabcfe44111e98b81a00ec1e15ec0feba7484dec817b6d",
+      "bytes": 34104
+    },
+    {
+      "file": "public/film-rd/fonts/geist-sans-latin-400-normal.woff2",
+      "sha256": "e6ef6abb39c762ed2259cc814e6f16888c540cd84835962227b56ab2354f27f1",
+      "bytes": 33400
+    },
+    {
+      "file": "public/film-rd/fonts/geist-sans-latin-500-normal.woff2",
+      "sha256": "40073e90816315c92e4f4381bd50b6fdc950b22b0dd010a4179046cf588d4f12",
+      "bytes": 34716
+    },
+    {
+      "file": "public/film-rd/fonts/newsreader-latin-300-italic.woff2",
+      "sha256": "a3d7b97821e2bb16904e3470c48f2c4c4e860f99b334ab264b97eeec7fcdbaa3",
+      "bytes": 24736
+    },
+    {
+      "file": "public/film-rd/fonts/newsreader-latin-400-italic.woff2",
+      "sha256": "fa9b900403949d9a723106752a5c8ad2797012a0c9057427b1da2db72d552148",
+      "bytes": 24340
+    }
+  ],
+  "rights": {
+    "pictures": "AI-generated concept photography (Higgsfield; two doorway inputs from OpenAI image generation). Not live-action footage, not photographs of a real business, not real customers. Per-file provenance in HIGGSFIELD_MANIFEST.json.",
+    "audio": "Original procedural synthesis, film/audio/synth.py. No stock recording and no third-party music.",
+    "fonts": "Geist, Geist Mono and Newsreader under the SIL Open Font License; the licence files are kept beside the faces in public/film-rd/fonts.",
+    "blender": "The Rocketbox character and walk (Microsoft, MIT) and the procedural sets remain in the repository under blender/ with their LICENSE.md and SOURCE.json intact. None of it appears in this film."
+  }
+}

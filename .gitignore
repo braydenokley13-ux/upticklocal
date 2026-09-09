@@ -65,3 +65,9 @@ film/review/acquisition/prototypes
 blender/.director-frames/
 public/film-rd/director/plates/review/
 public/film-rd/director/plates/proxy/
+
+# Remotion's pre-colour-correction picture and the separately rendered sound
+# edit. scripts/final-deliver.py turns these into the delivered master and
+# teaser; they are intermediates the delivered files fully supersede.
+public/film-rd/final/*-src.mp4
+public/film-rd/final/*-src.wav

@@ -16,7 +16,10 @@
     "film:proxy": "scripts/film-proxy.sh",
     "film:preflight": "python3 scripts/film-preflight.py",
     "film:master": "scripts/film-master.sh",
-    "film:screens": "scripts/bake-screens.sh"
+    "film:screens": "scripts/bake-screens.sh",
+    "film:preflight:final": "python3 scripts/final-preflight.py",
+    "film:final": "scripts/film-final.sh",
+    "film:manifest": "python3 scripts/final-manifest.py"
   },
   "dependencies": {
     "@fontsource/geist-mono": "^5.3.0",
