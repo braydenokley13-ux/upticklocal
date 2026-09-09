@@ -45,9 +45,8 @@ def threshold(W,friday=False):
 
 
 def route(W):
-    result=A.route_geography(W)
-    result['frames']=168
-    return result
+    # route_geography is authored at the edit's length; nothing is relabelled.
+    return A.route_geography(W)
 
 
 def counter(W,state,frames):
@@ -124,8 +123,21 @@ def source_location(W,kind):
     B.box('acq_partner_fascia',(11,.3,.8),(0,8.95,3.8),m['paint'])
     B.text('acq_partner_name',name,.66,(0,8.78,3.57),m['paper'])
     if kind=='quick-lube':
+        # The car sits on a two-post lift. Rendered with only two thin posts
+        # behind it, it read as a car hovering in mid-air, so the lift is built
+        # to be seen: base plates on the floor, posts either side, and carrying
+        # arms reaching in under the sills.
         car=A.hero_car(0,14,yaw=math.pi/2);car.location.z=1.1
-        for x in (-2.0,2.0): B.box(f'acq_lift{x}',(.30,.35,2.2),(x,14,1.1),m['steel'])
+        steel=B.mat_surface('acq_lift_steel','#8d959a',rough=.42,metallic=.6)
+        amber=B.mat_surface('acq_lift_amber','#b8823c',rough=.6)
+        for x in (-2.15,2.15):
+            B.box(f'acq_lift_base{x}',(1.10,1.30,.10),(x,14,.05),steel,bevel=.03)
+            B.box(f'acq_lift_post{x}',(.46,.46,2.55),(x,14,1.28),steel,bevel=.05)
+            B.box(f'acq_lift_cap{x}',(.54,.54,.10),(x,14,2.60),amber,bevel=.03)
+            for dy in (-1.35,1.35):
+                inward=-.62 if x>0 else .62
+                B.box(f'acq_lift_arm{x}{dy}',(1.15,.20,.13),(x+inward,14+dy,1.02),steel,bevel=.03)
+                B.box(f'acq_lift_pad{x}{dy}',(.26,.26,.10),(x+inward*1.55,14+dy,1.10),steel,bevel=.02)
     else:
         for x in (-3,-2.1,2.4):
             for i in range(5): B.cylinder(f'acq_tyre_{x}_{i}',.39,.20,(x,11.5,.10+i*.21),m['paint'],verts=32)

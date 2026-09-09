@@ -60,6 +60,19 @@ def road_extension():
     paint = B.mat_surface('acq_road_paint', '#cfc8b5', rough=.95)
     for x in range(110, int(WASH_X)+50, 12):
         B.box(f'acq_dash_{x}', (3, .10, .006), (x, 0, .009), paint, bevel=0)
+    # Lamp standards and verge posts every 40 m. The route crosses seven tenths
+    # of a mile; with only dashes on the asphalt the middle of that journey is a
+    # blank field, and speed has nothing to read against.
+    pole = B.mat_surface('acq_route_pole', '#6d6f68', rough=.55, metallic=.4)
+    head = B.mat_surface('acq_route_lamp', '#b9b7ad', rough=.5)
+    for i, x in enumerate(range(140, int(WASH_X) - 20, 40)):
+        side = 1 if i % 2 else -1
+        B.cylinder(f'acq_route_pole{x}', .085, 7.2, (x, side * 6.4, 3.6), pole, verts=10)
+        B.box(f'acq_route_arm{x}', (1.5, .10, .10), (x, side * 5.7, 7.15), pole, bevel=.02)
+        B.box(f'acq_route_lamp{x}', (.72, .26, .12), (x, side * 5.0, 7.05), head, bevel=.04)
+        if i % 3 == 0:
+            B.box(f'acq_route_hedge{x}', (9.5, 1.3, 1.15), (x + 5, side * 11.5, .55),
+                  B.mat_surface(f'acq_route_hedge_mat{x}', '#57604a', rough=1, bump=.45), bevel=.25)
     for y in (-4.2, 4.2):
         B.box(f'acq_edge_{y}', (WASH_X, .1, .006), (WASH_X/2, y, .009), paint, bevel=0)
 
@@ -200,17 +213,26 @@ def route_geography(W):
     SC.dress_joes(W)
     B.set_state(W,'morning',exposure=-2.25)
     car=hero_car(WASH_X-10,2.1,yaw=math.pi)
-    for frame,x in ((0,WASH_X-10),(119,1)):
+    for frame,x in ((0,WASH_X-10),(167,1)):
         car.location.x=x; car.keyframe_insert('location',frame=frame)
     cam=CAM.Cam('block',lens=32,fstop=8,subject='the external source and Joe’s joined by the same physical Main Street',
         foreground='the wash exit at the start, Joe’s canopy at the end',background='the full seven-tenths-mile road between businesses',
         motivation='compress travel while preserving both physical endpoints')
     cam.obj.data.clip_end=2400
+    # Authored at the edit's own length. It used to be built at 120 frames and
+    # relabelled 168, freezing the last two seconds on the arrival.
+    #
+    # The apex used to sit 155 m above the midpoint looking straight down, which
+    # put three of the shot's seven seconds on bare terrain: the emptiness became
+    # the subject. It now stays low enough for the lamp standards and verges to
+    # register and looks *along* the road, so the road leads the eye and the
+    # distance is read as travel rather than as a field.
     cam.key(0,(WASH_X-18,-25,14),(WASH_X-3,14,2),focus=(WASH_X-3,14,2),label='source business')
-    cam.key(48,(WASH_X*.58,-125,155),(WASH_X*.50,0,0),focus=(WASH_X*.50,0,0),label='one continuous road')
-    cam.key(119,(-18,-25,12),(0,18,2),focus=(0,18,2),label='Joe’s is the destination')
+    cam.key(40,(WASH_X-96,-13.5,6.2),(WASH_X-210,0,2.4),focus=(WASH_X-210,0,2.4),label='onto the road it shares with Joe’s')
+    cam.key(104,(WASH_X*.34,-12.5,5.4),(WASH_X*.14,0,2.4),focus=(WASH_X*.14,0,2.4),label='seven tenths of a mile of one street')
+    cam.key(167,(-18,-25,12),(0,18,2),focus=(0,18,2),label='Joe’s is the destination')
     CAM.ease_camera(cam.obj)
-    return dict(frames=120,cam=cam.obj,names=[],meta={'spec':cam.spec(),'routeMiles':.7,'alternative':'continuous-geography','travelCompression':'120 frames cover the full road, not real-time driving'})
+    return dict(frames=168,cam=cam.obj,names=[],meta={'spec':cam.spec(),'routeMiles':.7,'alternative':'continuous-geography','travelCompression':'168 frames cover the full road, not real-time driving'})
 
 
 def route(W):

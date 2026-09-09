@@ -35,7 +35,17 @@ def decomposition(current_hash):
 
 
 def digest(path):
-    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+    """Hash the picture, not the file.
+
+    Blender stamps a timestamp chunk into the PNG, so two renders of the same
+    frame have different file bytes and identical pixels. Hashing the file made
+    the still test unpassable and sent provably static shots through a full
+    render. Decode and hash the pixels instead.
+    """
+    raw=subprocess.run(['ffmpeg','-v','error','-i',str(path),'-f','rawvideo','-pix_fmt','rgb24','-'],
+                       capture_output=True,check=True).stdout
+    if not raw: raise RuntimeError(f'Could not decode {path}')
+    return hashlib.sha256(raw).hexdigest()
 
 
 def run(command):
