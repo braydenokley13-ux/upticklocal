@@ -137,8 +137,23 @@
       "end": 264
     },
     {
-      "id": "route",
+      "id": "seed",
       "start": 264,
+      "end": 312,
+      "uses": [
+        {
+          "plate": "network-lube",
+          "frames": 24
+        },
+        {
+          "plate": "network-tire",
+          "frames": 24
+        }
+      ]
+    },
+    {
+      "id": "route",
+      "start": 312,
       "end": 432
     },
     {
@@ -184,7 +199,21 @@
     {
       "id": "network",
       "start": 1152,
-      "end": 1320
+      "end": 1320,
+      "uses": [
+        {
+          "plate": "network-lube",
+          "frames": 48
+        },
+        {
+          "plate": "network-tire",
+          "frames": 48
+        },
+        {
+          "plate": "network",
+          "frames": 72
+        }
+      ]
     },
     {
       "id": "proof",

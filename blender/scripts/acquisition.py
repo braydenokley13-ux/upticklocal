@@ -213,7 +213,7 @@ def route_geography(W):
     SC.dress_joes(W)
     B.set_state(W,'morning',exposure=-2.25)
     car=hero_car(WASH_X-10,2.1,yaw=math.pi)
-    for frame,x in ((0,WASH_X-10),(167,1)):
+    for frame,x in ((0,WASH_X-10),(119,1)):
         car.location.x=x; car.keyframe_insert('location',frame=frame)
     cam=CAM.Cam('block',lens=32,fstop=8,subject='the external source and Joe’s joined by the same physical Main Street',
         foreground='the wash exit at the start, Joe’s canopy at the end',background='the full seven-tenths-mile road between businesses',
@@ -227,12 +227,15 @@ def route_geography(W):
     # the subject. It now stays low enough for the lamp standards and verges to
     # register and looks *along* the road, so the road leads the eye and the
     # distance is read as travel rather than as a field.
+    # Five seconds, not seven. Watching the cut showed the route was the longest
+    # weak stretch in the film, and the two seconds it gives up buy the network
+    # seed that closes the DIY reading at twenty seconds.
     cam.key(0,(WASH_X-18,-25,14),(WASH_X-3,14,2),focus=(WASH_X-3,14,2),label='source business')
-    cam.key(40,(WASH_X-96,-13.5,6.2),(WASH_X-210,0,2.4),focus=(WASH_X-210,0,2.4),label='onto the road it shares with Joe’s')
-    cam.key(104,(WASH_X*.34,-12.5,5.4),(WASH_X*.14,0,2.4),focus=(WASH_X*.14,0,2.4),label='seven tenths of a mile of one street')
-    cam.key(167,(-18,-25,12),(0,18,2),focus=(0,18,2),label='Joe’s is the destination')
+    cam.key(28,(WASH_X-96,-13.5,6.2),(WASH_X-210,0,2.4),focus=(WASH_X-210,0,2.4),label='onto the road it shares with Joe’s')
+    cam.key(74,(WASH_X*.34,-12.5,5.4),(WASH_X*.14,0,2.4),focus=(WASH_X*.14,0,2.4),label='seven tenths of a mile of one street')
+    cam.key(119,(-18,-25,12),(0,18,2),focus=(0,18,2),label='Joe’s is the destination')
     CAM.ease_camera(cam.obj)
-    return dict(frames=168,cam=cam.obj,names=[],meta={'spec':cam.spec(),'routeMiles':.7,'alternative':'continuous-geography','travelCompression':'168 frames cover the full road, not real-time driving'})
+    return dict(frames=120,cam=cam.obj,names=[],meta={'spec':cam.spec(),'routeMiles':.7,'alternative':'continuous-geography','travelCompression':'120 frames cover the full road, not real-time driving'})
 
 
 def route(W):

@@ -8,7 +8,12 @@ const physical=new Map(plan.shots.map(s=>[s.id,s.frames]));
 for(const act of a.acts) {
   if(['proof','closing'].includes(act.id)) continue;
   const expected=act.end-act.start;
-  assert.equal(act.id==='network'?physical.get('network-lube')+physical.get('network-tire')+physical.get('network'):physical.get(act.id),expected,`${act.id} plate/edit duration mismatch`);
+  const uses=act.uses??[{plate:act.id,frames:expected}];
+  assert.equal(uses.reduce((n,u)=>n+u.frames,0),expected,`${act.id} plate/edit duration mismatch`);
+  for(const u of uses) {
+    assert(physical.has(u.plate),`${act.id}: unknown plate ${u.plate}`);
+    assert(u.frames<=physical.get(u.plate),`${act.id}: wants ${u.frames} frames of ${u.plate}, which is ${physical.get(u.plate)} long`);
+  }
 }
 assert.equal(a.acts.at(-1).end,1608);
 for(const name of ['external','pass','route','approach','first','redeemed','permission','friday','return-approach','second','paid','network-lube','network-tire','network']) assert(physical.has(name));

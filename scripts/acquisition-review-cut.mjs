@@ -12,12 +12,24 @@ import path from 'node:path';
 
 const root = path.resolve(import.meta.dirname, '..');
 const config = JSON.parse(await readFile(path.join(root, 'film/render/acquisition-shots.json'), 'utf8'));
-let hash;
+// Frame budgets are enforced -- a plate that no longer fits its slot is a real
+// error. Mixed source revisions are reported rather than refused: an editorial
+// change to the act boundaries moves the source hash without touching a single
+// physical shot, and re-rendering fourteen plates to watch a cut is a poor
+// trade. acquisition-export.mjs still refuses outright, which is what protects
+// the master; this cannot produce one.
+const revisions = new Map();
 for (const shot of config.shots) {
   const meta = JSON.parse(await readFile(path.join(root, `public/film-rd/acquisition/plates/proxy/${shot.id}.json`), 'utf8'));
-  if (meta.frames !== shot.frames || meta.fps !== 24) throw new Error(`Wrong plate: ${shot.id}`);
-  if (hash && meta.sourceHash !== hash) throw new Error(`Mixed source revisions: ${shot.id}`);
-  hash = meta.sourceHash;
+  if (meta.frames !== shot.frames || meta.fps !== 24) {
+    throw new Error(`Wrong plate: ${shot.id} is ${meta.frames} frames at ${meta.fps} fps, the edit wants ${shot.frames} at 24`);
+  }
+  revisions.set(meta.sourceHash, [...(revisions.get(meta.sourceHash) ?? []), shot.id]);
+}
+const hash = [...revisions.keys()][0];
+if (revisions.size > 1) {
+  console.warn(`NOTE: ${revisions.size} source revisions across the plates, which is expected after an editorial change:`);
+  for (const [rev, shots] of revisions) console.warn(`  ${rev.slice(0, 12)}  ${shots.join(' ')}`);
 }
 const output = path.join(root, 'film/review/acquisition/full-proxy');
 await mkdir(output, {recursive: true});
@@ -39,6 +51,7 @@ try {
   }
   await writeFile(path.join(output, 'review.json'), JSON.stringify({
     sourceHash: hash, lane: 'proxy', frames: 1608, fps: 24, seconds: 67,
+    revisions: Object.fromEntries([...revisions].map(([rev, shots]) => [rev.slice(0, 12), shots])),
     status: 'REVIEW CUT ONLY. No gate is approved and this is not a master.',
   }, null, 2));
 } finally {

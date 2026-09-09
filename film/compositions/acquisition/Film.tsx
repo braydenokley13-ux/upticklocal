@@ -80,7 +80,7 @@ const cues=[
 export function AcquisitionFilm({lane='proxy',opening='customer',sound=true}:AcquisitionFilmProps){
   useFilmFonts();
   return <AbsoluteFill style={{background:C.marine,fontFamily:FONT.sans}}>
-    {A.acts.filter(item=>!['network','proof','closing'].includes(item.id)).map(item=><Sequence key={item.id} from={item.start} durationInFrames={item.end-item.start}>
+    {A.acts.filter(item=>!['seed','network','proof','closing'].includes(item.id)).map(item=><Sequence key={item.id} from={item.start} durationInFrames={item.end-item.start}>
       {item.id==='external' && opening==='owner' ? <>
         <Sequence durationInFrames={72}><Img src={staticFile('film-rd/acquisition/review/owner.jpg')} style={{width:'100%',height:'100%',objectFit:'cover'}}/></Sequence>
         <Sequence from={72} durationInFrames={96}><Physical name="external" lane={lane} startFrom={72}/></Sequence>
@@ -88,6 +88,9 @@ export function AcquisitionFilm({lane='proxy',opening='customer',sound=true}:Acq
     </Sequence>)}
     <Sequence from={0} durationInFrames={72}><Caption>Your next customer is already nearby.</Caption></Sequence>
     <Sequence from={96} durationInFrames={72}><Caption>Uptick reaches drivers where they already stop.</Caption></Sequence>
+    <Sequence from={act('seed').start} durationInFrames={24}><Physical name="network-lube" lane={lane} startFrom={12}/></Sequence>
+    <Sequence from={act('seed').start+24} durationInFrames={24}><Physical name="network-tire" lane={lane} startFrom={12}/></Sequence>
+    <Sequence from={act('seed').start} durationInFrames={48}><Caption>The same unit is installed where drivers already stop.</Caption></Sequence>
     <Sequence from={act('route').start} durationInFrames={48}><Caption>Joe’s is 0.7 miles away.</Caption></Sequence>
     <Sequence from={act('first').start} durationInFrames={48}><Caption clock="TUESDAY · 8:17 AM">A first visit.</Caption></Sequence>
     <Sequence from={act('permission').start+24} durationInFrames={120}><Caption side>They choose to stay connected.</Caption></Sequence>

@@ -46,6 +46,24 @@ the most valuable thing watching the cut has produced.
 | "Uptick sells gas stations screens." | The film never sells the unit; it sells the customer moving. But the unit is the most prominent Uptick object on screen and owns the first seven seconds | Throughout | **Partially defended.** Second-largest risk |
 | "This is just a local marketing agency." | Repeatable physical installation across distinct trades, source-specific attribution, explicit permission, productized proof — and no dashboard anywhere | 48–60 s | Defended |
 
+## Revision 1 — applied, and re-watched
+
+The network seed was moved before the journey. A two-second act at 11-13
+seconds shows the same installed unit at Quick Lube and at Ridge Tire, under
+*The same unit is installed where drivers already stop.* The two seconds come
+out of the route, which drops from seven to five and is re-authored at its new
+length rather than relabelled.
+
+At twenty seconds the viewer has now seen the same unit at **three** businesses
+before the first visit happens. The reading available at that point is "Uptick
+installs the same thing where drivers stop, and it moves them to Joe's", not
+"someone put up a QR code". **The twenty-second checkpoint is clear**, and the
+screen-company risk falls with it: a unit seen once is a screen someone sold
+Joe; the same unit at three trades is infrastructure somebody operates.
+
+The route is still the weakest system at 6.5, and five seconds suits it better
+than seven did.
+
 ## What the cut says to do next
 
 1. **Establish the network before the journey, not after it.** One brief sight
