@@ -257,7 +257,13 @@ def threshold(W, friday=False):
     for obj in bpy.data.objects:
         if obj.name.startswith('th_walker'): obj.hide_render=True
     CUSTOMER.customer(((0,-2.10,19.2),(round(frames*.45),-1.52,20.42),(frames-1,-.44,21.62)),frames)
-    B.set_state(W,'morning',elev=15 if friday else 24,rot=8 if friday else 352,exposure=-2.55,interior_w=980)
+    # The room, not the sun, was what exposed the face. At 980 W the shop lit the
+    # customer from the camera side and the Rocketbox head carried the frame; at
+    # 300 W the doorway is the brightest thing in the room and the figure reads
+    # as a body in it, which is what shot_threshold was designed around. Four
+    # camera variants were rendered against this and the authored one won, so the
+    # frame is unchanged and only its light is.
+    B.set_state(W,'morning',elev=12 if friday else 18,rot=188 if friday else 195,exposure=-2.55,interior_w=300)
     shot['frames']=frames
     shot['meta']['clock']='Friday · 7:36 AM' if friday else 'Tuesday · 8:17 AM'
     shot['meta']['customerId']=FIXTURE['hero']['customerId']
