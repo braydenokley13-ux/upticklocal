@@ -60,3 +60,8 @@ film/review/acquisition/final-frames
 # encoded review cut beside them is the record, not 14 disposable mp4s.
 public/film-rd/acquisition/plates/proxy
 film/review/acquisition/prototypes
+
+# Director render caches are keyed by source digest, lane and shot.
+blender/.director-frames/
+public/film-rd/director/plates/review/
+public/film-rd/director/plates/proxy/

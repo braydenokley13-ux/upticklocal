@@ -9,9 +9,12 @@ import { shotFrames } from "./shots";
 import { AcquisitionSurface, type AcquisitionSurface as AcquisitionSurfaceState } from './compositions/acquisition/Surfaces';
 import {OpeningTest} from './compositions/acquisition/OpeningTest';
 import {AcquisitionFilm,AcquisitionTeaser,ACQUISITION_FRAMES} from './compositions/acquisition/Film';
+import {DirectorFilm,DirectorTeaser,DIRECTOR_FRAMES} from './compositions/director/Film';
 
 export const Root = () => (
   <>
+    <Composition id="Director-Film" component={DirectorFilm} durationInFrames={DIRECTOR_FRAMES} fps={24} width={1920} height={1080} defaultProps={{lane:'review',sound:true,opening:'network'}}/>
+    <Composition id="Director-Teaser" component={DirectorTeaser} durationInFrames={360} fps={24} width={1920} height={1080} defaultProps={{lane:'review',sound:true,opening:'network'}}/>
     <Composition id="Acquisition-Film" component={AcquisitionFilm} durationInFrames={ACQUISITION_FRAMES} fps={24} width={1920} height={1080}
       defaultProps={{lane:'proxy',opening:'customer',sound:true}}/>
     <Composition id="Acquisition-Teaser" component={AcquisitionTeaser} durationInFrames={360} fps={24} width={1920} height={1080} defaultProps={{lane:'final'}}/>
