@@ -7,6 +7,7 @@
   "frames": 1248,
   "illustrative": true,
   "opening": "network",
+  "vehicleCandidate": "Marine concept coupe; detailed asset comparison, not approved as the final everyday customer vehicle",
   "shots": [
     {"id":"station","frames":120,"role":"Joe's belongs to an active neighborhood; opening and final return to the station","kind":"animated"},
     {"id":"wash","frames":24,"role":"First external driver-serving source","kind":"animated"},
@@ -52,7 +53,7 @@
   "lanes":{"proxy":{"width":640,"height":360,"samples":8},"final":{"width":1920,"height":1080,"samples":16}},
   "sound":[
     {"at":0,"frames":144,"file":"street-morning","gain":0.45},
-    {"at":72,"frames":168,"file":"cafe-interior","gain":0.22},
+    {"at":72,"frames":168,"file":"director-carwash","gain":0.40},
     {"at":240,"frames":6,"file":"tick-soft","gain":0.30},
     {"at":288,"frames":72,"file":"street-morning","gain":0.65,"offset":72},
     {"at":360,"frames":240,"file":"cafe-interior","gain":0.28},

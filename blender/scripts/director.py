@@ -13,9 +13,12 @@ from mathutils import Vector
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 import acquisition_production as P
 import acquisition as A
+from director_car import hero_car
 from camera import _fcurves
 
 B,SC,CAM,DV=A.B,A.SC,A.CAM,A.DV
+# Only this director module selects the new asset; legacy entry points retain theirs.
+A.hero_car=hero_car
 EDIT=json.loads((A.ROOT/'film/final-director/edit.json').read_text())
 COUNTS={s['id']:s['frames'] for s in EDIT['shots']}
 
@@ -61,9 +64,17 @@ def neighborhood_detail():
     B.text('director_open','OPEN',.14,(4.8,18.75,.7),brick)
 
 
+def clear_foreground():
+    # These legacy proxy cars and near foliage obstruct the new camera corridor.
+    for obj in bpy.data.objects:
+        if any(c.name=='cars' for c in obj.users_collection) or obj.name.startswith(('crown','near_lot_crown','near_lot_trunk','director_canopy0','director_tree_trunk0')):
+            obj.hide_render=True
+
+
 def station(W):
     SC.look(W);SC.dress_joes(W);neighborhood_detail()
-    B.set_state(W,'dusk',exposure=-1.75,interior_w=1100)
+    clear_foreground()
+    B.set_state(W,'dusk',exposure=.6,interior_w=520)
     cam=CAM.Cam('block',lens=38,fstop=4,subject="Joe's warm store and the active street around it",
         foreground='a cropped near tree and textured street',background='the same local shops used in the journey',
         motivation='a patient lateral reveal that resolves at the store')
@@ -110,6 +121,7 @@ def invitation(W):
 def road_beat(W,kind):
     SC.look(W);SC.dress_joes(W);neighborhood_detail()
     B.set_state(W,'morning',elev=16,rot=126,exposure=-2.25)
+    clear_foreground()
     n=24
     if kind=='depart':
         hide_world();A.carwash(W)
@@ -132,9 +144,9 @@ def road_beat(W,kind):
     for f,loc in ((0,start),(23,end)):
         car.location=loc;car.keyframe_insert('location',frame=f)
     for child in car.children_recursive:
-        if 'tyre' in child.name or 'rim' in child.name or 'hub' in child.name:
-            child.rotation_euler.y=0;child.keyframe_insert('rotation_euler',frame=0)
-            child.rotation_euler.y=-(Vector(end)-Vector(start)).length/.34
+        if child.get('director_roll_axis')=='X':
+            child.rotation_euler.x=0;child.keyframe_insert('rotation_euler',frame=0)
+            child.rotation_euler.x=(Vector(end)-Vector(start)).length/.35
             child.keyframe_insert('rotation_euler',frame=23)
     cam=CAM.Cam('street',lens=48 if kind!='arrive' else 35,fstop=4,subject=subject,foreground='road texture and the marine wagon',background=background,motivation='three spatial anchors compress the trip without pretending to show real-time driving')
     cam.lock(pos,target,n,focus=target,label=kind)
@@ -179,7 +191,8 @@ def offer(W):
 
 def neighborhood(W):
     SC.look(W);SC.dress_joes(W);neighborhood_detail()
-    B.set_state(W,'dusk',exposure=-1.75,interior_w=1100)
+    clear_foreground()
+    B.set_state(W,'dusk',exposure=.6,interior_w=520)
     cam=CAM.Cam('block',lens=40,fstop=5.6,subject='the station is one destination in a larger inhabited neighborhood',
         foreground='warm windows and canopy',background='the continuous street and surrounding local businesses',motivation='expand the scale only after the returning customer has earned the payoff')
     cam.key(0,(-18,-12,5.5),(0,18,2),focus=(0,18,2),label='the destination')

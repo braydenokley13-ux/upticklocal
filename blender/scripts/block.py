@@ -16,6 +16,7 @@ people schedules and renders live in shots.py; the CLI is render.py.
 from __future__ import annotations
 
 import math
+import hashlib
 import os
 from dataclasses import dataclass, field
 
@@ -1858,7 +1859,8 @@ def set_state(W: World, name: str, frame: int | None = None, **overrides):
     # upper windows: a deterministic scatter, denser at dusk
     for key, cards in W.upper_windows.items():
         for i, card in enumerate(cards):
-            lit = _fac(hash(key) % 1000, i) < st["windows"]
+            seed = int.from_bytes(hashlib.sha256(str(key).encode()).digest()[:4], 'big')
+            lit = _fac(seed % 1000, i) < st["windows"]
             p = card.data.materials[0].node_tree.nodes["Principled BSDF"]
             p.inputs["Emission Strength"].default_value = (st["emis"] * (0.34 + 0.22 * _fac(i, 3))) if lit else 0.0
             if frame is not None:

@@ -18,7 +18,7 @@ def main():
  for i,name in enumerate(chosen):
   print(f'Small test {i+1}/{len(chosen)}: {name}',flush=True)
   base=[a.blender,'-b','--factory-startup','--python-exit-code','1']
-  env={**os.environ,'FILM_THREADS':'2'}
+  env={**os.environ,'FILM_THREADS':'2','PYTHONHASHSEED':'0'}
   audit=subprocess.run(base+['--python','scripts/director-scene-audit.py','--',name],cwd=ROOT,env=env,capture_output=True,text=True)
   lines=[l for l in audit.stdout.splitlines() if l.startswith('DIRECTOR_AUDIT ')]
   if audit.returncode or not lines:

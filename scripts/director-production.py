@@ -11,20 +11,20 @@ ROOT=Path(__file__).resolve().parents[1]
 PLAN=json.loads((ROOT/'film/final-director/edit.json').read_text())
 SHOTS={s['id']:s for s in PLAN['shots']}
 LOCAL=ROOT/'node_modules/@remotion/compositor-darwin-arm64'
-ENV={**os.environ,**({'DYLD_LIBRARY_PATH':str(LOCAL)} if LOCAL.exists() else {})}
+ENV={**os.environ,'PYTHONHASHSEED':'0',**({'DYLD_LIBRARY_PATH':str(LOCAL)} if LOCAL.exists() else {})}
 
 def digest(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 def inputs():
     prefixes=['blender/scripts','blender/assets','film/compositions/director','film/compositions/acquisition',
-              'film/primitives','film/typography','public/film-rd/fonts','public/film-rd/audio']
+              'film/primitives','film/typography','film/audio','public/film-rd/fonts','public/film-rd/audio']
     paths=[]
     for prefix in prefixes:
         paths.extend(p for p in (ROOT/prefix).rglob('*') if p.is_file() and '__pycache__' not in p.parts and p.suffix not in ('.pyc','.wav'))
     paths.extend(ROOT/p for p in ['film/final-director/edit.json','film/data/acquisition.json','film/data/acquisition.ts',
       'film/Root.tsx','film/tokens.ts','film/index.ts','package-lock.json','remotion.config.ts',
       'scripts/director-production.py','scripts/director-export.mjs','scripts/director-scene-audit.py',
-      'scripts/acquisition-bake.mjs'])
+      'scripts/acquisition-bake.mjs','scripts/director-preflight.py'])
     return sorted(set(paths))
 
 def source_record():
@@ -44,7 +44,10 @@ def validate_video(path,frames,width,height,audio=False):
     assert s['r_frame_rate']=='24/1' and s['avg_frame_rate']=='24/1',f'Wrong cadence: {path}'
     assert int(s['nb_read_frames'])==frames,f'Wrong frame count: {path}'
     assert abs(float(s['duration'])-frames/24)<1/24,f'Wrong duration: {path}'
-    if audio:assert any(s['codec_type']=='audio' for s in data['streams']),f'No audio: {path}'
+    assert s['codec_name']=='h264' and s['pix_fmt']=='yuv420p',f'Wrong video encoding: {path}'
+    if audio:
+        sound=next((s for s in data['streams'] if s['codec_type']=='audio'),None)
+        assert sound and sound['codec_name']=='aac' and int(sound['sample_rate'])==48000 and sound['channels']==2,f'Wrong audio encoding: {path}'
     return data
 
 def verify_lock(record):
