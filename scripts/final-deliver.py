@@ -57,19 +57,22 @@ TEASER = FINAL / "uptick-growth-final-teaser.mp4"
 POSTER_PNG = FINAL / "uptick-growth-final-poster.png"
 POSTER_JPG = FINAL / "uptick-growth-final-poster.jpg"
 
-# The frame chosen as the poster, in composition frames at 24 fps. Frame 36 is
-# the opening dolly on Joe's: the whole location, warm, before any type lands.
-POSTER = 36
+# The frame chosen as the poster, in composition frames at 24 fps. Frame 245 is
+# the racked-in Uptick screen at the car wash: the customer's wet car in the
+# foreground, and a screen at somebody else's business advertising Joe's with a
+# real offer. It is the only frame that states the whole product without a
+# caption, and the only one that could not be mistaken for a generic retail ad.
+POSTER = 245
 
 # Six honest alternatives, one per act. Written out so the choice above can be
 # re-argued against the same set instead of being taken on trust.
 POSTER_CANDIDATES = {
     "a-station": 36,
-    "b-network": 150,
-    "c-route": 404,
-    "d-first": 560,
-    "e-return": 838,
-    "f-counter": 958,
+    "b-screen": 245,
+    "c-offer": 300,
+    "d-first": 610,
+    "e-drop": 930,
+    "f-counter": 1105,
 }
 
 FPS = 24
@@ -350,10 +353,18 @@ def contact(master: Path, frames: int) -> list[str]:
 
 # ----------------------------------------------------------------- validate
 
-EXPECT = {
-    "frames": 1248, "fps": 24.0, "width": 1920, "height": 1080,
-    "seconds": 52.0, "teaser_frames": 360, "teaser_seconds": 15.0,
-}
+def _expected() -> dict:
+    """Read the film's own shape from the locked edit rather than restating it."""
+    edit = json.loads((ROOT / "film" / "final-director" / "final-edit.json").read_text())
+    return {
+        "frames": edit["frames"], "fps": float(edit["fps"]),
+        "width": edit["width"], "height": edit["height"],
+        "seconds": round(edit["frames"] / edit["fps"], 3),
+        "teaser_frames": 360, "teaser_seconds": 15.0,
+    }
+
+
+EXPECT = _expected()
 
 
 def validate() -> dict:

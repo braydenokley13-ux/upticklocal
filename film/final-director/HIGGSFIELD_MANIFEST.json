@@ -1,10 +1,16 @@
 {
-  "title": "Higgsfield generation manifest \u2014 From Nearby to Yours",
-  "status": "FINAL. No generation was made during the Opus 5 run.",
+  "title": "Higgsfield generation manifest — The Weekly Drop",
+  "status": "FINAL. No generation was made in either Opus 5 run.",
   "toolAvailability": {
-    "higgsfieldMcpServer": "FAILED TO CONNECT for the whole of this session (404 CLIENT_HTTP_NOT_IMPLEMENTED from the session's MCP gateway).",
-    "consequence": "Credit balance could not be read and no new clip could be generated. The film was finished from the material the previous run had already produced and committed.",
-    "creditsSpentThisRun": 0
+    "higgsfieldMcpServer": "FAILED TO CONNECT in both Opus 5 sessions, with the identical error each time (404 CLIENT_HTTP_NOT_IMPLEMENTED from the session's MCP gateway).",
+    "consequence": "Credit balance could not be read and no new clip or still could be generated, in either the first delivery or this Weekly Drop revision. Both films were cut entirely from the material the Astra run had already produced and committed.",
+    "creditsSpentInOpus5Runs": 0,
+    "whatThisCost": [
+      "The customer is never seen looking at the Uptick screen; a rack focus stands in for the moment he notices the offer.",
+      "No fuel pump exists in any plate, so the fuel purchase is carried by the canopy, a nozzle cue and a drawn receipt.",
+      "Only one of the three named network businesses is ever pictured.",
+      "The Uptick screen itself had to be drawn and projected onto a blank sign panel rather than photographed in place."
+    ]
   },
   "creditsRecordedInPriorRuns": 74.25,
   "priorRunCreditsNote": "Sum of the charges the previous run recorded in its own files. Two rejected stills carry an assumed 2.0 nano_banana_pro charge each by analogy with their siblings; coffee-start-v1 has no recorded charge at all and contributes nothing to this total. It is a floor, not a reconciled invoice.",
@@ -35,9 +41,9 @@
       "model": "seedance_2_5",
       "mode": "omni_reference",
       "credits": 32.5,
-      "purpose": "First visit \u2014 over-the-shoulder entry through Joe's doorway",
+      "purpose": "First visit — over-the-shoulder entry through Joe's doorway",
       "verdict": "USED",
-      "used": "Shot 8 `first`, source frames 0-119 of 121.",
+      "used": "Shot 10 `first`, source frames 6-107 of 121. The first visit, after the fuel purchase.",
       "note": "Walk rhythm, garment and doorway geometry all hold; he passes through the open gap, never the glass. The strongest single generation of the run.",
       "result": {
         "sha256": "14b663d53a340ea3dd021d78ae1faca6b9cbc82a744bd8e2cada80a1b18bfbb5",
@@ -56,10 +62,10 @@
       "model": "kling3_0",
       "mode": "pro",
       "credits": 8.75,
-      "purpose": "Return visit \u2014 same doorway, more direct behaviour",
+      "purpose": "Return visit — same doorway, more direct behaviour",
       "verdict": "USED (TRIMMED)",
-      "used": "Shot 12 `return`, source frames 0-38 of 121.",
-      "note": "Frames 0-38 are clean and read as a familiar, purposeful entry \u2014 he is further into the store by frame 16 than the first visit is by frame 32. From frame ~44 the navy overshirt desaturates into a grey gradient and by ~52 it is white; everything after 38 is discarded.",
+      "used": "Shot 15 `return`, source frames 0-33 of 121.",
+      "note": "Frames 0-38 are clean and read as a familiar, purposeful entry — he is further into the store by frame 16 than the first visit is by frame 32. From frame ~44 the navy overshirt desaturates into a grey gradient and by ~52 it is white; everything after 38 is discarded.",
       "result": {
         "sha256": "cc0a7dc99d4304e8ab7947e4b558bccd38df17c2a0e3a89624828d3e838e0132",
         "width": 1916,
@@ -77,9 +83,9 @@
       "model": "kling3_0",
       "mode": "pro",
       "credits": 5.25,
-      "purpose": "Route \u2014 wet tire leaving the car wash, moving from frame one",
+      "purpose": "Route — wet tire leaving the car wash, moving from frame one",
       "verdict": "USED",
-      "used": "Shot 5 `depart`, source frames 0-60 of 73.",
+      "used": "Shot 6 `depart`, source frames 0-54 of 73. He leaves the wash having seen the offer.",
       "note": "Motion begins immediately, the wheel holds its place in frame and the ground glides. Replaces the v1 take that waited before moving.",
       "result": {
         "sha256": "eb464569b7e798f649e5d7caa4c5b271ce9877771091d7de9d04fcf8d2099fc4",
@@ -98,7 +104,7 @@
       "model": "kling3_0",
       "mode": "pro",
       "credits": 5.25,
-      "purpose": "Route \u2014 first attempt at the departure",
+      "purpose": "Route — first attempt at the departure",
       "verdict": "REJECTED",
       "note": "Two failures: the car waits before moving, and in the closing frames the wagon resolves into a rounder crossover with different rear lamps. Superseded by the v2 tracking take.",
       "result": {
@@ -118,9 +124,9 @@
       "model": "kling3_0",
       "mode": "pro",
       "credits": 5.25,
-      "purpose": "Route \u2014 the wagon takes a real neighbourhood corner",
+      "purpose": "Route — the wagon takes a real neighbourhood corner",
       "verdict": "USED",
-      "used": "Shot 6 `turn`, source frames 0-72 of 73.",
+      "used": "Shot 7 `turn`, source frames 0-65 of 73.",
       "note": "Vehicle identity is rigid across the whole take: squared estate, tall vertical rear lamps, silver multi-spoke alloys. Brick shopfronts, autumn leaves and cracked asphalt do more for local credibility than any other frame in the film.",
       "result": {
         "sha256": "3acba12d49bb62e8acdb0f073019495fab4d59a436fdcf13285604e4416e70a6",
@@ -139,9 +145,9 @@
       "model": "kling3_0",
       "mode": "pro",
       "credits": 5.25,
-      "purpose": "Opening \u2014 establishing dolly on Joe's Fuel & Go",
+      "purpose": "Opening — establishing dolly on Joe's Fuel & Go",
       "verdict": "USED",
-      "used": "Shot 1 `station`, source frames 0-71 of 73.",
+      "used": "Shot 1 `station`, source frames 0-65 of 73.",
       "note": "Signage letterforms stay stable through the move, which is rare. Carries the whole opening.",
       "result": {
         "sha256": "262988b02704bfd81b71e8fab7689ff4c2e2599e6723a190cabdfa1220106944",
@@ -161,7 +167,7 @@
       "credits": 2.0,
       "purpose": "Start frame for the departure motion test",
       "verdict": "USED",
-      "used": "Shots 2 `network`, 3 `encounter` and 4 `invitation` \u2014 three framings inside one 2752x1536 photograph.",
+      "used": "Shots 3 `wash`, 4 `notice` and 5 `offer`. Promoted from a start frame to the film's most important location: its blank teal sign panel carries the composited Uptick screen, and the rack focus onto that screen is the acquisition beat.",
       "note": "Promoted from a start frame to the film's only view of the car wash. Coverage of one location, not one image used three times.",
       "result": {
         "sha256": "16a8cb69c23b8b4fbda03079e5c3529d0bf42200599addcdf98c0437614ab2d3",
@@ -179,7 +185,7 @@
       "credits": 2.0,
       "purpose": "Vehicle continuity correction on the street corner",
       "verdict": "USED",
-      "used": "Shot 17 `hood`.",
+      "used": "Shot 2 `network` — the neighbourhood the screens sit in.",
       "note": "This is the fix that made the route usable: the modern crossover was replaced with the same navy estate, keeping the street, curb, tree and light.",
       "result": {
         "sha256": "8ec64a40b6863a8702ff40367bd400b801fdd5e57c9ca8ba366651ab42af1f58",
@@ -197,7 +203,7 @@
       "credits": 2.0,
       "purpose": "Start frame for the establishing dolly",
       "verdict": "USED",
-      "used": "Shots 7 `arrive`, 16 `proof` and 18 `close`.",
+      "used": "Shots 8 `arrive` (cropped to the canopy), 9 `fuel`, 19 `proof` and 20 `close`.",
       "note": "`arrive` is a tight crop on the doorway so it cannot be mistaken for a repeat of the opening.",
       "result": {
         "sha256": "a8054e1d1fc7ba5edc8d33e733b2901b2a9dc0eebc097e58ac03dc7a39ff54e8",
@@ -213,10 +219,10 @@
       "kind": "still",
       "model": "nano_banana_pro",
       "credits": 2.0,
-      "purpose": "Friday checkout \u2014 payment and handoff two-shot",
+      "purpose": "Friday checkout — payment and handoff two-shot",
       "verdict": "USED",
-      "used": "Shots 13 `paid-tap`, 14 `paid-face` and 15 `paid-goods`.",
-      "note": "The most valuable single frame in the run and the film's only view of the customer's face. Cut into three framings \u2014 card at the terminal, the two of them, the bag and cup \u2014 which is what section 16 asked for and avoids putting an AI video model through several simultaneous hand interactions.",
+      "used": "Shots 16 `redeem2`, 17 `counter` and 18 `goods`. The kraft bag reads as the breakfast sandwich and the cup as the free coffee, which fits the Weekly Drop offer better than it fitted the offer it was generated for.",
+      "note": "The most valuable single frame in the run and the film's only view of the customer's face. Cut into three framings — card at the terminal, the two of them, the bag and cup — which is what section 16 asked for and avoids putting an AI video model through several simultaneous hand interactions.",
       "result": {
         "sha256": "4ec5b3092d02ceafef0853e03bd15f41024cce5ac38aa0ebdb3787caafca590d",
         "width": 2752,
@@ -253,7 +259,7 @@
       "credits": null,
       "purpose": "First coffee on the counter at Joe's",
       "verdict": "USED",
-      "used": "Shot 9 `coffee`.",
+      "used": "Shot 12 `coffee` — the free first coffee on the counter.",
       "note": "PROVENANCE GAP: this file arrived in commit e4e0165 alongside the Higgsfield batch, but the previous run recorded no job id, model or credit charge for it. The file is checksummed here; its generation record is genuinely missing and is not reconstructed.",
       "result": {
         "sha256": "baeedb5d1391cfec85c3b78a773ba599c04470a8b43e46a7f5a1861489cb3faf",
@@ -263,5 +269,23 @@
       },
       "path": "public/film-rd/director/photographic/coffee-start-v1.png"
     }
-  ]
+  ],
+  "compositedSurfaces": {
+    "note": "Not Higgsfield. Every product surface in the film is drawn in Remotion, because copy this exact cannot be handed to an image or video model.",
+    "surfaces": [
+      {
+        "name": "Uptick screen at Main Street Car Wash",
+        "how": "Portrait screen drawn at 600x1154 and projected onto the measured corners of the real blank sign panel in route-depart-start-v1.png by homography, inset 13px so a rim of the panel survives as a bezel, and blurred to match the plate's own defocus.",
+        "quad": null
+      },
+      {
+        "name": "Fuel receipt",
+        "how": "Drawn as thermal paper with a torn edge; every figure read from the fixture."
+      },
+      {
+        "name": "Four phone states",
+        "how": "First redemption, Weekly Drop opt-in, the Drop arriving as SMS, and the second redemption."
+      }
+    ]
+  }
 }

@@ -1,0 +1,88 @@
+{
+  "product": "Uptick Weekly Drop",
+  "merchant": "Joe's Fuel & Go",
+  "illustrative": true,
+  "disclaimer": "Illustrative customer journey. Outcomes are not guaranteed.",
+  "positioning": "Uptick finds nearby customers through screens at other local businesses, gives them a reason to come in, gets them onto the merchant's Weekly Drop, and keeps giving them a new reason to come back. There is always something free.",
+  "notFriday": "The Weekly Drop is weekly, not Friday. A Drop lands on whatever day is useful; this film deliberately shows one landing on a Wednesday evening.",
+
+  "network": [
+    { "id": "car-wash",   "name": "Main Street Car Wash", "distanceMiles": 0.7, "screens": 1 },
+    { "id": "quick-lube", "name": "Quick Lube",           "distanceMiles": 1.2, "screens": 1 },
+    { "id": "ridge-tire", "name": "Ridge Tire",           "distanceMiles": 1.5, "screens": 1 }
+  ],
+
+  "screen": {
+    "hostId": "car-wash",
+    "merchant": "JOE'S FUEL & GO",
+    "action": "BUY $25 OF GAS",
+    "reward": "GET A FREE COFFEE",
+    "instruction": "Show your receipt inside.",
+    "footer": "Get deals like this with",
+    "product": "UPTICK WEEKLY DROP",
+    "wayfinding": "0.7 mi · Main St",
+    "qualifyingCents": 2500
+  },
+
+  "fuel": {
+    "pump": "3",
+    "grade": "UNLEADED",
+    "gallons": "8.62",
+    "totalCents": 2500,
+    "card": "VISA ····4417",
+    "when": "Tuesday · 8:09 AM"
+  },
+
+  "firstRedemption": {
+    "merchant": "Joe's Fuel & Go",
+    "title": "FREE COFFEE",
+    "qualifier": "Qualifying $25 gas purchase",
+    "action": "REDEEM",
+    "done": "REDEEMED",
+    "priceCents": 0,
+    "when": "Tuesday · 8:17 AM"
+  },
+
+  "join": {
+    "headline": "Want Joe's Weekly Drop?",
+    "detail": "A new offer each week. There's always something free.",
+    "action": "KEEP ME POSTED",
+    "accepted": "YOU'RE IN.",
+    "confirm": "Joe can reach him every week now.",
+    "when": "Tuesday · 8:19 AM"
+  },
+
+  "drop": {
+    "sender": "UPTICK WEEKLY DROP",
+    "lines": [
+      "A new Joe's Drop just landed.",
+      "Buy a breakfast sandwich.",
+      "Coffee's free."
+    ],
+    "channel": "text message",
+    "when": "Wednesday · 5:31 PM"
+  },
+
+  "returnRedemption": {
+    "title": "YOUR JOE'S DROP",
+    "actionLine": "Buy a breakfast sandwich",
+    "rewardLine": "Get a coffee free",
+    "action": "REDEEM",
+    "done": "REDEEMED",
+    "when": "Thursday · 7:41 AM"
+  },
+
+  "journey": [
+    { "label": "FOUND NEARBY",   "detail": "Uptick screen at Main Street Car Wash", "when": "Tuesday · 8:04 AM" },
+    { "label": "FUELLED",        "detail": "$25.00 of gas at Joe's",                "when": "Tuesday · 8:09 AM" },
+    { "label": "CAME INSIDE",    "detail": "Free coffee, redeemed at the counter",  "when": "Tuesday · 8:17 AM" },
+    { "label": "JOINED THE DROP","detail": "Opted in to Joe's Weekly Drop",         "when": "Tuesday · 8:19 AM" },
+    { "label": "CAME BACK",      "detail": "Breakfast sandwich. Coffee free.",      "when": "Thursday · 7:41 AM" }
+  ],
+
+  "closing": {
+    "lines": ["Find them nearby.", "Bring them in.", "Keep them coming back."],
+    "brand": "UPTICK GROWTH",
+    "detail": "Build your local audience, and give it a new reason every week."
+  }
+}

@@ -26,7 +26,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 EDIT = ROOT / "film" / "final-director" / "final-edit.json"
 COMPOSITION = ROOT / "film" / "compositions" / "director" / "FinalFilm.tsx"
-FIXTURE = ROOT / "film" / "data" / "acquisition.json"
+FIXTURE = ROOT / "film" / "data" / "weekly-drop.json"
 PICTURES = ROOT / "public" / "film-rd" / "director" / "photographic"
 AUDIO = ROOT / "public" / "film-rd" / "audio"
 FONTS = ROOT / "public" / "film-rd" / "fonts"
@@ -90,9 +90,10 @@ def main() -> None:
         "composition": {"file": rel(COMPOSITION), "sha256": sha256(COMPOSITION)},
         "fixture": {
             "file": rel(FIXTURE), "sha256": sha256(FIXTURE),
-            "role": "Every business name, distance, timestamp and price on screen is read "
-                    "from this file at render time; scripts/final-preflight.py fails the "
-                    "build if any of them drift.",
+            "role": "The Weekly Drop product truth. Every business name, distance, offer, "
+                    "timestamp and price on screen is read from this file at render time; "
+                    "scripts/final-preflight.py fails the build if any of them drift, and "
+                    "also fails if anything on screen says Friday.",
         },
         "pictures": [
             picture(PICTURES / n) | {

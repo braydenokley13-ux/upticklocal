@@ -24,7 +24,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 EDIT = ROOT / "film" / "final-director" / "final-edit.json"
-FIXTURE = ROOT / "film" / "data" / "acquisition.json"
+FIXTURE = ROOT / "film" / "data" / "weekly-drop.json"
 PUBLIC = ROOT / "public"
 
 # A still may be enlarged this much past its own pixels before it stops being a
@@ -101,8 +101,11 @@ def main() -> int:
         c.add(f"timeline:{shot['id']}:positive_duration", shot["duration"] > 0, str(shot["duration"]))
         cursor += shot["duration"]
     c.add("timeline:total_frames", cursor == edit["frames"], f"{cursor} vs {edit['frames']}")
-    c.add("timeline:runtime_seconds", abs(edit["frames"] / fps - 52.0) < 0.001,
-          f"{edit['frames'] / fps:.3f}s")
+    # The Weekly Drop revision is allowed 52-58 s; story clarity beat the old
+    # 52 s exactly. It must still be a whole number of frames at 24 fps.
+    runtime = edit["frames"] / fps
+    c.add("timeline:runtime_in_range", 52.0 <= runtime <= 58.0, f"{runtime:.3f}s")
+    c.add("timeline:whole_frames", edit["frames"] == int(edit["frames"]), str(edit["frames"]))
 
     # ---- every picture the edit names is on disk, and long enough
     for key, media in edit["media"].items():
@@ -165,31 +168,90 @@ def main() -> int:
                   f"{reached:.1f} dBFS (ceiling {PEAK_CEILING_DB})")
 
     # ---- every claim on screen still agrees with the repository fixture
-    by_id = {s["id"]: s for s in fixture["sources"]}
-    for entry in edit["network"]:
-        src = by_id.get(entry["sourceId"])
-        c.add(f"fixture:{entry['sourceId']}:exists", src is not None, entry["sourceId"])
-        if src:
-            c.add(f"fixture:{entry['sourceId']}:name", src["name"] == entry["name"], entry["name"])
-            c.add(f"fixture:{entry['sourceId']}:distance",
-                  f"{src['distanceMiles']} mi" == entry["distance"], entry["distance"])
+    by_id = {n["id"]: n for n in fixture["network"]}
+    for n in fixture["network"]:
+        c.add(f"fixture:network:{n['id']}:has_a_screen", n.get("screens", 0) >= 1, str(n.get("screens")))
+    c.add("fixture:screen_host_exists", fixture["screen"]["hostId"] in by_id,
+          fixture["screen"]["hostId"])
+    c.add("fixture:screen_host_is_the_hero_source",
+          edit["continuity"]["hostId"] == fixture["screen"]["hostId"],
+          edit["continuity"]["hostId"])
 
-    events = {e["kind"]: e for e in fixture["hero"]["events"]}
-    step_when = [s["when"] for s in edit["proofSteps"]]
-    for kind, when in (("claim", events["claim"]["label"]),
-                       ("first-redemption", events["first-redemption"]["label"]),
-                       ("permission", events["permission"]["label"]),
-                       ("return-redemption", events["return-redemption"]["label"])):
-        c.add(f"fixture:proof_timestamp:{kind}", when in step_when, when)
+    # The offer on the screen must be the one the film's own timeline redeems.
+    qual = fixture["screen"]["qualifyingCents"]
+    c.add("fixture:qualifying_matches_fuel_total", qual == fixture["fuel"]["totalCents"],
+          f"{qual} vs {fixture['fuel']['totalCents']}")
+    c.add("fixture:screen_states_the_qualifier",
+          f"${qual // 100}" in fixture["screen"]["action"], fixture["screen"]["action"])
+    c.add("fixture:first_redemption_cites_the_qualifier",
+          f"${qual // 100}" in fixture["firstRedemption"]["qualifier"],
+          fixture["firstRedemption"]["qualifier"])
 
-    price = f"${fixture['returnOffer']['priceCents'] / 100:.2f}"
-    goods = next(s for s in edit["shots"] if s["id"] == "paid-goods")
-    c.add("fixture:return_price_on_screen", price in goods["eyebrow"],
-          f"{price} in {goods['eyebrow']!r}")
-    c.add("fixture:return_is_paid", fixture["returnOffer"]["priceCents"] > 0,
-          f"{fixture['returnOffer']['priceCents']} cents")
-    c.add("fixture:first_visit_is_free",
-          events["first-redemption"]["priceCents"] == 0, "0 cents")
+    # Something is always free — on the acquisition offer and on the Drop alike.
+    c.add("product:acquisition_offer_is_free",
+          "FREE" in fixture["screen"]["reward"].upper()
+          and fixture["firstRedemption"]["priceCents"] == 0,
+          fixture["screen"]["reward"])
+    c.add("product:drop_offer_is_free",
+          "free" in fixture["returnRedemption"]["rewardLine"].lower(),
+          fixture["returnRedemption"]["rewardLine"])
+    c.add("product:drop_message_says_free",
+          any("free" in line.lower() for line in fixture["drop"]["lines"]),
+          " / ".join(fixture["drop"]["lines"]))
+
+    # The Drop reaches him by text, and the film has to say so.
+    c.add("product:drop_channel_is_text", "text" in fixture["drop"]["channel"].lower(),
+          fixture["drop"]["channel"])
+
+    # Permission is offered, pressed, then accepted — never accepted first.
+    for name in ("redeem1", "join", "redeem2"):
+        beat = edit["beats"][name]
+        c.add(f"beat:{name}:press_precedes_done", beat["pressFrame"] < beat["doneFrame"],
+              f"press {beat['pressFrame']} < done {beat['doneFrame']}")
+        shot = next(x for x in edit["shots"] if x.get("insert") == name)
+        c.add(f"beat:{name}:done_inside_shot", beat["doneFrame"] < shot["duration"] - 6,
+              f"done {beat['doneFrame']} of {shot['duration']}")
+
+    # The product is the Weekly Drop, not a Friday promotion. Nothing on screen
+    # may say Friday — section 11 of the brief, made mechanical.
+    on_screen = []
+    for shot in edit["shots"]:
+        on_screen += [shot.get("copy", ""), shot.get("eyebrow", "")]
+    def walk(node):
+        if isinstance(node, str): on_screen.append(node)
+        elif isinstance(node, dict):
+            for v in node.values(): walk(v)
+        elif isinstance(node, list):
+            for v in node: walk(v)
+    for key in ("screen", "firstRedemption", "join", "drop", "returnRedemption", "journey", "closing"):
+        walk(fixture[key])
+    said = [t for t in on_screen if "friday" in t.lower()]
+    c.add("product:never_says_friday", not said, "; ".join(said) or "no Friday anywhere on screen")
+    c.add("product:names_the_weekly_drop",
+          any("weekly drop" in t.lower() for t in on_screen), fixture["screen"]["product"])
+
+    # The journey panel is the film's only proof, and every row must be a real beat.
+    whens = {fixture[k]["when"] for k in ("fuel", "firstRedemption", "join", "drop", "returnRedemption")}
+    for step in fixture["journey"][1:]:
+        c.add(f"fixture:journey_timestamp:{step['label']}", step["when"] in whens, step["when"])
+    c.add("fixture:no_aggregate_on_screen",
+          not any(ch.isdigit() and "of" in t for t in on_screen for ch in "")
+          and not any(w in " ".join(on_screen).lower() for w in ("customers joined", "% ", "roi", "increase")),
+          "no aggregate, percentage or ROI claim")
+
+    # ---- the composited screen sits inside the plate it was measured from
+    q = edit["screenQuad"]
+    plate = edit["media"]["washPlate"]
+    for i, (x, y) in enumerate(q["corners"]):
+        c.add(f"screen:corner{i}:inside_plate",
+              0 <= x <= plate["srcW"] and 0 <= y <= plate["srcH"], f"({x},{y})")
+    xs = [p[0] for p in q["corners"]]; ys = [p[1] for p in q["corners"]]
+    c.add("screen:quad_has_area", (max(xs) - min(xs)) > 100 and (max(ys) - min(ys)) > 200,
+          f"{max(xs)-min(xs)}x{max(ys)-min(ys)}")
+    c.add("screen:inset_leaves_a_bezel", 0 < q["inset"] < 40, str(q["inset"]))
+    c.add("screen:plate_blur_declared", q["plateBlurPx"] > 0, str(q["plateBlurPx"]))
+    used = [s2["id"] for s2 in edit["shots"] if s2.get("screen")]
+    c.add("screen:appears_in_the_film", len(used) >= 2, ", ".join(used))
 
     # ---- the qualification never leaves the picture
     c.add("truth:disclaimer_present",

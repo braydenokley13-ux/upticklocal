@@ -1,10 +1,10 @@
 {
   "expected": {
-    "frames": 1248,
+    "frames": 1344,
     "fps": 24.0,
     "width": 1920,
     "height": 1080,
-    "seconds": 52.0,
+    "seconds": 56.0,
     "teaser_frames": 360,
     "teaser_seconds": 15.0
   },
@@ -12,49 +12,49 @@
     "master": {
       "file": "public/film-rd/final/uptick-growth-final-master-1080p.mp4",
       "present": true,
-      "bytes": 64333292,
-      "sha256": "2eb8787bf173604259d2422c9408f79dbd386fad93621bd6265668ef96543e13",
-      "container_seconds": 52.1,
+      "bytes": 57907176,
+      "sha256": "2bd30dc44705d7ca96863d1ce0d77676b07d6af2ba69c365350ac77f32ff37df",
+      "container_seconds": 56.1,
       "video_codec": "h264",
       "width": 1920,
       "height": 1080,
       "fps": 24.0,
       "pix_fmt": "yuv420p",
-      "video_frames": 1248,
+      "video_frames": 1344,
       "color_range": "tv",
       "color_space": "bt709",
       "audio_codec": "aac",
       "sample_rate": 48000,
       "channels": 2,
-      "integrated_lufs": -16.13,
-      "true_peak_dbtp": -1.22
+      "integrated_lufs": -16.07,
+      "true_peak_dbtp": -1.35
     },
     "web": {
       "file": "public/film-rd/final/uptick-growth-final-web-1080p.mp4",
       "present": true,
-      "bytes": 24999764,
-      "sha256": "aacc85ea525c97dbfd941e67113e10033372a0bbe6bf5fda97ad4051f439d770",
-      "container_seconds": 52.1,
+      "bytes": 23111019,
+      "sha256": "3e88ea31af88fb400ba1e3d80f2573d30e7eb889ff6763091ed9639cee947ca8",
+      "container_seconds": 56.1,
       "video_codec": "h264",
       "width": 1920,
       "height": 1080,
       "fps": 24.0,
       "pix_fmt": "yuv420p",
-      "video_frames": 1248,
+      "video_frames": 1344,
       "color_range": "tv",
       "color_space": "bt709",
       "audio_codec": "aac",
       "sample_rate": 48000,
       "channels": 2,
-      "integrated_lufs": -16.13,
-      "true_peak_dbtp": -1.22
+      "integrated_lufs": -16.07,
+      "true_peak_dbtp": -1.35
     },
     "webm": {
       "file": "public/film-rd/final/uptick-growth-final-1080p.webm",
       "present": true,
-      "bytes": 11483894,
-      "sha256": "4293c624a3b1a1d1c0fe08ee73b1743b78feeeb4f097e4f0ee8d3c28a5849428",
-      "container_seconds": 52.117,
+      "bytes": 9910708,
+      "sha256": "dd73e28cf9715eb8f1ce91397e17838b489062603dd79be0a0436e89d09dc0d5",
+      "container_seconds": 56.128,
       "video_codec": "vp9",
       "width": 1920,
       "height": 1080,
@@ -66,15 +66,15 @@
       "audio_codec": "opus",
       "sample_rate": 48000,
       "channels": 2,
-      "integrated_lufs": -16.12,
-      "true_peak_dbtp": -0.96
+      "integrated_lufs": -16.06,
+      "true_peak_dbtp": -1.24
     },
     "teaser": {
       "file": "public/film-rd/final/uptick-growth-final-teaser.mp4",
       "present": true,
-      "bytes": 12301394,
-      "sha256": "edc6f7d5209c8b6abce82b684b47e20d47d9b10ec625d748684572f63dd1c0ee",
-      "container_seconds": 15.019,
+      "bytes": 9617215,
+      "sha256": "fa61fc574f2d0d9d2e69792efa17f3907b5b73ca6dac7ca7a50f29bf0ce65942",
+      "container_seconds": 15.001,
       "video_codec": "h264",
       "width": 1920,
       "height": 1080,
@@ -86,14 +86,14 @@
       "audio_codec": "aac",
       "sample_rate": 48000,
       "channels": 2,
-      "integrated_lufs": -16.03,
-      "true_peak_dbtp": -4.18
+      "integrated_lufs": -16.05,
+      "true_peak_dbtp": -2.17
     },
     "poster_png": {
       "file": "public/film-rd/final/uptick-growth-final-poster.png",
       "present": true,
-      "bytes": 3004066,
-      "sha256": "8d7d53e4dc3e82828864d30d723e119c460ae6748fd10193a14fddc46e2ee0b6",
+      "bytes": 2914976,
+      "sha256": "c4645733cb945b4f4a2c65c7e138eb7e8037af352cec9f8e553a03d2a408e3b0",
       "video_codec": "png",
       "width": 1920,
       "height": 1080,
@@ -107,8 +107,8 @@
     "poster_jpg": {
       "file": "public/film-rd/final/uptick-growth-final-poster.jpg",
       "present": true,
-      "bytes": 306457,
-      "sha256": "5e5705852f9b7d77eaa0cf9599545d7dd5f108734f8cd5c4e754786fcec770ef",
+      "bytes": 174162,
+      "sha256": "2e1e515368ac2699eb1f428176f8bf4b94a7e8d751ffc9f9bf909e0da4ce8c63",
       "container_seconds": 0.04,
       "video_codec": "mjpeg",
       "width": 1920,
@@ -140,7 +140,7 @@
     {
       "check": "master:duration",
       "pass": true,
-      "detail": "52.1s vs 52.0s"
+      "detail": "56.1s vs 56.0s"
     },
     {
       "check": "master:audio",
@@ -150,12 +150,12 @@
     {
       "check": "master:loudness",
       "pass": true,
-      "detail": "-16.13 LUFS (target -16.0)"
+      "detail": "-16.07 LUFS (target -16.0)"
     },
     {
       "check": "master:true_peak",
       "pass": true,
-      "detail": "-1.22 dBTP"
+      "detail": "-1.35 dBTP"
     },
     {
       "check": "master:pix_fmt",
@@ -190,7 +190,7 @@
     {
       "check": "web:duration",
       "pass": true,
-      "detail": "52.1s vs 52.0s"
+      "detail": "56.1s vs 56.0s"
     },
     {
       "check": "web:audio",
@@ -200,12 +200,12 @@
     {
       "check": "web:loudness",
       "pass": true,
-      "detail": "-16.13 LUFS (target -16.0)"
+      "detail": "-16.07 LUFS (target -16.0)"
     },
     {
       "check": "web:true_peak",
       "pass": true,
-      "detail": "-1.22 dBTP"
+      "detail": "-1.35 dBTP"
     },
     {
       "check": "web:pix_fmt",
@@ -240,7 +240,7 @@
     {
       "check": "webm:duration",
       "pass": true,
-      "detail": "52.117s vs 52.0s"
+      "detail": "56.128s vs 56.0s"
     },
     {
       "check": "webm:audio",
@@ -250,12 +250,12 @@
     {
       "check": "webm:loudness",
       "pass": true,
-      "detail": "-16.12 LUFS (target -16.0)"
+      "detail": "-16.06 LUFS (target -16.0)"
     },
     {
       "check": "webm:true_peak",
       "pass": true,
-      "detail": "-0.96 dBTP"
+      "detail": "-1.24 dBTP"
     },
     {
       "check": "webm:pix_fmt",
@@ -275,12 +275,12 @@
     {
       "check": "master:frame_count",
       "pass": true,
-      "detail": "1248 frames"
+      "detail": "1344 frames"
     },
     {
       "check": "teaser:duration",
       "pass": true,
-      "detail": "15.019s"
+      "detail": "15.001s"
     },
     {
       "check": "teaser:resolution",
@@ -290,12 +290,12 @@
     {
       "check": "teaser:loudness",
       "pass": true,
-      "detail": "-16.03 LUFS (target -16.0)"
+      "detail": "-16.05 LUFS (target -16.0)"
     },
     {
       "check": "teaser:true_peak",
       "pass": true,
-      "detail": "-4.18 dBTP"
+      "detail": "-2.17 dBTP"
     },
     {
       "check": "poster_png:resolution",
@@ -310,7 +310,7 @@
     {
       "check": "web:smaller_than_master",
       "pass": true,
-      "detail": "24999764 < 64333292"
+      "detail": "23111019 < 57907176"
     }
   ],
   "pass": true

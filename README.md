@@ -69,28 +69,41 @@ npm run film:lookdev -- --pos -2.5,-19.5,5.2 --target 6,10.5,2.8 --lens 29 --out
 
 Renders use a local Chromium: `FILM_CHROME=/path/to/chrome-headless-shell` (defaults to Playwright's in the remote environment).
 
-## The delivered film — *From Nearby to Yours*
+## The delivered film — *The Weekly Drop*
 
-The finished Uptick Growth commercial: 52.00 s, 1,248 frames, 1920×1080, 24 fps.
-Every picture in it is photographic; no Blender plate appears in the master. Its
-three phone screens are drawn in Remotion so the product copy is exact.
+The finished Uptick Growth commercial: 56.00 s, 1,344 frames, 1920×1080, 24 fps.
+It sells one thing — Uptick puts screens in the local businesses around a
+station, uses them to hand nearby drivers a reason to come in, and then keeps
+that audience on the merchant's Weekly Drop, where there is always something
+free.
+
+Every picture is photographic; no Blender plate appears in the master. Every
+product surface is drawn in Remotion so the copy is exact: the screen at the car
+wash, the fuel receipt, and four phone states. The car wash screen is *projected*
+onto a real blank sign panel in the plate with a homography, so it takes that
+panel's own perspective and defocus rather than being pasted on flat.
 
 ```
-python3 scripts/final-preflight.py        # 196 checks; must pass before a render
+python3 scripts/final-preflight.py        # 263 checks; must pass before a render
 npm run film:final                        # master + teaser, then the whole delivery set
 python3 scripts/final-deliver.py validate # ffprobe every delivered file
 ```
 
-- `film/final-director/final-edit.json` — the locked timeline: eighteen shots,
-  their media, their crops, the sound edit, and the copy the film speaks.
+- `film/data/weekly-drop.json` — the product truth. Every business name,
+  distance, offer, timestamp and price on screen is read from it at render time.
+- `film/final-director/final-edit.json` — the locked timeline: twenty shots,
+  their media, crops, the composited screen's measured quad, and the sound edit.
 - `film/compositions/director/FinalFilm.tsx` — the composition (`Final-Film`)
   and the 15-second teaser (`Final-Teaser`).
 - `film/final-director/FINAL_REPORT.md` — what was made, what was cut and why.
-  `CRITIC.md` scores the delivered master; `TRUTH_AUDIT.md` checks every claim
-  on screen against `film/data/acquisition.json`; `HIGGSFIELD_MANIFEST.json`,
-  `SOURCE_MEDIA.json` and `RENDER_MANIFEST.json` are the provenance record.
+  `CRITIC.md` scores the delivered master; `TRUTH_AUDIT.md` checks every claim on
+  screen and names the three moments the film shows by implication;
+  `HIGGSFIELD_MANIFEST.json`, `SOURCE_MEDIA.json` and `RENDER_MANIFEST.json` are
+  the provenance record.
 - Deliverables are `public/film-rd/final/uptick-growth-final-*`. The R&D film's
   own outputs keep their original names beside them.
 
-Every business name, distance, timestamp and price on screen is read from the
-fixture at render time, and preflight fails the build if any of them drift.
+Preflight fails the build if any on-screen claim drifts from the fixture, if
+either offer loses its free component, if a redemption is marked done before it
+is pressed — or if anything on screen says "Friday", because the product is a
+Weekly Drop and not a Friday promotion.

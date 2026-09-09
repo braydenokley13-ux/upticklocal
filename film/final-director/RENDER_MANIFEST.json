@@ -1,11 +1,11 @@
 {
-  "title": "Render manifest \u2014 From Nearby to Yours (locked photographic cut)",
+  "title": "Render manifest — The Weekly Drop (locked photographic cut)",
   "recalculatedAfterCreativeLock": true,
   "blender": {
     "platesRequired": 0,
     "cpuHoursRequired": 0.0,
     "workersRequired": 0,
-    "reason": "No Blender output appears in the locked cut. Every picture is photographic, so the CG plate queue is not reduced \u2014 it is empty.",
+    "reason": "No Blender output appears in the locked cut. Every picture is photographic and every product surface is drawn in Remotion, so the CG plate queue is not reduced — it is empty. The Weekly Drop revision did not change this.",
     "obsoletedQueue": {
       "source": "film/render/manifest.json and film/render/acquisition-decomposition.json",
       "platesDescribed": 13,
@@ -22,7 +22,7 @@
   "remotion": {
     "composition": "Final-Film",
     "entry": "film/index.ts",
-    "frames": 1248,
+    "frames": 1344,
     "fps": 24,
     "resolution": "1920x1080",
     "codec": "h264",
@@ -34,7 +34,7 @@
     "hardware": "4 CPU cores, ~15 GB RAM, no usable GPU",
     "concurrency": 3,
     "shardsRequired": 0,
-    "note": "The whole film renders in one pass on the session's own container. No fleet, no sharding and no bootstrap script are needed for this cut."
+    "note": "The whole film renders in one pass on the session's own container. No fleet, no sharding and no bootstrap script are needed for this cut. The Weekly Drop revision changed the story, not the render shape: same resolution, same fps, 96 more frames."
   },
   "teaser": {
     "composition": "Final-Teaser",
@@ -58,7 +58,7 @@
   },
   "preflight": {
     "script": "scripts/final-preflight.py",
-    "checks": 196,
+    "checks": 263,
     "mustPassBeforeRender": true
   },
   "reproducibilitySafeguardsPreserved": [
@@ -68,5 +68,12 @@
     "Checksums are recorded for every collected source picture and every delivered artifact.",
     "All asset paths in the edit are repository-relative under public/.",
     "The film's grain is a pure function of the frame number, so two renders of the same commit agree."
-  ]
+  ],
+  "compositing": {
+    "note": "New in the Weekly Drop revision, and the reason the film has an Uptick screen at all.",
+    "surface": "The blank teal sign panel at the car wash exit in route-depart-start-v1.png",
+    "method": "Corners measured off the plate by colour segmentation, then a CSS matrix3d from film/block/homography.ts maps a 600x1154 Remotion screen onto them. The quad is carried through whatever crop the shot is running, so it tracks the camera move.",
+    "why": "The brief requires the screen copy to be exact. Compositing keeps it typeset rather than generated, and projecting rather than pasting keeps it on the panel's own perspective, lighting and defocus.",
+    "checked": "scripts/final-preflight.py verifies the quad lies inside the plate, has area, keeps a bezel inset, declares its blur, and is used by at least two shots."
+  }
 }
