@@ -250,8 +250,21 @@ def main() -> int:
           f"{max(xs)-min(xs)}x{max(ys)-min(ys)}")
     c.add("screen:inset_leaves_a_bezel", 0 < q["inset"] < 40, str(q["inset"]))
     c.add("screen:plate_blur_declared", q["plateBlurPx"] > 0, str(q["plateBlurPx"]))
+    c.add("screen:indoor_tv_placement", q.get("placement") == "indoor-wall-mounted-tv",
+          q.get("placement", "missing placement"))
+    c.add("screen:landscape_display", max(xs) - min(xs) > max(ys) - min(ys),
+          "The measured display must be landscape, not the retired outdoor portrait panel.")
+    c.add("screen:measured_plate_matches_source", q.get("plate") == Path(plate["src"]).name,
+          f"{q.get('plate')} vs {Path(plate['src']).name}")
     used = [s2["id"] for s2 in edit["shots"] if s2.get("screen")]
     c.add("screen:appears_in_the_film", len(used) >= 2, ", ".join(used))
+    wash = next(s for s in edit["shots"] if s["id"] == "wash")
+    notice = next(s for s in edit["shots"] if s["id"] == "notice")
+    c.add("screen:customer_motion_is_continuous",
+          wash["media"] == notice["media"]
+          and edit["media"][wash["media"]]["kind"] == "video"
+          and wash.get("srcFrom", 0) + wash["duration"] == notice.get("srcFrom", 0),
+          "The customer must keep moving through wash → notice without restarting the clip.")
 
     # ---- the qualification never leaves the picture
     c.add("truth:disclaimer_present",

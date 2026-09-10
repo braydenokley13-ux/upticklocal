@@ -1,0 +1,1364 @@
+{
+  "pass": true,
+  "checks": [
+    {
+      "check": "timeline:station:starts_where_the_last_one_ended",
+      "pass": true,
+      "detail": "from=0 expected=0"
+    },
+    {
+      "check": "timeline:station:positive_duration",
+      "pass": true,
+      "detail": "66"
+    },
+    {
+      "check": "timeline:network:starts_where_the_last_one_ended",
+      "pass": true,
+      "detail": "from=66 expected=66"
+    },
+    {
+      "check": "timeline:network:positive_duration",
+      "pass": true,
+      "detail": "78"
+    },
+    {
+      "check": "timeline:wash:starts_where_the_last_one_ended",
+      "pass": true,
+      "detail": "from=144 expected=144"
+    },
+    {
+      "check": "timeline:wash:positive_duration",
+      "pass": true,
+      "detail": "48"
+    },
+    {
+      "check": "timeline:notice:starts_where_the_last_one_ended",
+      "pass": true,
+      "detail": "from=192 expected=192"
+    },
+    {
+      "check": "timeline:notice:positive_duration",
+      "pass": true,
+      "detail": "66"
+    },
+    {
+      "check": "timeline:offer:starts_where_the_last_one_ended",
+      "pass": true,
+      "detail": "from=258 expected=258"
+    },
+    {
+      "check": "timeline:offer:positive_duration",
+      "pass": true,
+      "detail": "66"
+    },
+    {
+      "check": "timeline:depart:starts_where_the_last_one_ended",
+      "pass": true,
+      "detail": "from=324 expected=324"
+    },
+    {
+      "check": "timeline:depart:positive_duration",
+      "pass": true,
+      "detail": "55"
+    },
+    {
+      "check": "timeline:turn:starts_where_the_last_one_ended",
+      "pass": true,
+      "detail": "from=379 expected=379"
+    },
+    {
+      "check": "timeline:turn:positive_duration",
+      "pass": true,
+      "detail": "66"
+    },
+    {
+      "check": "timeline:arrive:starts_where_the_last_one_ended",
+      "pass": true,
+      "detail": "from=445 expected=445"
+    },
+    {
+      "check": "timeline:arrive:positive_duration",
+      "pass": true,
+      "detail": "48"
+    },
+    {
+      "check": "timeline:fuel:starts_where_the_last_one_ended",
+      "pass": true,
+      "detail": "from=493 expected=493"
+    },
+    {
+      "check": "timeline:fuel:positive_duration",
+      "pass": true,
+      "detail": "60"
+    },
+    {
+      "check": "timeline:first:starts_where_the_last_one_ended",
+      "pass": true,
+      "detail": "from=553 expected=553"
+    },
+    {
+      "check": "timeline:first:positive_duration",
+      "pass": true,
+      "detail": "102"
+    },
+    {
+      "check": "timeline:redeem1:starts_where_the_last_one_ended",
+      "pass": true,
+      "detail": "from=655 expected=655"
+    },
+    {
+      "check": "timeline:redeem1:positive_duration",
+      "pass": true,
+      "detail": "84"
+    },
+    {
+      "check": "timeline:coffee:starts_where_the_last_one_ended",
+      "pass": true,
+      "detail": "from=739 expected=739"
+    },
+    {
+      "check": "timeline:coffee:positive_duration",
+      "pass": true,
+      "detail": "54"
+    },
+    {
+      "check": "timeline:join:starts_where_the_last_one_ended",
+      "pass": true,
+      "detail": "from=793 expected=793"
+    },
+    {
+      "check": "timeline:join:positive_duration",
+      "pass": true,
+      "detail": "84"
+    },
+    {
+      "check": "timeline:drop:starts_where_the_last_one_ended",
+      "pass": true,
+      "detail": "from=877 expected=877"
+    },
+    {
+      "check": "timeline:drop:positive_duration",
+      "pass": true,
+      "detail": "84"
+    },
+    {
+      "check": "timeline:return:starts_where_the_last_one_ended",
+      "pass": true,
+      "detail": "from=961 expected=961"
+    },
+    {
+      "check": "timeline:return:positive_duration",
+      "pass": true,
+      "detail": "34"
+    },
+    {
+      "check": "timeline:redeem2:starts_where_the_last_one_ended",
+      "pass": true,
+      "detail": "from=995 expected=995"
+    },
+    {
+      "check": "timeline:redeem2:positive_duration",
+      "pass": true,
+      "detail": "66"
+    },
+    {
+      "check": "timeline:counter:starts_where_the_last_one_ended",
+      "pass": true,
+      "detail": "from=1061 expected=1061"
+    },
+    {
+      "check": "timeline:counter:positive_duration",
+      "pass": true,
+      "detail": "72"
+    },
+    {
+      "check": "timeline:goods:starts_where_the_last_one_ended",
+      "pass": true,
+      "detail": "from=1133 expected=1133"
+    },
+    {
+      "check": "timeline:goods:positive_duration",
+      "pass": true,
+      "detail": "54"
+    },
+    {
+      "check": "timeline:proof:starts_where_the_last_one_ended",
+      "pass": true,
+      "detail": "from=1187 expected=1187"
+    },
+    {
+      "check": "timeline:proof:positive_duration",
+      "pass": true,
+      "detail": "84"
+    },
+    {
+      "check": "timeline:close:starts_where_the_last_one_ended",
+      "pass": true,
+      "detail": "from=1271 expected=1271"
+    },
+    {
+      "check": "timeline:close:positive_duration",
+      "pass": true,
+      "detail": "73"
+    },
+    {
+      "check": "timeline:total_frames",
+      "pass": true,
+      "detail": "1344 vs 1344"
+    },
+    {
+      "check": "timeline:runtime_in_range",
+      "pass": true,
+      "detail": "56.000s"
+    },
+    {
+      "check": "timeline:whole_frames",
+      "pass": true,
+      "detail": "1344"
+    },
+    {
+      "check": "media:joesExterior:exists",
+      "pass": true,
+      "detail": "film-rd/director/photographic/store-opening-v2.mp4"
+    },
+    {
+      "check": "media:joesExterior:declared_frames",
+      "pass": true,
+      "detail": "file=73 declared=73"
+    },
+    {
+      "check": "media:tireDepart:exists",
+      "pass": true,
+      "detail": "film-rd/director/photographic/route-depart-tracking-v2.mp4"
+    },
+    {
+      "check": "media:tireDepart:declared_frames",
+      "pass": true,
+      "detail": "file=73 declared=73"
+    },
+    {
+      "check": "media:cornerTurn:exists",
+      "pass": true,
+      "detail": "film-rd/director/photographic/route-turn-v2.mp4"
+    },
+    {
+      "check": "media:cornerTurn:declared_frames",
+      "pass": true,
+      "detail": "file=73 declared=73"
+    },
+    {
+      "check": "media:doorwayFirst:exists",
+      "pass": true,
+      "detail": "film-rd/director/photographic/doorway-first-v1.mp4"
+    },
+    {
+      "check": "media:doorwayFirst:declared_frames",
+      "pass": true,
+      "detail": "file=121 declared=121"
+    },
+    {
+      "check": "media:doorwayReturn:exists",
+      "pass": true,
+      "detail": "film-rd/director/photographic/doorway-return-v1.mp4"
+    },
+    {
+      "check": "media:doorwayReturn:declared_frames",
+      "pass": true,
+      "detail": "file=121 declared=121"
+    },
+    {
+      "check": "media:washMotion:exists",
+      "pass": true,
+      "detail": "film-rd/director/photographic/carwash-indoor-tv-v1.mp4"
+    },
+    {
+      "check": "media:washMotion:declared_frames",
+      "pass": true,
+      "detail": "file=121 declared=121"
+    },
+    {
+      "check": "media:washPlate:exists",
+      "pass": true,
+      "detail": "film-rd/director/photographic/carwash-indoor-tv-v1.png"
+    },
+    {
+      "check": "media:joesStill:exists",
+      "pass": true,
+      "detail": "film-rd/director/photographic/store-opening-start-v2.png"
+    },
+    {
+      "check": "media:streetStill:exists",
+      "pass": true,
+      "detail": "film-rd/director/photographic/route-turn-start-v2.png"
+    },
+    {
+      "check": "media:counterCoffee:exists",
+      "pass": true,
+      "detail": "film-rd/director/photographic/coffee-start-v1.png"
+    },
+    {
+      "check": "media:counterPaid:exists",
+      "pass": true,
+      "detail": "film-rd/director/photographic/paid-handoff-start-v1.png"
+    },
+    {
+      "check": "shot:station:within_source_clip",
+      "pass": true,
+      "detail": "needs 66 of 73 frames"
+    },
+    {
+      "check": "shot:network:crop_inside_source",
+      "pass": true,
+      "detail": "[140, 150, 1820, 1024] in 2752x1536"
+    },
+    {
+      "check": "shot:network:crop_is_16x9",
+      "pass": true,
+      "detail": "1820x1024 = 1.7773"
+    },
+    {
+      "check": "shot:network:crop_inside_source",
+      "pass": true,
+      "detail": "[60, 110, 1980, 1114] in 2752x1536"
+    },
+    {
+      "check": "shot:network:crop_is_16x9",
+      "pass": true,
+      "detail": "1980x1114 = 1.7774"
+    },
+    {
+      "check": "shot:network:magnification",
+      "pass": true,
+      "detail": "1.055x (limit 1.45)"
+    },
+    {
+      "check": "shot:wash:within_source_clip",
+      "pass": true,
+      "detail": "needs 48 of 121 frames"
+    },
+    {
+      "check": "shot:wash:crop_inside_source",
+      "pass": true,
+      "detail": "[0, 0, 1912.5872093023256, 1076] in 1928x1076"
+    },
+    {
+      "check": "shot:wash:crop_is_16x9",
+      "pass": true,
+      "detail": "1912.5872093023256x1076 = 1.7775"
+    },
+    {
+      "check": "shot:wash:crop_inside_source",
+      "pass": true,
+      "detail": "[0, 0, 1912.5872093023256, 1076] in 1928x1076"
+    },
+    {
+      "check": "shot:wash:crop_is_16x9",
+      "pass": true,
+      "detail": "1912.5872093023256x1076 = 1.7775"
+    },
+    {
+      "check": "shot:wash:magnification",
+      "pass": true,
+      "detail": "1.004x (limit 1.45)"
+    },
+    {
+      "check": "shot:notice:within_source_clip",
+      "pass": true,
+      "detail": "needs 114 of 121 frames"
+    },
+    {
+      "check": "shot:notice:crop_inside_source",
+      "pass": true,
+      "detail": "[0, 0, 1912.5872093023256, 1076] in 1928x1076"
+    },
+    {
+      "check": "shot:notice:crop_is_16x9",
+      "pass": true,
+      "detail": "1912.5872093023256x1076 = 1.7775"
+    },
+    {
+      "check": "shot:notice:crop_inside_source",
+      "pass": true,
+      "detail": "[0, 0, 1912.5872093023256, 1076] in 1928x1076"
+    },
+    {
+      "check": "shot:notice:crop_is_16x9",
+      "pass": true,
+      "detail": "1912.5872093023256x1076 = 1.7775"
+    },
+    {
+      "check": "shot:notice:magnification",
+      "pass": true,
+      "detail": "1.004x (limit 1.45)"
+    },
+    {
+      "check": "shot:offer:crop_inside_source",
+      "pass": true,
+      "detail": "[1310, 70, 1390, 782] in 2752x1536"
+    },
+    {
+      "check": "shot:offer:crop_is_16x9",
+      "pass": true,
+      "detail": "1390x782 = 1.7775"
+    },
+    {
+      "check": "shot:offer:crop_inside_source",
+      "pass": true,
+      "detail": "[1310, 70, 1390, 782] in 2752x1536"
+    },
+    {
+      "check": "shot:offer:crop_is_16x9",
+      "pass": true,
+      "detail": "1390x782 = 1.7775"
+    },
+    {
+      "check": "shot:offer:magnification",
+      "pass": true,
+      "detail": "1.381x (limit 1.45)"
+    },
+    {
+      "check": "shot:depart:within_source_clip",
+      "pass": true,
+      "detail": "needs 55 of 73 frames"
+    },
+    {
+      "check": "shot:turn:within_source_clip",
+      "pass": true,
+      "detail": "needs 66 of 73 frames"
+    },
+    {
+      "check": "shot:arrive:crop_inside_source",
+      "pass": true,
+      "detail": "[1000, 120, 1740, 979] in 2752x1536"
+    },
+    {
+      "check": "shot:arrive:crop_is_16x9",
+      "pass": true,
+      "detail": "1740x979 = 1.7773"
+    },
+    {
+      "check": "shot:arrive:crop_inside_source",
+      "pass": true,
+      "detail": "[1080, 160, 1620, 911] in 2752x1536"
+    },
+    {
+      "check": "shot:arrive:crop_is_16x9",
+      "pass": true,
+      "detail": "1620x911 = 1.7783"
+    },
+    {
+      "check": "shot:arrive:magnification",
+      "pass": true,
+      "detail": "1.185x (limit 1.45)"
+    },
+    {
+      "check": "shot:fuel:crop_inside_source",
+      "pass": true,
+      "detail": "[1390, 250, 1360, 765] in 2752x1536"
+    },
+    {
+      "check": "shot:fuel:crop_is_16x9",
+      "pass": true,
+      "detail": "1360x765 = 1.7778"
+    },
+    {
+      "check": "shot:fuel:crop_inside_source",
+      "pass": true,
+      "detail": "[1410, 262, 1330, 748] in 2752x1536"
+    },
+    {
+      "check": "shot:fuel:crop_is_16x9",
+      "pass": true,
+      "detail": "1330x748 = 1.7781"
+    },
+    {
+      "check": "shot:fuel:magnification",
+      "pass": true,
+      "detail": "1.444x (limit 1.45)"
+    },
+    {
+      "check": "shot:first:within_source_clip",
+      "pass": true,
+      "detail": "needs 108 of 121 frames"
+    },
+    {
+      "check": "shot:redeem1:crop_inside_source",
+      "pass": true,
+      "detail": "[240, 120, 2300, 1294] in 2752x1536"
+    },
+    {
+      "check": "shot:redeem1:crop_is_16x9",
+      "pass": true,
+      "detail": "2300x1294 = 1.7774"
+    },
+    {
+      "check": "shot:redeem1:crop_inside_source",
+      "pass": true,
+      "detail": "[330, 170, 2130, 1198] in 2752x1536"
+    },
+    {
+      "check": "shot:redeem1:crop_is_16x9",
+      "pass": true,
+      "detail": "2130x1198 = 1.7780"
+    },
+    {
+      "check": "shot:redeem1:magnification",
+      "pass": true,
+      "detail": "0.901x (limit 1.45)"
+    },
+    {
+      "check": "shot:coffee:crop_inside_source",
+      "pass": true,
+      "detail": "[100, 60, 2500, 1406] in 2752x1536"
+    },
+    {
+      "check": "shot:coffee:crop_is_16x9",
+      "pass": true,
+      "detail": "2500x1406 = 1.7781"
+    },
+    {
+      "check": "shot:coffee:crop_inside_source",
+      "pass": true,
+      "detail": "[330, 170, 2100, 1181] in 2752x1536"
+    },
+    {
+      "check": "shot:coffee:crop_is_16x9",
+      "pass": true,
+      "detail": "2100x1181 = 1.7782"
+    },
+    {
+      "check": "shot:coffee:magnification",
+      "pass": true,
+      "detail": "0.914x (limit 1.45)"
+    },
+    {
+      "check": "shot:join:crop_inside_source",
+      "pass": true,
+      "detail": "[330, 170, 2100, 1181] in 2752x1536"
+    },
+    {
+      "check": "shot:join:crop_is_16x9",
+      "pass": true,
+      "detail": "2100x1181 = 1.7782"
+    },
+    {
+      "check": "shot:join:crop_inside_source",
+      "pass": true,
+      "detail": "[420, 210, 1960, 1103] in 2752x1536"
+    },
+    {
+      "check": "shot:join:crop_is_16x9",
+      "pass": true,
+      "detail": "1960x1103 = 1.7770"
+    },
+    {
+      "check": "shot:join:magnification",
+      "pass": true,
+      "detail": "0.980x (limit 1.45)"
+    },
+    {
+      "check": "shot:return:within_source_clip",
+      "pass": true,
+      "detail": "needs 34 of 121 frames"
+    },
+    {
+      "check": "shot:redeem2:crop_inside_source",
+      "pass": true,
+      "detail": "[450, 40, 1900, 1069] in 2752x1536"
+    },
+    {
+      "check": "shot:redeem2:crop_is_16x9",
+      "pass": true,
+      "detail": "1900x1069 = 1.7774"
+    },
+    {
+      "check": "shot:redeem2:crop_inside_source",
+      "pass": true,
+      "detail": "[520, 74, 1800, 1013] in 2752x1536"
+    },
+    {
+      "check": "shot:redeem2:crop_is_16x9",
+      "pass": true,
+      "detail": "1800x1013 = 1.7769"
+    },
+    {
+      "check": "shot:redeem2:magnification",
+      "pass": true,
+      "detail": "1.067x (limit 1.45)"
+    },
+    {
+      "check": "shot:counter:crop_inside_source",
+      "pass": true,
+      "detail": "[450, 40, 1900, 1069] in 2752x1536"
+    },
+    {
+      "check": "shot:counter:crop_is_16x9",
+      "pass": true,
+      "detail": "1900x1069 = 1.7774"
+    },
+    {
+      "check": "shot:counter:crop_inside_source",
+      "pass": true,
+      "detail": "[560, 86, 1730, 973] in 2752x1536"
+    },
+    {
+      "check": "shot:counter:crop_is_16x9",
+      "pass": true,
+      "detail": "1730x973 = 1.7780"
+    },
+    {
+      "check": "shot:counter:magnification",
+      "pass": true,
+      "detail": "1.110x (limit 1.45)"
+    },
+    {
+      "check": "shot:goods:crop_inside_source",
+      "pass": true,
+      "detail": "[1250, 700, 1450, 816] in 2752x1536"
+    },
+    {
+      "check": "shot:goods:crop_is_16x9",
+      "pass": true,
+      "detail": "1450x816 = 1.7770"
+    },
+    {
+      "check": "shot:goods:crop_inside_source",
+      "pass": true,
+      "detail": "[1330, 720, 1340, 754] in 2752x1536"
+    },
+    {
+      "check": "shot:goods:crop_is_16x9",
+      "pass": true,
+      "detail": "1340x754 = 1.7772"
+    },
+    {
+      "check": "shot:goods:magnification",
+      "pass": true,
+      "detail": "1.433x (limit 1.45)"
+    },
+    {
+      "check": "shot:proof:crop_inside_source",
+      "pass": true,
+      "detail": "[200, 110, 2360, 1327] in 2752x1536"
+    },
+    {
+      "check": "shot:proof:crop_is_16x9",
+      "pass": true,
+      "detail": "2360x1327 = 1.7784"
+    },
+    {
+      "check": "shot:proof:crop_inside_source",
+      "pass": true,
+      "detail": "[300, 166, 2200, 1237] in 2752x1536"
+    },
+    {
+      "check": "shot:proof:crop_is_16x9",
+      "pass": true,
+      "detail": "2200x1237 = 1.7785"
+    },
+    {
+      "check": "shot:proof:magnification",
+      "pass": true,
+      "detail": "0.873x (limit 1.45)"
+    },
+    {
+      "check": "shot:close:crop_inside_source",
+      "pass": true,
+      "detail": "[300, 166, 2200, 1237] in 2752x1536"
+    },
+    {
+      "check": "shot:close:crop_is_16x9",
+      "pass": true,
+      "detail": "2200x1237 = 1.7785"
+    },
+    {
+      "check": "shot:close:crop_inside_source",
+      "pass": true,
+      "detail": "[220, 120, 2320, 1305] in 2752x1536"
+    },
+    {
+      "check": "shot:close:crop_is_16x9",
+      "pass": true,
+      "detail": "2320x1305 = 1.7778"
+    },
+    {
+      "check": "shot:close:magnification",
+      "pass": true,
+      "detail": "0.873x (limit 1.45)"
+    },
+    {
+      "check": "sound:street-morning@0:exists",
+      "pass": true,
+      "detail": "street-morning.ogg"
+    },
+    {
+      "check": "sound:street-morning@0:within_stem",
+      "pass": true,
+      "detail": "needs 9.75s of 40.01s"
+    },
+    {
+      "check": "sound:street-morning@0:within_film",
+      "pass": true,
+      "detail": "ends at 234"
+    },
+    {
+      "check": "sound:street-morning@0:positive_gain",
+      "pass": true,
+      "detail": "1.758"
+    },
+    {
+      "check": "sound:street-morning@0:peak_headroom",
+      "pass": true,
+      "detail": "-20.6 dBFS (ceiling -6.0)"
+    },
+    {
+      "check": "sound:director-carwash@144:exists",
+      "pass": true,
+      "detail": "director-carwash.ogg"
+    },
+    {
+      "check": "sound:director-carwash@144:within_stem",
+      "pass": true,
+      "detail": "needs 7.50s of 12.00s"
+    },
+    {
+      "check": "sound:director-carwash@144:within_film",
+      "pass": true,
+      "detail": "ends at 324"
+    },
+    {
+      "check": "sound:director-carwash@144:positive_gain",
+      "pass": true,
+      "detail": "0.204"
+    },
+    {
+      "check": "sound:director-carwash@144:peak_headroom",
+      "pass": true,
+      "detail": "-26.5 dBFS (ceiling -6.0)"
+    },
+    {
+      "check": "sound:tick-soft@258:exists",
+      "pass": true,
+      "detail": "tick-soft.ogg"
+    },
+    {
+      "check": "sound:tick-soft@258:within_stem",
+      "pass": true,
+      "detail": "needs 0.04s of 0.04s"
+    },
+    {
+      "check": "sound:tick-soft@258:within_film",
+      "pass": true,
+      "detail": "ends at 259"
+    },
+    {
+      "check": "sound:tick-soft@258:positive_gain",
+      "pass": true,
+      "detail": "0.794"
+    },
+    {
+      "check": "sound:tick-soft@258:peak_headroom",
+      "pass": true,
+      "detail": "-24.0 dBFS (ceiling -6.0)"
+    },
+    {
+      "check": "sound:street-morning@324:exists",
+      "pass": true,
+      "detail": "street-morning.ogg"
+    },
+    {
+      "check": "sound:street-morning@324:within_stem",
+      "pass": true,
+      "detail": "needs 14.04s of 40.01s"
+    },
+    {
+      "check": "sound:street-morning@324:within_film",
+      "pass": true,
+      "detail": "ends at 493"
+    },
+    {
+      "check": "sound:street-morning@324:positive_gain",
+      "pass": true,
+      "detail": "1.758"
+    },
+    {
+      "check": "sound:street-morning@324:peak_headroom",
+      "pass": true,
+      "detail": "-20.6 dBFS (ceiling -6.0)"
+    },
+    {
+      "check": "sound:nozzle@493:exists",
+      "pass": true,
+      "detail": "nozzle.ogg"
+    },
+    {
+      "check": "sound:nozzle@493:within_stem",
+      "pass": true,
+      "detail": "needs 0.21s of 0.23s"
+    },
+    {
+      "check": "sound:nozzle@493:within_film",
+      "pass": true,
+      "detail": "ends at 498"
+    },
+    {
+      "check": "sound:nozzle@493:positive_gain",
+      "pass": true,
+      "detail": "0.5"
+    },
+    {
+      "check": "sound:nozzle@493:peak_headroom",
+      "pass": true,
+      "detail": "-24.2 dBFS (ceiling -6.0)"
+    },
+    {
+      "check": "sound:cafe-interior@553:exists",
+      "pass": true,
+      "detail": "cafe-interior.ogg"
+    },
+    {
+      "check": "sound:cafe-interior@553:within_stem",
+      "pass": true,
+      "detail": "needs 10.00s of 30.01s"
+    },
+    {
+      "check": "sound:cafe-interior@553:within_film",
+      "pass": true,
+      "detail": "ends at 793"
+    },
+    {
+      "check": "sound:cafe-interior@553:positive_gain",
+      "pass": true,
+      "detail": "2.427"
+    },
+    {
+      "check": "sound:cafe-interior@553:peak_headroom",
+      "pass": true,
+      "detail": "-18.2 dBFS (ceiling -6.0)"
+    },
+    {
+      "check": "sound:press@695:exists",
+      "pass": true,
+      "detail": "press.ogg"
+    },
+    {
+      "check": "sound:press@695:within_stem",
+      "pass": true,
+      "detail": "needs 0.08s of 0.10s"
+    },
+    {
+      "check": "sound:press@695:within_film",
+      "pass": true,
+      "detail": "ends at 697"
+    },
+    {
+      "check": "sound:press@695:positive_gain",
+      "pass": true,
+      "detail": "0.403"
+    },
+    {
+      "check": "sound:press@695:peak_headroom",
+      "pass": true,
+      "detail": "-24.0 dBFS (ceiling -6.0)"
+    },
+    {
+      "check": "sound:redeem@707:exists",
+      "pass": true,
+      "detail": "redeem.ogg"
+    },
+    {
+      "check": "sound:redeem@707:within_stem",
+      "pass": true,
+      "detail": "needs 1.00s of 1.01s"
+    },
+    {
+      "check": "sound:redeem@707:within_film",
+      "pass": true,
+      "detail": "ends at 731"
+    },
+    {
+      "check": "sound:redeem@707:positive_gain",
+      "pass": true,
+      "detail": "0.562"
+    },
+    {
+      "check": "sound:redeem@707:peak_headroom",
+      "pass": true,
+      "detail": "-20.0 dBFS (ceiling -6.0)"
+    },
+    {
+      "check": "sound:cafe-interior@793:exists",
+      "pass": true,
+      "detail": "cafe-interior.ogg"
+    },
+    {
+      "check": "sound:cafe-interior@793:within_stem",
+      "pass": true,
+      "detail": "needs 13.50s of 30.01s"
+    },
+    {
+      "check": "sound:cafe-interior@793:within_film",
+      "pass": true,
+      "detail": "ends at 877"
+    },
+    {
+      "check": "sound:cafe-interior@793:positive_gain",
+      "pass": true,
+      "detail": "2.427"
+    },
+    {
+      "check": "sound:cafe-interior@793:peak_headroom",
+      "pass": true,
+      "detail": "-18.2 dBFS (ceiling -6.0)"
+    },
+    {
+      "check": "sound:press@837:exists",
+      "pass": true,
+      "detail": "press.ogg"
+    },
+    {
+      "check": "sound:press@837:within_stem",
+      "pass": true,
+      "detail": "needs 0.08s of 0.10s"
+    },
+    {
+      "check": "sound:press@837:within_film",
+      "pass": true,
+      "detail": "ends at 839"
+    },
+    {
+      "check": "sound:press@837:positive_gain",
+      "pass": true,
+      "detail": "0.403"
+    },
+    {
+      "check": "sound:press@837:peak_headroom",
+      "pass": true,
+      "detail": "-24.0 dBFS (ceiling -6.0)"
+    },
+    {
+      "check": "sound:pad-mint@849:exists",
+      "pass": true,
+      "detail": "pad-mint.ogg"
+    },
+    {
+      "check": "sound:pad-mint@849:within_stem",
+      "pass": true,
+      "detail": "needs 2.08s of 12.01s"
+    },
+    {
+      "check": "sound:pad-mint@849:within_film",
+      "pass": true,
+      "detail": "ends at 899"
+    },
+    {
+      "check": "sound:pad-mint@849:positive_gain",
+      "pass": true,
+      "detail": "0.269"
+    },
+    {
+      "check": "sound:pad-mint@849:peak_headroom",
+      "pass": true,
+      "detail": "-35.4 dBFS (ceiling -6.0)"
+    },
+    {
+      "check": "sound:kitchen-evening@877:exists",
+      "pass": true,
+      "detail": "kitchen-evening.ogg"
+    },
+    {
+      "check": "sound:kitchen-evening@877:within_stem",
+      "pass": true,
+      "detail": "needs 3.50s of 20.01s"
+    },
+    {
+      "check": "sound:kitchen-evening@877:within_film",
+      "pass": true,
+      "detail": "ends at 961"
+    },
+    {
+      "check": "sound:kitchen-evening@877:positive_gain",
+      "pass": true,
+      "detail": "0.785"
+    },
+    {
+      "check": "sound:kitchen-evening@877:peak_headroom",
+      "pass": true,
+      "detail": "-33.0 dBFS (ceiling -6.0)"
+    },
+    {
+      "check": "sound:notify@885:exists",
+      "pass": true,
+      "detail": "notify.ogg"
+    },
+    {
+      "check": "sound:notify@885:within_stem",
+      "pass": true,
+      "detail": "needs 0.17s of 0.21s"
+    },
+    {
+      "check": "sound:notify@885:within_film",
+      "pass": true,
+      "detail": "ends at 889"
+    },
+    {
+      "check": "sound:notify@885:positive_gain",
+      "pass": true,
+      "detail": "0.794"
+    },
+    {
+      "check": "sound:notify@885:peak_headroom",
+      "pass": true,
+      "detail": "-20.0 dBFS (ceiling -6.0)"
+    },
+    {
+      "check": "sound:cafe-interior@961:exists",
+      "pass": true,
+      "detail": "cafe-interior.ogg"
+    },
+    {
+      "check": "sound:cafe-interior@961:within_stem",
+      "pass": true,
+      "detail": "needs 22.92s of 30.01s"
+    },
+    {
+      "check": "sound:cafe-interior@961:within_film",
+      "pass": true,
+      "detail": "ends at 1187"
+    },
+    {
+      "check": "sound:cafe-interior@961:positive_gain",
+      "pass": true,
+      "detail": "2.427"
+    },
+    {
+      "check": "sound:cafe-interior@961:peak_headroom",
+      "pass": true,
+      "detail": "-18.2 dBFS (ceiling -6.0)"
+    },
+    {
+      "check": "sound:press@1025:exists",
+      "pass": true,
+      "detail": "press.ogg"
+    },
+    {
+      "check": "sound:press@1025:within_stem",
+      "pass": true,
+      "detail": "needs 0.08s of 0.10s"
+    },
+    {
+      "check": "sound:press@1025:within_film",
+      "pass": true,
+      "detail": "ends at 1027"
+    },
+    {
+      "check": "sound:press@1025:positive_gain",
+      "pass": true,
+      "detail": "0.403"
+    },
+    {
+      "check": "sound:press@1025:peak_headroom",
+      "pass": true,
+      "detail": "-24.0 dBFS (ceiling -6.0)"
+    },
+    {
+      "check": "sound:redeem@1037:exists",
+      "pass": true,
+      "detail": "redeem.ogg"
+    },
+    {
+      "check": "sound:redeem@1037:within_stem",
+      "pass": true,
+      "detail": "needs 1.00s of 1.01s"
+    },
+    {
+      "check": "sound:redeem@1037:within_film",
+      "pass": true,
+      "detail": "ends at 1061"
+    },
+    {
+      "check": "sound:redeem@1037:positive_gain",
+      "pass": true,
+      "detail": "0.562"
+    },
+    {
+      "check": "sound:redeem@1037:peak_headroom",
+      "pass": true,
+      "detail": "-20.0 dBFS (ceiling -6.0)"
+    },
+    {
+      "check": "sound:tap-wood@1090:exists",
+      "pass": true,
+      "detail": "tap-wood.ogg"
+    },
+    {
+      "check": "sound:tap-wood@1090:within_stem",
+      "pass": true,
+      "detail": "needs 0.12s of 0.13s"
+    },
+    {
+      "check": "sound:tap-wood@1090:within_film",
+      "pass": true,
+      "detail": "ends at 1093"
+    },
+    {
+      "check": "sound:tap-wood@1090:positive_gain",
+      "pass": true,
+      "detail": "0.716"
+    },
+    {
+      "check": "sound:tap-wood@1090:peak_headroom",
+      "pass": true,
+      "detail": "-20.0 dBFS (ceiling -6.0)"
+    },
+    {
+      "check": "sound:chord-root@1187:exists",
+      "pass": true,
+      "detail": "chord-root.ogg"
+    },
+    {
+      "check": "sound:chord-root@1187:within_stem",
+      "pass": true,
+      "detail": "needs 6.54s of 8.01s"
+    },
+    {
+      "check": "sound:chord-root@1187:within_film",
+      "pass": true,
+      "detail": "ends at 1344"
+    },
+    {
+      "check": "sound:chord-root@1187:positive_gain",
+      "pass": true,
+      "detail": "0.49"
+    },
+    {
+      "check": "sound:chord-root@1187:peak_headroom",
+      "pass": true,
+      "detail": "-22.3 dBFS (ceiling -6.0)"
+    },
+    {
+      "check": "sound:street-morning@1271:exists",
+      "pass": true,
+      "detail": "street-morning.ogg"
+    },
+    {
+      "check": "sound:street-morning@1271:within_stem",
+      "pass": true,
+      "detail": "needs 23.04s of 40.01s"
+    },
+    {
+      "check": "sound:street-morning@1271:within_film",
+      "pass": true,
+      "detail": "ends at 1344"
+    },
+    {
+      "check": "sound:street-morning@1271:positive_gain",
+      "pass": true,
+      "detail": "1.758"
+    },
+    {
+      "check": "sound:street-morning@1271:peak_headroom",
+      "pass": true,
+      "detail": "-20.6 dBFS (ceiling -6.0)"
+    },
+    {
+      "check": "fixture:network:car-wash:has_a_screen",
+      "pass": true,
+      "detail": "1"
+    },
+    {
+      "check": "fixture:network:quick-lube:has_a_screen",
+      "pass": true,
+      "detail": "1"
+    },
+    {
+      "check": "fixture:network:ridge-tire:has_a_screen",
+      "pass": true,
+      "detail": "1"
+    },
+    {
+      "check": "fixture:screen_host_exists",
+      "pass": true,
+      "detail": "car-wash"
+    },
+    {
+      "check": "fixture:screen_host_is_the_hero_source",
+      "pass": true,
+      "detail": "car-wash"
+    },
+    {
+      "check": "fixture:qualifying_matches_fuel_total",
+      "pass": true,
+      "detail": "2500 vs 2500"
+    },
+    {
+      "check": "fixture:screen_states_the_qualifier",
+      "pass": true,
+      "detail": "BUY $25 OF GAS"
+    },
+    {
+      "check": "fixture:first_redemption_cites_the_qualifier",
+      "pass": true,
+      "detail": "Qualifying $25 gas purchase"
+    },
+    {
+      "check": "product:acquisition_offer_is_free",
+      "pass": true,
+      "detail": "GET A FREE COFFEE"
+    },
+    {
+      "check": "product:drop_offer_is_free",
+      "pass": true,
+      "detail": "Get a coffee free"
+    },
+    {
+      "check": "product:drop_message_says_free",
+      "pass": true,
+      "detail": "A new Joe's Drop just landed. / Buy a breakfast sandwich. / Coffee's free."
+    },
+    {
+      "check": "product:drop_channel_is_text",
+      "pass": true,
+      "detail": "text message"
+    },
+    {
+      "check": "beat:redeem1:press_precedes_done",
+      "pass": true,
+      "detail": "press 40 < done 52"
+    },
+    {
+      "check": "beat:redeem1:done_inside_shot",
+      "pass": true,
+      "detail": "done 52 of 84"
+    },
+    {
+      "check": "beat:join:press_precedes_done",
+      "pass": true,
+      "detail": "press 44 < done 56"
+    },
+    {
+      "check": "beat:join:done_inside_shot",
+      "pass": true,
+      "detail": "done 56 of 84"
+    },
+    {
+      "check": "beat:redeem2:press_precedes_done",
+      "pass": true,
+      "detail": "press 30 < done 42"
+    },
+    {
+      "check": "beat:redeem2:done_inside_shot",
+      "pass": true,
+      "detail": "done 42 of 66"
+    },
+    {
+      "check": "product:never_says_friday",
+      "pass": true,
+      "detail": "no Friday anywhere on screen"
+    },
+    {
+      "check": "product:names_the_weekly_drop",
+      "pass": true,
+      "detail": "UPTICK WEEKLY DROP"
+    },
+    {
+      "check": "fixture:journey_timestamp:FUELLED",
+      "pass": true,
+      "detail": "Tuesday \u00b7 8:09 AM"
+    },
+    {
+      "check": "fixture:journey_timestamp:CAME INSIDE",
+      "pass": true,
+      "detail": "Tuesday \u00b7 8:17 AM"
+    },
+    {
+      "check": "fixture:journey_timestamp:JOINED THE DROP",
+      "pass": true,
+      "detail": "Tuesday \u00b7 8:19 AM"
+    },
+    {
+      "check": "fixture:journey_timestamp:CAME BACK",
+      "pass": true,
+      "detail": "Thursday \u00b7 7:41 AM"
+    },
+    {
+      "check": "fixture:no_aggregate_on_screen",
+      "pass": true,
+      "detail": "no aggregate, percentage or ROI claim"
+    },
+    {
+      "check": "screen:corner0:inside_plate",
+      "pass": true,
+      "detail": "(1580,228)"
+    },
+    {
+      "check": "screen:corner1:inside_plate",
+      "pass": true,
+      "detail": "(2447,161)"
+    },
+    {
+      "check": "screen:corner2:inside_plate",
+      "pass": true,
+      "detail": "(2451,722)"
+    },
+    {
+      "check": "screen:corner3:inside_plate",
+      "pass": true,
+      "detail": "(1589,729)"
+    },
+    {
+      "check": "screen:quad_has_area",
+      "pass": true,
+      "detail": "871x568"
+    },
+    {
+      "check": "screen:inset_leaves_a_bezel",
+      "pass": true,
+      "detail": "3"
+    },
+    {
+      "check": "screen:plate_blur_declared",
+      "pass": true,
+      "detail": "0.45"
+    },
+    {
+      "check": "screen:indoor_tv_placement",
+      "pass": true,
+      "detail": "indoor-wall-mounted-tv"
+    },
+    {
+      "check": "screen:landscape_display",
+      "pass": true,
+      "detail": "The measured display must be landscape, not the retired outdoor portrait panel."
+    },
+    {
+      "check": "screen:measured_plate_matches_source",
+      "pass": true,
+      "detail": "carwash-indoor-tv-v1.png vs carwash-indoor-tv-v1.png"
+    },
+    {
+      "check": "screen:appears_in_the_film",
+      "pass": true,
+      "detail": "wash, notice, offer"
+    },
+    {
+      "check": "screen:customer_motion_is_continuous",
+      "pass": true,
+      "detail": "The customer must keep moving through wash \u2192 notice without restarting the clip."
+    },
+    {
+      "check": "truth:disclaimer_present",
+      "pass": true,
+      "detail": "Illustrative customer journey. Outcomes are not guaranteed."
+    },
+    {
+      "check": "lane:every_picture_is_photographic",
+      "pass": true,
+      "detail": "all photographic"
+    }
+  ],
+  "counts": {
+    "total": 271,
+    "failed": 0
+  }
+}

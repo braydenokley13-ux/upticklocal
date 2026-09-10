@@ -1,5 +1,5 @@
 {
-  "title": "Render manifest — The Weekly Drop (locked photographic cut)",
+  "title": "Render manifest — The Weekly Drop, indoor-TV correction",
   "recalculatedAfterCreativeLock": true,
   "blender": {
     "platesRequired": 0,
@@ -30,11 +30,11 @@
     "pixelFormat": "yuv420p",
     "audioCodec": "aac",
     "audioBitrate": "256k",
-    "browser": "Chromium headless shell (pre-installed; no download)",
-    "hardware": "4 CPU cores, ~15 GB RAM, no usable GPU",
-    "concurrency": 3,
+    "browser": "Local Google Chrome: /Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+    "hardware": "User-authorized bounded local Mac compositing",
+    "concurrency": 1,
     "shardsRequired": 0,
-    "note": "The whole film renders in one pass on the session's own container. No fleet, no sharding and no bootstrap script are needed for this cut. The Weekly Drop revision changed the story, not the render shape: same resolution, same fps, 96 more frames."
+    "note": "One local Remotion worker, 1,344 frames. No Blender or render fleet. Only network wording and acquisition pictures changed; all timing is preserved."
   },
   "teaser": {
     "composition": "Final-Teaser",
@@ -49,7 +49,7 @@
     ],
     "outputs": [
       "web mp4 (h264 crf 21, faststart)",
-      "webm (vp9 crf 32 + opus)",
+      "webm (vp9 crf 32, cpu-used 4 + opus)",
       "poster png + jpg",
       "four contact sheets",
       "VALIDATION.json"
@@ -58,7 +58,7 @@
   },
   "preflight": {
     "script": "scripts/final-preflight.py",
-    "checks": 263,
+    "checks": 271,
     "mustPassBeforeRender": true
   },
   "reproducibilitySafeguardsPreserved": [
@@ -70,10 +70,116 @@
     "The film's grain is a pure function of the frame number, so two renders of the same commit agree."
   ],
   "compositing": {
-    "note": "New in the Weekly Drop revision, and the reason the film has an Uptick screen at all.",
-    "surface": "The blank teal sign panel at the car wash exit in route-depart-start-v1.png",
-    "method": "Corners measured off the plate by colour segmentation, then a CSS matrix3d from film/block/homography.ts maps a 600x1154 Remotion screen onto them. The quad is carried through whatever crop the shot is running, so it tracks the camera move.",
-    "why": "The brief requires the screen copy to be exact. Compositing keeps it typeset rather than generated, and projecting rather than pasting keeps it on the panel's own perspective, lighting and defocus.",
-    "checked": "scripts/final-preflight.py verifies the quad lies inside the plate, has area, keeps a bezel inset, declares its blur, and is used by at least two shots."
+    "surface": "Normal landscape wall-mounted TV inside Main Street Car Wash waiting room",
+    "method": "1600x900 Remotion offer projected by homography into the measured still-space TV quad. Coordinates scale to the native 1928x1076 locked-camera motion source. Three-pixel inset preserves the black bezel.",
+    "why": "The TV is ordinary indoor business hardware. Exact offer typography is controlled in compositing, while the generated customer lifts his head to notice it.",
+    "sourceMotionRange": [
+      0,
+      114
+    ],
+    "filmMotionRange": [
+      144,
+      258
+    ],
+    "filmOfferRange": [
+      258,
+      324
+    ],
+    "checked": "Source bounds, landscape placement, plate identity, screen area/bezel and uninterrupted source motion; wide and close still tests plus motion/composite review."
+  },
+  "baselineCommit": "6902d04",
+  "execution": {
+    "commandsAsArgv": [
+      [
+        "python3",
+        "scripts/final-preflight.py"
+      ],
+      [
+        "python3",
+        "scripts/final-manifest.py"
+      ],
+      [
+        "npx",
+        "remotion",
+        "render",
+        "film/index.ts",
+        "Final-Film",
+        "public/film-rd/final/uptick-growth-final-master-src.mp4",
+        "--codec=h264",
+        "--crf=15",
+        "--pixel-format=yuv420p",
+        "--audio-codec=aac",
+        "--audio-bitrate=256k",
+        "--concurrency=1",
+        "--browser-executable=/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+        "--log=error"
+      ],
+      [
+        "npx",
+        "remotion",
+        "render",
+        "film/index.ts",
+        "Final-Teaser",
+        "public/film-rd/final/uptick-growth-final-teaser-src.mp4",
+        "--codec=h264",
+        "--crf=15",
+        "--pixel-format=yuv420p",
+        "--audio-codec=aac",
+        "--audio-bitrate=256k",
+        "--concurrency=1",
+        "--browser-executable=/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+        "--log=error"
+      ],
+      [
+        "python3",
+        "scripts/final-deliver.py",
+        "master"
+      ],
+      [
+        "python3",
+        "scripts/final-deliver.py",
+        "teaser"
+      ],
+      [
+        "python3",
+        "scripts/final-deliver.py",
+        "encodes"
+      ],
+      [
+        "python3",
+        "scripts/final-deliver.py",
+        "align"
+      ],
+      [
+        "python3",
+        "scripts/final-deliver.py",
+        "posters"
+      ],
+      [
+        "python3",
+        "scripts/final-deliver.py",
+        "contact"
+      ],
+      [
+        "python3",
+        "scripts/final-deliver.py",
+        "validate"
+      ]
+    ],
+    "audio": "Existing unchanged Remotion soundtrack embedded during the master/teaser renders; existing final-deliver loudness normalization applied.",
+    "tools": {
+      "ffmpeg": "/private/tmp/uptick-director-python/imageio_ffmpeg/binaries/ffmpeg-macos-aarch64-v7.1",
+      "ffprobe": "node_modules/@remotion/compositor-darwin-arm64/ffprobe",
+      "localWrappers": "/private/tmp/uptick-tv-bin (PATH); ffprobe wrapper sets DYLD_LIBRARY_PATH to the Remotion compositor directory."
+    },
+    "portableRebuild": "npm run film:final with ffmpeg/ffprobe on PATH and FILM_CHROME set to an installed Chromium executable.",
+    "webmRestart": "The initial cpu-used=2 WebM encode was intentionally stopped for excessive local encode time. Only WebM was restarted via encode_webm(MASTER) at cpu-used=4, preserving CRF 32 and 1080p; the complete new file is validated before delivery.",
+    "contactCleanup": "Removed the four older sheet1–4.png derivatives. final-deliver.py now clears that legacy naming scheme and rebuilds final-sheet1–4.png."
+  },
+  "deliveryValidation": {
+    "script": "scripts/final-deliver.py validate",
+    "checks": 40,
+    "failed": 0,
+    "report": "film/review/final/VALIDATION.json"
   }
 }

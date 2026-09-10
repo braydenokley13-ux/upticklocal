@@ -1,3 +1,13 @@
+> **Current revision: indoor-TV correction of baseline `6902d04`.** The new
+> acquisition scene shows the same customer noticing Joe's promotion on an
+> ordinary wall-mounted TV inside Main Street Car Wash. The 56-second timing,
+> route, Joe's scenes, offers and Weekly Drop story are preserved. See
+> [the focused correction review](../review/final/INDOOR_TV_REVIEW.md) for current evidence and validation.
+>
+> The record below is the **historical pre-correction review**. Its outdoor-panel
+> description, missing customer reaction and prior score describe `6902d04`,
+> not the corrected delivery. New source provenance is in `HIGGSFIELD_MANIFEST.json`.
+
 # The Weekly Drop — final production report
 
 **Status: DELIVERED.** 56.00 seconds, 1,344 frames, 1920×1080, 24 fps, stereo.

@@ -3,11 +3,11 @@
   "generatedBy": "scripts/final-manifest.py",
   "edit": {
     "file": "film/final-director/final-edit.json",
-    "sha256": "45f46b047fefafac39eabd15612647f99cb567356309fda857d463bd5eed43d6"
+    "sha256": "5a05f0d97c432ec1d797a1e3c9d4fa791adae3fc5d85e2abac33772ad1646f82"
   },
   "composition": {
     "file": "film/compositions/director/FinalFilm.tsx",
-    "sha256": "19fd5f7011816b56980d4caaff169ad15b201062e26e072ed997afeee62cadf9"
+    "sha256": "0c6ac5295699932243f9eb199475abe8ca66a8a47f52f33eaea98e4707460905"
   },
   "fixture": {
     "file": "film/data/weekly-drop.json",
@@ -15,6 +15,24 @@
     "role": "The Weekly Drop product truth. Every business name, distance, offer, timestamp and price on screen is read from this file at render time; scripts/final-preflight.py fails the build if any of them drift, and also fails if anything on screen says Friday."
   },
   "pictures": [
+    {
+      "file": "public/film-rd/director/photographic/carwash-indoor-tv-v1.mp4",
+      "sha256": "e3f302c5e3c07492bf7530afa108b5822f933eae9eec3a214d01542ac8011456",
+      "bytes": 5418047,
+      "width": 1928,
+      "height": 1076,
+      "frames": 121,
+      "fps": 24,
+      "role": "washMotion"
+    },
+    {
+      "file": "public/film-rd/director/photographic/carwash-indoor-tv-v1.png",
+      "sha256": "6330cd1871a68613a8487af589ae3eca95d5c2a6eda795c7188f7098e41ac18d",
+      "bytes": 6616657,
+      "width": 2752,
+      "height": 1536,
+      "role": "washPlate"
+    },
     {
       "file": "public/film-rd/director/photographic/coffee-start-v1.png",
       "sha256": "baeedb5d1391cfec85c3b78a773ba599c04470a8b43e46a7f5a1861489cb3faf",
@@ -50,14 +68,6 @@
       "width": 2752,
       "height": 1536,
       "role": "counterPaid"
-    },
-    {
-      "file": "public/film-rd/director/photographic/route-depart-start-v1.png",
-      "sha256": "16a8cb69c23b8b4fbda03079e5c3529d0bf42200599addcdf98c0437614ab2d3",
-      "bytes": 7060484,
-      "width": 2752,
-      "height": 1536,
-      "role": "washPlate"
     },
     {
       "file": "public/film-rd/director/photographic/route-depart-tracking-v2.mp4",
@@ -120,6 +130,13 @@
       "bytes": 1820616,
       "width": 1672,
       "height": 941
+    },
+    {
+      "file": "public/film-rd/director/photographic/route-depart-start-v1.png",
+      "sha256": "16a8cb69c23b8b4fbda03079e5c3529d0bf42200599addcdf98c0437614ab2d3",
+      "bytes": 7060484,
+      "width": 2752,
+      "height": 1536
     },
     {
       "file": "public/film-rd/director/photographic/route-depart-v1.mp4",

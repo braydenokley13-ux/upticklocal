@@ -58,10 +58,9 @@ POSTER_PNG = FINAL / "uptick-growth-final-poster.png"
 POSTER_JPG = FINAL / "uptick-growth-final-poster.jpg"
 
 # The frame chosen as the poster, in composition frames at 24 fps. Frame 245 is
-# the racked-in Uptick screen at the car wash: the customer's wet car in the
-# foreground, and a screen at somebody else's business advertising Joe's with a
-# real offer. It is the only frame that states the whole product without a
-# caption, and the only one that could not be mistaken for a generic retail ad.
+# indoor car-wash waiting room: the customer looks toward an ordinary wall TV
+# advertising Joe's. The wash-bay window, chairs and screen share one frame,
+# making the host-business placement clear without suggesting outdoor hardware.
 POSTER = 245
 
 # Six honest alternatives, one per act. Written out so the choice above can be
@@ -277,7 +276,7 @@ def encode_webm(master: Path) -> None:
     run([
         "ffmpeg", "-y", "-v", "error", "-i", str(master),
         "-c:v", "libvpx-vp9", "-crf", "32", "-b:v", "0",
-        "-deadline", "good", "-cpu-used", "2",
+        "-deadline", "good", "-cpu-used", "4",
         "-row-mt", "1", "-tile-columns", "2", "-threads", "4",
         "-pix_fmt", "yuv420p",
         "-color_range", "tv", "-colorspace", "bt709",
@@ -317,8 +316,11 @@ def contact(master: Path, frames: int) -> list[str]:
     record; the stills they are laid from are not kept (see .gitignore).
     """
     CONTACT.mkdir(parents=True, exist_ok=True)
-    for old in CONTACT.glob("final-sheet*.png"):
-        old.unlink()
+    # Remove both historical naming schemes so an obsolete film cannot remain
+    # beside the freshly generated review sheets.
+    for pattern in ("final-sheet*.png", "sheet[1-4].png"):
+        for old in CONTACT.glob(pattern):
+            old.unlink()
     per, sheets = 9, 4
     total = per * sheets
     step = frames / total
@@ -425,6 +427,13 @@ def validate() -> dict:
     if m.get("present") and web.get("present"):
         check("web:smaller_than_master", web["bytes"] < m["bytes"],
               f"{web['bytes']} < {m['bytes']}")
+
+    current_sheets = [CONTACT / f"final-sheet{i}.png" for i in range(1, 5)]
+    check("contact:four_current_sheets", all(p.exists() for p in current_sheets),
+          "final-sheet1.png through final-sheet4.png")
+    legacy = list(CONTACT.glob("sheet[1-4].png"))
+    check("contact:no_legacy_sheets", not legacy,
+          ", ".join(p.name for p in legacy) or "no obsolete review sheets")
 
     report["pass"] = all(c["pass"] for c in report["checks"])
     return report

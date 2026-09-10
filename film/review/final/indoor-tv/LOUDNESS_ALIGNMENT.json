@@ -1,0 +1,24 @@
+{
+  "align": [
+    {
+      "file": "public/film-rd/final/uptick-growth-final-master-1080p.mp4",
+      "corrected": false,
+      "integrated_lufs": -16.05
+    },
+    {
+      "file": "public/film-rd/final/uptick-growth-final-web-1080p.mp4",
+      "corrected": false,
+      "integrated_lufs": -16.05
+    },
+    {
+      "file": "public/film-rd/final/uptick-growth-final-1080p.webm",
+      "corrected": false,
+      "integrated_lufs": -16.04
+    },
+    {
+      "file": "public/film-rd/final/uptick-growth-final-teaser.mp4",
+      "corrected": false,
+      "integrated_lufs": -16.04
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "baselineCommit": "6902d04",
+  "still": {
+    "jobId": "3d90a694-80c8-4d40-a0fc-7041ce28f007",
+    "params": {
+      "model": "nano_banana_pro",
+      "resolution": "2k",
+      "aspect_ratio": "16:9",
+      "count": 1,
+      "medias": [
+        {
+          "role": "image",
+          "value": "34e40754-8a08-4a7c-99e2-e4d5186a786a"
+        }
+      ],
+      "prompt": "ONE single photographic cinematic frame, 16:9. Focused replacement scene for an existing premium commercial. INSIDE a real Main Street Car Wash customer waiting room. Use EXACTLY the same male customer from the reference: short textured brown hair, navy cotton overshirt, dark trousers, same build. View him from behind over his LEFT shoulder, seated naturally on a modest upholstered waiting bench in the LOWER LEFT foreground; no face reveal. His phone rests low in his hands on his lap and his head is initially angled slightly down toward it. In the RIGHT HALF of the frame, a NORMAL 50-inch landscape 16:9 flat-screen television with a thin black bezel is mounted flush on an ordinary warm off-white INTERIOR WALL at normal viewing height. It is clearly a regular TV like a waiting room television, with no stand, no pedestal, no kiosk, no Uptick-branded hardware, no outdoor signage. The entire TV and its four bezel corners are visible unobstructed, approximately screen coordinates x1400–2600 and y240–915 in a 2752x1536 image. Its screen faces almost squarely toward camera, displaying a uniform dark muted teal blank field with only a very faint real glass reflection; no generated words, logos, graphics or people inside the display. Make the TV large enough to read an advertisement in the final composition, but physically credible in the room. To the LEFT and behind the seated customer, an interior viewing window looks into an active car-wash bay with softly defocused blue wash brushes and damp glass, clearly establishing a car wash. Include a second ordinary waiting chair, a small service-counter edge, wall skirting and a discreet plant; all furniture BELOW the TV, never obscuring it. Warm morning window light, restrained practical lights, premium natural photographic skin/fabric/wall/glass texture, grounded shadows, believable lived-in local business. The camera is locked at seated human eye height, 35mm lens, pleasing layered composition and useful depth of field. No billboard, sidewalk, outdoor setting, freestanding sign, futuristic device, huge TV wall, Joe's architecture, coffee cup, bag, or text overlays. This is the moment before a waiting customer looks UP at another business's promotion on a normal indoor TV."
+    },
+    "reportedModel": "nano_banana_2",
+    "credits": 2,
+    "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3GsQo7rive2hh7ZoMUY5vrRv8q0/hf_20260909_234410_3d90a694-80c8-4d40-a0fc-7041ce28f007.png"
+  },
+  "motion": {
+    "jobId": "374d918d-0307-4ee2-a20d-4b5d9247474d",
+    "params": {
+      "model": "kling3_0",
+      "mode": "pro",
+      "sound": "off",
+      "duration": 5,
+      "aspect_ratio": "16:9",
+      "count": 1,
+      "medias": [
+        {
+          "role": "start_image",
+          "value": "3d90a694-80c8-4d40-a0fc-7041ce28f007"
+        }
+      ],
+      "prompt": "Locked-off photographic commercial shot, exactly the supplied composition inside a car wash waiting room. The seated man in the navy overshirt begins looking slightly down at his phone on his lap. Between second one and second two he naturally raises his head and turns it slightly to his RIGHT, looking directly at the wall-mounted television in the upper right. He then holds that attentive gaze at the TV for the rest of the shot. A small believable human moment of noticing an advertisement, no exaggerated reaction. Keep the phone and hands resting low on his lap. Preserve his identity, hairstyle, navy clothing, chair and all room architecture. Absolutely stationary tripod camera, no zoom, no pan, no reframing, no cuts. The ordinary black television and all four screen corners stay rigidly fixed and unobstructed. Keep its blank dark teal screen unchanged with no generated words, logos or graphics; typography will be composited later. Real subtle breathing and fabric movement, warm natural light, believable photographic textures. No standing, walking, waving, face toward camera, added people, scene change or object transformation."
+    },
+    "credits": 8.75,
+    "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3GsQo7rive2hh7ZoMUY5vrRv8q0/hf_20260909_235207_374d918d-0307-4ee2-a20d-4b5d9247474d.mp4"
+  }
+}

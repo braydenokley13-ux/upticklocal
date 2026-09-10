@@ -12,16 +12,16 @@ import {useFilmFonts} from '../../typography/fonts';
 /**
  * "The Weekly Drop" — the locked photographic cut.
  *
- * The film sells one thing: Uptick puts screens in the local businesses around
- * a station, uses them to hand nearby drivers a reason to come in, and then
+ * The film sells one thing: Uptick runs promotions on indoor TVs in businesses
+ * around a station, gives nearby drivers a reason to come in, and then
  * keeps that audience on the merchant's Weekly Drop, where there is always
  * something free.
  *
  * Every picture is a photograph. Every product surface — the screen at the car
  * wash, the fuel receipt, all four phone states — is drawn here, because copy
  * this exact cannot be handed to an image model. The car wash screen is
- * projected onto the real blank sign panel in the plate with a homography, so
- * it sits on the panel's own perspective and takes the panel's own blur.
+ * projected onto the normal wall-mounted TV inside the car-wash waiting room.
+ * The real television bezel and room remain visible around the composited face.
  */
 
 type Rect = [x: number, y: number, w: number, h: number];
@@ -31,7 +31,7 @@ type Shot = {
   media?: string; srcFrom?: number;
   crop?: {from: Rect; to: Rect};
   copy?: string; eyebrow?: string; copyDelay?: number;
-  insert?: Insert; layer?: 'network' | 'offer' | 'receipt' | 'proof' | 'close';
+  insert?: Insert; layer?: 'network' | 'receipt' | 'proof' | 'close';
   screen?: 'soft' | 'focus'; field?: 'evening';
   dim?: number; blur?: number;
 };
@@ -76,21 +76,19 @@ function project(rect: Rect, x: number, y: number): [number, number] {
 
 // ---------------------------------------------------------------- pictures
 
-function CropStill({media, crop, duration}: {media: Media; crop: {from: Rect; to: Rect}; duration: number}) {
+function CropPicture({media, crop, duration, srcFrom = 0}: {media: Media; crop: {from: Rect; to: Rect}; duration: number; srcFrom?: number}) {
   const frame = useCurrentFrame();
   const [x, y, w] = cropAt(crop, frame, duration);
   const scale = W / w;
-  return (
-    <Img
-      src={staticFile(media.src)}
-      style={{
+  const style: CSSProperties = {
         position: 'absolute',
         width: (media.srcW ?? W) * scale,
         height: (media.srcH ?? H) * scale,
         left: -x * scale, top: -y * scale, maxWidth: 'none',
-      }}
-    />
-  );
+  };
+  return media.kind === 'video'
+    ? <OffthreadVideo muted src={staticFile(media.src)} startFrom={srcFrom} style={style} />
+    : <Img src={staticFile(media.src)} style={style} />;
 }
 
 function Picture({shot}: {shot: Shot}) {
@@ -98,12 +96,12 @@ function Picture({shot}: {shot: Shot}) {
   if (!media) return <AbsoluteFill style={{background: C.marineDeep}} />;
   return (
     <AbsoluteFill style={{background: C.marineDeep, overflow: 'hidden'}}>
-      {media.kind === 'video'
+      {shot.crop
+        ? <CropPicture media={media} crop={shot.crop} duration={shot.duration} srcFrom={shot.srcFrom} />
+        : media.kind === 'video'
         ? <OffthreadVideo muted src={staticFile(media.src)} startFrom={shot.srcFrom ?? 0}
             style={{position: 'absolute', width: '100%', height: '100%', objectFit: 'cover'}} />
-        : shot.crop
-          ? <CropStill media={media} crop={shot.crop} duration={shot.duration} />
-          : <Img src={staticFile(media.src)} style={{position: 'absolute', width: '100%', height: '100%', objectFit: 'cover'}} />}
+        : <Img src={staticFile(media.src)} style={{position: 'absolute', width: '100%', height: '100%', objectFit: 'cover'}} />}
     </AbsoluteFill>
   );
 }
@@ -114,70 +112,51 @@ function EveningField() {
 
 // ------------------------------------------------------------ uptick screen
 
-/**
- * What the panel at the car wash is showing. Portrait, because the panel is:
- * the design space matches the measured face so nothing is stretched onto it.
- */
-const SCREEN_W = 600;
-const SCREEN_H = 1154;
+/** Landscape creative displayed on an ordinary wall-mounted waiting-room TV. */
+const SCREEN_W = 1600;
+const SCREEN_H = 900;
 
 function UptickScreen({lit = 1}: {lit?: number}) {
   const s = D.screen;
   return (
-    <div style={{
-      width: SCREEN_W, height: SCREEN_H, background: '#07322c',
-      display: 'flex', flexDirection: 'column', padding: '58px 46px 46px',
-      boxSizing: 'border-box', color: C.onMarine, overflow: 'hidden',
-      backgroundImage: `linear-gradient(168deg, rgba(95,214,187,${0.16 * lit}) 0%, rgba(7,50,44,0) 46%)`,
-    }}>
-      <div style={{fontFamily: FONT.mono, fontSize: 22, letterSpacing: '0.28em', color: C.mint, opacity: 0.92}}>
-        UPTICK
-      </div>
-      <div style={{marginTop: 54, fontFamily: FONT.sans, fontSize: 52, fontWeight: 400, lineHeight: 1.05, letterSpacing: '-0.02em'}}>
-        {s.merchant}
-      </div>
-      <div style={{marginTop: 46, height: 2, background: C.mint, opacity: 0.55, width: 96}} />
-      <div style={{marginTop: 46, fontFamily: FONT.sans, fontSize: 46, fontWeight: 300, lineHeight: 1.16, letterSpacing: '-0.015em'}}>
-        {s.action}
-      </div>
-      <div style={{marginTop: 20, fontFamily: FONT.sans, fontSize: 52, fontWeight: 500, lineHeight: 1.12, color: C.mint, letterSpacing: '-0.015em'}}>
-        {s.reward}
-      </div>
-      <div style={{marginTop: 40, paddingTop: 26, borderTop: '1px solid rgba(241,237,229,.18)',
-        fontFamily: FONT.sans, fontSize: 27, fontWeight: 300, color: C.onMarineSoft, lineHeight: 1.35}}>
-        {s.instruction}
-      </div>
-      <div style={{marginTop: 'auto'}}>
-        <div style={{height: 1, background: 'rgba(241,237,229,.24)', marginBottom: 26}} />
-        <div style={{fontFamily: FONT.sans, fontSize: 24, color: C.onMarineSoft, lineHeight: 1.35}}>
-          {s.footer}
+    <div style={{width: SCREEN_W, height: SCREEN_H, boxSizing: 'border-box',
+      position: 'relative', padding: '70px 86px', overflow: 'hidden', color: '#e9ede5',
+      background: '#153a34', fontFamily: FONT.sans,
+      backgroundImage: `linear-gradient(125deg, rgba(220,232,220,${0.07 * lit}), transparent 60%)`}}>
+      <div style={{fontSize: 74, fontWeight: 500, letterSpacing: '0.015em'}}>{s.merchant}</div>
+      <div style={{width: 100, height: 3, background: C.mint, opacity: .65, marginTop: 38}} />
+      <div style={{fontSize: 101, fontWeight: 400, lineHeight: 1.14, marginTop: 42, letterSpacing: '-.025em'}}>{s.action}</div>
+      <div style={{fontSize: 108, fontWeight: 500, lineHeight: 1.14, marginTop: 14, letterSpacing: '-.025em', color: '#a2dfc3'}}>{s.reward}</div>
+      <div style={{fontSize: 36, marginTop: 38, color: '#d3ddd4'}}>{s.instruction}</div>
+      <div style={{position: 'absolute', left: 86, right: 86, bottom: 62, paddingTop: 28,
+        borderTop: '2px solid rgba(231,237,226,.25)', display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between'}}>
+        <div>
+          <div style={{fontSize: 27, color: '#c2cec6', marginBottom: 12}}>{s.footer}</div>
+          <div style={{fontFamily: FONT.mono, fontSize: 43, letterSpacing: '.09em', color: '#e5d4ac'}}>{s.product}</div>
         </div>
-        <div style={{marginTop: 10, fontFamily: FONT.mono, fontSize: 26, letterSpacing: '0.12em', color: C.amber}}>
-          {s.product}
-        </div>
-        <div style={{marginTop: 26, fontFamily: FONT.mono, fontSize: 19, letterSpacing: '0.1em', color: C.onMarineFaint}}>
-          {s.wayfinding}
-        </div>
+        <div style={{fontFamily: FONT.mono, fontSize: 27, color: '#c2cec6'}}>{s.wayfinding}</div>
       </div>
     </div>
   );
 }
 
 /**
- * The screen, sitting on the panel.
+ * Controlled offer typography sitting inside the photographed TV bezel.
  *
  * The quad is measured off the plate once, in source pixels; here it is carried
  * through whatever crop the shot is running and turned into a CSS matrix3d. The
- * inset leaves a rim of the real panel showing, which reads as a bezel and
- * absorbs the couple of pixels the measurement is out by. `soft` matches the
- * plate's own defocus; `focus` racks it in, which is how the film shows the
- * driver's attention landing on the offer without a face to show it with.
+ * inset preserves the thin black bezel. The photograph supplies the ordinary
+ * hardware, wall shadow and room; Remotion supplies only the display's pixels.
  */
 function ScreenOnPlate({shot}: {shot: Shot}) {
   const frame = useCurrentFrame();
   const media = EDIT.media[shot.media!];
   const rect = cropAt(shot.crop!, frame, shot.duration);
   const {corners, inset, plateBlurPx} = EDIT.screenQuad;
+  // The locked-camera motion inherits the still's geometry at its native size.
+  const reference = EDIT.media.washPlate;
+  const sx = media.srcW! / reference.srcW!;
+  const sy = media.srcH! / reference.srcH!;
 
   // Inset inside the measured face, in source pixels, then project.
   const [tl, tr, br, bl] = corners;
@@ -185,15 +164,9 @@ function ScreenOnPlate({shot}: {shot: Shot}) {
     [tl[0] + inset, tl[1] + inset], [tr[0] - inset, tr[1] + inset],
     [br[0] - inset, br[1] - inset], [bl[0] + inset, bl[1] - inset],
   ];
-  const quad = inner.map(([x, y]) => project(rect, x, y)) as Quad;
+  const quad = inner.map(([x, y]) => project(rect, x * sx, y * sy)) as Quad;
   const scale = W / rect[2];
-
-  const racking = shot.screen === 'focus';
-  const t = racking ? interpolate(frame, [6, 30], [1, 0.18], CLAMP) : 1;
-  const blur = plateBlurPx * scale * t;
-  const lit = racking ? interpolate(frame, [6, 30], [0.5, 1], CLAMP) : 0.5;
-
-  void media;
+  const blur = plateBlurPx * sx * scale;
   return (
     <AbsoluteFill style={{pointerEvents: 'none'}}>
       <div style={{
@@ -201,25 +174,7 @@ function ScreenOnPlate({shot}: {shot: Shot}) {
         transformOrigin: '0 0', transform: homographyMatrix3d(SCREEN_W, SCREEN_H, quad),
         filter: `blur(${blur.toFixed(2)}px)`,
       }}>
-        <UptickScreen lit={lit} />
-      </div>
-    </AbsoluteFill>
-  );
-}
-
-/** The same screen, legibly, when the film needs the offer read rather than seen. */
-function OfferLayer({duration}: {duration: number}) {
-  const frame = useCurrentFrame();
-  const on = interpolate(frame, [0, 12], [0, 1], CLAMP);
-  const out = interpolate(frame, [duration - 10, duration - 2], [1, 0], CLAMP);
-  const rise = interpolate(frame, [0, 20], [22, 0], CLAMP);
-  return (
-    <AbsoluteFill style={{alignItems: 'center', justifyContent: 'center', opacity: on * out}}>
-      <div style={{
-        transform: `translate(430px, ${rise}px) scale(0.79)`,
-        boxShadow: '0 50px 130px rgba(2,7,11,.7), 0 0 0 2px rgba(95,214,187,.22), 0 0 90px rgba(95,214,187,.14)',
-      }}>
-        <UptickScreen lit={1} />
+        <UptickScreen />
       </div>
     </AbsoluteFill>
   );
@@ -545,7 +500,7 @@ function NetworkLayer({duration}: {duration: number}) {
           fontFamily: FONT.mono, fontSize: 17, letterSpacing: '0.22em', color: C.mint,
           paddingBottom: 20, borderBottom: `1px solid ${C.onMarineHair}`,
           opacity: interpolate(frame, [6, 20], [0, 1], CLAMP),
-        }}>UPTICK NETWORK · NEAR JOE&rsquo;S</div>
+        }}>INDOOR TVs · NEAR JOE&rsquo;S</div>
         {NETWORK.map((entry, i) => {
           const at = 20 + i * 13;
           const o = interpolate(frame, [at, at + 14], [0, 1], CLAMP);
@@ -558,7 +513,7 @@ function NetworkLayer({duration}: {duration: number}) {
             }}>
               <span style={{display: 'flex', alignItems: 'center', gap: 16}}>
                 <span style={{
-                  width: 15, height: 22, borderRadius: 2, border: `1.5px solid ${C.mint}`,
+                  width: 30, height: 17, borderRadius: 2, border: `1.5px solid ${C.mint}`,
                   background: 'rgba(95,214,187,.22)', display: 'inline-block',
                 }} />
                 <span style={{fontFamily: FONT.sans, fontSize: 31, fontWeight: 300, color: C.onMarine, letterSpacing: '-0.01em'}}>
@@ -697,7 +652,6 @@ function ShotBody({shot}: {shot: Shot}) {
       </AbsoluteFill>
       {dim ? <AbsoluteFill style={{background: `rgba(4,12,18,${dim})`}} /> : null}
       {shot.layer === 'network' ? <NetworkLayer duration={shot.duration} /> : null}
-      {shot.layer === 'offer' ? <OfferLayer duration={shot.duration} /> : null}
       {shot.layer === 'receipt' ? <ReceiptLayer duration={shot.duration} /> : null}
       {shot.layer === 'proof' ? <ProofLayer duration={shot.duration} /> : null}
       {shot.layer === 'close' ? <CloseLayer /> : null}

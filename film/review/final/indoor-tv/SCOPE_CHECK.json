@@ -1,0 +1,45 @@
+{
+  "baseline": "6902d04",
+  "frames": 1344,
+  "fps": 24,
+  "changedShots": [
+    "network",
+    "wash",
+    "notice",
+    "offer"
+  ],
+  "allShotTimingsUnchanged": true,
+  "allShotsFromDepartOnwardUnchanged": true,
+  "soundAndProductBeatsUnchanged": true,
+  "customerContinuityUnchanged": true,
+  "productFixtureUnchanged": true,
+  "replacementMotionUsedSourceRange": [
+    0,
+    114
+  ],
+  "replacementMotionSourceFrames": 121,
+  "offerStillSourceSha256": "6330cd1871a68613a8487af589ae3eca95d5c2a6eda795c7188f7098e41ac18d",
+  "renderedSampleComparison": {
+    "frames": [
+      36,
+      350,
+      410,
+      610,
+      840,
+      1105,
+      1320
+    ],
+    "method": "SSIM at 480x270 after final color conversion, baseline master vs corrected master",
+    "scores": [
+      0.994919,
+      0.995596,
+      0.994601,
+      0.994341,
+      0.994389,
+      0.995746,
+      0.993597
+    ],
+    "minimum": 0.993597,
+    "note": "Lossy encoding can differ; this checks representative unchanged shots, not byte identity."
+  }
+}

@@ -12,8 +12,8 @@
     "master": {
       "file": "public/film-rd/final/uptick-growth-final-master-1080p.mp4",
       "present": true,
-      "bytes": 57907176,
-      "sha256": "2bd30dc44705d7ca96863d1ce0d77676b07d6af2ba69c365350ac77f32ff37df",
+      "bytes": 62036452,
+      "sha256": "3e1e8ba47f2cefb4096fa7d19d2f242d0ea496a7ecf636c334e580b4972bcdfd",
       "container_seconds": 56.1,
       "video_codec": "h264",
       "width": 1920,
@@ -26,14 +26,14 @@
       "audio_codec": "aac",
       "sample_rate": 48000,
       "channels": 2,
-      "integrated_lufs": -16.07,
+      "integrated_lufs": -16.05,
       "true_peak_dbtp": -1.35
     },
     "web": {
       "file": "public/film-rd/final/uptick-growth-final-web-1080p.mp4",
       "present": true,
-      "bytes": 23111019,
-      "sha256": "3e88ea31af88fb400ba1e3d80f2573d30e7eb889ff6763091ed9639cee947ca8",
+      "bytes": 24167255,
+      "sha256": "05a38f1e9c66a914623caca7b84f2c0ed0ae4ee6747a22bbc6445da88642f4c6",
       "container_seconds": 56.1,
       "video_codec": "h264",
       "width": 1920,
@@ -46,15 +46,15 @@
       "audio_codec": "aac",
       "sample_rate": 48000,
       "channels": 2,
-      "integrated_lufs": -16.07,
+      "integrated_lufs": -16.05,
       "true_peak_dbtp": -1.35
     },
     "webm": {
       "file": "public/film-rd/final/uptick-growth-final-1080p.webm",
       "present": true,
-      "bytes": 9910708,
-      "sha256": "dd73e28cf9715eb8f1ce91397e17838b489062603dd79be0a0436e89d09dc0d5",
-      "container_seconds": 56.128,
+      "bytes": 10824964,
+      "sha256": "02f4e645a4091ff1bf5e7f90698d30133b914fc215951727323ea0c0cef6a9f2",
+      "container_seconds": 56.108,
       "video_codec": "vp9",
       "width": 1920,
       "height": 1080,
@@ -66,15 +66,15 @@
       "audio_codec": "opus",
       "sample_rate": 48000,
       "channels": 2,
-      "integrated_lufs": -16.06,
-      "true_peak_dbtp": -1.24
+      "integrated_lufs": -16.04,
+      "true_peak_dbtp": -1.4
     },
     "teaser": {
       "file": "public/film-rd/final/uptick-growth-final-teaser.mp4",
       "present": true,
-      "bytes": 9617215,
-      "sha256": "fa61fc574f2d0d9d2e69792efa17f3907b5b73ca6dac7ca7a50f29bf0ce65942",
-      "container_seconds": 15.001,
+      "bytes": 9931364,
+      "sha256": "d4fd55fd1c16d341ec81ae604404d3010390e4bad9411a2c39a3ee5408075347",
+      "container_seconds": 15.061,
       "video_codec": "h264",
       "width": 1920,
       "height": 1080,
@@ -86,14 +86,15 @@
       "audio_codec": "aac",
       "sample_rate": 48000,
       "channels": 2,
-      "integrated_lufs": -16.05,
-      "true_peak_dbtp": -2.17
+      "integrated_lufs": -16.04,
+      "true_peak_dbtp": -2.15
     },
     "poster_png": {
       "file": "public/film-rd/final/uptick-growth-final-poster.png",
       "present": true,
-      "bytes": 2914976,
-      "sha256": "c4645733cb945b4f4a2c65c7e138eb7e8037af352cec9f8e553a03d2a408e3b0",
+      "bytes": 2570221,
+      "sha256": "46399fbc38f7e9c05b6adeaa9d6703b73554bf16fbd19a384416795ca28ce2ba",
+      "container_seconds": 0.04,
       "video_codec": "png",
       "width": 1920,
       "height": 1080,
@@ -101,14 +102,14 @@
       "pix_fmt": "rgb24",
       "video_frames": null,
       "color_range": "pc",
-      "color_space": null,
+      "color_space": "gbr",
       "audio_codec": null
     },
     "poster_jpg": {
       "file": "public/film-rd/final/uptick-growth-final-poster.jpg",
       "present": true,
-      "bytes": 174162,
-      "sha256": "2e1e515368ac2699eb1f428176f8bf4b94a7e8d751ffc9f9bf909e0da4ce8c63",
+      "bytes": 215007,
+      "sha256": "c732279ed929a736defba774d6a196b3fd58c131d0ab0caa1fa050c3999e47e8",
       "container_seconds": 0.04,
       "video_codec": "mjpeg",
       "width": 1920,
@@ -150,7 +151,7 @@
     {
       "check": "master:loudness",
       "pass": true,
-      "detail": "-16.07 LUFS (target -16.0)"
+      "detail": "-16.05 LUFS (target -16.0)"
     },
     {
       "check": "master:true_peak",
@@ -200,7 +201,7 @@
     {
       "check": "web:loudness",
       "pass": true,
-      "detail": "-16.07 LUFS (target -16.0)"
+      "detail": "-16.05 LUFS (target -16.0)"
     },
     {
       "check": "web:true_peak",
@@ -240,7 +241,7 @@
     {
       "check": "webm:duration",
       "pass": true,
-      "detail": "56.128s vs 56.0s"
+      "detail": "56.108s vs 56.0s"
     },
     {
       "check": "webm:audio",
@@ -250,12 +251,12 @@
     {
       "check": "webm:loudness",
       "pass": true,
-      "detail": "-16.06 LUFS (target -16.0)"
+      "detail": "-16.04 LUFS (target -16.0)"
     },
     {
       "check": "webm:true_peak",
       "pass": true,
-      "detail": "-1.24 dBTP"
+      "detail": "-1.4 dBTP"
     },
     {
       "check": "webm:pix_fmt",
@@ -280,7 +281,7 @@
     {
       "check": "teaser:duration",
       "pass": true,
-      "detail": "15.001s"
+      "detail": "15.061s"
     },
     {
       "check": "teaser:resolution",
@@ -290,12 +291,12 @@
     {
       "check": "teaser:loudness",
       "pass": true,
-      "detail": "-16.05 LUFS (target -16.0)"
+      "detail": "-16.04 LUFS (target -16.0)"
     },
     {
       "check": "teaser:true_peak",
       "pass": true,
-      "detail": "-2.17 dBTP"
+      "detail": "-2.15 dBTP"
     },
     {
       "check": "poster_png:resolution",
@@ -310,7 +311,17 @@
     {
       "check": "web:smaller_than_master",
       "pass": true,
-      "detail": "23111019 < 57907176"
+      "detail": "24167255 < 62036452"
+    },
+    {
+      "check": "contact:four_current_sheets",
+      "pass": true,
+      "detail": "final-sheet1.png through final-sheet4.png"
+    },
+    {
+      "check": "contact:no_legacy_sheets",
+      "pass": true,
+      "detail": "no obsolete review sheets"
     }
   ],
   "pass": true
