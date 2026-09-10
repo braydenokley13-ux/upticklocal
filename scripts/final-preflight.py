@@ -212,8 +212,8 @@ def main() -> int:
         c.add(f"beat:{name}:done_inside_shot", beat["doneFrame"] < shot["duration"] - 6,
               f"done {beat['doneFrame']} of {shot['duration']}")
 
-    # The product is the Weekly Drop, not a Friday promotion. Nothing on screen
-    # may say Friday — section 11 of the brief, made mechanical.
+    # This copy revision intentionally uses an urgent Friday-only Drop. Keep the
+    # phrase explicit and short enough to read inside the phone bubble.
     on_screen = []
     for shot in edit["shots"]:
         on_screen += [shot.get("copy", ""), shot.get("eyebrow", "")]
@@ -225,8 +225,12 @@ def main() -> int:
             for v in node: walk(v)
     for key in ("screen", "firstRedemption", "join", "drop", "returnRedemption", "journey", "closing"):
         walk(fixture[key])
-    said = [t for t in on_screen if "friday" in t.lower()]
-    c.add("product:never_says_friday", not said, "; ".join(said) or "no Friday anywhere on screen")
+    c.add("product:friday_offer_is_explicit",
+          any("friday only" in t.lower() for t in on_screen),
+          "The Drop must make its Friday-only urgency explicit.")
+    c.add("product:friday_offer_is_urgent",
+          any("don't miss" in t.lower() for t in on_screen),
+          "The Friday-only message must include an urgent call to action.")
     c.add("product:names_the_weekly_drop",
           any("weekly drop" in t.lower() for t in on_screen), fixture["screen"]["product"])
 

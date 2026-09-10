@@ -8,6 +8,7 @@ import drop from '../../data/weekly-drop.json';
 import {homographyMatrix3d, type Quad} from '../../block/homography';
 import {COLOR as C, FONT} from '../../tokens';
 import {useFilmFonts} from '../../typography/fonts';
+import {QrMark} from '../../primitives/ScreenContent';
 
 /**
  * "The Weekly Drop" — the locked photographic cut.
@@ -134,7 +135,10 @@ function UptickScreen({lit = 1}: {lit?: number}) {
           <div style={{fontSize: 27, color: '#c2cec6', marginBottom: 12}}>{s.footer}</div>
           <div style={{fontFamily: FONT.mono, fontSize: 43, letterSpacing: '.09em', color: '#e5d4ac'}}>{s.product}</div>
         </div>
-        <div style={{fontFamily: FONT.mono, fontSize: 27, color: '#c2cec6'}}>{s.wayfinding}</div>
+        <div style={{display: 'flex', alignItems: 'flex-end', gap: 24}}>
+          <div style={{fontFamily: FONT.mono, fontSize: 27, color: '#c2cec6', paddingBottom: 5}}>{s.wayfinding}</div>
+          <div style={{background: '#e9ede5', padding: 10}}><QrMark size={84} ink="#153a34" /></div>
+        </div>
       </div>
     </div>
   );
@@ -254,7 +258,7 @@ function ReceiptLayer({duration}: {duration: number}) {
         <div style={{
           marginTop: 26, paddingTop: 18, borderTop: '1px dashed rgba(27,26,22,.34)',
           fontSize: 20, color: '#0f6f5c', letterSpacing: '0.06em',
-        }}>QUALIFIES · UPTICK OFFER</div>
+        }}>QUALIFIES · $25 GAS · UPTICK OFFER</div>
       </div>
     </AbsoluteFill>
   );
@@ -571,7 +575,7 @@ function CloseLayer() {
   const frame = useCurrentFrame();
   const rule = interpolate(frame, [26, 48], [0, 1], CLAMP);
   const brand = interpolate(frame, [30, 46], [0, 1], CLAMP);
-  const detail = interpolate(frame, [42, 58], [0, 1], CLAMP);
+  const detail = interpolate(frame, [34, 48], [0, 1], CLAMP);
   return (
     <AbsoluteFill style={{alignItems: 'center', justifyContent: 'center', textAlign: 'center'}}>
       <div>
@@ -596,7 +600,7 @@ function CloseLayer() {
       }}>{D.closing.brand}</div>
       <div style={{
         marginTop: 26, opacity: detail, fontFamily: FONT.sans, fontSize: 27, fontWeight: 300,
-        color: C.onMarineSoft, letterSpacing: '-0.01em',
+        color: C.onMarine, letterSpacing: '-0.01em', textShadow: '0 2px 18px rgba(3,9,14,.72)',
       }}>{D.closing.detail}</div>
     </AbsoluteFill>
   );

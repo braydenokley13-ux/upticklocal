@@ -3,15 +3,15 @@
   "generatedBy": "scripts/final-manifest.py",
   "edit": {
     "file": "film/final-director/final-edit.json",
-    "sha256": "5a05f0d97c432ec1d797a1e3c9d4fa791adae3fc5d85e2abac33772ad1646f82"
+    "sha256": "9a1286634889068771048713b740baad55e222cdcf960b86c96f3de0f947b214"
   },
   "composition": {
     "file": "film/compositions/director/FinalFilm.tsx",
-    "sha256": "0c6ac5295699932243f9eb199475abe8ca66a8a47f52f33eaea98e4707460905"
+    "sha256": "29e833450818fbbfdd1e420072ccb7f4501838679dc73ebc4e5497bef151f078"
   },
   "fixture": {
     "file": "film/data/weekly-drop.json",
-    "sha256": "4b36278714cf4c5e5ad1877868b5953cd2d24d60bd0b007d2080a3e8fc854282",
+    "sha256": "5a1741c1c414d3e49d6bbb93d426fb2bfa8873dae9f11f5059e57542c49f1b5d",
     "role": "The Weekly Drop product truth. Every business name, distance, offer, timestamp and price on screen is read from this file at render time; scripts/final-preflight.py fails the build if any of them drift, and also fails if anything on screen says Friday."
   },
   "pictures": [

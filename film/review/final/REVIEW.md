@@ -4,9 +4,11 @@
 > route, Joe's scenes, offers and Weekly Drop story are preserved. See
 > [the focused correction review](INDOOR_TV_REVIEW.md) for current evidence and validation.
 >
-> The record below is the **historical pre-correction review**. Its outdoor-panel
+> The record below is the **historical pre-copy-pass review**. Its outdoor-panel
 > description, missing customer reaction and prior score describe `6902d04`,
-> not the corrected delivery. New source provenance is in `HIGGSFIELD_MANIFEST.json`.
+> not the corrected delivery. The September 10 copy pass also adds the TV QR cue,
+> explicit `$25 GAS` receipt qualification, urgent Friday-only SMS, and “Big
+> excitement, small cost.” New source provenance is in `HIGGSFIELD_MANIFEST.json`.
 
 # Final review record — The Weekly Drop
 

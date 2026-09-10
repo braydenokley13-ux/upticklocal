@@ -10,6 +10,12 @@
 
 # Final critic pass — The Weekly Drop
 
+> **Current copy revision:** The final 56-second cut preserves the prior visual
+> lock and now carries a QR cue on the indoor car-wash TV, an explicit `$25 GAS`
+> receipt qualification, an urgent Friday-only SMS, and the closing line
+> “Big excitement, small cost.” The score and analysis below describe the prior
+> visual/strategic pass, not a new whole-film rescore.
+
 Written against the rendered 1920×1080 master, watched at normal speed with
 sound, muted, and at laptop size, plus frame-level inspection at every cut.
 

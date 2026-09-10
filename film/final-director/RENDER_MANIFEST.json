@@ -1,6 +1,16 @@
 {
   "title": "Render manifest — The Weekly Drop, indoor-TV correction",
   "recalculatedAfterCreativeLock": true,
+  "copyRevision": {
+    "date": "2026-09-10",
+    "scope": "Master-only copy pass; existing teaser intentionally left untouched.",
+    "changes": [
+      "Added a restrained QR cue to the indoor Main Street Car Wash TV.",
+      "Receipt qualification now explicitly reads $25 GAS.",
+      "SMS offer now reads FRIDAY ONLY — DON'T MISS IT.",
+      "Closing detail now reads Big excitement, small cost."
+    ]
+  },
   "blender": {
     "platesRequired": 0,
     "cpuHoursRequired": 0.0,
@@ -34,7 +44,7 @@
     "hardware": "User-authorized bounded local Mac compositing",
     "concurrency": 1,
     "shardsRequired": 0,
-    "note": "One local Remotion worker, 1,344 frames. No Blender or render fleet. Only network wording and acquisition pictures changed; all timing is preserved."
+    "note": "One local Remotion worker, 1,344 frames. No Blender or render fleet. This pass changes copy cues only; all timing is preserved."
   },
   "teaser": {
     "composition": "Final-Teaser",
@@ -58,7 +68,7 @@
   },
   "preflight": {
     "script": "scripts/final-preflight.py",
-    "checks": 271,
+    "checks": 272,
     "mustPassBeforeRender": true
   },
   "reproducibilitySafeguardsPreserved": [

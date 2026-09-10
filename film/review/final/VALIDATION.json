@@ -12,8 +12,8 @@
     "master": {
       "file": "public/film-rd/final/uptick-growth-final-master-1080p.mp4",
       "present": true,
-      "bytes": 62036452,
-      "sha256": "3e1e8ba47f2cefb4096fa7d19d2f242d0ea496a7ecf636c334e580b4972bcdfd",
+      "bytes": 62013521,
+      "sha256": "77899e9c217ad0d681ca062972cb9b6ca3f7a6c0123d5a9f3449e2d8f588619c",
       "container_seconds": 56.1,
       "video_codec": "h264",
       "width": 1920,
@@ -32,8 +32,8 @@
     "web": {
       "file": "public/film-rd/final/uptick-growth-final-web-1080p.mp4",
       "present": true,
-      "bytes": 24167255,
-      "sha256": "05a38f1e9c66a914623caca7b84f2c0ed0ae4ee6747a22bbc6445da88642f4c6",
+      "bytes": 24151977,
+      "sha256": "0dd86a5cc9ad882c77e6adc99434ea471a7b2167ca0f6c445885ca2bb0fc2792",
       "container_seconds": 56.1,
       "video_codec": "h264",
       "width": 1920,
@@ -52,8 +52,8 @@
     "webm": {
       "file": "public/film-rd/final/uptick-growth-final-1080p.webm",
       "present": true,
-      "bytes": 10824964,
-      "sha256": "02f4e645a4091ff1bf5e7f90698d30133b914fc215951727323ea0c0cef6a9f2",
+      "bytes": 10839701,
+      "sha256": "dc52078b64a7869e88162565e5996684832446ced8f733eedccfa5bbdab936c7",
       "container_seconds": 56.108,
       "video_codec": "vp9",
       "width": 1920,
@@ -92,8 +92,8 @@
     "poster_png": {
       "file": "public/film-rd/final/uptick-growth-final-poster.png",
       "present": true,
-      "bytes": 2570221,
-      "sha256": "46399fbc38f7e9c05b6adeaa9d6703b73554bf16fbd19a384416795ca28ce2ba",
+      "bytes": 2576938,
+      "sha256": "cc06d5cd81376eceb030e3c85659a8ea2c157819b72c13258e9e69535c4f336f",
       "container_seconds": 0.04,
       "video_codec": "png",
       "width": 1920,
@@ -108,8 +108,8 @@
     "poster_jpg": {
       "file": "public/film-rd/final/uptick-growth-final-poster.jpg",
       "present": true,
-      "bytes": 215007,
-      "sha256": "c732279ed929a736defba774d6a196b3fd58c131d0ab0caa1fa050c3999e47e8",
+      "bytes": 216241,
+      "sha256": "1341fd78b7dfd7b20319070ab1049645bbc3e5f5bf6092360a5a80b95710404f",
       "container_seconds": 0.04,
       "video_codec": "mjpeg",
       "width": 1920,
@@ -311,7 +311,7 @@
     {
       "check": "web:smaller_than_master",
       "pass": true,
-      "detail": "24167255 < 62036452"
+      "detail": "24151977 < 62013521"
     },
     {
       "check": "contact:four_current_sheets",

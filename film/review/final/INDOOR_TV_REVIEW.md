@@ -31,6 +31,21 @@ inserted. Every shot from `depart` onward, every shot duration, the soundtrack,
 the product fixture and all redemption/opt-in timing are unchanged. The scope
 comparison is recorded in `indoor-tv/SCOPE_CHECK.json`.
 
+## Copy pass requested on September 10
+
+The follow-up copy pass stays inside the same composition and does not redesign
+the commercial. The TV creative now includes a scan cue beside the wayfinding;
+the receipt qualification reads `QUALIFIES · $25 GAS · UPTICK OFFER`; the SMS
+body reads `FRIDAY ONLY — DON'T MISS IT.` followed by the breakfast sandwich and
+free coffee; and the final detail line reads `Big excitement, small cost.` The
+message is timestamped Thursday evening and the return Friday morning so the
+urgency is coherent in the existing journey.
+
+The QR mark is a deterministic Remotion graphic using the repository's existing
+QR pattern component. It is a visual scan cue, while all offer typography stays
+controlled in compositing. No generated asset or scene was added for this copy
+pass.
+
 ## Test before integration
 
 1. Generated one waiting-room still using the existing customer's counter

@@ -8,8 +8,9 @@ holds, and that the film's depictions are labelled for what they are.
 `scripts/final-preflight.py` enforces the mechanical half of this table on every
 render. Every business name, distance, offer, timestamp and price is read from
 `film/data/weekly-drop.json` at render time, and the build fails if any of them
-drift — including a check that **nothing on screen anywhere says "Friday"**,
-because the product is a Weekly Drop and not a Friday promotion.
+drift. The current copy revision intentionally makes the text message a
+Friday-only offer and preflight requires both the explicit Friday wording and
+an urgent “don't miss” call to action.
 
 | Claim or depicted event | Basis | Treatment |
 |---|---|---|
@@ -22,7 +23,7 @@ because the product is a Weekly Drop and not a Friday promotion.
 | First redemption, free coffee | `firstRedemption`, `priceCents: 0`, Tuesday 8:17 AM | Shown as receipt-verified and explicitly redeemed — the phone reads `VERIFIED $25.00` then `REDEEM` → `REDEEMED`. Preflight requires press to precede done. No margin, redemption-rate or incremental-sales claim. |
 | Joining the Weekly Drop | `join`, Tuesday 8:19 AM | Explicit opt-in: the offer is shown, the button is pressed, and only then does it read `YOU'RE IN.` Purchase is never portrayed as permission. |
 | "A new offer each week. There's always something free." | The user's stated product positioning | A **forward-looking promise about the user's own product**, not a measured outcome. It is theirs to make; this film neither substantiates nor quantifies it. Preflight does check that both offers the film actually shows contain something free. |
-| The Drop arrives by text | `drop`, Wednesday 5:31 PM, `channel: "text message"` | Shown as an SMS thread, labelled `TEXT MESSAGE`, with the sender `UPTICK WEEKLY DROP`. Deliberately **Wednesday**, to demonstrate that a Drop is weekly rather than a Friday fixture. No claim about deliverability, opt-out handling, carrier terms or messaging law. |
+| The Drop arrives by text | `drop`, Thursday 5:31 PM, `channel: "text message"` | Shown as an SMS thread, labelled `TEXT MESSAGE`, with the sender `UPTICK WEEKLY DROP`. The current copy is explicitly **FRIDAY ONLY — DON'T MISS IT.** to create the requested urgency. No claim about deliverability, opt-out handling, carrier terms or messaging law. |
 | `Buy a breakfast sandwich / Get a coffee free` | `returnRedemption`, Thursday 7:41 AM | The recurring offer. Paid item plus a free item — never a second pure giveaway, and never a discount code. Redeemed on screen, so the film does not imply the offer applies itself. |
 | The same person returns | One customer through every shot: navy overshirt, dark trousers, short dark hair, one navy estate | Continuity is carried by the material, not asserted. His face is withheld through both doorway entries and revealed only at the counter. |
 | The cashier recognises him | One generated photograph | Depicted behaviour in an illustrative scenario, not a testimonial. No cashier, customer or business in this film is a real person or place. |
@@ -32,11 +33,14 @@ because the product is a Weekly Drop and not a Friday promotion.
 ## Depiction limits after the focused correction
 
 The indoor-TV correction replaces the previous outdoor panel and supplies the
-customer's visible noticing action. Exact TV lettering remains a deliberate
-composite. The fuel purchase still uses canopy, sound and receipt; no pump shot
-was added. Quick Lube and Ridge Tire remain named network examples with landscape
-TV symbols, not additional photographed locations. These later scenes were outside
-the requested correction and retain the finished film's existing treatment.
+customer's visible noticing action. The current copy pass adds a QR cue to the
+TV, calls out `$25 GAS` on the receipt qualification, makes the SMS offer
+Friday-only and urgent, and closes with “Big excitement, small cost.” Exact TV
+lettering remains a deliberate composite. The fuel purchase still uses canopy,
+sound and receipt; no pump shot was added. Quick Lube and Ridge Tire remain named
+network examples with landscape TV symbols, not additional photographed
+locations. These later scenes were outside the requested correction and retain
+the finished film's existing treatment.
 
 ## The persistent qualification
 

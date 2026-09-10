@@ -10,6 +10,13 @@
 
 # The Weekly Drop — final production report
 
+> **Current copy revision (September 10):** The finished 56-second cut keeps the
+> indoor-TV acquisition scene and adds the requested QR cue, explicit `$25 GAS`
+> receipt qualification, urgent `FRIDAY ONLY — DON'T MISS IT.` text-message
+> offer, and `Big excitement, small cost.` closing line. The body below records
+> the preceding production lock and remains useful for the unchanged story,
+> timing and delivery decisions.
+
 **Status: DELIVERED.** 56.00 seconds, 1,344 frames, 1920×1080, 24 fps, stereo.
 Master, web cut, WebM, 15-second teaser, poster, contact sheets and validation
 are in `public/film-rd/final/` and `film/review/final/`.
