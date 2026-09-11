@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { CONTACT_EMAIL, NAV, SIGN_OFF, SUITE } from "@/lib/content";
+import { PROGRAM } from "@/lib/program";
 
 /**
  * The sign-off is the company's own line, set large, then the map of the
@@ -19,7 +20,7 @@ export default function SiteFooter() {
               <span className="wordmark__dot" aria-hidden="true" />
               <span>uptick local</span>
             </Link>
-            <p className="site-footer__claim">A local business growth system. Screens, offers and content for the businesses on your block.</p>
+            <p className="site-footer__claim">A local membership and growth system: Uptick Local for members, Uptick Growth for merchants, and local distribution that connects the two.</p>
           </div>
           <nav className="site-footer__links" aria-label="Footer">
             {NAV.map((item) => (
@@ -28,6 +29,10 @@ export default function SiteFooter() {
               </Link>
             ))}
             <Link href="/partners">Screen network partners</Link>
+            <Link href={PROGRAM.urls.membership}>Membership</Link>
+            <Link href={PROGRAM.urls.sms}>SMS</Link>
+            <Link href={PROGRAM.urls.privacy}>Privacy</Link>
+            <Link href={PROGRAM.urls.terms}>Terms</Link>
           </nav>
           <div className="site-footer__contact">
             <p className="mono-tag mono-tag--muted">Talk to us</p>

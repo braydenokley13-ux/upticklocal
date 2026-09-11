@@ -1364,3 +1364,192 @@ html[data-menu="open"] {
     transform: none;
   }
 }
+
+/* --- public membership and legal pages ----------------------------------- */
+
+@media (max-width: 899px) {
+  .program-hero {
+    padding: 36px var(--mg) 56px;
+  }
+
+  .program-hero__grid {
+    display: block;
+  }
+
+  .program-hero__title {
+    max-width: 11ch;
+    margin: 14px 0 18px;
+    font-size: clamp(42px, 12vw, 58px);
+  }
+
+  .program-hero__lead {
+    font-size: 17px;
+  }
+
+  .program-hero__note {
+    font-size: 10.5px;
+  }
+
+  .program-hero__signal {
+    margin-top: 42px;
+  }
+
+  .program-signal {
+    padding: 24px 20px;
+  }
+
+  .program-signal__title {
+    font-size: 25px;
+  }
+
+  .program-band,
+  .program-cta-band {
+    padding: 56px var(--mg) 60px;
+  }
+
+  .program-section-head {
+    display: block;
+    margin: 10px 0 32px;
+  }
+
+  .program-section-head h2 {
+    margin-top: 10px;
+    font-size: clamp(30px, 8.6vw, 40px);
+  }
+
+  .program-section-head p {
+    margin-top: 16px;
+    font-size: 16px;
+  }
+
+  .program-copy-grid {
+    display: block;
+  }
+
+  .program-copy-grid > * + * {
+    margin-top: 26px;
+  }
+
+  .program-copy-grid p {
+    font-size: 16px;
+  }
+
+  .program-steps {
+    display: block;
+  }
+
+  .program-steps li,
+  .program-steps li + li {
+    min-height: 0;
+    padding: 22px 0 24px;
+    border-left: 0;
+  }
+
+  .program-steps h3 {
+    font-size: 21px;
+  }
+
+  .program-steps p {
+    max-width: none;
+    font-size: 16px;
+  }
+
+  .program-list {
+    font-size: 16px;
+  }
+
+  .program-cta-band__inner {
+    display: block;
+  }
+
+  .program-cta-band h2 {
+    font-size: clamp(30px, 8.6vw, 40px);
+  }
+
+  .program-cta-band__inner > .program-cta {
+    margin-top: 30px;
+  }
+
+  .program-document__hero {
+    padding: 36px var(--mg) 48px;
+  }
+
+  .program-document__title {
+    max-width: 12ch;
+    margin: 14px 0 18px;
+    font-size: clamp(40px, 11vw, 54px);
+  }
+
+  .program-document__lead {
+    font-size: 17px;
+  }
+
+  .program-review-note {
+    padding: 15px 16px;
+    font-size: 13px;
+  }
+
+  .program-document__body {
+    padding: 44px var(--mg) 72px;
+  }
+
+  .program-document__layout {
+    display: block;
+  }
+
+  .program-document__toc {
+    position: static;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--rule-canvas);
+  }
+
+  .program-document__toc ul {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px 20px;
+    margin-top: 14px;
+  }
+
+  .program-document__toc a {
+    font-size: 13px;
+  }
+
+  .program-document__content {
+    margin-top: 48px;
+  }
+
+  .program-document__content section + section {
+    margin-top: 48px;
+    padding-top: 40px;
+  }
+
+  .program-document__content h2 {
+    font-size: clamp(27px, 7.8vw, 36px);
+  }
+
+  .program-document__content h3 {
+    font-size: 19px;
+  }
+
+  .program-document__content p {
+    font-size: 16px;
+  }
+
+  .program-facts > div {
+    grid-template-columns: minmax(92px, 0.42fr) minmax(0, 1fr);
+    gap: 14px;
+    padding: 14px 0;
+  }
+
+  .program-facts dd {
+    font-size: 14.5px;
+  }
+
+  .program-sample {
+    padding: 18px 16px 20px;
+  }
+
+  .program-sample p:last-child {
+    font-size: 17px;
+  }
+}

@@ -4,6 +4,8 @@
  * and in the text thread, in the nav and in the footer. Nothing drifts.
  */
 
+import { PROGRAM } from "@/lib/program";
+
 /** The company promise. Everything on the homepage descends from this line. */
 export const PROMISE = { lead: "Grow your business by reaching the customers", accent: "already around you." };
 export const PROMISE_TEXT = `${PROMISE.lead} ${PROMISE.accent}`;
@@ -12,7 +14,7 @@ export const PROMISE_TEXT = `${PROMISE.lead} ${PROMISE.accent}`;
 export const PROMISE_LINE =
   "Countertop screens in the places people already go. Offers they can act on now. Content that makes them choose you.";
 
-export const CONTACT_EMAIL = "iwhite@upticklocal.com";
+export const CONTACT_EMAIL = PROGRAM.supportEmail;
 
 /* -------------------------------------------------------------------------
    What runs on the screen
