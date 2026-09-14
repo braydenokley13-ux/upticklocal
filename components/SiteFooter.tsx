@@ -11,16 +11,27 @@ export default function SiteFooter() {
   return (
     <footer className="site-footer" data-theme="dark">
       <div className="site-footer__inner">
-        <p className="site-footer__signoff" aria-label={`${SIGN_OFF.lead} ${SIGN_OFF.accent}`}>
+        <p
+          className="site-footer__signoff"
+          aria-label={`${SIGN_OFF.lead} ${SIGN_OFF.accent}`}
+        >
           {SIGN_OFF.lead} <em className="accent">{SIGN_OFF.accent}</em>
         </p>
         <div className="site-footer__grid">
           <div className="site-footer__brand">
-            <Link href="/" className="wordmark" aria-label="Uptick Local — home">
+            <Link
+              href="/"
+              className="wordmark"
+              aria-label="Uptick Local — home"
+            >
               <span className="wordmark__dot" aria-hidden="true" />
               <span>uptick local</span>
             </Link>
-            <p className="site-footer__claim">A local membership and growth system: Uptick Local for members, Uptick Growth for merchants, and local distribution that connects the two.</p>
+            <p className="site-footer__claim">
+              A local membership and growth system: one backed featured benefit
+              for admitted pilot members, and managed four-week Growth programs
+              for merchants.
+            </p>
           </div>
           <nav className="site-footer__links" aria-label="Footer">
             {NAV.map((item) => (

@@ -1,16 +1,18 @@
 import { GROWTH_EXAMPLE } from "@/lib/content";
 
 /**
- * An Uptick Drop, as it lands: a text from the business, in Uptick's own
- * voice rather than an imitation of any phone's messaging app. The window
- * is the point — it is the one thing on the page that says "now".
+ * An example featured-benefit notice through the optional Uptick Local SMS
+ * channel. The message is illustrative and does not create a live offer.
  */
 export default function DropMessage({ large = false }: { large?: boolean }) {
   const d = GROWTH_EXAMPLE.drop;
   return (
-    <div className={`drop${large ? " drop--large" : ""}`} aria-label="An Uptick Drop, delivered by text">
+    <div
+      className={`drop${large ? " drop--large" : ""}`}
+      aria-label="An optional Uptick Local benefit notice by text"
+    >
       <p className="drop__from">
-        {GROWTH_EXAMPLE.merchant} <span>{d.sent}</span>
+        Uptick Local <span>{d.sent}</span>
       </p>
       <p className="drop__kind">
         <span className="drop__pulse" aria-hidden="true" />

@@ -19,7 +19,7 @@ npx tsc --noEmit
 
 ## Copy
 
-`lib/content.ts` is the single source for every claim the site makes: the promise, the worked Growth example (Monthly Anchor + Uptick Drop), the three consent choices, the four ways, Uptick Suite, the proof section and the finale. Nothing on the site should state a customer, a number or a result that is not literally true; the example businesses (Joe's Market, Ridge Physical Therapy, Northside Roofing) are labelled as examples. In particular: no search-ranking promise, no invented statistic, no website build promised as a Suite deliverable, and no causal claim that the Anchor or the Drop produces a result — each is described by the job it does. Uptick Suite is delivered with JBCI, the editorial partner; `SUITE.partner` is the one place that relationship is worded, and it appears in the homepage Suite chapter, on `/suite` and in the footer.
+`lib/content.ts` is the single source for the repeated product claims on the site: the promise, the worked Growth example, member access and SMS choice, the ways to use the network, Uptick Suite, the proof section and the finale. Growth is a negotiated four-week managed program; screens are optional. Nothing on the site should state a customer, number or result that is not literally true. The example businesses (Joe's Market, Ridge Physical Therapy, Northside Roofing) are labelled as examples. Uptick Suite is delivered with JBCI, the editorial partner; `SUITE.partner` is the one place that relationship is worded, and it appears in the homepage Suite chapter, on `/suite` and in the footer.
 
 ## How the homepage is built
 
@@ -27,7 +27,7 @@ npx tsc --noEmit
 - `lib/three/` — the architectural model. `engine.ts` renders on demand (no animation loop; the renderer sleeps when nothing changes), measures a quality tier at load, and draws one static shadow map. `world.ts` is the block, `unit.ts` the screen, `shots.ts` the camera choreography.
 - `components/home/ScreenMatch.tsx` — the DOM surface the 3D screen hands over to at the end of the stage.
 - `components/home/ModesChapter.tsx` + `BlockPlan.tsx` — one network, three ways to use it: a site-plan drawing of the same street that lights differently for Host, Advertise and Growth.
-- `components/home/GrowthChapter.tsx` — the Monthly Anchor (on the screen) beside the Uptick Drop (on the phone), then claim → visit and redeem → report. `ClaimUI.tsx` holds the three separate consent choices; `OfferPass.tsx` is the redeem flow.
+- `components/home/GrowthChapter.tsx` — a worked view of an optional screen placement, a featured member benefit, web access, redemption and observed results. `ClaimUI.tsx` shows optional SMS without a merchant list; `OfferPass.tsx` is the redeem flow.
 - `components/home/SuiteChapter.tsx` — one conversation becoming six content surfaces.
 - `components/home/ProofChapter.tsx` — real photography from the counters the screens sit on (`public/photos/`). Captions state exactly what the hardware in the photo is.
 - `components/home/FinaleChapter.tsx` / `MobileFinale.tsx` + `Doors.tsx` — the closing beat over the model and the four doors.
@@ -69,7 +69,7 @@ npm run film:lookdev -- --pos -2.5,-19.5,5.2 --target 6,10.5,2.8 --lens 29 --out
 
 Renders use a local Chromium: `FILM_CHROME=/path/to/chrome-headless-shell` (defaults to Playwright's in the remote environment).
 
-## The delivered film — *The Weekly Drop*
+## The delivered film — _The Weekly Drop_
 
 The finished Uptick Growth commercial: 56.00 s, 1,344 frames, 1920×1080, 24 fps.
 It sells one thing — Uptick puts screens in the local businesses around a
@@ -79,7 +79,7 @@ free.
 
 Every picture is photographic; no Blender plate appears in the master. Every
 product surface is drawn in Remotion so the copy is exact: the screen at the car
-wash, the fuel receipt, and four phone states. The car wash screen is *projected*
+wash, the fuel receipt, and four phone states. The car wash screen is _projected_
 onto a real blank sign panel in the plate with a homography, so it takes that
 panel's own perspective and defocus rather than being pasted on flat.
 

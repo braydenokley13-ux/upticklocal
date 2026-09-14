@@ -25,11 +25,18 @@ const GIVES = [
   },
   {
     title: "You share in what runs",
-    body: "As paid campaigns run in your area, host businesses share in that revenue. Hosting has value on day one, and it is the foundation if you ever want Growth.",
+    body: "As paid campaigns run in your area, host businesses share in that revenue. Hosting is separate from Growth; a merchant can use either one without buying the other.",
   },
 ];
 
-const PLACES = ["Convenience stores & gas stations", "Cafés & quick-serve", "Restaurants with a wait", "Salons & barbershops", "Gyms & studios", "Any busy counter"];
+const PLACES = [
+  "Convenience stores & gas stations",
+  "Cafés & quick-serve",
+  "Restaurants with a wait",
+  "Salons & barbershops",
+  "Gyms & studios",
+  "Any busy counter",
+];
 
 const FAQS = [
   {
@@ -56,10 +63,14 @@ export default function HostPage() {
       <header className="page__head">
         <p className="mono-tag">Host a screen · Free</p>
         <div className="page__copy">
-          <h1 className="page__title">Promote your own business. Join the network.</h1>
+          <h1 className="page__title">
+            Promote your own business. Join the network.
+          </h1>
           <p className="page__lead">
-            A free 21-inch countertop screen that shows your own specials and events first, makes your counter part of a local
-            network of non-competing businesses, and shares in the campaigns that run on it. No paid plan, ever.
+            A free 21-inch countertop screen that shows your own specials and
+            events first, makes your counter part of a local network of
+            non-competing businesses, and shares in the campaigns that run on
+            it. No paid plan, ever.
           </p>
           <div className="page__acts">
             <a href="#apply" className="btn btn--mint">
@@ -111,8 +122,8 @@ export default function HostPage() {
               Counters people already stand at.
             </h2>
             <p className="page__lead">
-              High traffic, a natural pause, and eye level. If people wait at your counter for even thirty seconds, the screen
-              has a job.
+              High traffic, a natural pause, and eye level. If people wait at
+              your counter for even thirty seconds, the screen has a job.
             </p>
           </header>
           <ul className="places" aria-label="Kinds of counter">

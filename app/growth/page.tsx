@@ -4,45 +4,51 @@ import ContactPanel from "@/components/ContactPanel";
 import DropMessage from "@/components/home/DropMessage";
 import ScreenFace from "@/components/home/ScreenFace";
 import PageVisual from "@/components/PageVisual";
-import { CONSENT, CTA, GROWTH_EXAMPLE } from "@/lib/content";
+import { CTA, GROWTH_EXAMPLE } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Uptick Growth",
   description:
-    "Uptick Growth turns local attention into measurable customer activity: a Monthly Anchor on your screen and the Uptick screens nearby, Uptick Drops that give customers a reason to come in now, claims and redemptions on their phone, and a plain report. Requires hosting.",
+    "A negotiated, operator-managed four-week Growth program with planned placements, approved fulfillment and observed results. Screens are optional.",
 };
 
 const HOW = [
   {
-    title: "Set the Anchor",
-    body: "One offer for the month, and what the reward is. It runs on your screen and on the Uptick screens nearby, with one code to scan. The screen is the durable reason to care.",
+    title: "Define the Program",
+    body: "Agree on the objective, exact member benefit, dates, places, category, negotiated program fee and spend ceiling. A merchant can propose this directly; no separate offer studio is required.",
   },
   {
-    title: "Customers scan and claim",
-    body: "A number delivers this month's pass by text. Two boxes, both optional and off to start: updates from you, and Uptick Drops from nearby businesses.",
+    title: "Plan four weeks",
+    body: "Uptick lays out the planned placements for each week. A plan may use an Uptick screen when it fits, but hosting a screen is not required.",
   },
   {
-    title: "They visit and redeem",
-    body: "Open the pass, show staff, tap redeem, confirm. Uptick records the redemption and the time. No POS integration, no cashier code, no new software.",
+    title: "Approve Fulfillment",
+    body: "Before release, Uptick checks real inventory, the fulfilling location and staff readiness. The business funding Growth and the business fulfilling a benefit may be different.",
   },
   {
-    title: "Send Drops",
-    body: "A Drop is a limited-time offer to the people who asked for one: morning hours, this weekend, the first thirty. The phone is the urgent reason to act.",
+    title: "Release the benefit",
+    body: "An admitted adult member receives one featured benefit backed by approved supply, with no purchase or member payment required. Web access is standard; SMS is optional.",
   },
   {
-    title: "Read the report",
-    body: "Signups, claims, redemptions with time, Drops sent and what each brought back, by placement. Only what Uptick can actually observe.",
+    title: "Read Results",
+    body: "See planned placements, issued benefits, claims, redemptions, fulfillment problems, recovery and credits. Uptick reports observed activity without inventing reach or sales.",
   },
 ];
 
 const TRACKED = [
-  ["Signups", "Numbers entered at the Anchor"],
-  ["Claims", "Passes delivered and opened"],
-  ["Redemptions", "Passes redeemed at your counter, with the time"],
-  ["Drops sent", "Each Drop, and the claims and redemptions it brought back"],
-  ["Your list", "Customers who chose to hear from you again"],
-  ["Uptick Drops", "Customers who chose Drops from nearby businesses"],
-  ["By placement", "Which counters the activity came from"],
+  ["Planned placements", "What was approved for each week"],
+  [
+    "Issued benefits",
+    "Benefits backed by approved supply and released to eligible members",
+  ],
+  ["Claims", "Issued benefits opened or claimed"],
+  ["Redemptions", "Completed fulfillment, with the observed time"],
+  [
+    "Fulfillment",
+    "Readiness, exceptions and recovery when something goes wrong",
+  ],
+  ["Credits", "Approved adjustments tied to the program"],
+  ["By placement", "Which approved placements produced observed activity"],
 ];
 
 export default function GrowthPage() {
@@ -50,12 +56,14 @@ export default function GrowthPage() {
   return (
     <div className="page">
       <header className="page__head">
-        <p className="mono-tag">Uptick Growth · Requires hosting</p>
+        <p className="mono-tag">Uptick Growth · Four-week managed program</p>
         <div className="page__copy">
-          <h1 className="page__title">Local attention, turned into visits you can count.</h1>
+          <h1 className="page__title">Local growth, planned and measured.</h1>
           <p className="page__lead">
-            Growth is the premium layer on a host screen. A Monthly Anchor on the counter is the reason to care; an Uptick Drop on
-            the phone is the reason to act now; the pass is redeemed at your register and reported back to you plainly.
+            Growth is a negotiated four-week program managed with Uptick. The
+            approved record covers the program, weekly placements, fulfillment
+            and results. Screens can be part of the plan, but hosting one is
+            optional.
           </p>
           <div className="page__acts">
             <a href="#start" className="btn btn--mint">
@@ -79,18 +87,26 @@ export default function GrowthPage() {
 
       <PageVisual
         name="pockets"
-        alt="Across the street: the convenience store, the gym and the restaurant, each with a counter screen that can carry your Anchor."
-        caption="Requires hosting · Anchor on the screens · Drops on the phone"
+        alt="Across the street: several local businesses that could take part in an approved Growth placement or fulfill a member benefit."
+        caption="Four weeks · Planned placements · Screens optional"
       />
 
-      <section id="how" className="band band--paper" aria-labelledby="growth-how">
+      <section
+        id="how"
+        className="band band--paper"
+        aria-labelledby="growth-how"
+      >
         <div className="band__inner">
           <header className="band__head">
-            <p className="mono-tag">How Growth works</p>
+            <p className="mono-tag">Program · Fulfillment · Results</p>
             <h2 id="growth-how" className="band__title">
-              Five steps. Two of them are yours.
+              One approved program, carried through four weeks.
             </h2>
-            <p className="page__lead">You choose the offer and provide the reward. Uptick does the rest, and reports it back.</p>
+            <p className="page__lead">
+              The fee and commitments are negotiated once at the program level.
+              Amendments are proposed and approved before they change an
+              existing obligation.
+            </p>
           </header>
           <div className="steps">
             {HOW.map((step, i) => (
@@ -104,24 +120,27 @@ export default function GrowthPage() {
         </div>
       </section>
 
-      <section className="band band--light" aria-labelledby="growth-drop">
+      <section className="band band--light" aria-labelledby="growth-protection">
         <div className="band__inner pair">
           <div>
-            <p className="mono-tag">What makes a Drop a Drop</p>
-            <h2 id="growth-drop" className="band__title" style={{ marginTop: 16 }}>
-              Real windows. Real limits. Nothing invented.
+            <p className="mono-tag">Bounded protection</p>
+            <h2
+              id="growth-protection"
+              className="band__title"
+              style={{ marginTop: 16 }}
+            >
+              Clear scope, dates and exceptions.
             </h2>
             <p className="page__lead" style={{ marginTop: 20 }}>
-              A screen whose content changes monthly cannot keep saying &ldquo;today only&rdquo; and stay credible. A Drop can,
-              because it is true: it lands when the window opens and it ends when the window closes.
+              If paid featured protection is included, the approved program
+              states its dates, category and places. Its radius can never exceed
+              the configured maximum of 1.5 straight-line miles. Any exception
+              and termination rule is explicit.
             </p>
-            <ul className="places" aria-label="Kinds of Drop window" style={{ marginTop: 28 }}>
-              {g.windows.map((w) => (
-                <li key={w}>{w}</li>
-              ))}
-            </ul>
             <p className="step__body" style={{ marginTop: 28 }}>
-              Drops go only to the people who asked for them. How often is up to you and the offer, not a schedule Uptick imposes.
+              Protection does not remove organic supplier participation or
+              recovery fulfillment. A supplier can participate independently
+              without buying Growth and without paying a Growth fee.
             </p>
           </div>
           <div className="phone phone--drop" style={{ justifySelf: "center" }}>
@@ -130,30 +149,39 @@ export default function GrowthPage() {
         </div>
       </section>
 
-      <section className="band band--deep" aria-labelledby="growth-consent">
+      <section className="band band--deep" aria-labelledby="growth-access">
         <div className="band__inner">
           <header className="band__head">
-            <p className="mono-tag">Consent, exactly</p>
-            <h2 id="growth-consent" className="band__title">
-              The claim is one thing. The lists are two others.
+            <p className="mono-tag">Member access</p>
+            <h2 id="growth-access" className="band__title">
+              The benefit does not depend on a marketing list.
             </h2>
             <p className="page__lead">
-              A customer&rsquo;s number is used once, to deliver the pass. Everything else is a separate choice, and both are
-              unchecked to start.
+              Members use a private web experience. SMS is an optional Uptick
+              Local membership channel and is never merchant marketing consent.
+              Replying STOP ends texts while preserving membership and already
+              issued benefits.
             </p>
           </header>
           <div className="ledger">
             <div className="ledger__row">
-              <span>{CONSENT.claim}</span>
-              <span className="ledger__meta">The action itself. Delivers this month&rsquo;s pass. No list is joined.</span>
+              <span>Web access</span>
+              <span className="ledger__meta">
+                Available without SMS consent.
+              </span>
             </div>
             <div className="ledger__row">
-              <span>{CONSENT.merchant}</span>
-              <span className="ledger__meta">Optional. Your Drops and updates, from your business only. Reply STOP any time.</span>
+              <span>Optional Uptick SMS</span>
+              <span className="ledger__meta">
+                Unchecked to start. Message frequency varies.
+              </span>
             </div>
             <div className="ledger__row">
-              <span>{CONSENT.network}</span>
-              <span className="ledger__meta">Optional, and separate. Drops from other nearby businesses, never hidden inside the first box.</span>
+              <span>No merchant list</span>
+              <span className="ledger__meta">
+                A fulfiller does not receive Uptick membership consent or member
+                history.
+              </span>
             </div>
           </div>
         </div>
@@ -164,11 +192,12 @@ export default function GrowthPage() {
           <header className="band__head">
             <p className="mono-tag">What Uptick reports</p>
             <h2 id="growth-measure" className="band__title">
-              Real activity, not estimated audiences.
+              Observed execution, not estimated audiences.
             </h2>
             <p className="page__lead">
-              A screen playing your Anchor is a play count, not a headcount. Uptick does not convert plays into impressions and does
-              not claim to know a customer&rsquo;s total spending. What it can observe, it reports.
+              A screen play remains a play, not a headcount. Program results
+              distinguish planned work, backed benefits and completed
+              fulfillment.
             </p>
           </header>
           <div className="ledger">
@@ -180,27 +209,30 @@ export default function GrowthPage() {
             ))}
           </div>
 
-          <div className="split" style={{ marginTop: "clamp(48px, 7vh, 80px)" }}>
+          <div
+            className="split"
+            style={{ marginTop: "clamp(48px, 7vh, 80px)" }}
+          >
             <div>
-              <p className="mono-tag mono-tag--ink">Uptick handles</p>
+              <p className="mono-tag mono-tag--ink">Uptick manages</p>
               <ul className="plainlist plainlist--ink">
-                <li>The screens</li>
-                <li>The code and the claim flow</li>
-                <li>The texts, the passes, the Drops</li>
-                <li>Tracking and the report</li>
+                <li>The approved four-week program</li>
+                <li>Weekly placement planning</li>
+                <li>Fulfillment checks and member access</li>
+                <li>Observed results and approved credits</li>
               </ul>
             </div>
             <div>
-              <p className="mono-tag mono-tag--ink">You handle</p>
+              <p className="mono-tag mono-tag--ink">You approve</p>
               <p className="split__big">
-                Choose the offer.
+                Scope and fee.
                 <br />
-                Provide the reward.
+                Benefit and ceiling.
               </p>
               <p className="step__body" style={{ marginTop: 22 }}>
-                Growth runs on a host screen at your business. Hosting is free, and it is where every pilot starts.{" "}
+                Hosting is a separate, optional way to join the screen network.{" "}
                 <Link href="/host" className="textlink">
-                  Host a screen
+                  About hosting
                 </Link>
               </p>
             </div>
@@ -210,16 +242,16 @@ export default function GrowthPage() {
 
       <ContactPanel
         id="start"
-        tag="30-day Growth pilot"
-        title="Start a 30-day Growth pilot."
-        lead="Tell us what you sell and where you are, and we will come back with the Anchor we would run first and which nearby counters could carry it."
+        tag="Four-week Growth program"
+        title="Plan a four-week Growth program."
+        lead="Tell us the outcome you want and where. Uptick will return a concrete program proposal with weekly placements, fulfillment requirements, negotiated fee and spend ceiling for review."
         include={[
           "Your business name and address",
-          "What you sell, so we can screen for non-competing counters",
-          "The offer you would want to run",
+          "The outcome and category you want to plan around",
+          "The benefit, dates and places you want considered",
           "The best number or email to reach you",
         ]}
-        subject="30-day Growth pilot"
+        subject="Four-week Growth program"
       />
     </div>
   );

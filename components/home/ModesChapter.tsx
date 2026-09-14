@@ -21,8 +21,10 @@ export default function ModesChapter() {
 
   const onKey = (event: React.KeyboardEvent) => {
     let next: number;
-    if (event.key === "ArrowDown" || event.key === "ArrowRight") next = (index + 1) % WAYS.length;
-    else if (event.key === "ArrowUp" || event.key === "ArrowLeft") next = (index - 1 + WAYS.length) % WAYS.length;
+    if (event.key === "ArrowDown" || event.key === "ArrowRight")
+      next = (index + 1) % WAYS.length;
+    else if (event.key === "ArrowUp" || event.key === "ArrowLeft")
+      next = (index - 1 + WAYS.length) % WAYS.length;
     else if (event.key === "Home") next = 0;
     else if (event.key === "End") next = WAYS.length - 1;
     else return;
@@ -32,7 +34,12 @@ export default function ModesChapter() {
   };
 
   return (
-    <section id="ways" className="chapter chapter--modes" data-theme="light" aria-labelledby="modes-heading">
+    <section
+      id="ways"
+      className="chapter chapter--modes"
+      data-theme="light"
+      aria-labelledby="modes-heading"
+    >
       <div className="chapter__inner">
         <header className="chapter__head">
           <p className="mono-tag mono-tag--ink">04 · One network</p>
@@ -40,13 +47,20 @@ export default function ModesChapter() {
             One network. Three ways to use it.
           </h2>
           <p className="chapter__lead">
-            The screens are the infrastructure. Put one on your own counter, reach the ones around you, or run offers across them that
-            come back as visits you can count.
+            The screens are the infrastructure. Put one on your own counter,
+            reach the ones around you, or run offers across them that come back
+            as visits you can count.
           </p>
         </header>
 
         <div className="modes">
-          <div className="modes__rail" role="tablist" aria-orientation="vertical" aria-label="Ways to use the network" onKeyDown={onKey}>
+          <div
+            className="modes__rail"
+            role="tablist"
+            aria-orientation="vertical"
+            aria-label="Ways to use the network"
+            onKeyDown={onKey}
+          >
             {WAYS.map((w, i) => (
               <button
                 key={w.id}
@@ -71,7 +85,13 @@ export default function ModesChapter() {
             ))}
           </div>
 
-          <div role="tabpanel" id={`${baseId}-panel-${way.id}`} aria-labelledby={`${baseId}-tab-${way.id}`} className="modes__panel" data-way={way.id}>
+          <div
+            role="tabpanel"
+            id={`${baseId}-panel-${way.id}`}
+            aria-labelledby={`${baseId}-tab-${way.id}`}
+            className="modes__panel"
+            data-way={way.id}
+          >
             <p className="modes__intro">
               <span>{way.requirement}</span>
               {way.line}
@@ -96,7 +116,10 @@ export default function ModesChapter() {
                     <li key={point}>{point}</li>
                   ))}
                 </ul>
-                <Link href={way.cta.href} className={`btn ${way.id === "growth" ? "btn--ink" : "btn--line"}`}>
+                <Link
+                  href={way.cta.href}
+                  className={`btn ${way.id === "growth" ? "btn--ink" : "btn--line"}`}
+                >
                   {way.cta.label}
                 </Link>
               </div>
@@ -104,7 +127,11 @@ export default function ModesChapter() {
           </div>
         </div>
 
-        <p className="modes__foot">Host and Advertise are complete on their own. Growth runs on a host screen, and Uptick Suite works with any of them.</p>
+        <p className="modes__foot">
+          Host and Advertise are complete on their own. Growth is a separate
+          managed program with optional screen placements, and Uptick Suite
+          works with any of them.
+        </p>
       </div>
     </section>
   );

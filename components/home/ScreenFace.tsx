@@ -46,8 +46,10 @@ export default function ScreenFace({ way }: { way: WayId }) {
 
 /** The same face, as a sentence, for readers who do not see it. */
 export function describeFace(way: WayId): string {
-  if (way === "host") return `The screen shows the host store's own special: ${SPECIAL.line1}, ${SPECIAL.line2}. ${SPECIAL.where}.`;
-  if (way === "advertise") return `The screen shows a nearby business's campaign: ${CAMPAIGN.who}, ${CAMPAIGN.line1}, ${CAMPAIGN.line2}. ${CAMPAIGN.where}.`;
+  if (way === "host")
+    return `The screen shows the host store's own special: ${SPECIAL.line1}, ${SPECIAL.line2}. ${SPECIAL.where}.`;
+  if (way === "advertise")
+    return `The screen shows a nearby business's campaign: ${CAMPAIGN.who}, ${CAMPAIGN.line1}, ${CAMPAIGN.line2}. ${CAMPAIGN.where}.`;
   const a = GROWTH_EXAMPLE.anchor;
-  return `The screen shows the Monthly Anchor for ${GROWTH_EXAMPLE.merchant}: ${a.line1}, ${a.line2}. ${a.scan}. A code to scan.`;
+  return `The screen shows an optional Growth placement for ${GROWTH_EXAMPLE.merchant}: ${a.line1}, ${a.line2}. ${a.scan}. A code to scan.`;
 }
