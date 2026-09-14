@@ -11,10 +11,22 @@ export const metadata: Metadata = {
 };
 
 const LOOP = [
-  ["Your own specials, first", "A host's screen always leads with the host. Specials, events, announcements: send one and it goes in the loop."],
-  ["Campaigns from non-competing neighbours", "What Advertise puts on the block. Screened against what you sell, so nothing runs in a competitor."],
-  ["Monthly Anchors from Growth businesses nearby", "This month's offer from a business up the street, with one code to scan."],
-  ["Network notices", "Occasionally, Uptick itself: what is new on the block, how to take part."],
+  [
+    "Your own specials, first",
+    "A host's screen always leads with the host. Specials, events, announcements: send one and it goes in the loop.",
+  ],
+  [
+    "Campaigns from non-competing neighbours",
+    "What Advertise puts on the block. Screened against what you sell, so nothing runs in a competitor.",
+  ],
+  [
+    "Approved Growth placements",
+    "A planned Growth message may run when a screen is included in the approved four-week program.",
+  ],
+  [
+    "Network notices",
+    "Occasionally, Uptick itself: what is new on the block, how to take part.",
+  ],
 ];
 
 const RULES = [
@@ -36,15 +48,35 @@ const RULES = [
   },
   {
     title: "Consent, explicitly",
-    body: "A customer chooses, separately, whether to hear from one business again and whether to receive Uptick Drops from nearby businesses. Both are off to start.",
+    body: "Member web access does not require SMS. Uptick Local membership texts are optional, off to start and never become merchant marketing consent.",
   },
 ];
 
 const SYSTEM = [
-  { name: "Host", needs: "Nothing. The screen is free.", does: "Promote your own business; join the block; share in campaign revenue.", href: "/host" },
-  { name: "Advertise", needs: "No screen of your own.", does: "Reach nearby customers on the screens around you.", href: "/advertise" },
-  { name: "Growth", needs: "A host screen at your business.", does: "A Monthly Anchor on the screens, Uptick Drops on the phone, visits you can count.", href: "/growth" },
-  { name: "Uptick Suite", needs: "Nothing on the block. Works with any of the above.", does: "Content that gets you chosen when a customer looks you up.", href: "/suite" },
+  {
+    name: "Host",
+    needs: "Nothing. The screen is free.",
+    does: "Promote your own business; join the block; share in campaign revenue.",
+    href: "/host",
+  },
+  {
+    name: "Advertise",
+    needs: "No screen of your own.",
+    does: "Reach nearby customers on the screens around you.",
+    href: "/advertise",
+  },
+  {
+    name: "Growth",
+    needs: "No host screen required.",
+    does: "A negotiated four-week program with planned placements, fulfillment and observed results.",
+    href: "/growth",
+  },
+  {
+    name: "Uptick Suite",
+    needs: "Nothing on the block. Works with any of the above.",
+    does: "Content that gets you chosen when a customer looks you up.",
+    href: "/suite",
+  },
 ];
 
 export default function NetworkPage() {
@@ -55,9 +87,11 @@ export default function NetworkPage() {
         <div className="page__copy">
           <h1 className="page__title">One block. One network.</h1>
           <p className="page__lead">
-            Countertop screens at local businesses that do not compete with each other, linked so that one business&rsquo;s message
-            reaches the customers of the businesses around it. This page is the architecture: what a screen is, what runs on it,
-            and the rules that keep it fair.
+            Countertop screens at local businesses that do not compete with each
+            other, linked so that one business&rsquo;s message reaches the
+            customers of the businesses around it. This page is the
+            architecture: what a screen is, what runs on it, and the rules that
+            keep it fair.
           </p>
           <div className="page__acts">
             <Link href={CTA.host.href} className="btn btn--mint">
@@ -92,14 +126,18 @@ export default function NetworkPage() {
               The loop, in order.
             </h2>
             <p className="page__lead">
-              Every screen plays a short loop. The order is the promise to the host: their own business first, then the block.
+              Every screen plays a short loop. The order is the promise to the
+              host: their own business first, then the block.
             </p>
           </header>
           <div className="ledger">
             {LOOP.map(([name, meta], i) => (
               <div key={name} className="ledger__row">
                 <span>
-                  <span className="step__n" style={{ display: "inline", marginRight: 14 }}>
+                  <span
+                    className="step__n"
+                    style={{ display: "inline", marginRight: 14 }}
+                  >
                     0{i + 1}
                   </span>
                   {name}
@@ -139,13 +177,18 @@ export default function NetworkPage() {
               Four ways to use it. One block underneath.
             </h2>
             <p className="page__lead">
-              Three ways to take part in the physical network, and one capability for the half of the job that happens online.
-              None of them is a tier of another.
+              Three ways to take part in the physical network, and one
+              capability for the half of the job that happens online. None of
+              them is a tier of another.
             </p>
           </header>
           <div className="ledger">
             {SYSTEM.map((row) => (
-              <Link key={row.name} href={row.href} className="ledger__row ledger__row--link">
+              <Link
+                key={row.name}
+                href={row.href}
+                className="ledger__row ledger__row--link"
+              >
                 <span>
                   {row.name}
                   <span className="ledger__needs">{row.needs}</span>
@@ -160,7 +203,11 @@ export default function NetworkPage() {
       <section className="band" aria-labelledby="partners-note">
         <div className="band__inner">
           <p className="mono-tag">Already operate screens?</p>
-          <h2 id="partners-note" className="band__title" style={{ marginTop: 16 }}>
+          <h2
+            id="partners-note"
+            className="band__title"
+            style={{ marginTop: 16 }}
+          >
             Uptick can connect existing inventory to local demand.
           </h2>
           <div className="page__acts">

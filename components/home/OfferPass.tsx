@@ -6,7 +6,9 @@ import { GROWTH_EXAMPLE } from "@/lib/content";
 type State = "ready" | "confirming" | "redeemed";
 
 function stamp(date: Date) {
-  return date.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" }).toUpperCase();
+  return date
+    .toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })
+    .toUpperCase();
 }
 
 /**
@@ -35,17 +37,25 @@ export default function OfferPass({ caption = true }: { caption?: boolean }) {
         <div className="pass__body">
           <p className="pass__offer">{GROWTH_EXAMPLE.offerShort}</p>
           <p className="pass__meta">{GROWTH_EXAMPLE.address}</p>
-          <p className="pass__terms">This month · One per customer · Show staff</p>
+          <p className="pass__terms">
+            No purchase needed · One per admitted member · Show staff
+          </p>
         </div>
 
         <div className="pass__state" role="status" aria-live="polite">
           <span className="pass__dot" aria-hidden="true" />
-          {state === "redeemed" ? `Redeemed · ${time}` : "Active · Show this to staff"}
+          {state === "redeemed"
+            ? `Redeemed · ${time}`
+            : "Active · Show this to staff"}
         </div>
 
         <div className="pass__actions">
           {state === "ready" && (
-            <button type="button" className="pass__btn" onClick={() => setState("confirming")}>
+            <button
+              type="button"
+              className="pass__btn"
+              onClick={() => setState("confirming")}
+            >
               Redeem offer
             </button>
           )}
@@ -55,12 +65,20 @@ export default function OfferPass({ caption = true }: { caption?: boolean }) {
               <button type="button" className="pass__btn" onClick={redeem}>
                 Yes, redeem
               </button>
-              <button type="button" className="pass__btn pass__btn--quiet" onClick={() => setState("ready")}>
+              <button
+                type="button"
+                className="pass__btn pass__btn--quiet"
+                onClick={() => setState("ready")}
+              >
                 Not yet
               </button>
             </>
           )}
-          {state === "redeemed" && <p className="pass__done">Uptick recorded the redemption and the time. That is the receipt.</p>}
+          {state === "redeemed" && (
+            <p className="pass__done">
+              Uptick recorded the redemption and the time. That is the receipt.
+            </p>
+          )}
         </div>
 
         <p className="pass__by">
@@ -73,7 +91,11 @@ export default function OfferPass({ caption = true }: { caption?: boolean }) {
           {state === "redeemed" ? (
             <>
               The pass stays like this.{" "}
-              <button type="button" className="linkbtn" onClick={() => setState("ready")}>
+              <button
+                type="button"
+                className="linkbtn"
+                onClick={() => setState("ready")}
+              >
                 Show it again
               </button>
             </>

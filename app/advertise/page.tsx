@@ -49,10 +49,14 @@ export default function AdvertisePage() {
       <header className="page__head">
         <p className="mono-tag">Advertise · No screen needed</p>
         <div className="page__copy">
-          <h1 className="page__title">Reach nearby customers across Uptick locations.</h1>
+          <h1 className="page__title">
+            Reach nearby customers across Uptick locations.
+          </h1>
           <p className="page__lead">
-            Your message on the counter screens of non-competing local businesses around you. Flexible in what you promote,
-            precise in where it runs, designed with you, and no screen of your own required.
+            Your message on the counter screens of non-competing local
+            businesses around you. Flexible in what you promote, precise in
+            where it runs, designed with you, and no screen of your own
+            required.
           </p>
           <div className="page__acts">
             <a href="#plan" className="btn btn--mint">
@@ -106,8 +110,8 @@ export default function AdvertisePage() {
               Whatever the neighborhood should know.
             </h2>
             <p className="page__lead">
-              Want an offer measured all the way to the visit, with customers claiming it on their phone? That is Growth, and it
-              runs on a host screen at your own business.{" "}
+              Want a managed four-week program with approved fulfillment and
+              observed results? That is Growth. Screen placements are optional.{" "}
               <Link href="/growth" className="textlink">
                 About Growth
               </Link>

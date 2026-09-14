@@ -6,34 +6,42 @@ import ScreenFace from "@/components/home/ScreenFace";
 import { CTA, GROWTH_EXAMPLE } from "@/lib/content";
 
 const REPORT = [
-  ["Signups", "numbers entered at the Anchor"],
-  ["Claims", "passes opened"],
-  ["Redemptions", "each one, with the time"],
-  ["Drops sent", "and what each brought back"],
-  ["Lists", "who chose your updates, who chose Uptick Drops"],
-  ["By placement", "which counters the activity came from"],
+  ["Program", "the approved four-week scope and placements"],
+  ["Issued", "benefits backed by approved supply"],
+  ["Claims", "issued benefits opened"],
+  ["Redemptions", "completed fulfillment, with the time"],
+  ["Recovery", "fulfillment problems and what followed"],
+  ["Credits", "approved program adjustments"],
 ];
 
 /**
- * Growth, in one chapter. The diptych carries the product model: a durable
- * reason to care on the screen, a time-boxed reason to act on the phone.
- * The loop under it is the customer's side — claim, pass, redeem — and the
- * report is the business's. No fake numbers anywhere: the report lists what
+ * Growth, in one chapter. The diptych shows an optional screen placement and
+ * a featured member benefit. The loop under it shows access and fulfillment;
+ * the report is the business's. No fake numbers appear: the report lists what
  * is counted, not a result we have not observed.
  */
 export default function GrowthChapter() {
   const g = GROWTH_EXAMPLE;
   return (
-    <section id="growth" className="chapter chapter--growth" data-theme="light" aria-labelledby="growth-heading">
+    <section
+      id="growth"
+      className="chapter chapter--growth"
+      data-theme="light"
+      aria-labelledby="growth-heading"
+    >
       <div className="chapter__inner">
         <header className="chapter__head">
-          <p className="mono-tag mono-tag--ink">05 · Uptick Growth · Requires hosting</p>
+          <p className="mono-tag mono-tag--ink">
+            05 · Uptick Growth · Four-week managed program
+          </p>
           <h2 id="growth-heading" className="chapter__title">
-            A reason to care all month. A reason to come in now.
+            Program. Fulfillment. Results.
           </h2>
           <p className="chapter__lead">
-            A screen whose content changes monthly cannot keep shouting &ldquo;today only&rdquo;. So Growth splits the job in two: the
-            Anchor on the screen is the reason to care, and the Drop on the phone is the reason to act.
+            Uptick and the merchant agree on one four-week program: the scope,
+            negotiated fee, spend ceiling, planned weekly placements, approved
+            fulfillment and the results Uptick can observe. Screens are
+            optional.
           </p>
         </header>
 
@@ -41,8 +49,8 @@ export default function GrowthChapter() {
           <figure className="station station--anchor">
             <figcaption className="station__label">
               <span className="station__n">01</span>
-              <span className="station__name">Monthly Anchor</span>
-              <span className="station__where">On the screen · All month</span>
+              <span className="station__name">Optional screen placement</span>
+              <span className="station__where">One approved placement</span>
             </figcaption>
             <div className="unit">
               <div className="unit__panel" aria-hidden="true">
@@ -51,23 +59,24 @@ export default function GrowthChapter() {
               <div className="unit__foot" aria-hidden="true" />
             </div>
             <p className="station__note">
-              Persistent, at eye level, on your counter and on the Uptick screens nearby. One code to scan for this month&rsquo;s offer
-              and any future Drops.
+              A screen can carry an approved placement when it fits the program.
+              A merchant does not need to host a screen to use Growth.
             </p>
           </figure>
 
           <figure className="station station--drop">
             <figcaption className="station__label">
               <span className="station__n">02</span>
-              <span className="station__name">Uptick Drop</span>
-              <span className="station__where">On their phone · Limited time</span>
+              <span className="station__name">Featured member benefit</span>
+              <span className="station__where">Web access · SMS optional</span>
             </figcaption>
             <div className="phone phone--drop">
               <DropMessage large />
             </div>
             <p className="station__note">
-              A time-boxed reason to act — {g.windows.slice(0, 3).join(" · ")}. Sent only to the people who asked for them. Real
-              mechanics, not manufactured urgency.
+              One no-purchase benefit for an admitted adult member, backed by
+              approved supply. Any window or limit is shown clearly—
+              {g.windows.slice(0, 3).join(" · ")}.
             </p>
           </figure>
         </div>
@@ -77,13 +86,18 @@ export default function GrowthChapter() {
           <figure className="station">
             <figcaption className="station__label">
               <span className="station__n">03</span>
-              <span className="station__name">Claim</span>
-              <span className="station__where">Ten seconds, on their phone</span>
+              <span className="station__name">Access</span>
+              <span className="station__where">
+                Private member web experience
+              </span>
             </figcaption>
             <div className="phone phone--claim">
               <ClaimUI compact />
             </div>
-            <p className="station__note">The number delivers the pass. The two lists are separate, optional and off to start.</p>
+            <p className="station__note">
+              Web access does not require SMS. Uptick membership texts are a
+              separate, optional choice.
+            </p>
           </figure>
 
           <figure className="station">
@@ -95,7 +109,10 @@ export default function GrowthChapter() {
             <div className="phone phone--pass">
               <OfferPass caption={false} />
             </div>
-            <p className="station__note">Open the pass, show staff, tap redeem, confirm. No POS integration, no cashier code, no new software.</p>
+            <p className="station__note">
+              Open the pass, show staff, tap redeem, confirm. No POS
+              integration, no cashier code, no new software.
+            </p>
           </figure>
 
           <figure className="station station--report">
@@ -112,14 +129,18 @@ export default function GrowthChapter() {
                 </div>
               ))}
             </dl>
-            <p className="station__note">Only what Uptick can actually observe. A play on a screen is a play, never a headcount.</p>
+            <p className="station__note">
+              Only what Uptick can actually observe. A play on a screen is a
+              play, never a headcount.
+            </p>
           </figure>
         </div>
 
         <div className="chapter__close">
           <p className="chapter__close-line">
-            Uptick runs the screens, the claim flow, the texts, the tracking and the report. You choose the offer and provide the
-            reward.
+            Uptick manages the approved program, placement plan, fulfillment
+            checks and observed results. The merchant approves the scope,
+            benefit, negotiated fee and ceiling.
           </p>
           <div className="chapter__acts">
             <Link href={CTA.growth.href} className="btn btn--ink">

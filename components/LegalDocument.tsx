@@ -14,7 +14,13 @@ type LegalDocumentProps = {
   children: ReactNode;
 };
 
-export default function LegalDocument({ eyebrow, title, lead, toc, children }: LegalDocumentProps) {
+export default function LegalDocument({
+  eyebrow,
+  title,
+  lead,
+  toc,
+  children,
+}: LegalDocumentProps) {
   return (
     <div className="page program-page program-page--legal">
       <header className="program-document__hero" data-theme="light">
@@ -23,12 +29,18 @@ export default function LegalDocument({ eyebrow, title, lead, toc, children }: L
           <h1 className="program-document__title">{title}</h1>
           <p className="program-document__lead">{lead}</p>
           <p className="program-document__effective">
-            Effective <time dateTime={PROGRAM.effectiveDateISO}>{PROGRAM.effectiveDate}</time>
+            Last updated{" "}
+            <time dateTime={PROGRAM.effectiveDateISO}>
+              {PROGRAM.effectiveDate}
+            </time>
           </p>
-          <aside className="program-review-note" aria-label="Founder and legal review note">
-            <strong>Founder / legal review before launch.</strong> This public foundation intentionally does not invent a legal entity,
-            notice address, governing jurisdiction, arbitration terms, or exact age threshold. Confirm those facts before treating this
-            page as final legal advice.
+          <aside
+            className="program-review-note"
+            aria-label="Pilot enrollment status"
+          >
+            <strong>Pilot enrollment is not open.</strong> Uptick will publish
+            its operating legal identity, notice address and finalized
+            enrollment terms before admitting members.
           </aside>
         </div>
       </header>

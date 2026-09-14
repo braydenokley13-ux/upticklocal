@@ -28,10 +28,14 @@ export default function PartnersPage() {
       <header className="page__head page__head--solo">
         <p className="mono-tag">Screen network partners</p>
         <div className="page__copy">
-          <h1 className="page__title">Already operate screens? Let&rsquo;s talk.</h1>
+          <h1 className="page__title">
+            Already operate screens? Let&rsquo;s talk.
+          </h1>
           <p className="page__lead">
-            If you run digital screens in retail, fitness or hospitality, Uptick can connect that inventory to local demand in
-            the same neighborhoods: campaigns from nearby businesses and Growth Anchors, screened against what each host sells.
+            If you run digital screens in retail, fitness or hospitality, Uptick
+            can connect that inventory to local demand in the same
+            neighborhoods: campaigns from nearby businesses and approved Growth
+            placements, screened against what each host sells.
           </p>
         </div>
       </header>
