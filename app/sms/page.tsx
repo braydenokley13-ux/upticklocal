@@ -13,6 +13,7 @@ const TOC = [
   { id: "sms-program", label: "The program" },
   { id: "sms-consent", label: "Consent" },
   { id: "sms-messages", label: "Messages" },
+  { id: "sms-phone-change", label: "Phone changes" },
   { id: "sms-controls", label: "STOP and HELP" },
   { id: "sms-merchants", label: "Participating merchants" },
   { id: "sms-contact", label: "Contact" },
@@ -93,25 +94,58 @@ export default function SmsPage() {
           <p className="mono-tag mono-tag--ink">
             Sample requested access message
           </p>
-          <p>
-            Uptick Local: You requested access to Your Uptick. Open your private
-            link: https://pilot.upticklocal.com/u/[token]. This link expires and
-            can be used once. Reply HELP for help.
-          </p>
+          <p>{SMS_PROGRAM.samples.access}</p>
         </div>
         <div
           className="program-sample"
-          aria-label="Sample Uptick Local message, not a live offer"
+          aria-label="Sample Uptick Local weekly message, not a live offer"
         >
           <p className="mono-tag mono-tag--ink">
-            Sample message · not a live offer
+            Sample weekly message · not a live offer
           </p>
-          <p>
-            Uptick Local: Your weekly Uptick is ready at [Merchant]: [Benefit].
-            No purchase required. Open your private member link. Reply STOP to
-            stop or HELP for help.
-          </p>
+          <p>{SMS_PROGRAM.samples.weekly}</p>
         </div>
+        <div
+          className="program-sample"
+          aria-label="Sample Uptick Local promotional opt-in confirmation"
+        >
+          <p className="mono-tag mono-tag--ink">
+            Sample promotional opt-in confirmation
+          </p>
+          <p>{SMS_PROGRAM.samples.optInConfirmation}</p>
+        </div>
+        <div
+          className="program-sample"
+          aria-label="Sample requested Uptick Local phone correction verification"
+        >
+          <p className="mono-tag mono-tag--ink">
+            Sample requested phone correction verification
+          </p>
+          <p>{SMS_PROGRAM.samples.phoneCorrection}</p>
+        </div>
+      </section>
+
+      <section id="sms-phone-change">
+        <h2>Verifying a requested phone-number correction.</h2>
+        <p>
+          A member who needs to change the mobile number on an existing Uptick
+          account first asks Uptick support for the correction. After Uptick
+          verifies the original member&rsquo;s correction request, Uptick may
+          send a verification link only to the proposed new number. The link
+          expires after 15 minutes and can be confirmed once. Confirming it
+          proves control of the proposed number; it does not subscribe the
+          member to promotional texts.
+        </p>
+        <p>
+          Support must apply the correction within 24 hours after the new
+          number is confirmed. Applying it ends earlier private sessions and
+          access links, prevents queued messages from being sent under the old
+          account context, and turns promotional texts off. The member must use
+          the new number for a fresh private access flow and make a new
+          affirmative web choice before promotional texts can resume. An
+          already issued benefit and its history are not erased by the phone
+          correction.
+        </p>
       </section>
 
       <section id="sms-controls">

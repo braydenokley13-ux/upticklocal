@@ -48,4 +48,14 @@ export const SMS_PROGRAM = {
   help: `Reply HELP for help, or contact ${PROGRAM.supportEmail}.`,
   mobileInfoNonSharing:
     "Mobile information, including phone numbers and SMS opt-in or consent data, will not be shared with third parties or affiliates for their own marketing or promotional purposes.",
+  samples: {
+    access:
+      "Uptick Local: Your requested secure access link: https://pilot.upticklocal.com/u/[secure-token] Open it to confirm your phone and review your membership choices. Reply STOP to stop texts. HELP for help.",
+    weekly:
+      "Uptick Local: Your featured Uptick is ready. See this week's free local benefit: https://pilot.upticklocal.com/your-uptick No purchase required. Reply STOP to stop promotional texts. HELP for help.",
+    optInConfirmation:
+      "Uptick Local: You're subscribed to recurring automated promotional texts about your weekly Uptick: usually 1 featured message per week. Msg & data rates may apply. Reply STOP to stop or HELP for help.",
+    phoneCorrection:
+      "Uptick Local: Confirm the new phone number you asked support to use: https://pilot.upticklocal.com/phone-change/[secure-token] This does not subscribe you to promotional texts. Reply STOP to stop texts. HELP for help.",
+  },
 } as const;
