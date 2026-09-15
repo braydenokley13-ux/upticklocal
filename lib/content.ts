@@ -75,11 +75,11 @@ export const GROWTH_EXAMPLE = {
   },
 } as const;
 
-/** Member benefit access is available on the web; SMS is one optional channel. */
+/** The sample control represents the separate, optional promotional choice. */
 export const CONSENT = {
   claim: "Open my benefit on the web",
-  sms: "Text me Uptick Local membership notices",
-  fine: "SMS is optional and unchecked to start. Leaving it off never affects membership or an issued benefit. Reply STOP any time.",
+  sms: "Text me optional Uptick Local promotional notices",
+  fine: "Promotional SMS is optional and unchecked to start. Leaving it off never affects membership or an issued benefit. Message and data rates may apply. Reply STOP to stop or HELP for help.",
 } as const;
 
 /* -------------------------------------------------------------------------

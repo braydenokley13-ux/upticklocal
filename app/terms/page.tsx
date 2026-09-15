@@ -146,10 +146,13 @@ export default function TermsPage() {
       <section id="terms-sms">
         <h2>Uptick Local Membership SMS.</h2>
         <p>
-          SMS is an optional delivery channel. If a member separately chooses
-          the Uptick Local Membership messaging program, the member may receive
-          recurring automated SMS from {SMS_PROGRAM.sender} about membership,
-          local perks and necessary service or support communications.
+          Entering your own mobile number and submitting an access request asks{" "}
+          {SMS_PROGRAM.sender} to send one secure access link. That requested
+          informational message does not create recurring promotional consent.
+          If a member separately selects the initially unchecked promotional
+          choice and confirms it in the private Uptick web flow, the member may
+          receive recurring automated promotional SMS about a featured local
+          benefit.
         </p>
         <ul className="program-list">
           <li>{SMS_PROGRAM.frequency}</li>
@@ -173,6 +176,10 @@ export default function TermsPage() {
           <li>
             Consent to receive SMS is not a condition of purchase, and it is not
             permission for a participating merchant to market to the member.
+          </li>
+          <li>
+            Uptick does not offer keyword opt-in. START removes a carrier block
+            but does not subscribe a member to promotional texts.
           </li>
           <li>Carriers are not liable for delayed or undelivered messages.</li>
         </ul>

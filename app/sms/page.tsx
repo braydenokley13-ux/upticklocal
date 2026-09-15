@@ -29,10 +29,10 @@ export default function SmsPage() {
       <section id="sms-program">
         <h2>The Uptick Local Membership messaging program</h2>
         <p>
-          <strong>{SMS_PROGRAM.sender}</strong> sends messages to people who
-          choose to receive Uptick Local membership texts. The program notifies
-          a member about an issued Uptick, provides relevant local benefit
-          information, and sends necessary membership or service communications.
+          <strong>{SMS_PROGRAM.sender}</strong> sends messages to Uptick Local
+          members. A member may request one secure access link and may
+          separately choose recurring promotional notices. Service and support
+          messages are sent when the member requests or needs them.
         </p>
         <dl className="program-facts">
           <div>
@@ -61,17 +61,20 @@ export default function SmsPage() {
       <section id="sms-consent">
         <h2>Consent is specific and optional.</h2>
         <p>
-          SMS consent is a separate choice for the Uptick Local Membership
-          program. It should be clear what messages a member is choosing to
-          receive, and the choice should not be preselected or bundled with
-          acceptance of general terms. Consent to receive messages is not a
-          condition of purchase.
+          Entering your own mobile number and submitting an access request asks
+          Uptick Local to send one secure access link. That requested
+          informational message does not create recurring promotional consent.
         </p>
         <p>
-          This public page describes the program; it is not a signup form. When
-          a membership flow asks for messaging permission, a member can decline
-          SMS and still use membership and an issued benefit through the private
-          web experience.
+          Recurring automated promotional texts are a separate choice for the
+          Uptick Local Membership program. The promotional checkbox is initially
+          unchecked and must be confirmed in the private Uptick web flow. A
+          member can decline promotional texts and still join, use membership,
+          and redeem an issued benefit. Consent is not a condition of purchase.
+        </p>
+        <p>
+          Uptick does not offer keyword opt-in. Texting START or another keyword
+          does not create recurring promotional consent.
         </p>
       </section>
 
@@ -85,15 +88,28 @@ export default function SmsPage() {
         </p>
         <div
           className="program-sample"
+          aria-label="Sample requested Uptick Local access message"
+        >
+          <p className="mono-tag mono-tag--ink">
+            Sample requested access message
+          </p>
+          <p>
+            Uptick Local: You requested access to Your Uptick. Open your private
+            link: https://pilot.upticklocal.com/u/[token]. This link expires and
+            can be used once. Reply HELP for help.
+          </p>
+        </div>
+        <div
+          className="program-sample"
           aria-label="Sample Uptick Local message, not a live offer"
         >
           <p className="mono-tag mono-tag--ink">
             Sample message · not a live offer
           </p>
           <p>
-            Uptick Local: Your featured Uptick is ready. Open your member
-            message for the eligible perk, location and timing. Reply STOP to
-            opt out.
+            Uptick Local: Your weekly Uptick is ready at [Merchant]: [Benefit].
+            No purchase required. Open your private member link. Reply STOP to
+            stop or HELP for help.
           </p>
         </div>
       </section>
@@ -126,10 +142,9 @@ export default function SmsPage() {
         </p>
         <p>
           If merchant-specific marketing is offered later, it requires its own
-          appropriate permission from the member. Uptick Local membership
-          consent is not a pass that can be handed from one business to another.
-          Participating locations do not receive Uptick consent records or
-          member history.
+          appropriate permission from the member. Uptick Local membership is not
+          a merchant list. Participating locations do not receive member phone
+          numbers, Uptick consent records or cross-location member history.
         </p>
       </section>
 

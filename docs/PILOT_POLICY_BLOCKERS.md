@@ -19,7 +19,7 @@ Public pilot enrollment must remain closed until the items below are finalized a
 - Approve the final enrollment language and admission workflow for a pilot targeting 150 adult members with a hard cap of 200.
 - Confirm that each published weekly release is backed by approved inventory and location readiness before member benefits are issued.
 - Complete and approve the production SMS sender, carrier registration, HELP response, STOP/START handling and consent-record workflow.
-- Verify that web membership access works without SMS and that STOP preserves membership and already issued benefits.
+- Verify that a requested one-time access text works when promotional consent is off, that recurring promotional SMS remains separately optional, and that STOP preserves membership and already issued benefits.
 
 ## Publication gate
 

@@ -14,8 +14,8 @@ export const PROGRAM = {
   brandName: "Uptick Local",
   supportEmail: "iwhite@upticklocal.com",
   smsProgramName: "Uptick Local Membership",
-  effectiveDate: "September 13, 2026",
-  effectiveDateISO: "2026-09-13",
+  effectiveDate: "September 14, 2026",
+  effectiveDateISO: "2026-09-14",
   urls: {
     membership: "/membership",
     sms: "/sms",
@@ -37,7 +37,7 @@ export const MEMBERSHIP_PILOT_HREF = `mailto:${PROGRAM.supportEmail}?subject=${e
 export const SMS_PROGRAM = {
   sender: PROGRAM.brandName,
   purpose:
-    "Members who opt in receive Uptick membership messages, including notice of their featured local benefit and necessary membership or service communications.",
+    "Members who separately opt in receive recurring automated promotional notices about their featured local benefit. Requested access, service and support messages are separate.",
   frequency:
     "Message frequency varies. A published weekly release may create one featured-benefit notice, and service, transactional or support activity may create additional messages.",
   rates: "Message and data rates may apply.",

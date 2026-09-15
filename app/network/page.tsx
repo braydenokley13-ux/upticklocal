@@ -48,7 +48,7 @@ const RULES = [
   },
   {
     title: "Consent, explicitly",
-    body: "Member web access does not require SMS. Uptick Local membership texts are optional, off to start and never become merchant marketing consent.",
+    body: "A member requests one secure access text from Uptick. Recurring promotional texts are a separate optional choice, off to start, and never become merchant marketing consent.",
   },
 ];
 

@@ -52,8 +52,9 @@ export default function PrivacyPage() {
         <h3>Information a member may provide</h3>
         <ul className="program-list">
           <li>
-            A mobile phone number if a member chooses SMS or uses it for support
-            or account recovery.
+            A mobile phone number when a member requests a secure access link,
+            chooses recurring promotional SMS, or uses the number for support or
+            account recovery.
           </li>
           <li>
             A home ZIP code and, if a member chooses to provide it, a work ZIP
@@ -106,8 +107,9 @@ export default function PrivacyPage() {
         <ul className="program-list">
           <li>Operate and maintain Uptick Local membership.</li>
           <li>
-            Deliver requested recurring, service, transactional and support
-            communications.
+            Deliver a requested one-time access message, separately chosen
+            recurring promotional messages, and service, transactional or
+            support communications.
           </li>
           <li>
             Determine which local perks may be eligible for a member based on
@@ -181,6 +183,15 @@ export default function PrivacyPage() {
           independent marketing program a participating merchant may operate. If
           merchant-specific marketing is offered later, it requires its own
           appropriate permission.
+        </p>
+        <p>
+          Entering a mobile number and requesting access asks Uptick Local to
+          send one secure access link. That requested message does not create
+          recurring promotional consent. The recurring promotional choice is
+          separate, optional and initially unchecked.
+        </p>
+        <p>
+          {SMS_PROGRAM.frequency} {SMS_PROGRAM.rates}
         </p>
         <p>
           Replying STOP ends texts from the Uptick Local Membership program. It

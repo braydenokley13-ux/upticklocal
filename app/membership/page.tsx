@@ -23,8 +23,8 @@ const HOW_IT_WORKS = [
     "The named participating location fulfills the benefit under its displayed timing, capacity and redemption instructions.",
   ],
   [
-    "Use web or optional SMS",
-    "A private web experience provides access. Uptick Local membership texts are optional and message frequency varies.",
+    "Request access; choose promotional SMS",
+    "Uptick sends one secure access link after you request it. Recurring promotional texts are a separate, optional choice, and message frequency varies.",
   ],
 ] as const;
 
@@ -196,10 +196,12 @@ export default function MembershipPage() {
               Use the web. Choose texts only if you want them.
             </h2>
             <p>
-              Membership and an issued benefit do not depend on SMS. Members who
-              opt in may receive an Uptick notice for a published weekly
-              release, plus service, support or transaction-related messages
-              when needed. Message frequency varies.
+              Requesting membership access sends one secure access link. That
+              requested text does not create promotional consent. Recurring
+              promotional texts are optional; members who separately opt in may
+              receive an Uptick notice for a published weekly release. Service,
+              support or transactional activity may create additional messages.
+              Message frequency varies.
             </p>
           </div>
           <ul className="program-list">

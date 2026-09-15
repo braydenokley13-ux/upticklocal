@@ -27,7 +27,7 @@ const HOW = [
   },
   {
     title: "Release the benefit",
-    body: "An admitted adult member receives one featured benefit backed by approved supply, with no purchase or member payment required. Web access is standard; SMS is optional.",
+    body: "An admitted adult member receives one featured benefit backed by approved supply, with no purchase or member payment required. A requested access text opens the private web experience; recurring promotional SMS is optional.",
   },
   {
     title: "Read Results",
@@ -157,10 +157,11 @@ export default function GrowthPage() {
               The benefit does not depend on a marketing list.
             </h2>
             <p className="page__lead">
-              Members use a private web experience. SMS is an optional Uptick
-              Local membership channel and is never merchant marketing consent.
-              Replying STOP ends texts while preserving membership and already
-              issued benefits.
+              Members use a private web experience after requesting one secure
+              access link from Uptick. Recurring promotional SMS is a separate,
+              optional Uptick Local choice and is never merchant marketing
+              consent. Replying STOP ends texts while preserving membership and
+              already issued benefits.
             </p>
           </header>
           <div className="ledger">
@@ -171,7 +172,7 @@ export default function GrowthPage() {
               </span>
             </div>
             <div className="ledger__row">
-              <span>Optional Uptick SMS</span>
+              <span>Optional promotional SMS</span>
               <span className="ledger__meta">
                 Unchecked to start. Message frequency varies.
               </span>
