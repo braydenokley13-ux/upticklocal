@@ -117,7 +117,7 @@ export default function MobileStory({ enabled }: { enabled: boolean }) {
       {/* ---- 1: the promise --------------------------------------------- */}
       <section className="m-hero" data-theme="dark" aria-label="Uptick Local">
         <div className="m-hero__copy">
-          <p className="eyebrow">A local business growth system</p>
+          <p className="eyebrow">The Uptick network</p>
           <h1 className="m-hero__title">
             {PROMISE.lead} <em className="accent">{PROMISE.accent}</em>
           </h1>
