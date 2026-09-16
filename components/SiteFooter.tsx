@@ -40,6 +40,7 @@ export default function SiteFooter() {
                 {item.label}
               </Link>
             ))}
+            <Link href="/partners#screens">For screen operators</Link>
             <Link href="/host">Host a screen</Link>
             <Link href="/advertise">Advertise</Link>
             <Link href="/suite">Uptick Suite</Link>

@@ -1633,3 +1633,126 @@ body:has(.ed) .site-header[data-theme="light"] .navlink:hover,
 body:has(.ed) .site-header[data-theme="light"] .navlink[aria-current="page"] {
   color: var(--ink);
 }
+
+/* ==========================================================================
+   PARTNERS
+
+   A screen operator lands here asking one question: are you a competitor?
+   .ed-plainly is where that gets answered, before anything else, and it is
+   styled to be the loudest thing in the section for exactly that reason.
+   ========================================================================== */
+
+.ed-plainly {
+  border: 1px solid var(--go-ring);
+  border-left-width: 3px;
+  border-radius: 16px;
+  background: var(--go-tint);
+  padding: clamp(22px, 3vw, 32px);
+  display: grid;
+  gap: 10px;
+  margin-bottom: clamp(36px, 5vw, 60px);
+}
+.ed-plainly h3 {
+  font-family: var(--serif);
+  font-size: clamp(1.25rem, 2.4vw, 1.6rem);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  margin: 0;
+}
+.ed-plainly p {
+  font-size: 0.97rem;
+  line-height: 1.6;
+  color: var(--on-canvas-soft);
+  margin: 0;
+  max-width: 68ch;
+}
+
+.ed-why {
+  display: grid;
+  gap: 12px;
+  margin-bottom: clamp(30px, 4vw, 48px);
+  max-width: 70ch;
+}
+
+.ed-keeps {
+  margin-bottom: clamp(34px, 4.5vw, 56px);
+}
+
+/* --- the venue types this tends to fit ------------------------------------ */
+
+.ed-fits {
+  display: grid;
+  gap: 14px;
+  padding: clamp(22px, 3vw, 30px);
+  border: 1px solid var(--edge);
+  border-radius: 16px;
+  background: var(--paper-card);
+  margin-bottom: clamp(34px, 4.5vw, 56px);
+}
+.ed-fits__title {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--on-canvas-faint);
+  margin: 0;
+}
+.ed-fits__list {
+  display: flex;
+  /* .plainlist in globals.css stacks its children in a column; these are
+     pills and need to wrap along a row. */
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.ed-fits__list li {
+  font-size: 0.88rem;
+  line-height: 1.4;
+  color: var(--ink);
+  background: var(--paper-warm);
+  border: 1px solid var(--edge-soft);
+  border-radius: 999px;
+  padding: 7px 14px;
+}
+.ed-fits__note {
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: var(--on-canvas-faint);
+  margin: 0;
+  max-width: 60ch;
+}
+
+/* --- the ask -------------------------------------------------------------- */
+
+.ed-ask {
+  display: grid;
+  gap: 22px;
+  align-items: center;
+  padding: clamp(24px, 3.2vw, 38px);
+  border: 1px solid var(--edge);
+  border-radius: 18px;
+  background: var(--paper-card);
+}
+.ed-ask .ed-display {
+  margin-bottom: 8px;
+}
+.ed-ask .ed-lead {
+  font-size: 0.95rem;
+  margin-bottom: 14px;
+}
+.ed-ask .ed-btn {
+  justify-self: start;
+}
+
+@media (min-width: 820px) {
+  .ed-ask {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 40px;
+  }
+  .ed-ask .ed-btn {
+    justify-self: end;
+  }
+}
