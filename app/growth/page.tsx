@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import ContactPanel from "@/components/ContactPanel";
 import DropMessage from "@/components/home/DropMessage";
+import GrowthChapter from "@/components/home/GrowthChapter";
 import ScreenFace from "@/components/home/ScreenFace";
 import PageVisual from "@/components/PageVisual";
 import { CTA, GROWTH_EXAMPLE } from "@/lib/content";
@@ -239,6 +240,9 @@ export default function GrowthPage() {
           </div>
         </div>
       </section>
+
+      {/* The worked example, end to end: benefit, access, redemption, result. */}
+      <GrowthChapter />
 
       <ContactPanel
         id="start"

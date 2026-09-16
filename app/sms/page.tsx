@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import LegalDocument from "@/components/LegalDocument";
-import { PROGRAM, SMS_PROGRAM } from "@/lib/program";
+import {
+  KEYWORD_BEHAVIOR,
+  MESSAGE_SAMPLES,
+  PROGRAM,
+  SMS_PROGRAM,
+} from "@/lib/program";
 
 export const metadata: Metadata = {
   title: "Uptick Local SMS Program",
@@ -13,6 +18,7 @@ const TOC = [
   { id: "sms-program", label: "The program" },
   { id: "sms-consent", label: "Consent" },
   { id: "sms-messages", label: "Messages" },
+  { id: "sms-phone-change", label: "A changed number" },
   { id: "sms-controls", label: "STOP and HELP" },
   { id: "sms-merchants", label: "Participating merchants" },
   { id: "sms-contact", label: "Contact" },
@@ -76,26 +82,64 @@ export default function SmsPage() {
       </section>
 
       <section id="sms-messages">
-        <h2>What a message may say.</h2>
+        <h2>Every message Uptick can send you.</h2>
         <p>
-          A message may point a member to an available Uptick, explain the
-          relevant timing or location, confirm a membership action, or provide
-          service and support information. Uptick does not use this page to
-          publish a live offer or promise availability in a particular market.
+          There are four, and this is all of them. The wording below is the
+          wording the Uptick application actually sends, shown with placeholder
+          links in place of the private one-time token each real message
+          carries. None of these is a live offer.
         </p>
-        <div
-          className="program-sample"
-          aria-label="Sample Uptick Local message, not a live offer"
-        >
-          <p className="mono-tag mono-tag--ink">
-            Sample message · not a live offer
-          </p>
-          <p>
-            Uptick Local: Your featured Uptick is ready. Open your member
-            message for the eligible perk, location and timing. Reply STOP to
-            opt out.
-          </p>
-        </div>
+        <ol className="sms-samples plainlist">
+          {MESSAGE_SAMPLES.map((sample) => (
+            <li key={sample.id} className="sms-sample">
+              <div className="sms-sample__head">
+                <h3>{sample.purpose}</h3>
+                <p
+                  className="sms-sample__kind"
+                  data-tone={
+                    sample.kind.startsWith("Promotional")
+                      ? "promotional"
+                      : "transactional"
+                  }
+                >
+                  {sample.kind}
+                </p>
+              </div>
+              <p className="sms-sample__text">{sample.text}</p>
+              <dl className="sms-sample__meta">
+                <div>
+                  <dt>When it arrives</dt>
+                  <dd>{sample.when}</dd>
+                </div>
+                <div>
+                  <dt>What it means for consent</dt>
+                  <dd>{sample.consent}</dd>
+                </div>
+              </dl>
+            </li>
+          ))}
+        </ol>
+        <p className="program-document__smallprint">
+          Bracketed values are variable content. A real private token is never
+          published here or submitted as a sample.
+        </p>
+      </section>
+
+      <section id="sms-phone-change">
+        <h2>If your number changes.</h2>
+        <p>
+          Tell support. A member-requested correction is verified through the
+          account process first; then Uptick sends a single short-lived
+          verification link to the <em>proposed new number</em> only. The link
+          expires after 15 minutes and works once.
+        </p>
+        <p>
+          Confirming it proves you control that number. It does not subscribe
+          you to promotional texts. When the correction is applied, earlier
+          access links and sessions are revoked and promotional messaging is
+          turned off until you choose it again. Benefits already issued to you
+          stay yours.
+        </p>
       </section>
 
       <section id="sms-controls">
@@ -108,12 +152,20 @@ export default function SmsPage() {
           Opt-out and help requests apply to this Uptick program; they do not
           create or transfer consent for any independent merchant program.
         </p>
-        <ul className="program-list">
-          <li>{SMS_PROGRAM.optOut}</li>
-          <li>{SMS_PROGRAM.restart}</li>
-          <li>{SMS_PROGRAM.help}</li>
-          <li>Message and data rates may apply. Message frequency varies.</li>
+        <ul className="keyword-table plainlist">
+          {KEYWORD_BEHAVIOR.map((entry) => (
+            <li key={entry.keyword} className="keyword-row">
+              <p className="keyword-row__word">{entry.keyword}</p>
+              <div className="keyword-row__body">
+                <p className="keyword-row__does">{entry.does}</p>
+                <p className="keyword-row__not">{entry.doesNot}</p>
+              </div>
+            </li>
+          ))}
         </ul>
+        <p className="program-document__smallprint">
+          Message and data rates may apply. Message frequency varies.
+        </p>
       </section>
 
       <section id="sms-merchants">

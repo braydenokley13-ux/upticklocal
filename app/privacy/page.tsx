@@ -175,6 +175,11 @@ export default function PrivacyPage() {
           chose.
         </div>
         <p>
+          <strong>{SMS_PROGRAM.frequency}</strong> {SMS_PROGRAM.rates} These are
+          recurring automated messages where applicable, and a member can use
+          membership and an issued benefit on the web without them.
+        </p>
+        <p>
           Uptick Local messages are described on the{" "}
           <Link href={PROGRAM.urls.sms}>SMS program page</Link>. A
           member&rsquo;s choice to receive Uptick messages is separate from any

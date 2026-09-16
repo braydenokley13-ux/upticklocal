@@ -4,6 +4,7 @@ import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import "./globals.css";
 import "./mobile.css";
+import "./editorial.css";
 
 /**
  * Three faces, in a strict hierarchy. Geist carries everything you read.
@@ -20,30 +21,28 @@ const mono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
   display: "swap",
-  weight: ["400", "500"],
+  weight: ["400"],
 });
 const serif = Newsreader({
   subsets: ["latin"],
   variable: "--font-serif",
   display: "swap",
-  style: ["italic"],
+  style: ["normal", "italic"],
   weight: ["400"],
 });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://upticklocal.com"),
   title: {
-    default:
-      "Uptick Local — Grow your business by reaching the customers already around you.",
+    default: "Uptick Local — Good things closer to home.",
     template: "%s — Uptick Local",
   },
   description:
-    "A local business growth system. Host a free countertop screen, advertise across nearby Uptick locations, or plan a negotiated four-week Growth program with approved fulfillment and observed results. Growth does not require a screen.",
+    "A free local membership for adults. Each published week brings one featured benefit at a participating local business, backed by approved supply. No purchase required, no app to download, and text messages are optional.",
   openGraph: {
-    title:
-      "Uptick Local — Grow your business by reaching the customers already around you.",
+    title: "Uptick Local — Good things closer to home.",
     description:
-      "Screens where people already go. Offers they can act on now. Content that makes them choose you.",
+      "A free local membership. One good thing from a nearby business each published week. No purchase, no app, and texts are optional.",
     type: "website",
   },
 };

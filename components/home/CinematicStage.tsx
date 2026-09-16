@@ -71,7 +71,7 @@ export default function CinematicStage({ enabled }: { enabled: boolean }) {
         <div className="stage__scrim" aria-hidden="true" />
 
         <div ref={heroRef} className="beat beat--hero">
-          <p className="eyebrow">A local business growth system</p>
+          <p className="eyebrow">The Uptick network</p>
           <h1 className="hero__title">
             {PROMISE.lead} <em className="accent">{PROMISE.accent}</em>
           </h1>

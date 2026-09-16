@@ -6,16 +6,23 @@
 
 import { PROGRAM } from "@/lib/program";
 
-/** The company promise. Everything on the homepage descends from this line. */
+/**
+ * The opening of the network story.
+ *
+ * This was the company promise while the home page argued screens. The
+ * company now leads with the membership, so this line describes what it
+ * actually opens: the block, and the infrastructure Uptick runs on it. It
+ * claims a mechanism, not a result.
+ */
 export const PROMISE = {
-  lead: "Grow your business by reaching the customers",
-  accent: "already around you.",
+  lead: "Attention that stops at one door,",
+  accent: "moving down the street.",
 };
 export const PROMISE_TEXT = `${PROMISE.lead} ${PROMISE.accent}`;
 
-/** Under the promise: the whole system in one breath. */
+/** Under it: what the network physically is, in one breath. */
 export const PROMISE_LINE =
-  "Countertop screens in the places people already go. Offers they can act on now. Content that makes them choose you.";
+  "Countertop screens at local businesses that do not compete, linked into one block. This is the infrastructure behind Uptick, not the membership itself.";
 
 export const CONTACT_EMAIL = PROGRAM.supportEmail;
 
