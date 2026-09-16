@@ -4,6 +4,7 @@ import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import "./globals.css";
 import "./mobile.css";
+import "./editorial.css";
 
 /**
  * Three faces, in a strict hierarchy. Geist carries everything you read.
@@ -26,8 +27,8 @@ const serif = Newsreader({
   subsets: ["latin"],
   variable: "--font-serif",
   display: "swap",
-  style: ["italic"],
-  weight: ["400"],
+  style: ["normal", "italic"],
+  weight: ["400", "500"],
 });
 
 export const metadata: Metadata = {
