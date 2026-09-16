@@ -70,15 +70,15 @@ export const AUDIENCES = [
   {
     id: "partners",
     eyebrow: "For partners",
-    title: "A local perk, without handing over a list.",
-    line: "Offer the people you already serve a genuinely useful local membership — without giving anyone a resident or customer list.",
+    title: "Two ways in, and neither costs you a list.",
+    line: "Already operate screens? Uptick buys placements on inventory it does not own — a customer, not a competing network. Serve a local population? Point people at the membership without handing anyone a list.",
     points: [
-      "No customer list changes hands. Uptick never asks for one.",
-      "People join Uptick themselves, on their own terms.",
+      "Screen operators keep their hardware, venues and advertisers.",
+      "Uptick buys the placement; it does not want the inventory.",
+      "No customer or resident list changes hands, ever.",
       "Uptick carries membership, support and the messaging relationship.",
-      "You can point to something real and local, and stop there.",
     ],
-    cta: { label: "How partners work with Uptick", href: "/partners" },
+    cta: { label: "Both kinds of partnership", href: "/partners" },
   },
 ] as const;
 
@@ -157,7 +157,7 @@ export const NETWORK = {
     {
       id: "partners",
       name: "Partners",
-      line: "Tell the people they already serve that Uptick exists.",
+      line: "Spread the word, or sell Uptick the screen space to do it.",
     },
     {
       id: "members",
@@ -263,7 +263,7 @@ export const AUDIENCE_NAV = [
   {
     href: "/partners",
     label: "For partners",
-    line: "A local perk, without sharing a list.",
+    line: "Screen operators, and local introductions.",
   },
   {
     href: "/network",
@@ -306,4 +306,115 @@ export const EXAMPLE_PASS = {
   window: "During the stated hours",
   cost: "No purchase needed",
   note: "An illustration of what a weekly Uptick looks like. Not a live offer, and not a real business.",
+} as const;
+
+/* -------------------------------------------------------------------------
+   Partners — two different relationships that share one word
+   ---------------------------------------------------------------------- */
+
+/**
+ * Distribution partners: firms that already own screens.
+ *
+ * The relationship is the plain one — Uptick buys placements on inventory it
+ * does not own. That has to be said first and said clearly, because a screen
+ * operator reading "local screen network" reasonably assumes a competitor.
+ * Uptick is a buyer here, not a rival network, and does not want their
+ * hardware, their venues or their advertisers.
+ *
+ * Nothing below claims volume, spend or an existing book of placements. The
+ * pilot is bounded; this describes how Uptick buys, not how much.
+ */
+export const DISTRIBUTION_PARTNERS = {
+  eyebrow: "Distribution partners",
+  title: { lead: "You own the screens.", accent: "We buy the placement." },
+  lead: "If you already operate screens — in a gym, a medical office, a café, a lobby — Uptick is a customer, not a competitor. We buy placements on screens we do not own, near the local businesses running a benefit that week.",
+  notCompetition: {
+    title: "To be direct: we are not competing with you.",
+    body: "Uptick does not want your hardware, your venues, your contracts or your advertisers. We are not trying to put our own screens where yours already are. When a week's benefit sits near your locations, we would rather buy space on your screens than build a parallel network beside them.",
+  },
+  why: {
+    title: "Why proximity is the whole point",
+    body: "A member benefit is redeemed at one address. The people most likely to use it are the ones already within a few minutes of it — which is exactly who is standing in front of your screens. A perk at a gas station is worth showing on the screens in the gym and the medical office nearby. That is a placement worth paying for, and it is yours to sell.",
+  },
+  keep: [
+    [
+      "Your hardware stays yours",
+      "Your screens, your CMS, your installs, your maintenance. Nothing is rebranded and nothing is replaced.",
+    ],
+    [
+      "Your venues stay yours",
+      "We do not approach your locations to host Uptick screens instead. The relationship is with you.",
+    ],
+    [
+      "Your advertisers stay yours",
+      "We are one more buyer in your existing book, not a broker positioned between you and your clients.",
+    ],
+    [
+      "Your rules stay yours",
+      "You approve every creative and keep whatever category exclusions you already promise your venues.",
+    ],
+  ],
+  fits: {
+    title: "The kinds of screens this usually fits",
+    items: [
+      "Fitness and gym networks",
+      "Medical, dental and clinic waiting rooms",
+      "Convenience, fuel and c-store counters",
+      "Cafés, salons and neighborhood retail",
+      "Lobbies, coworking and residential buildings",
+    ],
+    note: "Local and regional operators especially. A placement only has to make sense on one block to be worth buying.",
+  },
+  honesty:
+    "Uptick is running a bounded pilot, so this describes how we buy placements — not a volume commitment, a rate card or an existing book of business.",
+  cta: {
+    label: "Tell us about your screens",
+    subject: "Distribution partner — screen inventory",
+    include: [
+      "How many screens, and roughly where",
+      "The kinds of venues they sit in",
+      "What runs on them today, and any category exclusions you hold",
+      "The best number or email to reach you",
+    ],
+  },
+} as const;
+
+/**
+ * Acquisition partners: organizations that simply tell the people they
+ * already serve that Uptick exists. A different relationship entirely from
+ * the screen operators above, which is why the two are separated rather
+ * than filed under one word.
+ */
+export const ACQUISITION_PARTNERS = {
+  eyebrow: "Acquisition partners",
+  title: { lead: "Offer something local,", accent: "without sharing a list." },
+  lead: "If you serve a local population — an employer, a building, an association, a municipality — you can point people at a genuinely useful local membership without handing anyone a resident or customer list.",
+  points: [
+    [
+      "No list changes hands",
+      "Uptick never asks for one, and cannot use one. People join themselves, on their own terms.",
+    ],
+    [
+      "No messaging obligation for you",
+      "Uptick carries membership, support and the messaging relationship, including consent and opt-outs.",
+    ],
+    [
+      "Nothing to administer",
+      "There is no portal to run, no codes to distribute and no reconciliation on your side.",
+    ],
+    [
+      "You can stop at the mention",
+      "Point to something real and local, and leave it there. That is a complete version of this.",
+    ],
+  ],
+  cta: {
+    label: "Talk about an introduction",
+    subject: "Acquisition partner — introducing Uptick",
+    include: [
+      "Who you serve, and roughly how many people",
+      "The area you cover",
+      "How you normally tell them about something like this",
+      "The best number or email to reach you",
+    ],
+  },
 } as const;
