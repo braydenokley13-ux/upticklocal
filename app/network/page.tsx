@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import BlockPlan from "@/components/home/BlockPlan";
-import PageVisual from "@/components/PageVisual";
+import { FinaleAct, StoryAct } from "@/components/home/HomeSplit";
+import ModesChapter from "@/components/home/ModesChapter";
+import ProofChapter from "@/components/home/ProofChapter";
+import WorldLayer from "@/components/home/WorldLayer";
 import { CTA } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -81,42 +84,44 @@ const SYSTEM = [
 
 export default function NetworkPage() {
   return (
-    <div className="page">
-      <header className="page__head">
-        <p className="mono-tag">The Network</p>
-        <div className="page__copy">
-          <h1 className="page__title">One block. One network.</h1>
-          <p className="page__lead">
-            Countertop screens at local businesses that do not compete with each
-            other, linked so that one business&rsquo;s message reaches the
-            customers of the businesses around it. This page is the
-            architecture: what a screen is, what runs on it, and the rules that
-            keep it fair.
-          </p>
-          <div className="page__acts">
-            <Link href={CTA.host.href} className="btn btn--mint">
-              {CTA.host.label}
-            </Link>
-            <a href={CTA.talk.href} className="btn btn--outline">
-              {CTA.talk.label}
-            </a>
-          </div>
-        </div>
-        <figure className="page__object board">
-          <BlockPlan mode="host" />
-          <figcaption className="board__caption">
-            <span className="board__key" aria-hidden="true" />
-            One street. Every marked counter carries a screen.
-          </figcaption>
-        </figure>
-      </header>
+    <>
+      {/*
+        The block, told over the live model: your block is already a network,
+        Uptick connects it, and this is the screen. A landscape desktop gets
+        the pinned scene; a phone gets the same beats from baked frames.
+      */}
+      <WorldLayer />
+      <StoryAct />
 
-      <PageVisual
-        name="connect"
-        wide="model-wide.webp"
-        alt="The block as a model: two rows of local storefronts, several carrying counter screens, one signal crossing between them."
-        caption="The block as a model · One street · One network"
-      />
+      <div className="page page--network">
+        <header className="page__head page__head--tight">
+          <p className="mono-tag">The Network</p>
+          <div className="page__copy">
+            <h1 className="page__title">One block. One network.</h1>
+            <p className="page__lead">
+              Countertop screens at local businesses that do not compete with
+              each other, linked so that one business&rsquo;s message reaches
+              the customers of the businesses around it. This page is the
+              architecture: what a screen is, what runs on it, and the rules
+              that keep it fair.
+            </p>
+            <div className="page__acts">
+              <Link href={CTA.host.href} className="btn btn--mint">
+                {CTA.host.label}
+              </Link>
+              <a href={CTA.talk.href} className="btn btn--outline">
+                {CTA.talk.label}
+              </a>
+            </div>
+          </div>
+          <figure className="page__object board">
+            <BlockPlan mode="host" />
+            <figcaption className="board__caption">
+              <span className="board__key" aria-hidden="true" />
+              One street. Every marked counter carries a screen.
+            </figcaption>
+          </figure>
+        </header>
 
       <section className="band band--paper" aria-labelledby="loop">
         <div className="band__inner">
@@ -217,6 +222,15 @@ export default function NetworkPage() {
           </div>
         </div>
       </section>
-    </div>
+      </div>
+
+      {/* One network, three ways to use it — the same street, lit differently. */}
+      <ModesChapter />
+
+      {/* The counter it actually lives on. Real photograph, honest caption. */}
+      <ProofChapter />
+
+      <FinaleAct />
+    </>
   );
 }

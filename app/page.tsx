@@ -1,5 +1,6 @@
 import Link from "next/link";
 import NetworkRing from "@/components/ed/NetworkRing";
+import PassCard from "@/components/ed/PassCard";
 import {
   AUDIENCES,
   HERO,
@@ -29,7 +30,8 @@ export default function HomePage() {
     <div className="ed">
       {/* ---------------------------------------------------------------- 1 */}
       <header className="ed-band ed-band--paper ed-hero" data-theme="light">
-        <div className="ed-shell ed-hero__inner">
+        <div className="ed-shell ed-hero__grid">
+          <div className="ed-hero__inner">
           <p className="ed-eyebrow">{HERO.eyebrow}</p>
           <h1 className="ed-display ed-display--xl">
             {HERO.title.lead}
@@ -45,6 +47,8 @@ export default function HomePage() {
               {HERO.secondary.label}
             </Link>
           </div>
+          </div>
+          <PassCard />
           <ul className="ed-promises plainlist">
             {HERO.promises.map(([name, line]) => (
               <li key={name} className="ed-promise">

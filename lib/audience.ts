@@ -238,3 +238,72 @@ export const TRUST = {
   },
   signoff: { lead: "Real places. Real people.", accent: "A brighter tomorrow." },
 } as const;
+
+/* -------------------------------------------------------------------------
+   Navigation
+   ---------------------------------------------------------------------- */
+
+/**
+ * The front door is organised by who you are, not by what Uptick sells.
+ * The older product pages (the block, hosting, advertising, Suite) are
+ * still reachable from The Network and the footer; they are how the
+ * network runs, not the first thing a stranger needs.
+ */
+export const AUDIENCE_NAV = [
+  {
+    href: "/membership",
+    label: "For members",
+    line: "Free to join. Something good nearby.",
+  },
+  {
+    href: "/growth",
+    label: "For merchants",
+    line: "A managed four-week run.",
+  },
+  {
+    href: "/partners",
+    label: "For partners",
+    line: "A local perk, without sharing a list.",
+  },
+  {
+    href: "/network",
+    label: "The Network",
+    line: "The block, the screens, the rules.",
+  },
+  {
+    href: "/trust",
+    label: "Trust",
+    line: "Privacy, terms and every message we send.",
+  },
+] as const;
+
+/**
+ * The header action. Enrollment is not open, so it does not say "Join" —
+ * it says what will actually happen when it is pressed. When the pilot
+ * opens and a join URL is configured, this becomes the real join action.
+ */
+export const HEADER_ACTION = PROGRAM.membershipJoinUrl
+  ? { label: "Join Uptick", href: PROGRAM.membershipJoinUrl }
+  : {
+      label: "Ask about access",
+      href: `mailto:${PROGRAM.supportEmail}?subject=${encodeURIComponent(
+        "Uptick Local membership pilot",
+      )}`,
+    };
+
+/**
+ * An illustrated example of a weekly pass, for the front door.
+ *
+ * Deliberately generic: no real business has agreed to this perk and no
+ * week has been published, so the card says "Example" on its face and the
+ * caption repeats it. It exists to make "one featured benefit" concrete,
+ * not to advertise anything.
+ */
+export const EXAMPLE_PASS = {
+  week: "Your Uptick this week",
+  perk: "A free coffee, any size.",
+  where: "At a participating local shop nearby",
+  window: "During the stated hours",
+  cost: "No purchase needed",
+  note: "An illustration of what a weekly Uptick looks like. Not a live offer, and not a real business.",
+} as const;

@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { CONTACT_EMAIL, CTA, NAV } from "@/lib/content";
+import { AUDIENCE_NAV, HEADER_ACTION } from "@/lib/audience";
+import { CONTACT_EMAIL } from "@/lib/content";
 import { onScrollFrame } from "@/lib/scroll";
 
 /**
@@ -78,15 +79,15 @@ export default function SiteHeader() {
       </Link>
 
       <nav className="site-nav" aria-label="Primary">
-        {NAV.map((item) => (
+        {AUDIENCE_NAV.map((item) => (
           <Link key={item.href} href={item.href} className="navlink" aria-current={current(item.href)}>
             {item.label}
           </Link>
         ))}
       </nav>
 
-      <a href={CTA.talk.href} className="navcta">
-        {CTA.talk.label}
+      <a href={HEADER_ACTION.href} className="navcta">
+        {HEADER_ACTION.label}
       </a>
 
       <button ref={triggerRef} type="button" className="menu-btn" aria-expanded={open} aria-controls="site-menu" onClick={toggle}>
@@ -99,11 +100,11 @@ export default function SiteHeader() {
           <ul className="menu__list plainlist">
             <li>
               <Link href="/" className="menu__link" aria-current={current("/")} onClick={() => setOpen(false)}>
-                <span className="menu__name">Overview</span>
-                <span className="menu__line">The block, the screen, the whole system</span>
+                <span className="menu__name">Home</span>
+                <span className="menu__line">What Uptick is, in one page</span>
               </Link>
             </li>
-            {NAV.map((item) => (
+            {AUDIENCE_NAV.map((item) => (
               <li key={item.href}>
                 <Link href={item.href} className="menu__link" aria-current={current(item.href)} onClick={() => setOpen(false)}>
                   <span className="menu__name">{item.label}</span>

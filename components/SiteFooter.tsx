@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { CONTACT_EMAIL, NAV, SIGN_OFF, SUITE } from "@/lib/content";
+import { AUDIENCE_NAV } from "@/lib/audience";
+import { CONTACT_EMAIL, SIGN_OFF, SUITE } from "@/lib/content";
 import { PROGRAM } from "@/lib/program";
 
 /**
@@ -28,20 +29,22 @@ export default function SiteFooter() {
               <span>uptick local</span>
             </Link>
             <p className="site-footer__claim">
-              A local membership and growth system: one backed featured benefit
-              for admitted pilot members, and managed four-week Growth programs
-              for merchants.
+              A free local membership. One backed featured benefit for
+              admitted pilot members each published week, and managed
+              four-week programs for the merchants who provide them.
             </p>
           </div>
           <nav className="site-footer__links" aria-label="Footer">
-            {NAV.map((item) => (
+            {AUDIENCE_NAV.map((item) => (
               <Link key={item.href} href={item.href}>
                 {item.label}
               </Link>
             ))}
-            <Link href="/partners">Screen network partners</Link>
-            <Link href={PROGRAM.urls.membership}>Membership</Link>
+            <Link href="/host">Host a screen</Link>
+            <Link href="/advertise">Advertise</Link>
+            <Link href="/suite">Uptick Suite</Link>
             <Link href={PROGRAM.urls.sms}>SMS</Link>
+            <Link href="/opt-in">Opt-in walkthrough</Link>
             <Link href={PROGRAM.urls.privacy}>Privacy</Link>
             <Link href={PROGRAM.urls.terms}>Terms</Link>
           </nav>

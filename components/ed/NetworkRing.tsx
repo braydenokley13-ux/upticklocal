@@ -44,8 +44,11 @@ export default function NetworkRing() {
           {/* Direction of travel, four short arcs with heads. */}
           {[0, 90, 180, 270].map((deg) => (
             <g key={deg} transform={`rotate(${deg} 220 220)`}>
-              <path className="ring__arc" d="M 288 172 A 142 142 0 0 1 308 236" />
-              <path className="ring__head" d="M 303 228 L 309 238 L 298 240" />
+              <path
+                className="ring__arc"
+                d="M 343 149 A 142 142 0 0 1 343 291"
+              />
+              <path className="ring__head" d="M 353.3 283.1 L 343 291 L 344.7 278.1" />
             </g>
           ))}
 

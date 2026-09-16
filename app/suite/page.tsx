@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import ContactPanel from "@/components/ContactPanel";
+import SuiteChapter from "@/components/home/SuiteChapter";
 import { CTA, SUITE } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -60,6 +61,9 @@ export default function SuitePage() {
           </p>
         </div>
       </header>
+
+      {/* One conversation with the owner, becoming every surface a customer checks. */}
+      <SuiteChapter />
 
       <section className="band band--paper" aria-labelledby="suite-includes">
         <div className="band__inner">

@@ -118,3 +118,37 @@ export const KEYWORD_BEHAVIOR = [
     doesNot: "Does not create consent of any kind.",
   },
 ] as const;
+
+/**
+ * The join-flow copy, mirrored word for word from the operating
+ * application's `membership-copy.ts` and `member-controls.tsx`. The public
+ * opt-in walkthrough reproduces the real screens, so this is the same text
+ * a member sees — not a paraphrase written for a reviewer.
+ */
+export const JOIN_FLOW = {
+  /** Screen one: the public join form. */
+  entry: {
+    heading: "Your next good thing starts here.",
+    promise:
+      "We’ll text a one-time private link to confirm your phone and open your membership.",
+    phoneLabel: "Mobile number",
+    phonePlaceholder: "(201) 555-0123",
+    homeZipLabel: "Home ZIP",
+    workZipLabel: "Work ZIP",
+    adultCheckbox:
+      "I confirm that I am 18 or older and want to join Uptick.",
+    membershipTerms:
+      "Uptick Local is a free local membership for adults age 18 or older. Joining does not require promotional text-message consent or a purchase.",
+    promoCheckbox: "I also want promotional texts about my weekly Uptick.",
+    promoDisclosure:
+      "Optional: I agree to recurring automated promotional texts from Uptick Local about my weekly Uptick, usually one featured message per week. Consent is not required to join or buy anything. Message and data rates may apply. Reply STOP to stop promotional texts or HELP for help. Participating stores do not receive permission to market to me. See Uptick’s SMS Terms, Privacy Policy, and Terms.",
+    submit: "Join Uptick — it’s free",
+  },
+  /** Screen two: the private access page reached from the requested text. */
+  confirm: {
+    heading: "Confirm and open your Uptick.",
+    promoCheckbox:
+      "Yes, send me optional promotional texts about my weekly Uptick.",
+    submit: "Join & open my Uptick",
+  },
+} as const;
